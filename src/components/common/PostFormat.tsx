@@ -8,6 +8,7 @@ export default function PostFormat() {
   return (
     <ul>
       {dummyData.map((data) => (
+<<<<<<< HEAD
         <li
           onClick={(e) => {
             e.preventDefault();
@@ -16,6 +17,9 @@ export default function PostFormat() {
           key={data.id}
           className="mb-6 flex cursor-pointer flex-col items-center gap-4 rounded-[20px] bg-midNavy"
         >
+=======
+        <li key={data.id} className="mb-6 flex cursor-pointer flex-col items-center gap-4 rounded-[20px] bg-midNavy">
+>>>>>>> 395eb9760e0471b4cb1da91d1bd32a34f6ec59ff
           <div className="flex w-full flex-col gap-4 p-4">
             <div className="flex w-full">
               <div className="flex gap-1">
