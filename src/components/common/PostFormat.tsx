@@ -6,7 +6,7 @@ export default function PostFormat() {
     <ul>
       {dummyData.map((data) => (
         <li key={data.id} className="mb-6 flex cursor-pointer flex-col items-center gap-4 rounded-[20px] bg-midNavy">
-          <div className="flex flex-col gap-4 p-4">
+          <div className="flex w-full flex-col gap-4 p-4">
             <div className="flex w-full">
               <div className="flex gap-1">
                 <img src={data.img} alt={data.title} className="w-[58px] rounded-full" />

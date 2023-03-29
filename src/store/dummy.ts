@@ -1,3 +1,7 @@
+import profile1 from '../assets/profile1.jpg';
+import profile2 from '../assets/profile2.jpeg';
+import profile3 from '../assets/profile3.jpg';
+
 export interface IBlogData {
   id: number;
   userName: string;
@@ -73,3 +77,37 @@ export const dummyData: IBlogData[] = [
     time: '03/28  19:30',
   },
 ];
+
+export const chatRooms = [
+  {
+    roomName: 'ChatGPT는 거짓말쟁이! 인공지능과 가짜뉴스에 대한 개발자 토크방',
+    memberId: ['', '', '', '', '', '', '', '', '', '', '', ''],
+    randomProfiles: [
+      { pic: profile1, name: 'Phoebe', position: 'top-8 left-16' },
+      { pic: profile2, name: 'Joey', position: 'top-4 left-8' },
+      { pic: profile3, name: 'Chandler', position: 'top-0 left-0' },
+    ],
+  },
+  {
+    roomName: '주니어 프론트 개발자로서의 고민들... 나눕니다',
+    memberId: ['', '', '', '', '', '', '', '', '', ''],
+    randomProfiles: [
+      { pic: profile1, name: 'Phoebe', position: 'top-8 left-16' },
+      { pic: profile2, name: 'Joey', position: 'top-4 left-8' },
+      { pic: profile3, name: 'Chandler', position: 'top-0 left-0' },
+    ],
+  },
+  {
+    roomName: '우리 빽둥이들 모이자!! [백엔드토크방]',
+    memberId: ['', '', '', '', '', '', '', '', '', '', '', '', '', '', ''],
+    randomProfiles: [
+      { pic: profile1, name: 'Phoebe', position: 'top-8 left-16' },
+      { pic: profile2, name: 'Joey', position: 'top-4 left-8' },
+      { pic: profile3, name: 'Chandler', position: 'top-0 left-0' },
+    ],
+  },
+];
+
+export const chat = {
+  content: ['챗지피티 그거 진짜 별로임', '마자마자', '걔 끝말잇기 못해'],
+};

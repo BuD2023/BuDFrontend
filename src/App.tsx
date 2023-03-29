@@ -6,6 +6,7 @@ import { Job, Picture } from './components/SignUP/SignuUpList';
 import CoffeeChat from './pages/CoffeeChat';
 import Home from './pages/Home';
 import MyProfile from './pages/MyProfile';
+import ChatRoom from './pages/ChatRoom';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route path="/community" element={<Community />} />
         <Route path="/coffeeChat" element={<CoffeeChat />} />
         <Route path="/myProfile" element={<MyProfile />} />
+        <Route path="/chatRoom" element={<ChatRoom />} />
       </Routes>
     </BrowserRouter>
   );
