@@ -6,12 +6,9 @@ import { Job, Picture } from './components/SignUP/SignuUpList';
 import CoffeeChat from './pages/CoffeeChat';
 import Home from './pages/Home';
 import MyProfile from './pages/MyProfile';
-<<<<<<< HEAD
 import CommunityQADetail from './pages/CommunityQADetail';
 import OtherProfile from './pages/OtherProfile';
-=======
 import ChatRoom from './pages/ChatRoom';
->>>>>>> 395eb9760e0471b4cb1da91d1bd32a34f6ec59ff
 
 function App() {
   return (
@@ -26,11 +23,8 @@ function App() {
         <Route path="/communityQADetail/:id" element={<CommunityQADetail />} />
         <Route path="/coffeeChat" element={<CoffeeChat />} />
         <Route path="/myProfile" element={<MyProfile />} />
-<<<<<<< HEAD
         <Route path="/otherProfile/:id" element={<OtherProfile />} />
-=======
         <Route path="/chatRoom" element={<ChatRoom />} />
->>>>>>> 395eb9760e0471b4cb1da91d1bd32a34f6ec59ff
       </Routes>
     </BrowserRouter>
   );
