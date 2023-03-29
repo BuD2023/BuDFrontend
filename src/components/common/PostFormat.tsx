@@ -1,17 +1,43 @@
 import { FcLike, FcPortraitMode, FcSms } from 'react-icons/fc';
+import { useNavigate } from 'react-router-dom';
 import { dummyData } from '../../store/dummy';
 
 export default function PostFormat() {
+  const navigate = useNavigate();
+
   return (
     <ul>
       {dummyData.map((data) => (
-        <li key={data.id} className="mb-6 flex cursor-pointer flex-col items-center gap-4 rounded-[20px] bg-midNavy">
-          <div className="flex flex-col gap-4 p-4">
+        <li
+          onClick={(e) => {
+            e.preventDefault();
+            navigate(`/communityQADetail/${data.id}`);
+          }}
+          key={data.id}
+          className="mb-6 flex cursor-pointer flex-col items-center gap-4 rounded-[20px] bg-midNavy"
+        >
+          <div className="flex w-full flex-col gap-4 p-4">
             <div className="flex w-full">
               <div className="flex gap-1">
-                <img src={data.img} alt={data.title} className="w-[58px] rounded-full" />
+                <img
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    navigate(`/otherProfile/${data.userName}`);
+                  }}
+                  src={data.img}
+                  alt={data.title}
+                  className="w-[58px] rounded-full"
+                />
                 <div className="pl-3">
-                  <p className="text-xl font-bold">{data.userName}</p>
+                  <p
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      navigate(`/otherProfile/${data.userName}`);
+                    }}
+                    className="text-xl font-bold"
+                  >
+                    {data.userName}
+                  </p>
                   <p className="text-[17px] opacity-50">{data.time}</p>
                 </div>
               </div>

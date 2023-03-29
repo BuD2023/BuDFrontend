@@ -6,6 +6,8 @@ import { Job, Picture } from './components/SignUP/SignuUpList';
 import CoffeeChat from './pages/CoffeeChat';
 import Home from './pages/Home';
 import MyProfile from './pages/MyProfile';
+import CommunityQADetail from './pages/CommunityQADetail';
+import OtherProfile from './pages/OtherProfile';
 
 function App() {
   return (
@@ -17,8 +19,10 @@ function App() {
         <Route path="/signUp/job" element={<Job />} />
         <Route path="/news" element={<News />} />
         <Route path="/community" element={<Community />} />
+        <Route path="/communityQADetail/:id" element={<CommunityQADetail />} />
         <Route path="/coffeeChat" element={<CoffeeChat />} />
         <Route path="/myProfile" element={<MyProfile />} />
+        <Route path="/otherProfile/:id" element={<OtherProfile />} />
       </Routes>
     </BrowserRouter>
   );

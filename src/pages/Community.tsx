@@ -1,6 +1,5 @@
 import { BsBellFill } from 'react-icons/bs';
-import { FcGlobe, FcPortraitMode, FcLike, FcSms } from 'react-icons/fc';
-import { dummyData } from '../store/dummy';
+import { FcGlobe } from 'react-icons/fc';
 import FooterMenu from '../components/common/FooterMenu';
 import PostFormat from '../components/common/PostFormat';
 
