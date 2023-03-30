@@ -2,9 +2,11 @@ import { FcNews } from 'react-icons/fc';
 import { BsBellFill } from 'react-icons/bs';
 import { dummyData } from '../store/dummy';
 import FooterMenu from '../components/common/FooterMenu';
+import { useNavigate } from 'react-router-dom';
 
 export default function News() {
   const orders = ['최신순', '인기순', '인기순2'];
+  const navigate = useNavigate();
 
   return (
     <section>
@@ -36,7 +38,7 @@ export default function News() {
         </ul>
         <ul>
           {dummyData.map((data) => (
-            <li key={data.id} className="mb-4 flex h-[115px] cursor-pointer items-center gap-1 rounded-[20px] bg-midNavy">
+            <li onClick={() => navigate(`/newsDetail/${data.id}`)} key={data.id} className="mb-4 flex h-[115px] cursor-pointer items-center gap-1 rounded-[20px] bg-midNavy">
               <div className="shrink-0">
                 <img src={data.img} alt={data.title} className="w-[115px] rounded-[20px]" />
               </div>

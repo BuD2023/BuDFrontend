@@ -1,8 +1,7 @@
-import React from 'react';
 import { BsArrowReturnRight, BsDot, BsFillPinAngleFill, BsHeartFill, BsThreeDots } from 'react-icons/bs';
 import { commentArr, commentDummyType, timeForToday } from '../../store/commentDummy';
 
-export default function CommunityQACommentForm() {
+export default function CommunityFeedCommentForm() {
   console.log(timeForToday('2023 02 02 14:31:10'));
 
   const getCommentResult = (arr: commentDummyType[]) => {
