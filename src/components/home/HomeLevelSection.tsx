@@ -12,7 +12,7 @@ export default function HomeLevelSection() {
           </div>
         </div>
         <div className="my-2 flex justify-center text-[18px] font-bold">
-          <span>
+          <span className="break-keep text-center">
             🥜 다음 성장까지 <span className="text-[22px] text-[#4DCE8F]">15커밋 </span>
             남았어요!
           </span>

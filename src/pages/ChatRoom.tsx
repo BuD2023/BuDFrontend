@@ -1,23 +1,25 @@
 import { BsCameraFill, BsChevronLeft, BsFillPersonFill } from 'react-icons/bs';
+import { useNavigate } from 'react-router-dom';
 import { chat, chatRooms } from '../store/dummy';
 
 export default function ChatRoom() {
   const chatRoom = chatRooms[0];
   const userName = 'kody';
+  const navigate = useNavigate();
 
   return (
     <section>
-      <div className="mt-16 flex flex-col gap-4 p-4 text-white">
-        <div className="fixed top-0 left-0 flex w-full items-center justify-between gap-3 bg-darkNavy p-4 text-2xl font-bold">
-          <BsChevronLeft className="shrink-0" />
+      <div className="text-white">
+        <div className="fixed top-0 left-0 mt-8 flex w-full items-center justify-between gap-3 bg-darkNavy p-4 text-2xl font-bold">
+          <BsChevronLeft onClick={() => navigate('/coffeeChat')} className="shrink-0 cursor-pointer" />
           <p className="truncate px-1">{chatRoom.roomName}</p>
-          <div className="flex items-center gap-1 font-normal opacity-70">
+          <div className="flex cursor-pointer items-center gap-1 font-normal opacity-70">
             <BsFillPersonFill className="shrink-0" />
             <p className="text-sm ">14</p>
           </div>
         </div>
-        <div className="fixed top-[80px] left-0 h-full w-full rounded-[20px] bg-midNavy"></div>
-        <ul className="fixed top-[80px] left-0 z-10 h-[calc(100vh-160px)] w-full overflow-auto p-4">
+        <div className="fixed top-28 left-0 h-full w-full rounded-[20px] bg-midNavy"></div>
+        <ul className="fixed top-28 left-0 z-10 h-[calc(100vh-160px)] w-full overflow-auto p-4">
           <div className="">
             {chatRooms[0].randomProfiles.map((chatting, idx) => {
               return (

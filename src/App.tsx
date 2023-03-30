@@ -9,6 +9,8 @@ import MyProfile from './pages/MyProfile';
 import CommunityQADetail from './pages/CommunityQADetail';
 import OtherProfile from './pages/OtherProfile';
 import ChatRoom from './pages/ChatRoom';
+import ProfileEdit from './pages/MyProfileEdit';
+import Setting from './pages/Setting';
 
 function App() {
   return (
@@ -25,6 +27,8 @@ function App() {
         <Route path="/myProfile" element={<MyProfile />} />
         <Route path="/otherProfile/:id" element={<OtherProfile />} />
         <Route path="/chatRoom" element={<ChatRoom />} />
+        <Route path="/myProfileEdit" element={<ProfileEdit />} />
+        <Route path="/setting" element={<Setting />} />
       </Routes>
     </BrowserRouter>
   );

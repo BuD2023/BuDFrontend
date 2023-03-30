@@ -2,6 +2,7 @@ import { ChangeEvent, useRef, useState, MouseEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { RxTriangleDown } from 'react-icons/rx';
 import { motion } from 'framer-motion';
+import { jobList } from '../../store/dummy';
 
 export function Nickname() {
   const [nickName, setNickName] = useState('');
@@ -93,18 +94,6 @@ export function Picture() {
 }
 
 export function Job() {
-  const jobList = [
-    '게임',
-    '네트워크·서버·보안',
-    '프론트엔드개발',
-    '모바일웹개발',
-    '빅데이터·AI(인공지능)',
-    '벡앤드개발',
-    '소프트웨어·하드웨어',
-    '시스템프로그래머',
-    '응용프로그래머',
-    'HTML·퍼블리싱·UI개발',
-  ];
   const [isClick, setIsClick] = useState(false);
   const [selectedJob, setSelectedJob] = useState('');
   const navigate = useNavigate();
