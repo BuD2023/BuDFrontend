@@ -33,7 +33,7 @@ export default function HomeCommitCalendar() {
   ];
 
   const resultArr = [] as string[];
-  const calendarArr = Array.from({ length: 126 }, (v, i) => i)
+  const calendarArr = Array.from({ length: 119 }, (v, i) => i)
     .map((date) => dateFormat(dateCalculator(new Date(), date)))
     .reverse();
   calendarArr.map((i) => {
@@ -53,9 +53,9 @@ export default function HomeCommitCalendar() {
       <div className="absolute inset-0 flex flex-col justify-between gap-6 rounded-[50px] bg-midNavy p-10 text-white">
         <div className="text-[26px] font-bold">커밋 캘린더</div>
         <div className="flex h-[200px] w-full items-center justify-center">
-          <div className="grid grid-flow-col grid-rows-7 gap-1">
+          <div className="grid w-full grid-flow-col grid-rows-7 gap-1">
             {resultArr.map((backgroundColor, index) => (
-              <div key={index} className={`h-4 w-4 rounded-sm ${backgroundColor} `}></div>
+              <div key={index} className={`h-4 rounded-sm ${backgroundColor} `}></div>
             ))}
           </div>
         </div>

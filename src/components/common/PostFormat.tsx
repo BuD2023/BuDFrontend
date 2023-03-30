@@ -11,7 +11,11 @@ export default function PostFormat() {
         <li
           onClick={(e) => {
             e.preventDefault();
-            navigate(`/communityQADetail/${data.id}`);
+            if (data.type) {
+              navigate(`/communityQADetail/${data.id}`);
+            } else {
+              navigate(`/communityFeedDetail/${data.id}`);
+            }
           }}
           key={data.id}
           className="mb-6 flex cursor-pointer flex-col items-center gap-4 rounded-[20px] bg-midNavy"

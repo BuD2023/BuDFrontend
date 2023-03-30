@@ -5,6 +5,7 @@ import profile3 from '../assets/profile3.jpg';
 export interface IBlogData {
   id: number;
   userName: string;
+  type: boolean;
   likeCount: number;
   commentCount: number;
   img: string;
@@ -19,6 +20,7 @@ export const dummyData: IBlogData[] = [
   {
     id: 1,
     userName: 'BuD',
+    type: true,
     likeCount: 12,
     commentCount: 2,
     img: 'https://picsum.photos/105/105',
@@ -31,6 +33,7 @@ export const dummyData: IBlogData[] = [
   {
     id: 2,
     userName: '지현',
+    type: false,
     likeCount: 2,
     commentCount: 10,
     img: 'https://picsum.photos/105/105',
@@ -43,6 +46,7 @@ export const dummyData: IBlogData[] = [
   {
     id: 3,
     userName: '동성',
+    type: true,
     likeCount: 7,
     commentCount: 26,
     img: 'https://picsum.photos/105/105',
@@ -55,6 +59,7 @@ export const dummyData: IBlogData[] = [
   {
     id: 4,
     userName: 'Bud',
+    type: false,
     likeCount: 12,
     commentCount: 2,
     img: 'https://picsum.photos/105/105',
@@ -67,6 +72,7 @@ export const dummyData: IBlogData[] = [
   {
     id: 5,
     userName: 'Bud',
+    type: true,
     likeCount: 12,
     commentCount: 2,
     img: 'https://picsum.photos/105/105',

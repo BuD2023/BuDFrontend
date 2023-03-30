@@ -52,7 +52,7 @@ export default function CoffeeTitle({ chatRooms, inputValue, setInputValue }: Co
           className="searchInput h-[60px] w-full rounded-md bg-[#E4E4E4] p-4 text-xl font-bold text-[#514848] placeholder:text-[#7B6D6D]"
         />
       </div>
-      <div className="m-4 text-center text-[16px] font-medium">{`총 ${chatRooms.length}개의 채팅방에서 ${totalChattingMembers}명의 이용자가 대화중입니다.`}</div>
+      <div className="m-4 text-center text-[16px] font-medium">{`총 ${chatRooms.length}개의 채팅방에서 ${totalChattingMembers}명이 대화중입니다.`}</div>
     </div>
   );
 }
