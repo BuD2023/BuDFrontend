@@ -14,6 +14,7 @@ import NotFound from './pages/NotFound';
 import NewsDetail from './pages/NewsDetail';
 import ProfileEdit from './pages/MyProfileEdit';
 import Setting from './pages/Setting';
+import UserInfo from './pages/UserInfo';
 
 function App() {
   return (
@@ -37,6 +38,7 @@ function App() {
       <Route path="/otherProfile/:id" element={<OtherProfile />} />
       <Route path="/myProfileEdit" element={<ProfileEdit />} />
       <Route path="/setting" element={<Setting />} />
+      <Route path="/userInfo" element={<UserInfo />} />
 
       <Route path="/notFound" element={<NotFound />} />
     </Routes>

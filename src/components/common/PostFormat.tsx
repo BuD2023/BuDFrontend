@@ -11,7 +11,7 @@ export default function PostFormat() {
         <li
           onClick={(e) => {
             e.preventDefault();
-            if (data.type) {
+            if (data.type === 'qna') {
               navigate(`/communityQADetail/${data.id}`);
             } else {
               navigate(`/communityFeedDetail/${data.id}`);

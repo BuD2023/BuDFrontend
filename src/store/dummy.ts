@@ -5,7 +5,7 @@ import profile3 from '../assets/profile3.jpg';
 export interface IBlogData {
   id: number;
   userName: string;
-  type: boolean;
+  type: string;
   likeCount: number;
   commentCount: number;
   img: string;
@@ -20,7 +20,7 @@ export const dummyData: IBlogData[] = [
   {
     id: 1,
     userName: 'BuD',
-    type: true,
+    type: 'feed',
     likeCount: 12,
     commentCount: 2,
     img: 'https://picsum.photos/105/105',
@@ -33,7 +33,7 @@ export const dummyData: IBlogData[] = [
   {
     id: 2,
     userName: '지현',
-    type: false,
+    type: 'qna',
     likeCount: 2,
     commentCount: 10,
     img: 'https://picsum.photos/105/105',
@@ -46,7 +46,7 @@ export const dummyData: IBlogData[] = [
   {
     id: 3,
     userName: '동성',
-    type: true,
+    type: 'feed',
     likeCount: 7,
     commentCount: 26,
     img: 'https://picsum.photos/105/105',
@@ -59,7 +59,7 @@ export const dummyData: IBlogData[] = [
   {
     id: 4,
     userName: 'Bud',
-    type: false,
+    type: 'qna',
     likeCount: 12,
     commentCount: 2,
     img: 'https://picsum.photos/105/105',
@@ -72,7 +72,7 @@ export const dummyData: IBlogData[] = [
   {
     id: 5,
     userName: 'Bud',
-    type: true,
+    type: 'feed',
     likeCount: 12,
     commentCount: 2,
     img: 'https://picsum.photos/105/105',
@@ -130,3 +130,10 @@ export const jobList = [
   '응용프로그래머',
   'HTML·퍼블리싱·UI개발',
 ];
+
+export const user = {
+  githubId: 'JHni2',
+  totalComitCount: 232,
+  nickName: '젼님',
+  grwoLevel: 1,
+};

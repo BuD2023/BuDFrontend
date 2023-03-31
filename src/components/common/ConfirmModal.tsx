@@ -21,7 +21,6 @@ export default function ConfirmModal({ confirmModal, setConfirmModal, getModalAn
         <Transition.Child as={Fragment} enter="ease-out duration-300" enterFrom="opacity-0" enterTo="opacity-100" leave="ease-in duration-200" leaveFrom="opacity-100" leaveTo="opacity-0">
           <div className="bg-gray-500 fixed inset-0 bg-opacity-75 transition-opacity" />
         </Transition.Child>
-
         <div className="fixed inset-0 z-10 overflow-y-auto">
           <div className="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
             <Transition.Child
@@ -33,8 +32,8 @@ export default function ConfirmModal({ confirmModal, setConfirmModal, getModalAn
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
-              <Dialog.Panel className="relative my-8 w-full max-w-lg transform overflow-auto rounded-lg bg-white text-left shadow-xl transition-all">
-                <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+              <Dialog.Panel className="relative my-8 w-full max-w-lg transform overflow-auto rounded-lg bg-white text-left text-black shadow-xl transition-all">
+                <div className="bg-white px-4 pt-5 pb-4  sm:p-6 sm:pb-4">
                   <div className="sm:flex sm:items-start">
                     <div className="bg-red-100 mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full sm:mx-0 sm:h-10 sm:w-10">
                       <ExclamationTriangleIcon className="text-red-600 h-6 w-6" aria-hidden="true" />
@@ -44,7 +43,7 @@ export default function ConfirmModal({ confirmModal, setConfirmModal, getModalAn
                         {title}
                       </Dialog.Title>
                       <div className="mt-2">
-                        <p className="text-gray-500 text-sm">{des}</p>
+                        <p className="text-gray-500 whitespace-pre-wrap text-sm">{des}</p>
                       </div>
                     </div>
                   </div>
@@ -52,7 +51,7 @@ export default function ConfirmModal({ confirmModal, setConfirmModal, getModalAn
                 <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
                   <button
                     type="button"
-                    className="bg-red-600 hover:bg-red-500 inline-flex w-full justify-center rounded-md px-3 py-2 text-sm font-semibold text-white shadow-sm sm:ml-3 sm:w-auto"
+                    className="bg-red-600 hover:bg-red-500 inline-flex w-full justify-center rounded-md px-3 py-2 text-sm font-semibold  shadow-sm sm:ml-3 sm:w-auto"
                     onClick={() => {
                       setConfirmModal(false);
                       getModalAnswer(true);
