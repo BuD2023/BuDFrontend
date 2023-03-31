@@ -1,17 +1,23 @@
-import { FcLike, FcPortraitMode, FcSms } from 'react-icons/fc';
+import { BsFillHandThumbsUpFill, BsFillPencilFill } from 'react-icons/bs';
+import { FcDocument, FcFinePrint, FcIdea, FcLike, FcList, FcNook, FcPortraitMode, FcRules, FcSms, FcViewDetails, FcVoicePresentation } from 'react-icons/fc';
+import { TfiThumbUp, TfiPencilAlt } from 'react-icons/tfi';
 import { useNavigate } from 'react-router-dom';
-import { dummyData } from '../../store/dummy';
+import { IBlogData } from '../../store/dummy';
 
-export default function PostFormat() {
+interface IPostFormatPropsType {
+  resultData: IBlogData[];
+}
+
+export default function PostFormat({ resultData }: IPostFormatPropsType) {
   const navigate = useNavigate();
 
   return (
     <ul>
-      {dummyData.map((data) => (
+      {resultData.map((data) => (
         <li
           onClick={(e) => {
             e.preventDefault();
-            if (data.type) {
+            if (data.type === 'qna') {
               navigate(`/communityQADetail/${data.id}`);
             } else {
               navigate(`/communityFeedDetail/${data.id}`);
@@ -52,20 +58,38 @@ export default function PostFormat() {
                 </div>
               </div>
             </div>
+            <div className="flex text-[16px] font-semibold">
+              <div className="rounded-[30px] bg-sky px-2 py-1">{`${data.type === 'feed' ? '자유 게시글' : 'Q&A 게시글'}`}</div>
+            </div>
             <div className="w-full">
               <h1 className="mb-6 text-lg font-bold">{data.title}</h1>
               <p className="text-base">{data.detail}</p>
             </div>
           </div>
           <div className="flex h-[54px] w-full items-center gap-8 rounded-b-[20px] bg-[#2c2e34] p-4 text-base">
-            <div className="flex items-center gap-2">
-              <FcLike />
-              {data.likeCount}
-            </div>
-            <div className="flex items-center gap-2">
-              <FcSms />
-              {data.commentCount}
-            </div>
+            {data.type === 'feed' ? (
+              <>
+                <div className="flex items-center gap-2">
+                  <FcLike size="20px" />
+                  {data.likeCount}
+                </div>
+                <div className="flex items-center gap-2">
+                  <FcSms size="20px" />
+                  {data.commentCount}
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="flex items-center gap-2">
+                  <BsFillHandThumbsUpFill size="20px" className="text-[#fbceb1]" />
+                  {data.likeCount}
+                </div>
+                <div className="flex items-center gap-2">
+                  <FcVoicePresentation size="30px" />
+                  {data.commentCount}
+                </div>
+              </>
+            )}
             <div className="flex grow items-center justify-end gap-2">
               <svg
                 stroke="currentColor"
@@ -74,11 +98,11 @@ export default function PostFormat() {
                 version="1"
                 viewBox="0 0 48 48"
                 enableBackground="new 0 0 48 48"
-                height="1em"
-                width="1em"
+                height="20px"
+                width="20px"
                 xmlns="http://www.w3.org/2000/svg"
               >
-                <path fill="#f9e288" d="M37,43l-13-6l-13,6V9c0-2.2,1.8-4,4-4h18c2.2,0,4,1.8,4,4V43z"></path>
+                <path fill={`#f9e288`} d="M37,43l-13-6l-13,6V9c0-2.2,1.8-4,4-4h18c2.2,0,4,1.8,4,4V43z"></path>
               </svg>
               스크랩
             </div>

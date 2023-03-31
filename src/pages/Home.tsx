@@ -7,7 +7,7 @@ import HomeCommitCalendar from '../components/home/HomeCommitCalendar';
 export default function Home() {
   return (
     <>
-      <div className="relative mt-16 flex h-full min-h-screen w-full flex-col gap-6 overflow-x-hidden bg-darkNavy p-4">
+      <div className="relative flex h-full min-h-[calc(100vh-160px)] w-full flex-col gap-6 overflow-x-hidden bg-darkNavy p-4 pt-20">
         <HomeTitle />
         <HomeLevelSection />
         <HomeCommitSection />

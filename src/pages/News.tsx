@@ -10,7 +10,7 @@ export default function News() {
 
   return (
     <section>
-      <div className="mt-16 flex flex-col gap-4 p-4 text-white">
+      <div className="mt-16 flex min-h-[calc(100vh-160px)] flex-col gap-4 p-4 text-white">
         <div className="mb-4 flex h-[26px] items-center justify-between">
           <h1 className="flex items-center gap-2 text-[26px] font-bold">
             <FcNews />

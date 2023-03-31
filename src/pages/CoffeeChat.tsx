@@ -15,12 +15,14 @@ export default function CoffeeChat() {
 
   return (
     <>
-      {/* <Loading /> */}
-      <div className="relative mt-16 flex h-full min-h-screen w-full flex-col items-center gap-4 bg-darkNavy p-4">
-        <CoffeeTitle chatRooms={chatRooms} inputValue={inputValue} setInputValue={setInputValue} />
-        <CoffeeChatRoom chatRooms={chatRoomsResult} />
-      </div>
-      <FooterMenu />
+      <section>
+        {/* <Loading /> */}
+        <div className="relative mt-16 flex h-full min-h-[calc(100vh-160px)] w-full flex-col items-center gap-4 bg-darkNavy p-4">
+          <CoffeeTitle chatRooms={chatRooms} inputValue={inputValue} setInputValue={setInputValue} />
+          <CoffeeChatRoom chatRooms={chatRoomsResult} />
+        </div>
+        <FooterMenu />
+      </section>
     </>
   );
 }
