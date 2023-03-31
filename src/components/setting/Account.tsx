@@ -16,10 +16,10 @@ export default function Account() {
         <p>계정 설정</p>
       </div>
       <div className="flex flex-col text-xl">
-        <p className="cursor-pointer py-2">회원 정보 조회</p>
         <p onClick={() => navigate('/userInfo')} className="cursor-pointer py-2">
-          로그아웃
+          회원 정보 조회
         </p>
+        <p className="cursor-pointer py-2">로그아웃</p>
         <p onClick={() => setConfirmModal(true)} className="cursor-pointer py-2">
           회원 탈퇴
         </p>
