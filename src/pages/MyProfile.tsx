@@ -3,13 +3,15 @@ import FooterMenu from '../components/common/FooterMenu';
 import PostFormat from '../components/common/PostFormat';
 import MyProfileHeader from '../components/myProfile/MyProfileHeader';
 import MyProfileInfo from '../components/myProfile/MyProfileInfo';
+import { dummyData } from '../store/dummy';
 
 export default function MyProfile() {
   const [postView, setPostView] = useState(true);
+  const resultData = [...dummyData];
 
   return (
     <>
-      <div className="relative mt-16 flex h-full min-h-screen w-full flex-col items-center gap-4 bg-darkNavy p-4 text-white">
+      <div className="relative mt-16 flex h-full min-h-[calc(100vh-160px)] w-full flex-col items-center gap-4 bg-darkNavy p-4 text-white">
         <MyProfileHeader />
         <MyProfileInfo />
         <div className="flex w-full justify-center">
@@ -22,7 +24,7 @@ export default function MyProfile() {
             </div>
           </div>
         </div>
-        <PostFormat />
+        <PostFormat resultData={resultData} />
       </div>
       <FooterMenu />
     </>

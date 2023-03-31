@@ -9,7 +9,7 @@ export default function CommunityFeedPost() {
   const navigate = useNavigate();
 
   return (
-    <li className="mb-6 flex cursor-pointer flex-col items-center gap-4 rounded-[20px] bg-midNavy">
+    <li className="flex cursor-pointer flex-col items-center gap-4 rounded-[20px] bg-midNavy">
       <div className="flex w-full flex-col gap-4 p-4">
         <div className="flex w-full">
           <div className="flex gap-1">
@@ -49,15 +49,15 @@ export default function CommunityFeedPost() {
       </div>
       <div className="flex h-[54px] w-full items-center gap-8 rounded-b-[20px] bg-[#2c2e34] p-4 text-base">
         <div className="flex items-center gap-2">
-          <FcLike />
+          <FcLike size="20px" />
           {data?.likeCount}
         </div>
         <div className="flex items-center gap-2">
-          <FcSms />
+          <FcSms size="20px" />
           {data?.commentCount}
         </div>
         <div className="flex grow items-center justify-end gap-2">
-          <svg stroke="currentColor" fill="currentColor" strokeWidth="0" version="1" viewBox="0 0 48 48" enableBackground="new 0 0 48 48" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+          <svg stroke="currentColor" fill="currentColor" strokeWidth="0" version="1" viewBox="0 0 48 48" enableBackground="new 0 0 48 48" height="20px" width="20px" xmlns="http://www.w3.org/2000/svg">
             <path fill="#f9e288" d="M37,43l-13-6l-13,6V9c0-2.2,1.8-4,4-4h18c2.2,0,4,1.8,4,4V43z"></path>
           </svg>
           스크랩

@@ -13,7 +13,7 @@ export default function NewsDetail() {
   useEffect(() => {
     const scroll = _.throttle(function () {
       console.log(window.scrollY);
-      if (window.scrollY > 10) {
+      if (window.scrollY > 5) {
         setIsScroll(true);
       } else {
         setIsScroll(false);
@@ -27,7 +27,7 @@ export default function NewsDetail() {
 
   return (
     <section>
-      <div className="flex h-full min-h-screen flex-col items-start gap-4 py-4 text-white">
+      <div className="flex h-full min-h-screen flex-col items-start gap-4 bg-darkNavy py-4 text-white">
         <div className="mt-8 flex w-full cursor-pointer justify-between px-4 text-[24px]">
           <MdOutlineKeyboardArrowLeft onClick={() => navigate('/news')} />
           <AiFillCopy />

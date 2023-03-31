@@ -4,6 +4,7 @@ import { commentArr, commentDummyType, timeForToday } from '../../store/commentD
 
 export default function CommunityQACommentForm() {
   console.log(timeForToday('2023 02 02 14:31:10'));
+  console.log(timeForToday('2023-03-23T18:36:31.581773'));
 
   const getCommentResult = (arr: commentDummyType[]) => {
     arr.sort((a, b) => Number(a.createdAt.trim().split(':').join('').split(' ').join('')) - Number(b.createdAt.trim().split(':').join('').split(' ').join('')));
