@@ -4,6 +4,7 @@ import { FcGlobe } from 'react-icons/fc';
 import FooterMenu from '../components/common/FooterMenu';
 import PostFormat from '../components/common/PostFormat';
 import { dummyData } from '../store/dummy';
+import { IoMdAdd } from 'react-icons/io';
 
 export default function Community() {
   const orders = ['최신순', '인기순', '팔로우 게시글만 보기'];
@@ -35,7 +36,10 @@ export default function Community() {
 
   return (
     <section>
-      <div className="mt-16 flex min-h-[calc(100vh-160px)] flex-col gap-4 p-4 text-white">
+      <div className="relative mt-16 flex min-h-[calc(100vh-160px)] flex-col gap-4 p-4 text-white">
+        <div className="fixed bottom-[120px] right-[30px] flex h-[50px] w-[50px] cursor-pointer items-center justify-center rounded-full border-[2px] border-[#ffb74d] bg-[#ffb74d] text-[24px] transition-all hover:scale-[1.1] hover:border-[white]">
+          <IoMdAdd />
+        </div>
         <div className="mb-4 flex h-[26px] items-center justify-between">
           <h1 className="flex items-center gap-2 text-[26px] font-bold">
             <FcGlobe />
