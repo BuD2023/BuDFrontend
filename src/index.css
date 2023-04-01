@@ -26,9 +26,6 @@ article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
     display: block;
 }
-body {
-    line-height: 1;
-}
 ol, ul {
     list-style: none;
 }
@@ -75,6 +72,14 @@ body {
   /* place-items: center; */
   min-width: 320px;
   min-height: 100vh;
+  line-height: 1;
+  background-color: #F1EDDA;
+  color: #392F31;
+}
+
+.dark body {
+  background-color: #192735;
+  color: #ffffff;
 }
 
 

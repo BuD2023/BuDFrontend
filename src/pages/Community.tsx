@@ -37,7 +37,7 @@ export default function Community() {
   return (
     <section>
       <div className="relative mt-16 flex min-h-[calc(100vh-160px)] flex-col gap-4 p-4 text-white">
-        <div className="fixed bottom-[120px] right-[30px] flex h-[50px] w-[50px] cursor-pointer items-center justify-center rounded-full border-[2px] border-[#ffb74d] bg-[#ffb74d] text-[24px] transition-all hover:scale-[1.1] hover:border-[white]">
+        <div className="fixed bottom-[120px] right-[30px] flex h-[50px] w-[50px] cursor-pointer items-center justify-center rounded-full border-[2px] border-pointGreen bg-pointGreen text-[24px] transition-all hover:scale-[1.1] hover:border-[white] dark:border-[#7cb342] dark:bg-[#7cb342]">
           <IoMdAdd />
         </div>
         <div className="mb-4 flex h-[26px] items-center justify-between">

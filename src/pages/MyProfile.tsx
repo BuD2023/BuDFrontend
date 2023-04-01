@@ -11,7 +11,7 @@ export default function MyProfile() {
 
   return (
     <>
-      <div className="relative mt-16 flex min-h-[calc(100vh-160px)] w-full flex-col items-center gap-4 bg-darkNavy p-4 text-white">
+      <div className="relative  mt-16 flex min-h-[calc(100vh-160px)] w-full flex-col items-center gap-4  p-4 text-white">
         <MyProfileHeader />
         <MyProfileInfo />
         <div className="flex w-full justify-center">

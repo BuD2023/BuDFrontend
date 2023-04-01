@@ -1,7 +1,7 @@
 export default function HomeLevelSection() {
   return (
     <div className="relative flex min-h-[236px] w-full flex-col">
-      <div className="absolute inset-0 flex flex-col justify-between rounded-[50px] bg-midNavy p-10 pb-6 text-white">
+      <div className="absolute inset-0 flex flex-col justify-between rounded-[50px] bg-[#E8E1C1] p-10 pb-6 dark:bg-midNavy ">
         <div className="flex w-full justify-between">
           <div className="flex w-full justify-between">
             <div className="flex flex-col">
@@ -13,7 +13,7 @@ export default function HomeLevelSection() {
         </div>
         <div className="my-2 flex justify-center text-[18px] font-bold">
           <span className="break-keep text-center">
-            🥜 다음 성장까지 <span className="text-[22px] text-[#4DCE8F]">15커밋 </span>
+            🥜 다음 성장까지 <span className="text-[22px] text-[#327559] dark:text-[#4DCE8F]">15커밋 </span>
             남았어요!
           </span>
         </div>

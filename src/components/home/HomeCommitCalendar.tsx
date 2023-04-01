@@ -50,12 +50,12 @@ export default function HomeCommitCalendar() {
 
   return (
     <div className="relative mb-2 flex min-h-[260px] w-full flex-col">
-      <div className="absolute inset-0 flex flex-col justify-between gap-6 rounded-[50px] bg-midNavy p-10 text-white">
+      <div className="absolute inset-0 flex flex-col justify-between gap-6 rounded-[50px] bg-[#E8E1C1] p-10 text-lightText dark:bg-midNavy dark:text-white">
         <div className="text-[26px] font-bold">커밋 캘린더</div>
         <div className="flex h-[200px] w-full items-center justify-center">
           <div className="grid w-full grid-flow-col grid-rows-7 gap-1">
             {resultArr.map((backgroundColor, index) => (
-              <div key={index} className={`h-4 rounded-sm ${backgroundColor} `}></div>
+              <div key={index} className={`h-4 rounded ${backgroundColor} `}></div>
             ))}
           </div>
         </div>

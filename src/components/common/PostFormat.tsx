@@ -12,7 +12,7 @@ export default function PostFormat({ resultData }: IPostFormatPropsType) {
   const navigate = useNavigate();
 
   return (
-    <ul>
+    <ul className="w-full">
       {resultData.map((data) => (
         <li
           onClick={(e) => {

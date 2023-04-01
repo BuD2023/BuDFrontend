@@ -86,6 +86,7 @@ export const dummyData: IBlogData[] = [
 
 export const chatRooms = [
   {
+    roomId: 1,
     roomName: 'ChatGPT는 거짓말쟁이! 인공지능과 가짜뉴스에 대한 개발자 토크방',
     memberId: ['', '', '', '', '', '', '', '', '', '', '', ''],
     randomProfiles: [
@@ -95,6 +96,7 @@ export const chatRooms = [
     ],
   },
   {
+    roomId: 2,
     roomName: '주니어 프론트 개발자로서의 고민들... 나눕니다',
     memberId: ['', '', '', '', '', '', '', '', '', ''],
     randomProfiles: [
@@ -104,6 +106,7 @@ export const chatRooms = [
     ],
   },
   {
+    roomId: 3,
     roomName: '우리 빽둥이들 모이자!! [백엔드토크방]',
     memberId: ['', '', '', '', '', '', '', '', '', '', '', '', '', '', ''],
     randomProfiles: [

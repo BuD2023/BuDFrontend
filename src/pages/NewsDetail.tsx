@@ -27,7 +27,7 @@ export default function NewsDetail() {
 
   return (
     <section>
-      <div className="flex h-full min-h-screen flex-col items-start gap-4 bg-darkNavy py-4 text-white">
+      <div className="flex h-full min-h-screen flex-col items-start gap-4 py-4">
         <div className="mt-8 flex w-full cursor-pointer justify-between px-4 text-[24px]">
           <MdOutlineKeyboardArrowLeft onClick={() => navigate('/news')} />
           <AiFillCopy />
@@ -39,15 +39,15 @@ export default function NewsDetail() {
               style={{ background: 'linear-gradient( to top, rgba(0,0,0,0.9), rgba(0,0,0,0.7), rgba(0,0,0,0.5), transparent )' }}
               className="absolute flex w-full flex-col items-center gap-3 bg-white p-8 text-[24px] font-semibold leading-8 "
             >
-              <div>인프랩-멋쟁이사자처럼, 손잡고 IT 교육 생태계 확장</div>
-              <div className="flex w-full items-center justify-between text-[13px] opacity-60 ">
+              <div className="text-white">인프랩-멋쟁이사자처럼, 손잡고 IT 교육 생태계 확장</div>
+              <div className="flex w-full items-center justify-between text-[13px] text-white opacity-60 ">
                 <div className="flex items-center gap-3">
                   <div>디지털데일리</div>
                   <div>2023.03.30. 오후 3:30</div>
                 </div>
                 <div>이종현 기자</div>
               </div>
-              <div className="absolute top-[calc(100%-1.5rem)] min-h-[70vh] w-full rounded-[40px] bg-darkNavy p-6 text-[15px] font-medium leading-7 ">
+              <div className="absolute top-[calc(100%-1.5rem)] min-h-[70vh] w-full rounded-[40px] bg-lightIvory p-6 text-[15px] font-medium leading-7 dark:bg-darkNavy ">
                 <div>
                   {`[디지털데일리 이종현기자] 정보기술(IT) 교육 플랫폼 ‘인프런’을 운영하는 인프랩이 프로그래밍 교육 브랜드 멋쟁이사자처럼(이하 멋사)와 업무협약을 체결했다고 30일 밝혔다.
 양사는 이번 업무협약을 통해 멋사에서 운영하는 부트캠프, 해커톤 등 IT 교육 과정을 인프런으로도 확장할 수 있도록 연계한다는 계획이다. 또 추후 온·오프라인 IT 교육 과정을 함께 기획 및 운영하며 콘퍼런스, IT 채용 박람회 등 행사 개최에도 함께한다.

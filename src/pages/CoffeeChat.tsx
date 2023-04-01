@@ -15,7 +15,7 @@ export default function CoffeeChat() {
   return (
     <>
       <section>
-        <div className="relative mt-16 flex h-full min-h-[calc(100vh-160px)] w-full flex-col items-center gap-4 bg-darkNavy p-4">
+        <div className="relative mt-16 flex h-full min-h-[calc(100vh-160px)] w-full flex-col items-center gap-4 p-4">
           <CoffeeTitle chatRooms={chatRooms} inputValue={inputValue} setInputValue={setInputValue} />
           <CoffeeChatRoom chatRooms={chatRoomsResult} />
         </div>

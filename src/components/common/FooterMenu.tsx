@@ -8,8 +8,8 @@ export default function FooterMenu() {
 
   return (
     <>
-      <div className="h-[95px] bg-darkNavy"></div>
-      <div className="fixed bottom-0 z-30 flex h-[95px] w-full items-center justify-around rounded-t-[40px] bg-[#383030] pb-2 text-[14px] text-white">
+      <div className="h-[95px] bg-lightIvory dark:bg-darkNavy"></div>
+      <div className="fixed bottom-0 z-30 flex h-[95px] w-full items-center justify-around rounded-t-[40px] bg-[#383030] pb-2 text-[14px] text-white dark:bg-[#383030]">
         <div onClick={() => navigate('/')} className={'flex cursor-pointer flex-col items-center ' + (activeBar === '' ? 'font-semibold' : 'opacity-40')}>
           <FcHome className="text-[32px]" />
           <span className="mt-2">홈</span>
