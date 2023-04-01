@@ -32,7 +32,7 @@ function App() {
       <Route path="/communityFeedDetail/:id" element={<CommunityFeedDetail />} />
 
       <Route path="/coffeeChat" element={<CoffeeChat />} />
-      <Route path="/chatRoom" element={<ChatRoom />} />
+      <Route path="/chatRoom/:id" element={<ChatRoom />} />
 
       <Route path="/myProfile" element={<MyProfile />} />
       <Route path="/otherProfile/:id" element={<OtherProfile />} />

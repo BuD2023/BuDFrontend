@@ -18,7 +18,7 @@ export default function CoffeeChatRoom({ chatRooms }: CoffeeChatRoomPropsType) {
       {chatRooms.length !== 0 ? (
         chatRooms.map((room, index) => (
           <div key={room.roomName + String(index)} className="relative flex min-h-[280px] w-full flex-col">
-            <div className="absolute inset-0 flex cursor-pointer flex-col justify-between rounded-2xl bg-midNavy p-6 text-white">
+            <div className="absolute inset-0 flex cursor-pointer flex-col justify-between rounded-2xl bg-midIvory p-6 text-lightText dark:bg-midNavy dark:text-white">
               <div className="text-[19px] font-semibold leading-6">{room.roomName}</div>
               <div className="flex w-full">
                 <div className="flex w-full">
@@ -46,7 +46,7 @@ export default function CoffeeChatRoom({ chatRooms }: CoffeeChatRoomPropsType) {
         ))
       ) : (
         <div className="relative mb-5 flex min-h-[280px] w-full min-w-[100vw] flex-col">
-          <div className="absolute inset-x-4 inset-y-0 flex flex-col items-center justify-center rounded-2xl bg-midNavy p-6 text-white">
+          <div className="absolute inset-x-4 inset-y-0 flex flex-col items-center justify-center rounded-2xl bg-midIvory p-6 text-lightText dark:bg-midNavy dark:text-white">
             <div className="text-[19px] font-semibold leading-6">검색된 채팅방이 없습니다.</div>
           </div>
         </div>

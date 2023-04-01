@@ -18,7 +18,7 @@ export default function FooterMenu() {
           <FcNews className="text-[32px]" />
           <span className="mt-2">IT 소식</span>
         </div>
-        <div onClick={() => navigate('/community')} className={'flex cursor-pointer flex-col items-center ' + (activeBar === 'community' ? 'font-semibold' : 'opacity-40')}>
+        <div onClick={() => navigate('/community')} className={'flex cursor-pointer flex-col items-center ' + (activeBar.includes('community') ? 'font-semibold' : 'opacity-40')}>
           <FcGlobe className="text-[32px]" />
           <span className="mt-2">커뮤니티</span>
         </div>

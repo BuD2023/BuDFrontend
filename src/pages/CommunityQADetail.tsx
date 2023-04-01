@@ -7,7 +7,7 @@ import CommunityQADetailPost from '../components/q&aDetail/CommunityQADetailPost
 export default function () {
   return (
     <section>
-      <div className="flex h-full min-h-[calc(100vh-160px)] flex-col items-start gap-4 p-4 text-white">
+      <div className="flex h-full min-h-[calc(100vh-160px)] flex-col items-start gap-4 p-4 text-lightText dark:text-white">
         <SimpleHeader />
         <CommunityQADetailPost />
         <CommunityQADetailAnswer />

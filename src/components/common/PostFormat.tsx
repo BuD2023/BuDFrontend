@@ -24,9 +24,9 @@ export default function PostFormat({ resultData }: IPostFormatPropsType) {
             }
           }}
           key={data.id}
-          className="mb-6 flex cursor-pointer flex-col items-center gap-4 rounded-[20px] bg-midNavy"
+          className="mb-6 flex cursor-pointer flex-col items-center gap-4 rounded-[20px] bg-midIvory dark:bg-midNavy"
         >
-          <div className="flex w-full flex-col gap-4 p-4">
+          <div className="flex w-full flex-col gap-4 p-4 text-lightText dark:text-white">
             <div className="flex w-full">
               <div className="flex gap-1">
                 <img
@@ -59,14 +59,14 @@ export default function PostFormat({ resultData }: IPostFormatPropsType) {
               </div>
             </div>
             <div className="flex text-[16px] font-semibold">
-              <div className="rounded-[30px] bg-sky px-2 py-1">{`${data.type === 'feed' ? '자유 게시글' : 'Q&A 게시글'}`}</div>
+              <div className="rounded-[30px] bg-greyBeige px-2 py-1 dark:bg-sky">{`${data.type === 'feed' ? '자유 게시글' : 'Q&A 게시글'}`}</div>
             </div>
             <div className="w-full">
               <h1 className="mb-6 text-lg font-bold">{data.title}</h1>
               <p className="text-base">{data.detail}</p>
             </div>
           </div>
-          <div className="flex h-[54px] w-full items-center gap-8 rounded-b-[20px] bg-[#2c2e34] p-4 text-base">
+          <div className="flex h-[54px] w-full items-center gap-8 rounded-b-[20px] bg-[#a49c7c] p-4 text-base text-white dark:bg-[#2c2e34]">
             {data.type === 'feed' ? (
               <>
                 <div className="flex items-center gap-2">

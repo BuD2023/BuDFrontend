@@ -27,7 +27,7 @@ export default function CoffeeTitle({ chatRooms, inputValue, setInputValue }: Co
   };
 
   return (
-    <div className="flex w-full flex-col gap-4 text-[26px] font-bold text-white">
+    <div className="flex w-full flex-col gap-4 text-[26px] font-bold text-lightText dark:text-white">
       <div className="mb-4 flex h-[26px] items-center justify-between">
         <div className="flex items-center">
           <FcIcons8Cup className="mr-2" /> 커피챗

@@ -6,8 +6,8 @@ export default function UserInfo() {
   const navigate = useNavigate();
   return (
     <section>
-      <div className="mt-16 flex min-h-[calc(100vh-160px)] flex-col gap-7 py-4 px-6 text-white">
-        <div className="fixed left-0 top-0 z-10 w-full bg-darkNavy pb-4 text-2xl">
+      <div className="mt-16 flex min-h-[calc(100vh-160px)] flex-col gap-7 py-4 px-6 text-lightText dark:text-white">
+        <div className="fixed left-0 top-0 z-10 w-full bg-lightIvory pb-4 text-2xl dark:bg-darkNavy">
           <div className="mt-16 flex items-center px-4">
             <div className="shrink-0 grow">
               <BsChevronLeft onClick={() => navigate('/setting')} className="cursor-pointer" />
