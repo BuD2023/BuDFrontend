@@ -1,25 +1,14 @@
-import { FcNews } from 'react-icons/fc';
-import { BsBellFill } from 'react-icons/bs';
 import { dummyData } from '../store/dummy';
 import FooterMenu from '../components/common/FooterMenu';
-import { useNavigate } from 'react-router-dom';
+import NewsHeader from '../components/news/NewsHeader';
+import NewsFilter from '../components/news/NewsFilter';
+import NewsPosts from '../components/news/NewsPosts';
 
 export default function News() {
-  const orders = ['최신순', '인기순', '인기순2'];
-  const navigate = useNavigate();
-
   return (
     <section>
       <div className="mt-16 flex min-h-[calc(100vh-160px)] flex-col gap-4 p-4 text-lightText dark:text-white">
-        <div className="mb-4 flex h-[26px] items-center justify-between">
-          <div className="flex items-center gap-3 text-[26px] font-bold">
-            <div className="rounded-xl bg-white p-1">
-              <FcNews />
-            </div>
-            <h1>IT 소식</h1>
-          </div>
-          <BsBellFill size="26" className="cursor-pointer" />
-        </div>
+        <NewsHeader />
         <div>
           <input type="text" placeholder="키워드로 검색" className="searchInput h-[60px] w-full rounded-xl bg-white p-4 text-xl font-bold text-[#514848] dark:bg-[#E4E4E4]" />
         </div>
@@ -29,30 +18,8 @@ export default function News() {
             <p className="text-center text-[14px] font-semibold leading-[26px]">1 시간마다 갱신됩니다</p>
           </div>
         </div>
-        <ul className="dark:text- flex h-[40px] items-center gap-4 rounded-[20px] bg-pointGreen px-4 text-xs font-bold text-white dark:bg-lightNavy">
-          {orders.map((order) => (
-            <li key={order} className="cursor-pointer">
-              · {order}
-            </li>
-          ))}
-        </ul>
-        <ul>
-          {dummyData.map((data) => (
-            <li onClick={() => navigate(`/newsDetail/${data.id}`)} key={data.id} className="mb-4 flex h-[115px] cursor-pointer items-center gap-1 rounded-[20px] bg-midIvory dark:bg-midNavy">
-              <div className="shrink-0">
-                <img src={data.img} alt={data.title} className="w-[115px] rounded-[20px]" />
-              </div>
-              <div className="w-full overflow-hidden pl-3 pr-5">
-                <h1 className="mb-2 truncate text-base font-bold">{data.title}</h1>
-                <p className="ellipsis mb-3 text-[13px] leading-4">{data.detail}</p>
-                <div className="flex justify-between">
-                  <p className="text-xs opacity-50">조회수 {data.view}</p>
-                  <p className="text-xs opacity-50">{data.date}</p>
-                </div>
-              </div>
-            </li>
-          ))}
-        </ul>
+        <NewsFilter />
+        <NewsPosts newsData={dummyData} />
       </div>
       <FooterMenu />
     </section>

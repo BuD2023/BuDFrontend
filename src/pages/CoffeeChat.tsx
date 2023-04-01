@@ -2,8 +2,9 @@ import { useState } from 'react';
 import { IoMdAdd } from 'react-icons/io';
 import CoffeeChatRoom from '../components/coffeeChat/CoffeeChatRoom';
 import CoffeeTitle from '../components/coffeeChat/CoffeeTitle';
+import AddBtn from '../components/common/AddBtn';
 import FooterMenu from '../components/common/FooterMenu';
-import { chatRooms } from '../store/dummy';
+import { chatRooms } from '../store/chatsDummy';
 
 export default function CoffeeChat() {
   const [inputValue, setInputValue] = useState('');
@@ -17,10 +18,7 @@ export default function CoffeeChat() {
     <>
       <section>
         <div className="relative mt-16 mb-20 flex h-full min-h-[calc(100vh-160px)] w-full flex-col items-center justify-center gap-4 p-4">
-          <div className="fixed bottom-[120px] z-20 flex h-[50px] w-[28vw] min-w-[125px] max-w-[150px] cursor-pointer items-center justify-center gap-1 rounded-full border-[2px] border-pointGreen bg-pointGreen text-[24px] text-white drop-shadow-2xl transition-all hover:border-white dark:border-[#7cb342] dark:bg-[#7cb342] hover:dark:border-white">
-            <IoMdAdd />
-            <span className="mb-0.5 mr-0.5 text-[18px] font-semibold">방만들기</span>
-          </div>
+          <AddBtn url="/" text="방만들기" />
           <CoffeeTitle chatRooms={chatRooms} inputValue={inputValue} setInputValue={setInputValue} />
           <CoffeeChatRoom chatRooms={chatRoomsResult} />
         </div>

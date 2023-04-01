@@ -15,9 +15,9 @@ export default function HomeLevelSection() {
             <div className="text-[100px]">🌱</div>
           </div>
         </div>
-        <div className="my-2 flex justify-center text-[18px] font-bold">
+        <div className="my-2 flex justify-center text-[17px] font-bold leading-6">
           <span className="break-keep text-center">
-            🥜 다음 성장까지 <span className="text-[22px] text-[#327559] dark:text-[#4DCE8F]">15커밋 </span>
+            🥜 다음 성장까지 <span className="text-[19px] text-[#327559] dark:text-[#4DCE8F]">15커밋 </span>
             남았어요!
           </span>
         </div>

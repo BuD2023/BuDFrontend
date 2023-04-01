@@ -1,6 +1,7 @@
 import React from 'react';
 import { BsBellFill } from 'react-icons/bs';
 import { FcIcons8Cup } from 'react-icons/fc';
+import NotiBtn from '../common/NotiBtn';
 
 interface CoffeeTitlePropsType {
   chatRooms: {
@@ -35,9 +36,7 @@ export default function CoffeeTitle({ chatRooms, inputValue, setInputValue }: Co
           </div>
           <h1>커피챗</h1>
         </div>
-        <div>
-          <BsBellFill size="26px" className="cursor-pointer" />
-        </div>
+        <NotiBtn />
       </div>
       <div className="w-full">
         <input

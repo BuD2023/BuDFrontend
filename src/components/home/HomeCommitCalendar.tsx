@@ -33,7 +33,7 @@ export default function HomeCommitCalendar() {
   ];
 
   const resultArr = [] as string[];
-  const calendarArr = Array.from({ length: 119 }, (v, i) => i)
+  const calendarArr = Array.from({ length: 112 }, (v, i) => i)
     .map((date) => dateFormat(dateCalculator(new Date(), date)))
     .reverse();
   calendarArr.map((i) => {

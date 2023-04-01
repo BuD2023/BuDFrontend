@@ -2,11 +2,12 @@ import React from 'react';
 import { BsDot, BsThreeDots } from 'react-icons/bs';
 import { FcLike, FcPortraitMode, FcSms } from 'react-icons/fc';
 import { useParams } from 'react-router-dom';
-import { dummyData } from '../../store/dummy';
+import { timeForToday } from '../../store/commentDummy';
+import { dummyData, IBlogData } from '../../store/dummy';
 
 export default function CommunityQADetailAnswer() {
   const { id } = useParams();
-  const data = dummyData.find((i) => i.id === Number(id));
+  const data = dummyData.find((i) => i.id === Number(id)) as IBlogData;
 
   return (
     <div className="flex w-full cursor-pointer flex-col items-center gap-4 rounded-[20px] bg-midIvory dark:bg-midNavy">
@@ -22,7 +23,7 @@ export default function CommunityQADetailAnswer() {
               <div className="flex items-center justify-center gap-1">
                 <p className="text-xl font-bold">지현</p>
                 <BsDot />
-                <p className="text-[17px] opacity-50">{data?.time}</p>
+                <p className="text-[17px] opacity-50">{timeForToday(data?.createdAt)}</p>
               </div>
               <div className="mt-1 text-[17px] opacity-50">프론트엔드 개발자</div>
             </div>

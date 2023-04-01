@@ -1,6 +1,7 @@
 import { FcHome } from 'react-icons/fc';
 import { BsBellFill } from 'react-icons/bs';
 import { AiFillGithub } from 'react-icons/ai';
+import NotiBtn from '../common/NotiBtn';
 
 export default function HomeTitle() {
   return (
@@ -13,7 +14,7 @@ export default function HomeTitle() {
           <h1>{`Kody님`}</h1>
         </div>
         <div>
-          <BsBellFill size="26" className="cursor-pointer" />
+          <NotiBtn />
         </div>
       </div>
       <div>오늘도 수고했어요!</div>

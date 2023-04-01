@@ -1,12 +1,13 @@
 import { FcPortraitMode, FcVoicePresentation } from 'react-icons/fc';
 import { useNavigate, useParams } from 'react-router-dom';
-import { dummyData } from '../../store/dummy';
+import { dummyData, IBlogData } from '../../store/dummy';
 import { FaRegThumbsDown, FaRegThumbsUp } from 'react-icons/fa';
 import { BsDot, BsFillHandThumbsUpFill } from 'react-icons/bs';
+import { timeForToday } from '../../store/commentDummy';
 
 export default function CommunityQADetailPost() {
   const { id } = useParams();
-  const data = dummyData.find((i) => i.id === Number(id));
+  const data = dummyData.find((i) => i.id === Number(id)) as IBlogData;
   const navigate = useNavigate();
 
   return (
@@ -33,7 +34,7 @@ export default function CommunityQADetailPost() {
               >
                 {data?.userName}
               </p>
-              <p className="text-[17px] opacity-50">{data?.time}</p>
+              <p className="text-[17px] opacity-50">{timeForToday(data?.createdAt)}</p>
             </div>
           </div>
           <div className="grow text-end font-bold">
@@ -48,7 +49,7 @@ export default function CommunityQADetailPost() {
           <p className="text-base">{data?.detail}</p>
         </div>
       </div>
-      <div className="flex h-[54px] w-full items-center gap-8 rounded-b-[20px] bg-[#383030] bg-[#a49c7c] p-4 text-base text-white dark:dark:bg-[#2c2e34]">
+      <div className="flex h-[54px] w-full items-center gap-8 rounded-b-[20px] bg-[#a49c7c] p-4 text-base text-white dark:bg-[#383030] dark:dark:bg-[#2c2e34]">
         <div className="flex items-center gap-2">
           <BsFillHandThumbsUpFill size="20px" className="text-[#fbceb1]" />
           {data?.likeCount}
