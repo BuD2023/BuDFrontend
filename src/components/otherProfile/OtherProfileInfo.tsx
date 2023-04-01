@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 
-export default function MyProfileInfo() {
+export default function OtherProfileInfo() {
   const navigate = useNavigate();
 
   return (
@@ -23,8 +23,8 @@ export default function MyProfileInfo() {
           <div className="mt-2 text-[18px] font-medium">성장레벨</div>
         </div>
       </div>
-      <div onClick={() => navigate('/myProfileEdit')} className="flex h-[55px] w-full text-[18px] font-semibold">
-        <button className="h-full w-full rounded-2xl bg-greyBeige bg-opacity-50 text-lightText dark:bg-lightNavy dark:text-white">프로필 편집</button>
+      <div className="flex h-[55px] w-full text-[18px] font-semibold">
+        <button className="h-full w-full rounded-2xl bg-greyBeige bg-opacity-50 text-lightText dark:bg-lightNavy dark:text-white">팔로우하기</button>
       </div>
     </div>
   );
