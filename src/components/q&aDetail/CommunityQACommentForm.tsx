@@ -26,8 +26,8 @@ export default function CommunityQACommentForm() {
   };
 
   return (
-    <div className="flex w-full flex-col items-center gap-4 rounded-[20px] bg-midNavy">
-      <div className="flex h-[55px] w-full items-center border border-darkNavy border-b-[#2F4658] p-5 text-[20px] font-bold">
+    <div className="flex w-full flex-col items-center gap-4 rounded-[20px] bg-midIvory dark:bg-midNavy">
+      <div className="flex h-[55px] w-full items-center border border-lightIvory border-b-darkIvory p-5 text-[20px] font-bold dark:border-darkNavy dark:border-b-lightNavy">
         <div>댓글</div>
         <div className="ml-2 text-[18px] font-bold opacity-50">4개</div>
       </div>
@@ -43,7 +43,7 @@ export default function CommunityQACommentForm() {
                   <BsDot className="opacity-70" />
                   <div className="mr-2 text-[14px] opacity-70">{timeForToday(comment.createdAt)}</div>
                   {comment.isPinned && (
-                    <div className="itmes-center flex justify-center gap-1 rounded-2xl bg-sky px-[5px] py-1 text-[14px]">
+                    <div className="itmes-center flex justify-center gap-1 rounded-2xl bg-greyBeige px-[5px] py-1 text-[14px] dark:bg-sky">
                       <BsFillPinAngleFill />
                       고정됨
                     </div>
@@ -54,7 +54,7 @@ export default function CommunityQACommentForm() {
               <div className="flex justify-between">
                 <div className="text-[15px]">{comment.content}</div>
                 <div className="flex items-center justify-center gap-1">
-                  {comment.isLiked ? <BsHeartFill className="cursor-pointer text-[#f44336]" /> : <BsHeartFill className="cursor-pointer" />}
+                  {comment.isLiked ? <BsHeartFill className="cursor-pointer text-[#f44336]" /> : <BsHeartFill className="cursor-pointer text-white" />}
                   <span className="text-[13px]">{comment.likeCount}</span>
                 </div>
               </div>

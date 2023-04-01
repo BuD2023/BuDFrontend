@@ -11,15 +11,21 @@ export default function MyProfile() {
 
   return (
     <>
-      <div className="relative  mt-16 flex min-h-[calc(100vh-160px)] w-full flex-col items-center gap-4  p-4 text-white">
+      <div className="relative mt-16 flex min-h-[calc(100vh-160px)] w-full flex-col items-center gap-4 bg-lightIvory p-4 text-lightText dark:bg-darkNavy dark:text-white">
         <MyProfileHeader />
         <MyProfileInfo />
         <div className="flex w-full justify-center">
-          <div className="flex w-full items-center justify-around border border-darkNavy border-b-[#2F4658] font-semibold ">
-            <div onClick={() => setPostView(true)} className={`w-[110px] cursor-pointer border border-darkNavy ${postView ? 'border-b-white' : 'opacity-50'}  bg-none py-5 text-center`}>
+          <div className="flex w-full items-center justify-around border border-lightIvory border-b-darkIvory font-semibold dark:border-darkNavy dark:border-b-lightNavy ">
+            <div
+              onClick={() => setPostView(true)}
+              className={`w-[110px] cursor-pointer border border-lightIvory dark:border-darkNavy ${postView ? 'border-b-lightText dark:border-b-white' : 'opacity-50'}  bg-none py-5 text-center`}
+            >
               게시글
             </div>
-            <div onClick={() => setPostView(false)} className={`w-[110px] cursor-pointer border border-darkNavy ${!postView ? 'border-b-white' : 'opacity-50'}  bg-none py-5 text-center`}>
+            <div
+              onClick={() => setPostView(false)}
+              className={`w-[110px] cursor-pointer border border-lightIvory dark:border-darkNavy ${!postView ? 'border-b-lightText dark:border-b-white' : 'opacity-50'}  bg-none py-5 text-center`}
+            >
               스크랩
             </div>
           </div>

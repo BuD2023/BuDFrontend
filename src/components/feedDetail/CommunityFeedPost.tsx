@@ -9,7 +9,7 @@ export default function CommunityFeedPost() {
   const navigate = useNavigate();
 
   return (
-    <li className="flex w-full cursor-pointer flex-col items-center gap-4 rounded-[20px] bg-midNavy">
+    <li className="flex cursor-pointer flex-col items-center gap-4 rounded-[20px] bg-midIvory dark:bg-midNavy">
       <div className="flex w-full flex-col gap-4 p-4">
         <div className="flex w-full">
           <div className="flex gap-1">
@@ -47,8 +47,8 @@ export default function CommunityFeedPost() {
           <p className="text-base">{data?.detail}</p>
         </div>
       </div>
-      <div className="flex h-[54px] w-full items-center gap-8 rounded-b-[20px] bg-[#2c2e34] p-4 text-base">
-        <div className="flex items-center gap-2">
+      <div className="flex h-[54px] w-full items-center gap-8 rounded-b-[20px] bg-[#383030] bg-[#a49c7c] p-4 text-base text-white dark:dark:bg-[#2c2e34]">
+        <div className="flex items-center gap-2 ">
           <FcLike size="20px" />
           {data?.likeCount}
         </div>

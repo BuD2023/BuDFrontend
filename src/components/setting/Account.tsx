@@ -20,7 +20,7 @@ export default function Account() {
       <AlertModal alertModal={alertModal} setAlertModal={setAlertModal} title="로그아웃 알림" des="로그아웃됩니다!" />
       <ConfirmModal confirmModal={confirmModal} setConfirmModal={setConfirmModal} getModalAnswer={getModalAnswer} title="회원 탈퇴" des={withdrawalText} confirmBtn="탈퇴하기" />
       <div className="mb-4 flex flex-col gap-4">
-        <div className="flex items-center gap-3 border-b border-[#ffffff50] pb-5 text-[22px] font-semibold">
+        <div className="flex items-center gap-3 border-b border-[#392f3150] pb-5 text-[22px] font-semibold dark:border-[#ffffff50]">
           <MdManageAccounts size="30" />
           <p>계정 설정</p>
         </div>

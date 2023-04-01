@@ -13,7 +13,7 @@ export default function HomeTitle() {
         </div>
       </div>
       <div>오늘도 수고했어요!</div>
-      <div className="mt-4 inline-flex cursor-pointer items-center gap-2 text-[16px] font-medium opacity-60">
+      <div className="mt-4 inline-flex cursor-pointer items-center gap-2 text-[16px] font-medium opacity-70">
         <FcReadingEbook /> KodywiththeK
       </div>
     </div>

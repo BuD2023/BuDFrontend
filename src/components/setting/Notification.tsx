@@ -54,7 +54,7 @@ export default function Notification() {
 
   return (
     <div className="mb-4 flex flex-col gap-4">
-      <div className="flex items-center gap-3 border-b border-[#ffffff50] pb-5 text-[22px] font-semibold">
+      <div className="flex items-center gap-3 border-b border-[#392f3150] pb-5 text-[22px] font-semibold dark:border-[#ffffff50]">
         <BsBellFill size="23" />
         <p>알림 설정</p>
       </div>
