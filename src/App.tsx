@@ -16,8 +16,17 @@ import ProfileEdit from './pages/MyProfileEdit';
 import Setting from './pages/Setting';
 import UserInfo from './pages/UserInfo';
 import Notification from './pages/Notification';
+import { useLayoutEffect } from 'react';
 
 function App() {
+  const $html = document.querySelector('html');
+
+  useLayoutEffect(() => {
+    if (localStorage.getItem('theme') === 'dark') {
+      $html?.classList.add('dark');
+    }
+  }, []);
+
   return (
     <Routes>
       <Route path="/" element={<Home />} />
