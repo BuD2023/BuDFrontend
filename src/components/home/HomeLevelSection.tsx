@@ -1,9 +1,13 @@
+import { useNavigate } from 'react-router-dom';
+
 export default function HomeLevelSection() {
+  const navigate = useNavigate();
+
   return (
     <div className="relative flex min-h-[236px] w-full flex-col">
       <div className="absolute inset-0 flex flex-col justify-between rounded-[50px] bg-[#E8E1C1] p-10 pb-6 dark:bg-midNavy ">
         <div className="flex w-full justify-between">
-          <div className="flex w-full justify-between">
+          <div onClick={() => navigate('/notFound')} className="flex w-full justify-between">
             <div className="flex flex-col">
               <div className="text-[26px] font-bold">행복한 새싹</div>
               <div className="mt-5 text-[20px]">새싹</div>

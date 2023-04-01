@@ -1,13 +1,13 @@
 import { useNavigate } from 'react-router-dom';
-import notFound from '../assets/notFound.png';
+import notFound from '../assets/notFound.jpg';
 
 export default function NotFound() {
   const navigate = useNavigate();
 
   return (
     <section>
-      <div className="relative inset-0 flex flex-col gap-4 p-4 text-white">
-        <div className="flex h-[26px] flex-col items-center justify-center gap-6 text-[15px]">
+      <div className="relative inset-0 flex h-screen flex-col gap-4 p-4 text-white">
+        <div className="flex h-full flex-col items-center justify-center gap-6 text-[15px]">
           <img src={notFound} className="mb-4 h-[70vw] max-h-[350px] w-[70vw] max-w-[350px] rounded-full" />
           <div className="flex flex-col items-center justify-center gap-4">
             <h3 className="text-[26px] font-bold">Oops!?</h3>
