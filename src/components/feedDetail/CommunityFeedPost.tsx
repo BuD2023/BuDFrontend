@@ -1,11 +1,12 @@
 import React from 'react';
 import { FcLike, FcPortraitMode, FcSms } from 'react-icons/fc';
 import { useNavigate, useParams } from 'react-router-dom';
-import { dummyData } from '../../store/dummy';
+import { timeForToday } from '../../store/commentDummy';
+import { dummyData, IBlogData } from '../../store/dummy';
 
 export default function CommunityFeedPost() {
   const { id } = useParams();
-  const data = dummyData.find((i) => i.id === Number(id));
+  const data = dummyData.find((i) => i.id === Number(id)) as IBlogData;
   const navigate = useNavigate();
 
   return (
@@ -32,7 +33,7 @@ export default function CommunityFeedPost() {
               >
                 {data?.userName}
               </p>
-              <p className="text-[17px] opacity-50">{data?.time}</p>
+              <p className="text-[17px] opacity-50">{timeForToday(data?.createdAt)}</p>
             </div>
           </div>
           <div className="grow text-end font-bold">
