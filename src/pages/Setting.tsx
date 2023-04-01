@@ -9,7 +9,7 @@ export default function Setting() {
   return (
     <section>
       <div className="flex min-h-[calc(100vh-160px)] flex-col gap-7 py-4 px-6 pt-16 text-lightText dark:text-white">
-        <div className="fixed left-0 top-0 z-10 w-full bg-lightIvory pb-4 text-2xl dark:bg-darkNavy">
+        <div className="fixed left-0 top-0 z-10 w-full border-b-[0.5px] border-b-black border-opacity-20 bg-lightIvory pb-4 text-2xl dark:bg-darkNavy">
           <div className="mt-16 flex items-center px-4">
             <div className="shrink-0 grow basis-[0]">
               <BsChevronLeft onClick={() => navigate('/myProfile')} className="cursor-pointer" />

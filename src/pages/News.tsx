@@ -12,10 +12,12 @@ export default function News() {
     <section>
       <div className="mt-16 flex min-h-[calc(100vh-160px)] flex-col gap-4 p-4 text-lightText dark:text-white">
         <div className="mb-4 flex h-[26px] items-center justify-between">
-          <h1 className="flex items-center gap-2 text-[26px] font-bold">
-            <FcNews />
-            IT 소식
-          </h1>
+          <div className="flex items-center gap-3 text-[26px] font-bold">
+            <div className="rounded-xl bg-white p-1">
+              <FcNews />
+            </div>
+            <h1>IT 소식</h1>
+          </div>
           <BsBellFill size="26" className="cursor-pointer" />
         </div>
         <div>

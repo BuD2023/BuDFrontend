@@ -15,6 +15,7 @@ import NewsDetail from './pages/NewsDetail';
 import ProfileEdit from './pages/MyProfileEdit';
 import Setting from './pages/Setting';
 import UserInfo from './pages/UserInfo';
+import Notification from './pages/Notification';
 
 function App() {
   return (
@@ -41,6 +42,7 @@ function App() {
       <Route path="/userInfo" element={<UserInfo />} />
 
       <Route path="/notFound" element={<NotFound />} />
+      <Route path="/notification" element={<Notification />} />
     </Routes>
   );
 }

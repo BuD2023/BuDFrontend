@@ -8,8 +8,11 @@ export default function MyProfileHeader() {
   return (
     <div className="text-lighText flex w-full justify-between text-[26px] font-bold dark:text-white">
       <div className="flex flex-col">
-        <div className="mb-2 flex items-center">
-          <FcReadingEbook className="mr-2 mb-1" /> {`Kody님`}
+        <div className="mb-2 flex items-center gap-3">
+          <div className="rounded-xl bg-white p-1">
+            <FcReadingEbook />
+          </div>
+          <h1>{`Kody님`}</h1>
         </div>
         <div className="text-[24px]">오늘도 수고했어요!</div>
         <div className="mt-3 flex items-center gap-2 text-[16px] font-medium">

@@ -41,10 +41,12 @@ export default function Community() {
           <IoMdAdd />
         </div>
         <div className="mb-4 flex h-[26px] items-center justify-between">
-          <h1 className="flex items-center gap-2 text-[26px] font-bold">
-            <FcGlobe />
-            커뮤니티
-          </h1>
+          <div className="flex items-center gap-3 text-[26px] font-bold">
+            <div className="rounded-xl bg-white p-1">
+              <FcGlobe />
+            </div>
+            <h1>커뮤니티</h1>
+          </div>
           <BsBellFill size="26" className="cursor-pointer" />
         </div>
         <div>

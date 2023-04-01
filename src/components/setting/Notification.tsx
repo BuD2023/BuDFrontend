@@ -54,7 +54,7 @@ export default function Notification() {
 
   return (
     <div className="mb-4 flex flex-col gap-4">
-      <div className="flex items-center gap-3 border-b border-[#392f3150] pb-5 text-[22px] font-semibold dark:border-[#ffffff50]">
+      <div className="flex items-center gap-3 text-[22px] font-semibold dark:border-[#ffffff50]">
         <BsBellFill size="23" />
         <p>알림 설정</p>
       </div>
@@ -68,7 +68,7 @@ export default function Notification() {
           <Toggle isOn={notification.chat} />
         </div>
         <div onClick={(e) => handleToggle(e)} id="comment" className="flex items-center justify-between">
-          <p className="grow cursor-pointer py-2">댓글 알림</p>
+          <p className="grow cursor-pointer py-2">게시글 알림</p>
           <Toggle isOn={notification.comment} />
         </div>
       </div>
