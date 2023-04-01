@@ -19,7 +19,7 @@ export default function OtherProfileHeader() {
             {githubID}
           </span>
         </div>
-        <div className="min-h-[40px] w-full rounded-2xl bg-white p-2.5 text-[14px] font-semibold leading-[1.2] opacity-70">
+        <div className="min-h-[40px] w-full rounded-2xl bg-white p-2.5 text-[14px] font-semibold leading-[1.2] opacity-70 dark:bg-midNavy dark:font-normal dark:opacity-100">
           <div>안녕하세요 FE_김지현입니다. 이곳에 자기소개를 적어보야요~ </div>
         </div>
       </div>

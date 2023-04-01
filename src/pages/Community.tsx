@@ -37,8 +37,9 @@ export default function Community() {
   return (
     <section>
       <div className="relative mt-16 flex min-h-[calc(100vh-160px)] flex-col gap-4 p-4 text-lightText dark:text-white">
-        <div className="fixed bottom-[120px] right-[30px] flex h-[50px] w-[50px] cursor-pointer items-center justify-center rounded-full border-[2px] border-pointGreen bg-pointGreen text-[24px] text-white transition-all hover:border-[white] dark:border-[#7cb342] dark:bg-[#7cb342] hover:dark:border-white">
+        <div className="fixed left-[50%] bottom-[120px] z-20 ml-[-13%] flex h-[50px] w-[26%] max-w-[150px] cursor-pointer items-center justify-center gap-1 rounded-full border-[2px] border-pointGreen bg-pointGreen text-[24px] text-white drop-shadow-2xl transition-all hover:border-white dark:border-[#7cb342] dark:bg-[#7cb342] hover:dark:border-white">
           <IoMdAdd />
+          <span className="mb-0.5 mr-0.5 text-[18px] font-semibold">글쓰기</span>
         </div>
         <div className="mb-4 flex h-[26px] items-center justify-between">
           <div className="flex items-center gap-3 text-[26px] font-bold">

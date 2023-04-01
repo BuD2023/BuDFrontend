@@ -23,7 +23,7 @@ export default function MyProfileHeader() {
             {githubID}
           </span>
         </div>
-        <div className="min-h-[40px] w-full rounded-2xl bg-white p-2.5 text-sm font-semibold leading-[1.2] opacity-70">
+        <div className="min-h-[40px] w-full rounded-2xl bg-white p-2.5 text-sm font-semibold leading-[1.2] opacity-70 dark:bg-midNavy dark:font-normal dark:text-white dark:opacity-100">
           <div>안녕하세요 FE_김동성입니다. 이곳에는 간단한 자기소개를 적어보아요~ㅁㄴㅇㄹㅁㄴㅇㄹㅁㄴㅇㄹㅁㄴㅇㄹㅁㄴㅇㄹㅁㄴㅇㄹㅁㄴㅇㄹㅁㄴㅇㄹ</div>
         </div>
       </div>
