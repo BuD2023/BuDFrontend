@@ -10,7 +10,7 @@ export default function UserInfo() {
         <div className="fixed left-0 top-0 z-10 w-full bg-lightIvory pb-4 text-2xl dark:bg-darkNavy">
           <Header type="setting" title="회원 정보 조회" icon={<BsChevronLeft />} />
         </div>
-        <ul className="mt-9 flex h-full flex-col gap-7 p-4">
+        <ul className="mt-9 flex h-full flex-col gap-7 p-4 px-2">
           <li className="b-4 flex flex-col gap-4 rounded-3xl bg-midIvory p-5 dark:bg-midNavy">
             <p className="flex gap-2 text-[22px] font-bold">
               <BsQuote />

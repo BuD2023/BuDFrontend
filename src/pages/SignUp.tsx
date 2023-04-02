@@ -1,4 +1,4 @@
-import { Nickname } from '../components/SignUP/SignuUpList';
+import { Nickname } from '../components/SignUP/SignUpList';
 
 export default function SignUp() {
   return <Nickname />;

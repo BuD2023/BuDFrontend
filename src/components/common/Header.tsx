@@ -4,6 +4,7 @@ import { BsThreeDots } from 'react-icons/bs';
 import { IconType } from 'react-icons/lib';
 import { useNavigate } from 'react-router-dom';
 import NotiBtn from './NotiBtn';
+import MainBtn from '../common/MainBtn';
 
 interface IHeader {
   type: string;
@@ -49,7 +50,9 @@ export default function Header({ type, title, icon }: IHeader) {
         )}
         <h1>{title}</h1>
       </div>
-      {type === 'community' ? <BsThreeDots size={26} /> : type === 'category' ? <NotiBtn /> : <></>}
+      {type === 'community' && <BsThreeDots size={26} />}
+      {type === 'category' && <NotiBtn />}
+      {type === 'withMainBtn' && <MainBtn content={'완료'} size={20} />}
     </div>
   );
 }

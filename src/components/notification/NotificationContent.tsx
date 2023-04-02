@@ -63,10 +63,10 @@ export default function NotificationContent() {
   };
 
   return (
-    <ul className="text-lightText dark:text-white">
+    <ul className="mt-9 flex h-full flex-col gap-7 p-4 px-2 text-lightText dark:text-white">
       {notificationDummy.map((noti) => {
         return (
-          <li onClick={() => handleNotiClick(noti.page, noti.pageDetail)} key={noti.notificationId} className="mb-6 flex cursor-pointer items-center gap-3">
+          <li onClick={() => handleNotiClick(noti.page, noti.pageDetail)} key={noti.notificationId} className="flex cursor-pointer items-center gap-3">
             <img
               onClick={(event: React.MouseEvent<HTMLImageElement>) => handleImgClick(noti.senderId, event)}
               src="https://picsum.photos/105/105"
