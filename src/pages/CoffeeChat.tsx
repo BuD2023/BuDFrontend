@@ -11,7 +11,11 @@ export default function CoffeeChat() {
 
   let chatRoomsResult = [...chatRooms];
   if (inputValue) {
-    chatRoomsResult = chatRooms.filter((room) => room.roomName.toLowerCase().split(' ').join('').trim().includes(inputValue.toLowerCase().split(' ').join('').trim()));
+    chatRoomsResult = chatRooms.filter(
+      (room) =>
+        room.roomName.toLowerCase().split(' ').join('').trim().includes(inputValue.toLowerCase().split(' ').join('').trim()) ||
+        room.tag.map((i) => i.toLowerCase()).includes(inputValue.toLowerCase().split(' ').join('').trim())
+    );
   }
 
   return (

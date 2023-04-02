@@ -8,44 +8,52 @@ import profile3 from '../assets/profile3.jpg';
 export interface IChatRoomType {
   roomId: number;
   roomName: string;
+  tag: string[];
+  des: string;
   memberId: string[];
-  randomProfiles: {
+  createdAt: string;
+  host: {
     pic: string;
     name: string;
-    position: string;
-  }[];
+  };
 }
 
 export const chatRooms = [
   {
     roomId: 1,
-    roomName: 'ChatGPT는 거짓말쟁이! 인공지능과 가짜뉴스에 대한 개발자 토크방',
+    roomName: 'ChatGPT는 거짓말쟁이!',
+    tag: ['인공지능', 'ChatGPT', 'AI'],
+    des: 'ChatGPT와 인공지능, 그리고 가짜 뉴스에 관한 토크방입니다.',
     memberId: ['', '', '', '', '', '', '', '', '', '', '', ''],
-    randomProfiles: [
-      { pic: profile1, name: 'Phoebe', position: 'top-8 left-16' },
-      { pic: profile2, name: 'Joey', position: 'top-4 left-8' },
-      { pic: profile3, name: 'Chandler', position: 'top-0 left-0' },
-    ],
+    createdAt: '2023 03 26',
+    host: {
+      pic: profile1,
+      name: 'Phoebe',
+    },
   },
   {
     roomId: 2,
-    roomName: '주니어 프론트 개발자로서의 고민들... 나눕니다',
-    memberId: ['', '', '', '', '', '', '', '', '', ''],
-    randomProfiles: [
-      { pic: profile1, name: 'Phoebe', position: 'top-8 left-16' },
-      { pic: profile2, name: 'Joey', position: 'top-4 left-8' },
-      { pic: profile3, name: 'Chandler', position: 'top-0 left-0' },
-    ],
+    roomName: '주니어 프엔 모여!',
+    tag: ['주니어', 'work_life', '프론트엔드'],
+    des: '새내기 주니어 응애들의 고민들을 나누어 봅니다.',
+    memberId: ['', '', '', '', '', '', '', '', '', '', '', ''],
+    createdAt: '2023 03 20',
+    host: {
+      pic: profile2,
+      name: 'Joey',
+    },
   },
   {
     roomId: 3,
-    roomName: '우리 빽둥이들 모이자!! [백엔드토크방]',
-    memberId: ['', '', '', '', '', '', '', '', '', '', '', '', '', '', ''],
-    randomProfiles: [
-      { pic: profile1, name: 'Phoebe', position: 'top-8 left-16' },
-      { pic: profile2, name: 'Joey', position: 'top-4 left-8' },
-      { pic: profile3, name: 'Chandler', position: 'top-0 left-0' },
-    ],
+    roomName: '국비지원 부트캠프생들 모여!',
+    tag: ['국비지원', '부트캠프', '웹개발'],
+    des: '국비지원, 부트캠프에서 웹 프론트엔드, 백엔드 개발을 배우는 취준생 분들의 고민을 나눕니다. 다 드루와 드루와~!',
+    memberId: ['', '', '', '', '', '', '', '', '', '', '', ''],
+    createdAt: '2023 03 06',
+    host: {
+      pic: profile3,
+      name: 'Chandler',
+    },
   },
 ] as IChatRoomType[];
 
