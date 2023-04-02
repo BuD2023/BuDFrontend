@@ -1,19 +1,12 @@
 import React from 'react';
 import { BsBellFill } from 'react-icons/bs';
 import { FcIcons8Cup } from 'react-icons/fc';
+import { IChatRoomType } from '../../store/chatsDummy';
 import Header from '../common/Header';
 import NotiBtn from '../common/NotiBtn';
 
 interface CoffeeTitlePropsType {
-  chatRooms: {
-    roomName: string;
-    memberId: string[];
-    randomProfiles: {
-      pic: string;
-      name: string;
-      position: string;
-    }[];
-  }[];
+  chatRooms: IChatRoomType[];
   inputValue: string;
   // eslint-disable-next-line no-unused-vars
   setInputValue: (x: string) => void;

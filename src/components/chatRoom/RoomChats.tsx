@@ -14,6 +14,7 @@ export default function RoomChats({ chatsResult }: IChatRoomPropsType) {
     ref1.current?.scrollIntoView({ behavior: 'smooth' });
     // ref2.current?.scrollIntoView({ behavior: 'smooth' });
   }, [chatsResult]);
+  // console.log(timeForToday(chatsResult[0].createdAt))
 
   return (
     <div className="fixed top-20 left-0 z-10 h-[calc(100vh-160px)] w-full overflow-auto p-4">

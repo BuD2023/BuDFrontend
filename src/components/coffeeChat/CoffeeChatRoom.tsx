@@ -1,17 +1,10 @@
+import { BsFillPersonFill } from 'react-icons/bs';
 import { FcReadingEbook, FcSms } from 'react-icons/fc';
 import { useNavigate } from 'react-router-dom';
+import { IChatRoomType } from '../../store/chatsDummy';
 
 interface CoffeeChatRoomPropsType {
-  chatRooms: {
-    roomId: number;
-    roomName: string;
-    memberId: string[];
-    randomProfiles: {
-      pic: string;
-      name: string;
-      position: string;
-    }[];
-  }[];
+  chatRooms: IChatRoomType[];
 }
 
 export default function CoffeeChatRoom({ chatRooms }: CoffeeChatRoomPropsType) {
@@ -24,24 +17,29 @@ export default function CoffeeChatRoom({ chatRooms }: CoffeeChatRoomPropsType) {
           <div onClick={() => navigate(`/chatRoom/${room.roomId}`)} key={room.roomName + String(index)} className="relative flex min-h-[280px] w-full flex-col">
             <div className="absolute inset-0 flex cursor-pointer flex-col justify-between rounded-2xl bg-midIvory p-6 dark:bg-midNavy">
               <div className="text-[19px] font-semibold leading-6">{room.roomName}</div>
-              <div className="flex w-full">
-                <div className="relative h-[90px] w-[130px] drop-shadow-2xl">
-                  {room.randomProfiles.map((user, idx) => (
-                    <img key={idx} src={user.pic} className={`${user.position} absolute h-[60px] w-[60px] rounded-full object-cover`} />
-                  ))}
-                </div>
-                <div className="flex min-w-[50%] flex-col">
-                  {room.randomProfiles.map((user, idx) => (
-                    <div key={idx} className="my-1 ml-2 flex text-[20px] font-semibold">
-                      <span className="mr-1 text-[16px]">{user.name}</span>
-                      <FcSms />
-                    </div>
-                  ))}
-                </div>
+              <div className="flex w-full gap-2">
+                {room.tag.map((item, idx) => (
+                  <div key={idx} className="flex items-center rounded-[40px] bg-greyBeige pl-2 pr-2.5 pt-1 pb-1.5">
+                    {`# ${item}`}
+                  </div>
+                ))}
               </div>
-              <div className="flex w-full items-center justify-end text-[16px] opacity-70">
-                <FcReadingEbook className="mr-1 mb-1" />
-                <span>{`현재 ${room.memberId.length}명의 멤머가 채팅중`}</span>
+              <div className="leading-5">{room.des}</div>
+              <div className="flex w-full items-center justify-between text-[16px]">
+                <div className="flex gap-2">
+                  <img src={room.host.pic} className="h-[60px] w-[60px] rounded-full object-cover" />
+                  <div className="flex flex-col justify-center gap-1.5">
+                    <div className="font-bold">Host</div>
+                    <div className="text-[18px]">{room.host.name}</div>
+                  </div>
+                </div>
+                <div className="flex h-full flex-col items-end justify-center gap-1.5">
+                  <div className="flex items-center font-semibold">
+                    <BsFillPersonFill />
+                    <span>{` ${room.memberId.length}명이 채팅 중`}</span>
+                  </div>
+                  <div className="text-[18px]">{`${room.createdAt}`}</div>
+                </div>
               </div>
             </div>
           </div>
