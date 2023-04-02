@@ -23,7 +23,7 @@ export default function OtherProfileMenu({ postView, setPostView }: IOtherProfil
             !postView ? 'border-b-lightText border-opacity-100 dark:border-b-white' : 'opacity-50'
           }  bg-none py-5 text-center`}
         >
-          {`Q & A`}
+          {`Q	& A 피드`}
         </div>
       </div>
     </div>

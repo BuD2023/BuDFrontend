@@ -30,7 +30,7 @@ export default function CoffeeTitle({ chatRooms, inputValue, setInputValue }: Co
 
   return (
     <div className="flex w-full flex-col gap-4 text-[26px] font-bold">
-      <Header title="커피챗" icon={<FcIcons8Cup />} />
+      <Header type="category" title="커피챗" icon={<FcIcons8Cup />} />
       <div className="w-full">
         <input
           onKeyDown={(e) => {

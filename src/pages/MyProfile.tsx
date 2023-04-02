@@ -12,7 +12,7 @@ export default function MyProfile() {
 
   return (
     <>
-      <div className="relative  flex min-h-[calc(100vh-160px)] w-full flex-col items-center gap-4 bg-lightIvory p-4 text-lightText dark:bg-darkNavy dark:text-white">
+      <div className="relative flex min-h-[calc(100vh-160px)] w-full flex-col items-center gap-4 bg-lightIvory p-4 text-lightText dark:bg-darkNavy dark:text-white">
         <MyProfileHeader />
         <MyProfileInfo />
         <MyProfileMenu postView={postView} setPostView={setPostView} />

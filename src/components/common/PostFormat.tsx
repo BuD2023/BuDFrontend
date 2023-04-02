@@ -61,7 +61,7 @@ export default function PostFormat({ resultData }: IPostFormatPropsType) {
                 </div>
               </div>
               <div className="flex text-[16px] font-semibold">
-                <div className="rounded-[30px] bg-greyBeige px-3 py-2 text-[14px] dark:bg-sky">{`${data.type === 'feed' ? '자유 게시글' : 'Q&A 게시글'}`}</div>
+                <div className="rounded-[30px] bg-greyBeige px-3 py-2 text-[14px] dark:bg-sky">{`${data.type === 'feed' ? '개발 피드' : 'Q & A 피드'}`}</div>
               </div>
               <div className="w-full">
                 <h1 className="mb-6 text-lg font-bold">{data.title}</h1>
