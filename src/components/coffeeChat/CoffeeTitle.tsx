@@ -1,6 +1,7 @@
 import React from 'react';
 import { BsBellFill } from 'react-icons/bs';
 import { FcIcons8Cup } from 'react-icons/fc';
+import Header from '../common/Header';
 import NotiBtn from '../common/NotiBtn';
 
 interface CoffeeTitlePropsType {
@@ -29,15 +30,7 @@ export default function CoffeeTitle({ chatRooms, inputValue, setInputValue }: Co
 
   return (
     <div className="flex w-full flex-col gap-4 text-[26px] font-bold">
-      <div className="mb-4 flex h-[26px] items-center justify-between">
-        <div className="flex items-center gap-3">
-          <div className="rounded-xl bg-white p-1">
-            <FcIcons8Cup />
-          </div>
-          <h1>커피챗</h1>
-        </div>
-        <NotiBtn />
-      </div>
+      <Header title="커피챗" icon={<FcIcons8Cup />} />
       <div className="w-full">
         <input
           onKeyDown={(e) => {

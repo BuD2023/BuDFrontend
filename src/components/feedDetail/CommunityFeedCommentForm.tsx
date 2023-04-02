@@ -29,9 +29,9 @@ export default function CommunityFeedCommentForm() {
         <div>댓글</div>
         <div className="ml-2 text-[18px] font-bold opacity-50">4개</div>
       </div>
-      <div className="flex w-full flex-col gap-4 p-4">
+      <ul className="flex w-full flex-col gap-4 p-4">
         {getCommentResult(commentArr).map((comment) => (
-          <div className="flex min-h-[60px] w-full gap-2 ">
+          <li key={comment.id} className="flex min-h-[60px] w-full gap-2">
             {comment.isRef && <BsArrowReturnRight className="ml-4 text-[20px]" />}
             <img src={comment.profileImage} className="h-[50px] w-[50px] shrink-0 rounded-full object-cover" />
             <div className="flex h-full w-full flex-col justify-between gap-1">
@@ -58,9 +58,9 @@ export default function CommunityFeedCommentForm() {
               </div>
               {!comment.isRef && <div className="text-[14px] opacity-60">답글 달기</div>}
             </div>
-          </div>
+          </li>
         ))}
-      </div>
+      </ul>
     </div>
   );
 }

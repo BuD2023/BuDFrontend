@@ -8,7 +8,7 @@ export interface INotificationType {
   status: boolean; // 읽음(true), 읽지 않음(false) (+) 기본 = false
 }
 
-export const notification: INotificationType[] = [
+export const notificationDummy: INotificationType[] = [
   {
     notificationId: 1,
     type: 'follow',
@@ -42,7 +42,7 @@ export const notification: INotificationType[] = [
     page: 'feed', // 'qna', 'feed', 'otherProfile'
     pageDetail: '1', // 페이지의 아이디값
     alertType: 'like',
-    senderId: 'kjh',
+    senderId: 'longlongVeryLongID',
     status: false, // 읽음, 읽지 않음
   },
   {

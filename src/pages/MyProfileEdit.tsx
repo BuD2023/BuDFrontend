@@ -28,9 +28,9 @@ export default function MyProfileEdit() {
 
   return (
     <section>
-      <div className="mt-16 flex flex-col gap-7 p-4  ">
+      <div className=" flex flex-col gap-7 p-4  ">
         <MyProfileEditHeader />
-        <div className="mt-16 flex flex-col gap-7 p-4">
+        <div className=" flex flex-col gap-7 p-4">
           <ChangeProfilePic profileImg={profileImg} handleChangeProfileImg={handleChangeProfileImg} setProfileImg={setProfileImg} />
           <ChangeNickName nickName={nickName} setNickName={setNickName} />
           <ChangeJob selectedJob={selectedJob} setSelectedJob={setSelectedJob} />

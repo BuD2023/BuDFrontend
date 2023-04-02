@@ -12,7 +12,7 @@ export default function OtherProfile() {
 
   return (
     <>
-      <div className="relative mt-16 flex min-h-[calc(100vh-160px)] w-full flex-col items-center gap-4 bg-lightIvory p-4 text-lightText dark:bg-darkNavy dark:text-white">
+      <div className="relative  flex min-h-[calc(100vh-160px)] w-full flex-col items-center gap-4 bg-lightIvory p-4 text-lightText dark:bg-darkNavy dark:text-white">
         <OtherProfileHeader />
         <OtherProfileInfo />
         <OtherProfileMenu postView={postView} setPostView={setPostView} />

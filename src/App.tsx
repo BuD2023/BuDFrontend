@@ -50,8 +50,8 @@ function App() {
       <Route path="/setting" element={<Setting />} />
       <Route path="/userInfo" element={<UserInfo />} />
 
-      <Route path="/notFound" element={<NotFound />} />
       <Route path="/notification" element={<Notification />} />
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 }

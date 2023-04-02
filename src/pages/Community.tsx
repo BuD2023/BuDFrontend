@@ -4,10 +4,11 @@ import PostFormat from '../components/common/PostFormat';
 import { dummyData } from '../store/dummy';
 import { useNavigate } from 'react-router-dom';
 import AddBtn from '../components/common/AddBtn';
-import CommunityHeader from '../components/community/CommunityHeader';
 import CommunityFilter from '../components/community/CommunityFilter';
 import CommunitySort from '../components/community/CommunitySort';
 import SearchBar from '../components/common/SearchBar';
+import Header from '../components/common/Header';
+import { FcGlobe } from 'react-icons/fc';
 
 export default function Community() {
   const navigate = useNavigate();
@@ -38,9 +39,9 @@ export default function Community() {
 
   return (
     <section>
-      <div className="relative my-16 flex h-full min-h-[calc(100vh-160px)] w-full flex-col items-center gap-4 p-4 text-lightText dark:text-white">
+      <div className="relative mb-16 flex h-full min-h-[calc(100vh-160px)] w-full flex-col items-center gap-4 p-4 text-lightText dark:text-white">
         <AddBtn url="/" text="글쓰기" />
-        <CommunityHeader />
+        <Header title="커뮤니티" icon={<FcGlobe />} />
         <SearchBar inputValue={inputValue} setInputValue={setInputValue} />
         <CommunityFilter communityFilter={communityFilter} setCommunityFilter={setCommunityFilter} />
         <CommunitySort setSort={setSort} />
