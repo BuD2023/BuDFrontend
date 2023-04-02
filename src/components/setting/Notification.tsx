@@ -53,22 +53,22 @@ export default function Notification() {
   }, [notification]);
 
   return (
-    <div className="mb-4 flex flex-col gap-4">
+    <div className="mb-4 flex flex-col gap-4 rounded-3xl bg-midIvory p-5 dark:bg-midNavy">
       <div className="flex items-center gap-3 text-[22px] font-semibold dark:border-[#ffffff50]">
         <BsBellFill size="23" />
         <p>알림 설정</p>
       </div>
       <div className="flex flex-col text-xl">
-        <div onClick={(e) => handleToggle(e)} id="all" className="flex items-center justify-between">
-          <p className="grow cursor-pointer py-2">알림 모두 끄기</p>
+        <div onClick={(e) => handleToggle(e)} id="all" className="flex cursor-pointer items-center justify-between p-2 hover:rounded-lg hover:bg-greyBeige hover:bg-opacity-50">
+          <p className="grow">알림 모두 끄기</p>
           <Toggle isOn={notification.all} />
         </div>
-        <div onClick={(e) => handleToggle(e)} id="chat" className="flex items-center justify-between">
-          <p className="grow cursor-pointer py-2">팔로우 알림</p>
+        <div onClick={(e) => handleToggle(e)} id="chat" className="flex cursor-pointer items-center justify-between p-2 hover:rounded-lg hover:bg-greyBeige hover:bg-opacity-50">
+          <p className="grow">팔로우 알림</p>
           <Toggle isOn={notification.chat} />
         </div>
-        <div onClick={(e) => handleToggle(e)} id="comment" className="flex items-center justify-between">
-          <p className="grow cursor-pointer py-2">게시글 알림</p>
+        <div onClick={(e) => handleToggle(e)} id="comment" className="flex cursor-pointer items-center justify-between p-2 hover:rounded-lg hover:bg-greyBeige hover:bg-opacity-50">
+          <p className="grow">게시글 알림</p>
           <Toggle isOn={notification.comment} />
         </div>
       </div>

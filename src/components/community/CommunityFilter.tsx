@@ -18,7 +18,7 @@ export default function CommunityFilter({ setCommunityFilter, communityFilter }:
         onClick={() => setCommunityFilter('qna')}
         className={`flex w-full cursor-pointer flex-wrap items-center justify-center rounded-lg ${communityFilter === 'qna' ? 'bg-[#383030] text-white' : 'bg-midIvory dark:bg-midNavy'} py-2 px-4`}
       >
-        <span className="whitespace-nowrap text-center leading-[26px]">Q &#38; A</span>
+        <span className="whitespace-nowrap text-center leading-[26px]">Q &#38; A 피드</span>
       </div>
       <div
         onClick={() => setCommunityFilter('feed')}

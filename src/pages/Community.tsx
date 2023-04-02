@@ -39,9 +39,9 @@ export default function Community() {
 
   return (
     <section>
-      <div className="relative mb-16 flex h-full min-h-[calc(100vh-160px)] w-full flex-col items-center gap-4 p-4 text-lightText dark:text-white">
+      <div className="relative mt-9 mb-16 flex h-full min-h-[calc(100vh-160px)] w-full flex-col items-center gap-4 p-4 text-lightText dark:text-white">
         <AddBtn url="/" text="글쓰기" />
-        <Header title="커뮤니티" icon={<FcGlobe />} />
+        <Header type="category" title="커뮤니티" icon={<FcGlobe />} />
         <SearchBar inputValue={inputValue} setInputValue={setInputValue} />
         <CommunityFilter communityFilter={communityFilter} setCommunityFilter={setCommunityFilter} />
         <CommunitySort setSort={setSort} />

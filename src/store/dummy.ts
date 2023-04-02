@@ -87,9 +87,9 @@ export const jobList = [
   'HTML·퍼블리싱·UI개발',
 ];
 
-export const user = {
+export const userInfos = {
   githubId: 'JHni2',
-  totalComitCount: 232,
+  currentCommitCount: 232,
   nickName: '젼님',
-  grwoLevel: 1,
+  growthLevel: 1,
 };
