@@ -19,6 +19,7 @@ import Notification from './pages/Notification';
 import { useLayoutEffect } from 'react';
 import RoomCreate from './pages/RoomCreate';
 import LogIn from './pages/LogIn';
+import PostCreate from './pages/PostCreate';
 
 function App() {
   const $html = document.querySelector('html');
@@ -43,6 +44,7 @@ function App() {
       <Route path="/community" element={<Community />} />
       <Route path="/communityQADetail/:id" element={<CommunityQADetail />} />
       <Route path="/communityFeedDetail/:id" element={<CommunityFeedDetail />} />
+      <Route path="/postCreate" element={<PostCreate />} />
 
       <Route path="/coffeeChat" element={<CoffeeChat />} />
       <Route path="/chatRoom/:id" element={<ChatRoom />} />

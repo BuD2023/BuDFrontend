@@ -41,6 +41,12 @@ table {
     border-collapse: collapse;
     border-spacing: 0;
 }
+textarea {
+  border: none;
+  outline: none;
+  background-color: transparent;
+  resize: none;
+}
 
 :root {
   font-family: 'Noto Sans Kr', sans-serif;
@@ -116,3 +122,20 @@ select {
   -webkit-box-orient: vertical;
 }
 
+.swipeable-list-item__content {
+  background-color: #f1edda;
+}
+.dark .swipeable-list-item__content {
+  background-color: #192735;
+}
+.basic-swipeable-list__item-content-right {
+  background-color: red;
+  /* box-sizing: border-box; */
+  color: white;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 4px 8px;
+  justify-content: flex-end;
+  }

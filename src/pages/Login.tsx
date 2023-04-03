@@ -1,12 +1,10 @@
 import React from 'react';
 import { AiFillGithub } from 'react-icons/ai';
 
-export default function SignUp() {
+export default function LogIn() {
   const CLIENT_ID = 'bec71f378661578c68bd';
   function loginWithGithub() {
-    window.location.assign(
-      'https://github.com/login/oauth/authorize?client_id=' + CLIENT_ID
-    );
+    window.location.assign('https://github.com/login/oauth/authorize?client_id=' + CLIENT_ID);
   }
 
   return (
