@@ -2,7 +2,7 @@ import { Route, Routes } from 'react-router-dom';
 import Community from './pages/Community';
 import News from './pages/News';
 import SignUp from './pages/SignUp';
-import { Job, Picture } from './components/SignUP/SignuUpList';
+import { Job, Picture } from './components/SignUp/SignUpList';
 import CoffeeChat from './pages/CoffeeChat';
 import Home from './pages/Home';
 import MyProfile from './pages/MyProfile';
@@ -17,6 +17,8 @@ import Setting from './pages/Setting';
 import UserInfo from './pages/UserInfo';
 import Notification from './pages/Notification';
 import { useLayoutEffect } from 'react';
+import RoomCreate from './pages/RoomCreate';
+import LogIn from './pages/LogIn';
 
 function App() {
   const $html = document.querySelector('html');
@@ -30,6 +32,7 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
+      <Route path="/logIn" element={<LogIn />} />
       <Route path="/signUp" element={<SignUp />} />
       <Route path="/signUp/picture" element={<Picture />} />
       <Route path="/signUp/job" element={<Job />} />
@@ -43,6 +46,7 @@ function App() {
 
       <Route path="/coffeeChat" element={<CoffeeChat />} />
       <Route path="/chatRoom/:id" element={<ChatRoom />} />
+      <Route path="/roomCreate" element={<RoomCreate />} />
 
       <Route path="/myProfile" element={<MyProfile />} />
       <Route path="/otherProfile/:id" element={<OtherProfile />} />

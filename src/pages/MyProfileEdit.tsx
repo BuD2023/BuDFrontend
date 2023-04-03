@@ -26,6 +26,8 @@ export default function MyProfileEdit() {
     }
   };
 
+  const [profile, setProfile] = useState({});
+
   return (
     <section>
       <div className=" flex flex-col gap-7 p-4  ">
