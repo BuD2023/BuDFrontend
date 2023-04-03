@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { notificationDummy } from '../../store/notificationDummy';
-import { useSwipeable } from 'react-swipeable';
+import { SwipeableList, SwipeableListItem } from '@sandstreamdev/react-swipeable-list';
+import '@sandstreamdev/react-swipeable-list/dist/styles.css';
+import { BsFillTrashFill } from 'react-icons/bs';
 
 interface INotiContent {
   [key: string]: (senderId: string) => JSX.Element;
@@ -63,49 +65,43 @@ export default function NotificationContent() {
     return contentFn ? contentFn(senderId) : null;
   };
 
-  const [showButton, setShowButton] = useState<boolean>(false);
-
-  const handleSwipeLeft = () => {
-    console.log('hi');
-    setShowButton(true);
-  };
-
-  const handleSwipeRight = () => {
-    console.log('hi');
-    setShowButton(false);
-  };
-
-  const handleSwipe = useSwipeable({
-    onSwiped: (eventData) => console.log('User Swiped!', eventData),
-    onSwipedLeft: handleSwipeLeft,
-    onSwipedRight: handleSwipeRight,
-  });
-
-  const handleButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.stopPropagation(); // prevent the li element's onClick handler from firing
-    console.log('hi');
-  };
-
-  console.log(showButton);
-
   return (
-    <ul className="mt-9 flex h-full flex-col gap-7 p-4 px-2 text-lightText dark:text-white">
-      {notificationDummy.map((noti) => {
-        return (
-          <li onClick={() => handleNotiClick(noti.page, noti.pageDetail)} key={noti.notificationId} className="flex cursor-pointer items-center gap-3" {...handleSwipe}>
-            <img
-              onClick={(event: React.MouseEvent<HTMLImageElement>) => handleImgClick(noti.senderId, event)}
-              src="https://picsum.photos/105/105"
-              alt={noti.senderId}
-              className="h-[65px] w-[65px] rounded-full"
-            />
-            <div className="flex flex-col gap-0.5 text-lg">
-              {handleContent(noti.alertType, noti.senderId)}
-              <p className="text-sm opacity-50">1m ago + 알림DB에 시간도 필요!</p>
-            </div>
-          </li>
-        );
-      })}
-    </ul>
+    <SwipeableList>
+      {() => (
+        <div className={'mt-9 flex h-full flex-col gap-7 p-4 px-2 text-lightText dark:text-white'}>
+          {notificationDummy.map((noti) => {
+            return (
+              <SwipeableListItem
+                key={noti.notificationId}
+                swipeLeft={{
+                  content: (
+                    <div className="flex h-full w-full items-center justify-end bg-[#ff5232] p-4 text-white dark:bg-[#a51b0b]">
+                      <span className="flex items-center gap-2 text-lg">
+                        삭제
+                        <BsFillTrashFill />
+                      </span>
+                    </div>
+                  ),
+                  action: () => console.log('Deleting item:', noti.notificationId),
+                }}
+              >
+                <li onClick={() => handleNotiClick(noti.page, noti.pageDetail)} key={noti.notificationId} className="flex cursor-pointer items-center gap-3">
+                  <img
+                    onClick={(event: React.MouseEvent<HTMLImageElement>) => handleImgClick(noti.senderId, event)}
+                    src="https://picsum.photos/105/105"
+                    alt={noti.senderId}
+                    className="h-[65px] w-[65px] rounded-full"
+                  />
+                  <div className="flex flex-col gap-0.5 text-lg">
+                    {handleContent(noti.alertType, noti.senderId)}
+                    <p className="text-sm opacity-50">1m ago + 알림DB에 시간도 필요!</p>
+                  </div>
+                </li>
+              </SwipeableListItem>
+            );
+          })}
+        </div>
+      )}
+    </SwipeableList>
   );
 }
