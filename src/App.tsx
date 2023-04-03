@@ -1,8 +1,6 @@
 import { Route, Routes } from 'react-router-dom';
 import Community from './pages/Community';
 import News from './pages/News';
-import SignUp from './pages/SignUp';
-import { Job, Picture } from './components/signUp/SignUpList';
 import CoffeeChat from './pages/CoffeeChat';
 import Home from './pages/Home';
 import MyProfile from './pages/MyProfile';
@@ -18,8 +16,11 @@ import UserInfo from './pages/UserInfo';
 import Notification from './pages/Notification';
 import { useLayoutEffect } from 'react';
 import RoomCreate from './pages/RoomCreate';
-import LogIn from './pages/LogIn';
 import PostCreate from './pages/PostCreate';
+import LogIn from './pages/LogIn';
+import SignUp from './pages/SignUp';
+import Picture from './components/signUp/Picture';
+import Job from './components/signUp/Job';
 
 function App() {
   const $html = document.querySelector('html');
