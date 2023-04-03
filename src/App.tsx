@@ -17,10 +17,10 @@ import Notification from './pages/Notification';
 import { useLayoutEffect } from 'react';
 import RoomCreate from './pages/RoomCreate';
 import PostCreate from './pages/PostCreate';
-import LogIn from './pages/LogIn';
+import LogInPage from './pages/LogInPage';
 import SignUp from './pages/SignUp';
-import Picture from './components/signUp/Picture';
-import Job from './components/signUp/Job';
+import SetPicture from './components/SignUp/SetPicture';
+import SetJob from './components/SignUp/SetJob';
 
 function App() {
   const $html = document.querySelector('html');
@@ -34,10 +34,10 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
-      <Route path="/logIn" element={<LogIn />} />
+      <Route path="/logIn" element={<LogInPage />} />
       <Route path="/signUp" element={<SignUp />} />
-      <Route path="/signUp/picture" element={<Picture />} />
-      <Route path="/signUp/job" element={<Job />} />
+      <Route path="/signUp/picture" element={<SetPicture />} />
+      <Route path="/signUp/job" element={<SetJob />} />
 
       <Route path="/news" element={<News />} />
       <Route path="/newsDetail/:id" element={<NewsDetail />} />

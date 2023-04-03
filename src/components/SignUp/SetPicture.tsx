@@ -3,7 +3,7 @@ import { ChangeEvent, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ChangeProfilePic from '../myProfileEdit/ChangeProfilePic';
 
-export default function Picture() {
+export default function SetPicture() {
   const defaultImg = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png';
   const [profileImg, setProfileImg] = useState<string | ArrayBuffer | null>(defaultImg);
   const imgRef = useRef<HTMLInputElement>(null);

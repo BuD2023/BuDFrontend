@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ChangeJob from '../myProfileEdit/ChangeJob';
 
-export default function Job() {
+export default function SetJob() {
   const [selectedJob, setSelectedJob] = useState('');
   const navigate = useNavigate();
 
