@@ -11,7 +11,6 @@ import Header from '../components/common/Header';
 import { FcGlobe } from 'react-icons/fc';
 
 export default function Community() {
-  const navigate = useNavigate();
   let resultData = [...dummyData];
 
   // 커뮤니티 글 검색
@@ -40,7 +39,7 @@ export default function Community() {
   return (
     <section>
       <div className="relative mt-9 mb-16 flex h-full min-h-[calc(100vh-160px)] w-full flex-col items-center gap-4 p-4 text-lightText dark:text-white">
-        <AddBtn url="/" text="글쓰기" />
+        <AddBtn url="/postCreate" text="글쓰기" />
         <Header type="category" title="커뮤니티" icon={<FcGlobe />} />
         <SearchBar inputValue={inputValue} setInputValue={setInputValue} />
         <CommunityFilter communityFilter={communityFilter} setCommunityFilter={setCommunityFilter} />
