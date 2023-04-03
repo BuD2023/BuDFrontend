@@ -3,17 +3,16 @@ import { ReactElement, useEffect, useMemo, useRef, useState } from 'react';
 import { BsThreeDots } from 'react-icons/bs';
 import { IconType } from 'react-icons/lib';
 import { useNavigate } from 'react-router-dom';
+import MainBtn from './MainBtn';
 import NotiBtn from './NotiBtn';
-import MainBtn from '../common/MainBtn';
 
 interface IHeader {
   type: string;
   title: string;
   icon: ReactElement<IconType>;
-  onSubmit?: object;
 }
 
-export default function Header({ type, title, icon, onSubmit }: IHeader) {
+export default function CommunityHeader({ type, title, icon }: IHeader) {
   const [visible, setVisible] = useState(true);
   const beforeScrollY = useRef(0);
   const navigate = useNavigate();
@@ -51,9 +50,7 @@ export default function Header({ type, title, icon, onSubmit }: IHeader) {
         )}
         <h1>{title}</h1>
       </div>
-      {type === 'community' && <BsThreeDots size={26} />}
-      {type === 'category' && <NotiBtn />}
-      {type === 'withMainBtn' && <MainBtn onSubmit={onSubmit} content={'완료'} size={20} />}
+      <BsThreeDots size={26} />
     </div>
   );
 }

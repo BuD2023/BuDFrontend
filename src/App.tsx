@@ -17,7 +17,8 @@ import Setting from './pages/Setting';
 import UserInfo from './pages/UserInfo';
 import Notification from './pages/Notification';
 import { useLayoutEffect } from 'react';
-import Login from './pages/Login';
+import RoomCreate from './pages/RoomCreate';
+import LogIn from './pages/LogIn';
 
 function App() {
   const $html = document.querySelector('html');
@@ -31,7 +32,7 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
-      <Route path="/login" element={<Login />} />
+      <Route path="/logIn" element={<LogIn />} />
       <Route path="/signUp" element={<SignUp />} />
       <Route path="/signUp/picture" element={<Picture />} />
       <Route path="/signUp/job" element={<Job />} />
@@ -45,6 +46,7 @@ function App() {
 
       <Route path="/coffeeChat" element={<CoffeeChat />} />
       <Route path="/chatRoom/:id" element={<ChatRoom />} />
+      <Route path="/roomCreate" element={<RoomCreate />} />
 
       <Route path="/myProfile" element={<MyProfile />} />
       <Route path="/otherProfile/:id" element={<OtherProfile />} />

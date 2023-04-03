@@ -22,7 +22,7 @@ export default function CoffeeChat() {
     <>
       <section>
         <div className="relative mt-9 mb-20 flex h-full min-h-[calc(100vh-160px)] w-full flex-col items-center justify-center gap-4 p-4">
-          <AddBtn url="/" text="방만들기" />
+          <AddBtn url="/roomCreate" text="방만들기" />
           <CoffeeTitle chatRooms={chatRooms} inputValue={inputValue} setInputValue={setInputValue} />
           <CoffeeChatRoom chatRooms={chatRoomsResult} />
         </div>

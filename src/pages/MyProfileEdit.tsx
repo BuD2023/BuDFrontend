@@ -23,6 +23,8 @@ export default function MyProfileEdit() {
     }
   };
 
+  const [profile, setProfile] = useState({});
+
   return (
     <section>
       <div className="flex min-h-[calc(100vh-160px)] flex-col gap-7 py-4 px-6 text-lightText dark:text-white">
