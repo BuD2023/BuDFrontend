@@ -4,13 +4,12 @@ interface IMainBtn {
   onSubmit?: object;
 }
 
-export default function MainBtn({ content, size, onSubmit }: IMainBtn) {
-  const handleSubmitData = () => {
+export default function MainBtn({ onSubmit, content, size }: IMainBtn) {
+  const handleSubitData = () => {
     console.log(onSubmit);
   };
-
   return (
-    <div onClick={handleSubmitData} className={'flex justify-center rounded-[50px] bg-greyBeige dark:bg-sky ' + `text-[${size}px]`}>
+    <div onClick={handleSubitData} className={'flex cursor-pointer justify-center rounded-[50px] bg-greyBeige dark:bg-sky ' + `text-[${size}px]`}>
       <span className="py-2 px-5 font-bold">{content}</span>
     </div>
   );

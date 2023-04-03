@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { notificationDummy } from '../../store/notificationDummy';
+import { useSwipeable } from 'react-swipeable';
 
 interface INotiContent {
   [key: string]: (senderId: string) => JSX.Element;
@@ -62,11 +63,36 @@ export default function NotificationContent() {
     return contentFn ? contentFn(senderId) : null;
   };
 
+  const [showButton, setShowButton] = useState<boolean>(false);
+
+  const handleSwipeLeft = () => {
+    console.log('hi');
+    setShowButton(true);
+  };
+
+  const handleSwipeRight = () => {
+    console.log('hi');
+    setShowButton(false);
+  };
+
+  const handleSwipe = useSwipeable({
+    onSwiped: (eventData) => console.log('User Swiped!', eventData),
+    onSwipedLeft: handleSwipeLeft,
+    onSwipedRight: handleSwipeRight,
+  });
+
+  const handleButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.stopPropagation(); // prevent the li element's onClick handler from firing
+    console.log('hi');
+  };
+
+  console.log(showButton);
+
   return (
     <ul className="mt-9 flex h-full flex-col gap-7 p-4 px-2 text-lightText dark:text-white">
       {notificationDummy.map((noti) => {
         return (
-          <li onClick={() => handleNotiClick(noti.page, noti.pageDetail)} key={noti.notificationId} className="flex cursor-pointer items-center gap-3">
+          <li onClick={() => handleNotiClick(noti.page, noti.pageDetail)} key={noti.notificationId} className="flex cursor-pointer items-center gap-3" {...handleSwipe}>
             <img
               onClick={(event: React.MouseEvent<HTMLImageElement>) => handleImgClick(noti.senderId, event)}
               src="https://picsum.photos/105/105"
