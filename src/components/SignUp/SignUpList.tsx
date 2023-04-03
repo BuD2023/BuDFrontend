@@ -1,35 +1,27 @@
 import { ChangeEvent, useRef, useState, MouseEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { RxTriangleDown } from 'react-icons/rx';
 import { motion } from 'framer-motion';
-import { jobList } from '../../store/dummy';
+import ChangeNickName from '../myProfileEdit/ChangeNickName';
+import ChangeJob from '../myProfileEdit/ChangeJob';
+import ChangeProfilePic from '../myProfileEdit/ChangeProfilePic';
 
 export function Nickname() {
   const [nickName, setNickName] = useState('');
   const navigate = useNavigate();
 
-  const onChangeNickname = (e: any) => {
-    setNickName(e.target.value);
-  };
-
   return (
     <motion.div initial={{ opacity: 0, y: '7%' }} animate={{ opacity: 1, y: '0' }} transition={{ duration: 0.5 }}>
-      <div className="flex flex-col items-center gap-8 p-4">
-        <div className="flex flex-col items-center">
-          <h1 className="text-[26px] font-bold">마리포에서 사용할</h1>
-          <h1 className="text-[26px] font-bold">닉네임을 알려주세요!</h1>
+      <div className="flex flex-col items-center gap-8 p-4 text-xl font-bold">
+        <div className="flex flex-col items-center gap-2">
+          <h1 className="text-[26px]">마리포에서 사용할</h1>
+          <h1 className="text-[26px]">닉네임을 알려주세요!</h1>
         </div>
-        <input
-          onChange={onChangeNickname}
-          type="text"
-          placeholder="닉네임을 적어주세요"
-          className="h-[54px] w-full rounded-[20px] bg-lightNavy p-2 px-4 text-[21px] font-bold focus:outline-none"
-        ></input>
+        <ChangeNickName nickName={nickName} setNickName={setNickName} />
         <button
           type="button"
           onClick={() => navigate('picture')}
           disabled={!(nickName.length > 0)}
-          className="w-20 rounded-md border border-lightNavy py-2 text-sm transition-all hover:bg-lightNavy disabled:opacity-0"
+          className="rounded-full border-[2px] border-pointGreen bg-pointGreen py-2 px-5 text-lg text-white drop-shadow-2xl transition-all hover:border-white disabled:opacity-0 dark:border-[#7cb342] dark:bg-[#7cb342] hover:dark:border-white"
         >
           다음
         </button>
@@ -59,32 +51,27 @@ export function Picture() {
     }
   };
 
-  const handleDeletePreviewFile = (e: MouseEvent) => {
-    e.preventDefault();
-    if (imgRef.current) {
-      setProfileImg(defaultImg);
-    }
-  };
-
   return (
     <motion.div initial={{ opacity: 0, y: '5%' }} animate={{ opacity: 1, y: '0' }} transition={{ duration: 0.5 }}>
       <div className="flex flex-col items-center gap-8 p-4">
-        <div className="flex flex-col items-center">
+        <div className="mb-4 flex flex-col items-center gap-2">
           <h1 className="text-[26px] font-bold">마리포에서 사용할</h1>
           <h1 className="text-[26px] font-bold">사진을 선택해주세요!</h1>
         </div>
-        <div className="profile_img m-auto h-[200px] w-[200px]">
-          <input ref={imgRef} type="file" accept="image/*" onChange={handleChangeProfileImg} className="hidden" />
-          {profileImg && <img src={profileImg.toString()} className="pre-img absolute h-[200px] w-[200px] cursor-pointer rounded-[100px] object-cover" onClick={handleProfileImgClick} />}
-        </div>
-        <button className="flex items-center text-sm transition-all disabled:opacity-0" disabled={profileImg === defaultImg} onClick={handleDeletePreviewFile}>
-          <p className="h-10 rounded-lg bg-lightNavy p-[0.25rem_0.75rem] text-sm leading-8 transition-all hover:bg-[#3D6374]">기본 이미지로 변경</p>
-        </button>
+        <ChangeProfilePic profileImg={profileImg} handleChangeProfileImg={handleChangeProfileImg} setProfileImg={setProfileImg} />
         <div className="flex gap-4">
-          <button onClick={() => navigate('/signUp')} type="button" className="className= w-20 rounded-md border border-lightNavy py-2 transition-all hover:bg-lightNavy disabled:opacity-0">
+          <button
+            onClick={() => navigate('/signUp')}
+            type="button"
+            className="rounded-full border-[2px] border-pointGreen bg-pointGreen py-2 px-5 text-lg text-white drop-shadow-2xl transition-all hover:border-white dark:border-[#7cb342] dark:bg-[#7cb342] hover:dark:border-white"
+          >
             이전
           </button>
-          <button onClick={() => navigate('/signUp/job')} type="button" className="className= w-20 rounded-md border border-lightNavy py-2 transition-all hover:bg-lightNavy disabled:opacity-0">
+          <button
+            onClick={() => navigate('/signUp/job')}
+            type="button"
+            className="rounded-full border-[2px] border-pointGreen bg-pointGreen py-2 px-5 text-lg text-white drop-shadow-2xl transition-all hover:border-white dark:border-[#7cb342] dark:bg-[#7cb342] hover:dark:border-white"
+          >
             다음
           </button>
         </div>
@@ -94,44 +81,30 @@ export function Picture() {
 }
 
 export function Job() {
-  const [isClick, setIsClick] = useState(false);
   const [selectedJob, setSelectedJob] = useState('');
   const navigate = useNavigate();
-
-  const onClickJob = (e: MouseEvent<HTMLButtonElement>) => {
-    setSelectedJob(e.currentTarget.innerText);
-    setIsClick(false);
-  };
 
   return (
     <motion.div initial={{ opacity: 0, y: '5%' }} animate={{ opacity: 1, y: '0' }} transition={{ duration: 0.5 }}>
       <div className="flex flex-col items-center gap-8 p-4">
-        <div className="flex flex-col items-center">
+        <div className="flex flex-col items-center gap-2">
           <h1 className="text-[26px] font-bold">관심있는 직무를</h1>
           <h1 className="text-[26px] font-bold">선택해주세요!</h1>
         </div>
-        <div className="flex w-full flex-col items-center">
-          <button onClick={() => setIsClick(!isClick)} type="button" className="mb-6 flex h-[54px] w-full  items-center rounded-[20px] bg-lightNavy p-2 px-4 text-start text-[21px]">
-            <span className={`grow ${selectedJob.length > 0 ? '' : 'text-[#ffffff30]'}`}>{selectedJob.length > 0 ? selectedJob : '직무를 선택해주세요'}</span>
-            <RxTriangleDown className="inline text-[#ffffff30]" />
-          </button>
-          <ul className={`w-full overflow-hidden rounded-[20px] bg-lightNavy p-2 px-4 transition-all ${isClick ? '' : 'pointer-events-none opacity-0'}`}>
-            <div className="scroll max-h-[45vh] overflow-auto">
-              {jobList.map((job) => (
-                <li key={job} className="my-3">
-                  <button onClick={(e) => onClickJob(e)} type="button" className="w-[95%] p-2 px-4 text-start text-[21px] font-bold hover:rounded-[20px] hover:bg-[#506779]">
-                    {job}
-                  </button>
-                </li>
-              ))}
-            </div>
-          </ul>
-        </div>
+        <ChangeJob selectedJob={selectedJob} setSelectedJob={setSelectedJob} />
         <div className="flex gap-4">
-          <button onClick={() => navigate('/signUp/picture')} type="button" className="className= w-20 rounded-md border border-lightNavy py-2 transition-all hover:bg-lightNavy disabled:opacity-0">
+          <button
+            onClick={() => navigate('/signUp/picture')}
+            type="button"
+            className="rounded-full border-[2px] border-pointGreen bg-pointGreen py-2 px-5 text-lg text-white drop-shadow-2xl transition-all hover:border-white dark:border-[#7cb342] dark:bg-[#7cb342] hover:dark:border-white"
+          >
             이전
           </button>
-          <button disabled={!(selectedJob.length > 0)} type="button" className="className= w-20 rounded-md border border-lightNavy py-2 transition-all hover:bg-lightNavy disabled:opacity-0">
+          <button
+            disabled={!(selectedJob.length > 0)}
+            type="button"
+            className="rounded-full border-[2px] border-pointGreen bg-pointGreen py-2 px-5 text-lg text-white drop-shadow-2xl transition-all hover:border-white disabled:opacity-0 dark:border-[#7cb342] dark:bg-[#7cb342] hover:dark:border-white"
+          >
             완료
           </button>
         </div>

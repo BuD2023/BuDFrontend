@@ -1,13 +1,9 @@
-import { useState, MouseEvent, useRef, ChangeEvent } from 'react';
+import { useState, ChangeEvent } from 'react';
 import { BsChevronLeft } from 'react-icons/bs';
-import { RxTriangleDown } from 'react-icons/rx';
-import { useNavigate } from 'react-router-dom';
-import MainBtn from '../components/common/MainBtn';
+import Header from '../components/common/Header';
 import ChangeJob from '../components/myProfileEdit/ChangeJob';
 import ChangeNickName from '../components/myProfileEdit/ChangeNickName';
 import ChangeProfilePic from '../components/myProfileEdit/ChangeProfilePic';
-import MyProfileEditHeader from '../components/myProfileEdit/MyProfileEditHeader';
-import { jobList } from '../store/dummy';
 
 export default function MyProfileEdit() {
   const [selectedJob, setSelectedJob] = useState('프론트엔드 개발');
@@ -30,12 +26,18 @@ export default function MyProfileEdit() {
 
   return (
     <section>
-      <div className=" flex flex-col gap-7 p-4  ">
-        <MyProfileEditHeader />
-        <div className=" flex flex-col gap-7 p-4">
+      <div className="flex min-h-[calc(100vh-160px)] flex-col gap-7 py-4 px-6 text-lightText dark:text-white">
+        <Header type="withMainBtn" title="프로필 편집" icon={<BsChevronLeft />} />
+        <div className="mt-9 flex h-full flex-col gap-7 p-4 px-2 text-xl font-bold">
           <ChangeProfilePic profileImg={profileImg} handleChangeProfileImg={handleChangeProfileImg} setProfileImg={setProfileImg} />
-          <ChangeNickName nickName={nickName} setNickName={setNickName} />
-          <ChangeJob selectedJob={selectedJob} setSelectedJob={setSelectedJob} />
+          <div className="mb-4 flex flex-col gap-4">
+            <p>닉네임</p>
+            <ChangeNickName nickName={nickName} setNickName={setNickName} />
+          </div>
+          <div className="flex flex-col gap-4">
+            <p>직무</p>
+            <ChangeJob selectedJob={selectedJob} setSelectedJob={setSelectedJob} />
+          </div>
         </div>
       </div>
     </section>

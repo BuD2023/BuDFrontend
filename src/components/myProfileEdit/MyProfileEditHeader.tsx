@@ -1,4 +1,3 @@
-import React from 'react';
 import { BsChevronLeft } from 'react-icons/bs';
 import { useNavigate } from 'react-router-dom';
 import MainBtn from '../common/MainBtn';

@@ -3,8 +3,8 @@ import { ReactElement, useEffect, useMemo, useRef, useState } from 'react';
 import { BsThreeDots } from 'react-icons/bs';
 import { IconType } from 'react-icons/lib';
 import { useNavigate } from 'react-router-dom';
-import MainBtn from './MainBtn';
 import NotiBtn from './NotiBtn';
+import MainBtn from '../common/MainBtn';
 
 interface IHeader {
   type: string;
