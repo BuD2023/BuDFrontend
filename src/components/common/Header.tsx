@@ -10,9 +10,10 @@ interface IHeader {
   type: string;
   title: string;
   icon: ReactElement<IconType>;
+  onSubmit?: object;
 }
 
-export default function Header({ type, title, icon }: IHeader) {
+export default function Header({ type, title, icon, onSubmit }: IHeader) {
   const [visible, setVisible] = useState(true);
   const beforeScrollY = useRef(0);
   const navigate = useNavigate();
@@ -52,7 +53,7 @@ export default function Header({ type, title, icon }: IHeader) {
       </div>
       {type === 'community' && <BsThreeDots size={26} />}
       {type === 'category' && <NotiBtn />}
-      {type === 'withMainBtn' && <MainBtn content={'완료'} size={20} />}
+      {type === 'withMainBtn' && <MainBtn content={'완료'} onSubmit={onSubmit} size={20} />}
     </div>
   );
 }

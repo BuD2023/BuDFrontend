@@ -4,8 +4,6 @@ import Header from '../components/common/Header';
 import NotificationContent from '../components/notification/NotificationContent';
 
 export default function Notification() {
-  const navigate = useNavigate();
-
   return (
     <section>
       <div className="flex min-h-[calc(100vh-160px)] flex-col gap-7 py-4 px-6 text-lightText dark:text-white">
