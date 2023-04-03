@@ -2,7 +2,7 @@ import { Route, Routes } from 'react-router-dom';
 import Community from './pages/Community';
 import News from './pages/News';
 import SignUp from './pages/SignUp';
-import { Job, Picture } from './components/SignUp/SignUpList';
+import { Job, Picture } from './components/signUp/SignUpList';
 import CoffeeChat from './pages/CoffeeChat';
 import Home from './pages/Home';
 import MyProfile from './pages/MyProfile';
