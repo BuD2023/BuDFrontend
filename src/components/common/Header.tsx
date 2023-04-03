@@ -22,7 +22,9 @@ export default function Header({ type, title, icon, onSubmit }: IHeader) {
     () =>
       throttle(() => {
         const currentScrollY = window.scrollY;
-        if (beforeScrollY.current < currentScrollY) {
+        console.log(currentScrollY);
+
+        if (beforeScrollY.current < currentScrollY && currentScrollY > 50) {
           setVisible(false);
         } else {
           setVisible(true);
