@@ -7,7 +7,7 @@ import MyProfileMenu from '../components/myProfile/MyProfileMenu';
 import { dummyData } from '../store/dummy';
 
 export default function MyProfile() {
-  const [postView, setPostView] = useState(true);
+  const [postView, setPostView] = useState('feed');
   const resultData = [...dummyData];
 
   return (
