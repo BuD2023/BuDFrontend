@@ -1,5 +1,3 @@
-import React from 'react';
-
 interface ICommunitySortPropsType {
   setSort: (x: string) => void;
 }

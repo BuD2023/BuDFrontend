@@ -1,8 +1,7 @@
 import { FcPortraitMode, FcVoicePresentation } from 'react-icons/fc';
 import { useNavigate, useParams } from 'react-router-dom';
 import { dummyData, IBlogData } from '../../store/dummy';
-import { FaRegThumbsDown, FaRegThumbsUp } from 'react-icons/fa';
-import { BsDot, BsFillHandThumbsUpFill } from 'react-icons/bs';
+import { BsFillHandThumbsUpFill } from 'react-icons/bs';
 import { timeForToday } from '../../store/commentDummy';
 
 export default function CommunityQADetailPost() {

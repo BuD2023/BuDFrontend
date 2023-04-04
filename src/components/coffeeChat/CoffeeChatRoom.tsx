@@ -1,5 +1,4 @@
 import { BsFillPersonFill } from 'react-icons/bs';
-import { FcReadingEbook, FcSms } from 'react-icons/fc';
 import { useNavigate } from 'react-router-dom';
 import { IChatRoomType } from '../../store/chatsDummy';
 

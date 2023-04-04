@@ -1,5 +1,3 @@
-import React from 'react';
-
 interface ISearchBarPropsType {
   inputValue: string;
   setInputValue: (x: string) => void;

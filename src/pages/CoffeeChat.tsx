@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { IoMdAdd } from 'react-icons/io';
 import CoffeeChatRoom from '../components/coffeeChat/CoffeeChatRoom';
 import CoffeeTitle from '../components/coffeeChat/CoffeeTitle';
 import AddBtn from '../components/common/AddBtn';

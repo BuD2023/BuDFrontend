@@ -1,6 +1,5 @@
-import { BsFillHandThumbsUpFill, BsFillPencilFill } from 'react-icons/bs';
-import { FcDocument, FcFinePrint, FcIdea, FcLike, FcList, FcNook, FcPortraitMode, FcRules, FcSms, FcViewDetails, FcVoicePresentation } from 'react-icons/fc';
-import { TfiThumbUp, TfiPencilAlt } from 'react-icons/tfi';
+import { BsFillHandThumbsUpFill } from 'react-icons/bs';
+import { FcLike, FcPortraitMode, FcSms, FcVoicePresentation } from 'react-icons/fc';
 import { useNavigate } from 'react-router-dom';
 import { timeForToday } from '../../store/commentDummy';
 import { IBlogData } from '../../store/dummy';

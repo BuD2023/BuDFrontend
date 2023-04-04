@@ -2,7 +2,6 @@ import { useState } from 'react';
 import FooterMenu from '../components/common/FooterMenu';
 import PostFormat from '../components/common/PostFormat';
 import { dummyData } from '../store/dummy';
-import { useNavigate } from 'react-router-dom';
 import AddBtn from '../components/common/AddBtn';
 import CommunityFilter from '../components/community/CommunityFilter';
 import CommunitySort from '../components/community/CommunitySort';

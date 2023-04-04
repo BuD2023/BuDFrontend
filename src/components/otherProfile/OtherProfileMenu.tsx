@@ -1,5 +1,3 @@
-import React from 'react';
-
 interface IOtherProfileMenuPropsType {
   postView: boolean;
   setPostView: (x: boolean) => void;

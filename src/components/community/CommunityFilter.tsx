@@ -1,5 +1,3 @@
-import React from 'react';
-
 interface ICommunityFilterPropsType {
   communityFilter: string;
   setCommunityFilter: (x: string) => void;

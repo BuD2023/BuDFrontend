@@ -1,9 +1,7 @@
 import React from 'react';
-import { BsBellFill } from 'react-icons/bs';
 import { FcIcons8Cup } from 'react-icons/fc';
 import { IChatRoomType } from '../../store/chatsDummy';
 import Header from '../common/Header';
-import NotiBtn from '../common/NotiBtn';
 
 interface CoffeeTitlePropsType {
   chatRooms: IChatRoomType[];

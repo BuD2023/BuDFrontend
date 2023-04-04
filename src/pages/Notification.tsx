@@ -1,5 +1,4 @@
 import { BsChevronLeft } from 'react-icons/bs';
-import { useNavigate } from 'react-router-dom';
 import Header from '../components/common/Header';
 import NotificationContent from '../components/notification/NotificationContent';
 

@@ -1,4 +1,3 @@
-import React from 'react';
 import { BsDot, BsThreeDots } from 'react-icons/bs';
 import { FcLike, FcPortraitMode, FcSms } from 'react-icons/fc';
 import { useParams } from 'react-router-dom';

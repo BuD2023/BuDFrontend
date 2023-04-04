@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { notificationDummy } from '../../store/notificationDummy';
 import { SwipeableList, SwipeableListItem } from '@sandstreamdev/react-swipeable-list';
@@ -85,7 +85,7 @@ export default function NotificationContent() {
                   action: () => console.log('Deleting item:', noti.notificationId),
                 }}
               >
-                <li onClick={() => handleNotiClick(noti.page, noti.pageDetail)} key={noti.notificationId} className="flex cursor-pointer items-center gap-3">
+                <li onClick={() => handleNotiClick(noti.page, noti.pageDetail)} key={noti.notificationId} className="flex grow cursor-pointer items-center gap-3 bg-lightIvory dark:bg-darkNavy">
                   <img
                     onClick={(event: React.MouseEvent<HTMLImageElement>) => handleImgClick(noti.senderId, event)}
                     src="https://picsum.photos/105/105"

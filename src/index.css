@@ -122,10 +122,3 @@ select {
   -webkit-box-orient: vertical;
 }
 
-.swipeable-list-item__content {
-  background-color: #F1EDDA;
-}
-
-.dark .swipeable-list-item__content {
-  background-color: #192735;
-}

@@ -1,5 +1,3 @@
-import React from 'react';
-
 const orders = ['최신순', '인기순', '인기순2'];
 
 export default function NewsFilter() {

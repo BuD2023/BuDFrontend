@@ -1,9 +1,8 @@
-import { BsCameraFill, BsChevronLeft, BsFillPersonFill } from 'react-icons/bs';
-import { useNavigate, useParams } from 'react-router-dom';
+import { BsCameraFill } from 'react-icons/bs';
+import { useParams } from 'react-router-dom';
 import RoomChats from '../components/chatRoom/RoomChats';
 import RoomHeader from '../components/chatRoom/RoomHeader';
 import { chats, chatRooms, IChatRoomType, IChatsType } from '../store/chatsDummy';
-import { timeForToday } from '../store/commentDummy';
 
 export default function ChatRoom() {
   const { id } = useParams();

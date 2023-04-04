@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { RxTriangleDown } from 'react-icons/rx';
 import { jobList } from '../../store/dummy';
 
