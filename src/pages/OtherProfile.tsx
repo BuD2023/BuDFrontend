@@ -11,7 +11,7 @@ export default function OtherProfile() {
   const resultData = [...dummyData];
 
   return (
-    <>
+    <section>
       <div className="relative flex min-h-[calc(100vh-160px)] w-full flex-col items-center gap-4 bg-lightIvory p-4 text-lightText dark:bg-darkNavy dark:text-white">
         <OtherProfileHeader />
         <OtherProfileInfo />
@@ -19,6 +19,6 @@ export default function OtherProfile() {
         <PostFormat resultData={resultData} />
       </div>
       <FooterMenu />
-    </>
+    </section>
   );
 }

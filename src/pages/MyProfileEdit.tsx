@@ -26,23 +26,21 @@ export default function MyProfileEdit() {
   };
 
   return (
-    <section>
-      <div className="flex min-h-[calc(100vh-160px)] flex-col gap-7 py-4 px-6 text-lightText dark:text-white">
-        <Header type="withMainBtn" title="프로필 편집" icon={<BsChevronLeft />} onSubmit={editProfileData} />
-        <div className="mt-9 flex h-full flex-col gap-7 p-4 px-2 text-xl font-bold">
-          <ChangeProfilePic profileImg={profileImg} handleChangeProfileImg={handleChangeProfileImg} setProfileImg={setProfileImg} />
-          <div className="mb-4 flex flex-col gap-4">
-            <p>닉네임</p>
-            <ChangeNickName nickName={nickName} setNickName={setNickName} />
-          </div>
-          <div className="mb-4 flex flex-col gap-4">
-            <p>소개</p>
-            <ChangeIntroduction introduction={introduction} setIntroduction={setIntroduction} />
-          </div>
-          <div className="flex flex-col gap-4">
-            <p>직무</p>
-            <ChangeJob selectedJob={selectedJob} setSelectedJob={setSelectedJob} />
-          </div>
+    <section className="flex min-h-[calc(100vh-160px)] flex-col gap-7 py-4 px-6 text-lightText dark:text-white">
+      <Header type="withMainBtn" title="프로필 편집" icon={<BsChevronLeft />} onSubmit={editProfileData} />
+      <div className="mt-9 flex h-full flex-col gap-7 p-4 px-2 text-xl font-bold">
+        <ChangeProfilePic profileImg={profileImg} handleChangeProfileImg={handleChangeProfileImg} setProfileImg={setProfileImg} />
+        <div className="mb-4 flex flex-col gap-4">
+          <p>닉네임</p>
+          <ChangeNickName nickName={nickName} setNickName={setNickName} />
+        </div>
+        <div className="mb-4 flex flex-col gap-4">
+          <p>소개</p>
+          <ChangeIntroduction introduction={introduction} setIntroduction={setIntroduction} />
+        </div>
+        <div className="flex flex-col gap-4">
+          <p>직무</p>
+          <ChangeJob selectedJob={selectedJob} setSelectedJob={setSelectedJob} />
         </div>
       </div>
     </section>
