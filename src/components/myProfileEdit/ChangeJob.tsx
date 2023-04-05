@@ -16,7 +16,7 @@ export default function ChangeJob({ selectedJob, setSelectedJob }: IChangeJobPro
         <span className="grow font-bold">{selectedJob}</span>
         <RxTriangleDown className="inline text-[#ffffff30]" />
       </button>
-      <ul className={`w-full overflow-hidden rounded-[20px] bg-midIvory p-2 px-4 transition-all dark:bg-lightNavy ${isClick ? '' : 'pointer-events-none opacity-0'}`}>
+      <ul className={`w-full overflow-hidden rounded-[20px] bg-midIvory px-4 transition-all dark:bg-lightNavy ${isClick ? 'h-full py-2' : 'h-0'}`}>
         <div className="scroll max-h-[45vh] overflow-auto">
           {jobList.map((job) => (
             <li key={job} className="my-3">

@@ -7,11 +7,11 @@ import MyProfileMenu from '../components/myProfile/MyProfileMenu';
 import { dummyData } from '../store/dummy';
 
 export default function MyProfile() {
-  const [postView, setPostView] = useState(true);
+  const [postView, setPostView] = useState('feed');
   const resultData = [...dummyData];
 
   return (
-    <>
+    <section>
       <div className="relative flex min-h-[calc(100vh-160px)] w-full flex-col items-center gap-4 bg-lightIvory p-4 text-lightText dark:bg-darkNavy dark:text-white">
         <MyProfileHeader />
         <MyProfileInfo />
@@ -19,6 +19,6 @@ export default function MyProfile() {
         <PostFormat resultData={resultData} />
       </div>
       <FooterMenu />
-    </>
+    </section>
   );
 }

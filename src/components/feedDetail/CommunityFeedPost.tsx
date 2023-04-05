@@ -9,7 +9,7 @@ export default function CommunityFeedPost() {
   const navigate = useNavigate();
 
   return (
-    <li className="flex cursor-pointer flex-col items-center gap-4 rounded-[20px] bg-midIvory dark:bg-midNavy">
+    <li className="flex w-full cursor-pointer flex-col items-center gap-4 rounded-[20px] bg-midIvory dark:bg-midNavy">
       <div className="flex w-full flex-col gap-4 p-4">
         <div className="flex w-full">
           <div className="flex gap-1">

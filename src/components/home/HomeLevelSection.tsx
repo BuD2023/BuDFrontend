@@ -4,8 +4,8 @@ export default function HomeLevelSection() {
   const navigate = useNavigate();
 
   return (
-    <div onClick={() => navigate('/userInfo')} className="relative flex min-h-[236px] w-full cursor-pointer flex-col">
-      <div className="absolute inset-0 flex flex-col justify-between rounded-[50px] bg-[#E8E1C1] p-10 pb-6 dark:bg-midNavy ">
+    <div className="relative flex min-h-[236px] w-full cursor-pointer flex-col">
+      <div onClick={() => navigate('/userInfo')} className="absolute inset-0 flex flex-col justify-between rounded-[50px] bg-[#E8E1C1] p-10 pb-6 dark:bg-midNavy ">
         <div className="flex w-full justify-between">
           <div className="flex w-full justify-between">
             <div className="flex flex-col">

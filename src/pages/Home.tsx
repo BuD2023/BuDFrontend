@@ -29,7 +29,7 @@ export default function Home() {
   // };
 
   return (
-    <>
+    <section>
       <div className="relative mt-8 flex min-h-[calc(100vh-160px)] w-full flex-col gap-6 overflow-x-hidden bg-lightIvory p-4 text-lightText dark:bg-darkNavy dark:text-white">
         <HomeTitle />
         <HomeLevelSection />
@@ -46,6 +46,6 @@ export default function Home() {
         </form>
       </div>
       <FooterMenu />
-    </>
+    </section>
   );
 }
