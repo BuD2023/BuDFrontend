@@ -38,7 +38,7 @@ export default function Home() {
         <form
           onSubmit={(e) => {
             e.preventDefault();
-            getImgFromCloudinary(imageUrl as string);
+            getImgFromCloudinary(imageUrl as string, 100);
           }}
         >
           <input type="text" value={imageUrl} onChange={(event) => setImageUrl(event.target.value)} />
