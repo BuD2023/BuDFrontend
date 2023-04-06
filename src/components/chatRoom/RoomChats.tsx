@@ -1,6 +1,7 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { IChatsType } from '../../store/chatsDummy';
 import { timeForToday } from '../../store/commentDummy';
+import UserModal from '../common/UserModal';
 
 interface IChatRoomPropsType {
   chatsResult: IChatsType[];
@@ -9,6 +10,7 @@ interface IChatRoomPropsType {
 export default function RoomChats({ chatsResult }: IChatRoomPropsType) {
   const ref1 = useRef<HTMLDivElement>(null);
   const ref2 = useRef<HTMLDivElement>(null);
+  const [userModal, setUserModal] = useState(false);
 
   useEffect(() => {
     ref1.current?.scrollIntoView({ behavior: 'smooth' });
@@ -16,12 +18,28 @@ export default function RoomChats({ chatsResult }: IChatRoomPropsType) {
   }, [chatsResult]);
   // console.log(timeForToday(chatsResult[0].createdAt))
 
+  // 백엔드에서 받은 유저 정보에서 받아서 사용할 것들!
+  const handleClickUserImg = (e: any) => {
+    // console.log(e.target.src, e.target.alt);
+    setUserModal(true);
+    setUserName(e.target.alt);
+    setUserImg(e.target.src);
+    setUserIntro('일단 예시로 둔 소개입니다 ^^.');
+    setUserJob('프론트엔드');
+  };
+
+  const [userName, setUserName] = useState('');
+  const [userImg, setUserImg] = useState('');
+  const [userIntro, setUserIntro] = useState('');
+  const [userJob, setUserJob] = useState('');
+
   return (
     <div className="fixed top-20 left-0 z-10 h-[calc(100vh-160px)] w-full overflow-auto p-4">
+      <UserModal userModal={userModal} setUserModal={setUserModal} userName={userName} userImg={userImg} userIntro={userIntro} userJob={userJob} />
       {chatsResult.map((chat) => {
         return !chat.from ? (
           <div key={chat.id} className="mb-3 flex gap-4">
-            <div>
+            <div onClick={(e) => handleClickUserImg(e)} className="cursor-pointer">
               <img src={chat.pic} alt={chat.name} className="h-[50px] w-[50px] rounded-full object-cover" />
             </div>
             <div className="flex flex-col gap-2">

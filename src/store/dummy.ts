@@ -92,4 +92,5 @@ export const userInfos = {
   currentCommitCount: 232,
   nickName: '젼님',
   growthLevel: 1,
+  introduction: '소개글입니다.',
 };
