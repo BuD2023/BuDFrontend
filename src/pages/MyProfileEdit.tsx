@@ -1,4 +1,4 @@
-import { useState, ChangeEvent } from 'react';
+import { useState } from 'react';
 import { BsChevronLeft } from 'react-icons/bs';
 import Header from '../components/common/Header';
 import ChangeIntroduction from '../components/myProfileEdit/ChangeIntroduction';
@@ -14,22 +14,11 @@ export default function MyProfileEdit() {
   const [profileImg, setProfileImg] = useState<string | ArrayBuffer | null>(defaultImg);
   const editProfileData = { profileImg: profileImg, nickName: nickName, introduction: introduction, selectedJob: selectedJob };
 
-  const handleChangeProfileImg = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      const file = e.target.files[0];
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => {
-        setProfileImg(reader.result);
-      };
-    }
-  };
-
   return (
     <section className="flex min-h-[calc(100vh-160px)] flex-col gap-7 py-4 px-6 text-lightText dark:text-white">
       <Header type="withMainBtn" title="프로필 편집" icon={<BsChevronLeft />} onSubmit={editProfileData} />
       <div className="mt-9 flex h-full flex-col gap-7 p-4 px-2 text-xl font-bold">
-        <ChangeProfilePic profileImg={profileImg} handleChangeProfileImg={handleChangeProfileImg} setProfileImg={setProfileImg} />
+        <ChangeProfilePic profileImg={profileImg} setProfileImg={setProfileImg} />
         <div className="mb-4 flex flex-col gap-4">
           <p>닉네임</p>
           <ChangeNickName nickName={nickName} setNickName={setNickName} />

@@ -1,13 +1,13 @@
+import imageCompression from 'browser-image-compression';
 import { ChangeEvent, useRef } from 'react';
 
 const defaultImg = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png';
 interface IChangeProfilePicPropsType {
   profileImg: string | ArrayBuffer | null;
-  handleChangeProfileImg: (e: ChangeEvent<HTMLInputElement>) => void;
   setProfileImg: (x: string | ArrayBuffer | null) => void;
 }
 
-export default function ChangeProfilePic({ profileImg, handleChangeProfileImg, setProfileImg }: IChangeProfilePicPropsType) {
+export default function ChangeProfilePic({ profileImg, setProfileImg }: IChangeProfilePicPropsType) {
   const imgRef = useRef<HTMLInputElement>(null);
 
   const handleProfileImgClick = () => {
@@ -20,10 +20,31 @@ export default function ChangeProfilePic({ profileImg, handleChangeProfileImg, s
     }
   };
 
+  const handleChangeProfileImg = async (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      const file = e.target.files[0];
+      const reader = new FileReader();
+      const options = {
+        maxSizeMB: 0.1, // 허용하는 최대 사이즈 지정
+        maxWidthOrHeight: 1920, // 허용하는 최대 width, height 값 지정
+        useWebWorker: true, // webworker 사용 여부
+      };
+      try {
+        const compressedFile = await imageCompression(file, options);
+        reader.readAsDataURL(compressedFile);
+        reader.onload = () => {
+          setProfileImg(reader.result);
+        };
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+
   return (
     <>
       <div className="profile_img m-auto mt-4 h-[200px] w-[200px]">
-        <input ref={imgRef} type="file" accept="image/*" onChange={handleChangeProfileImg} className="hidden" />
+        <input ref={imgRef} type="file" accept="image/*" onChange={(e) => handleChangeProfileImg(e)} className="hidden" />
         {profileImg && <img src={profileImg.toString()} className="pre-img absolute h-[200px] w-[200px] cursor-pointer rounded-[100px] object-cover" onClick={handleProfileImgClick} />}
       </div>
       <button

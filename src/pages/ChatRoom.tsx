@@ -3,11 +3,30 @@ import { useParams } from 'react-router-dom';
 import RoomChats from '../components/chatRoom/RoomChats';
 import RoomHeader from '../components/chatRoom/RoomHeader';
 import { chats, chatRooms, IChatRoomType, IChatsType } from '../store/chatsDummy';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 
 export default function ChatRoom() {
   const { id } = useParams();
   const chatRoom = chatRooms.find((i) => i.roomId === Number(id)) as IChatRoomType;
   const chatsResult = chats.filter((i) => i.roomId === Number(id)) as IChatsType[];
+
+  // const [chatRoom, setChatRoom] = useState(null);
+
+  // const fetchChatRoom = async () => {
+  //   try {
+  //     setChatRoom(null);
+  //     const response = await axios.get('http://34.64.224.24:8080/');
+  //     // setChatRoom(response.data);
+  //     console.log(response.data);
+  //   } catch (e) {
+  //     console.log(e);
+  //   }
+  // };
+
+  useEffect(() => {
+    // fetchChatRoom();
+  }, []);
 
   return (
     <section>
