@@ -4,13 +4,19 @@ import chatImg3 from '../assets/chatImg3.jpeg';
 import profile1 from '../assets/profile1.jpg';
 import profile2 from '../assets/profile2.jpeg';
 import profile3 from '../assets/profile3.jpg';
+import Monica from '../assets/Monica.webp';
+import Ross from '../assets/Ross.webp';
+import Rachel from '../assets/Rachel.jpeg';
 
 export interface IChatRoomType {
   roomId: number;
   roomName: string;
   tag: string[];
   des: string;
-  memberId: string[];
+  memberId: {
+    name: string;
+    pic: string;
+  }[];
   createdAt: string;
   host: {
     pic: string;
@@ -24,7 +30,32 @@ export const chatRooms = [
     roomName: 'ChatGPT는 거짓말쟁이!',
     tag: ['인공지능', 'ChatGPT', 'AI'],
     des: 'ChatGPT와 인공지능, 그리고 가짜 뉴스에 관한 토크방입니다.',
-    memberId: ['', '', '', '', '', '', '', '', '', '', '', ''],
+    memberId: [
+      {
+        name: 'Chandler',
+        pic: profile3,
+      },
+      {
+        name: 'Jody',
+        pic: profile2,
+      },
+      {
+        name: 'Phoebe',
+        pic: profile1,
+      },
+      {
+        name: 'Ross',
+        pic: Ross,
+      },
+      {
+        name: 'Rachel',
+        pic: Rachel,
+      },
+      {
+        name: 'Monica',
+        pic: Monica,
+      },
+    ],
     createdAt: '2023 03 26',
     host: {
       pic: profile1,
@@ -36,7 +67,32 @@ export const chatRooms = [
     roomName: '주니어 프엔 모여!',
     tag: ['주니어', 'work_life', '프론트엔드'],
     des: '새내기 주니어 응애들의 고민들을 나누어 봅니다.',
-    memberId: ['', '', '', '', '', '', '', '', '', '', '', ''],
+    memberId: [
+      {
+        name: 'Chandler',
+        pic: profile3,
+      },
+      {
+        name: 'Jody',
+        pic: profile2,
+      },
+      {
+        name: 'Phoebe',
+        pic: profile1,
+      },
+      {
+        name: 'Ross',
+        pic: Ross,
+      },
+      {
+        name: 'Rachel',
+        pic: Rachel,
+      },
+      {
+        name: 'Monica',
+        pic: Monica,
+      },
+    ],
     createdAt: '2023 03 20',
     host: {
       pic: profile2,
@@ -48,7 +104,32 @@ export const chatRooms = [
     roomName: '국비지원 부트캠프생들 모여!',
     tag: ['국비지원', '부트캠프', '웹개발'],
     des: '국비지원, 부트캠프에서 웹 프론트엔드, 백엔드 개발을 배우는 취준생 분들의 고민을 나눕니다. 다 드루와 드루와~!',
-    memberId: ['', '', '', '', '', '', '', '', '', '', '', ''],
+    memberId: [
+      {
+        name: 'Chandler',
+        pic: profile3,
+      },
+      {
+        name: 'Jody',
+        pic: profile2,
+      },
+      {
+        name: 'Phoebe',
+        pic: profile1,
+      },
+      {
+        name: 'Ross',
+        pic: Ross,
+      },
+      {
+        name: 'Rachel',
+        pic: Rachel,
+      },
+      {
+        name: 'Monica',
+        pic: Monica,
+      },
+    ],
     createdAt: '2023 03 06',
     host: {
       pic: profile3,

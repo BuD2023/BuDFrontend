@@ -2,6 +2,7 @@ interface IOnSubmitType {
   title: string;
   des: string;
   tag: string[];
+  pic: (string | ArrayBuffer | null)[];
   profileImg: string | ArrayBuffer | null;
   nickName: string;
   selectedJob: string;

@@ -11,7 +11,7 @@ export default function ChatRoom() {
 
   return (
     <section>
-      <RoomHeader roomName={chatRoom.roomName} numOfMember={chatRoom.memberId.length} />
+      <RoomHeader roomName={chatRoom.roomName} numOfMember={chatRoom.memberId} />
       <div className="fixed top-20 left-0 h-full w-full rounded-[20px] bg-midIvory dark:bg-midNavy"></div>
       <RoomChats chatsResult={chatsResult} />
       <div className="fixed left-0 bottom-0 z-20 flex w-full items-center gap-4 bg-lightIvory p-3 dark:bg-darkNavy">

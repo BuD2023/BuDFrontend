@@ -1,0 +1,9 @@
+// .babelrc
+{
+  // ...
+  "plugins": [
+    // "babel-plugin-twin", // < If using
+    "babel-plugin-macros",
+    "babel-plugin-styled-components"
+  ]
+}

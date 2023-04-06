@@ -26,7 +26,7 @@ export default function OtherProfileHeader() {
           <div className="dark:font-normal">안녕하세요 FE_김지현입니다. 이곳에 자기소개를 적어보야요~ </div>
         </div>
       </div>
-      <img src={profile1} className="h-[120px] w-[120px] shrink-0 rounded-full" />
+      <img src={profile1} className="h-[120px] w-[120px] shrink-0 rounded-full object-cover" />
     </div>
   );
 }

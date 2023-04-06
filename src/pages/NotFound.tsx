@@ -1,11 +1,13 @@
 import { useNavigate } from 'react-router-dom';
 import notFound from '../assets/notFound.jpg';
+// import tw from "tailwind-styled-components";
+// import tw, { styled, css, theme } from 'twin.macro'
 
 export default function NotFound() {
   const navigate = useNavigate();
 
   return (
-    <section className="relative inset-0 flex h-screen flex-col gap-4 p-4 text-lightText dark:text-white">
+    <section className="relative inset-0 flex flex-col gap-4 p-4 text-lightText dark:text-white">
       <div className="flex h-full flex-col items-center justify-center gap-6 text-[15px]">
         <img src={notFound} className="mb-4 h-[70vw] max-h-[350px] w-[70vw] max-w-[350px] rounded-full" />
         <div className="flex flex-col items-center justify-center gap-4">
@@ -24,3 +26,7 @@ export default function NotFound() {
     </section>
   );
 }
+
+// const Container = tw.section`
+// relative inset-0 flex flex-col gap-4 p-4 text-lightText dark:text-white
+// `

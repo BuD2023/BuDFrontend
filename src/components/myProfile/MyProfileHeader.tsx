@@ -31,7 +31,7 @@ export default function MyProfileHeader() {
           <div className="dark:font-normal">안녕하세요 FE_김동성입니다. 이곳에는 간단한 자기소개를 적어보아요~ㅁㄴㅇㄹㅁㄴㅇㄹㅁㄴㅇㄹㅁㄴㅇㄹㅁㄴㅇㄹㅁㄴㅇㄹㅁㄴㅇㄹㅁㄴㅇㄹ</div>
         </div>
       </div>
-      <img src={profile1} className="h-[120px] w-[120px] rounded-full" />
+      <img src={profile1} className="h-[120px] w-[120px] rounded-full object-cover" />
     </div>
   );
 }

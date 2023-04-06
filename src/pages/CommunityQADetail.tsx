@@ -12,7 +12,6 @@ export default function () {
         <Header type="community" title="Q	&#38; A 피드" icon={<BsChevronLeft />} />
         <CommunityQADetailPost />
         <CommunityQADetailAnswer />
-        <CommunityQACommentForm />
       </div>
       <FooterMenu />
     </section>

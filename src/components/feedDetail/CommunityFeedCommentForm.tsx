@@ -26,7 +26,7 @@ export default function CommunityFeedCommentForm() {
 
   return (
     <div className="flex w-full flex-col items-center gap-4 rounded-[20px] bg-midIvory dark:bg-midNavy">
-      <div className="flex h-[55px] w-full items-center border border-lightIvory border-b-darkIvory p-5 text-[20px] font-bold dark:border-darkNavy dark:border-b-lightNavy">
+      <div className="flex h-[55px] w-full items-center border-b border-lightIvory border-b-darkIvory p-5 text-[20px] font-bold dark:border-darkNavy dark:border-b-lightNavy">
         <div>댓글</div>
         <div className="ml-2 text-[18px] font-bold opacity-50">4개</div>
       </div>
