@@ -5,8 +5,13 @@ import { useRef, useState } from 'react';
 import { RxTriangleDown } from 'react-icons/rx';
 import { AiFillPicture } from 'react-icons/ai';
 import PicModal from '../components/common/PicModal';
+import imageCompression from 'browser-image-compression';
 
 export default function PostCreate() {
+  //게시글 타입
+  const postTypes = ['개발 피드', 'Q & A 피드 '];
+  const [isClick, setIsClick] = useState(true);
+
   // 게시글 전체 정보
   const [postInfo, setPostInfo] = useState({
     title: '',
@@ -15,26 +20,51 @@ export default function PostCreate() {
     pic: [] as (string | ArrayBuffer | null)[],
   });
 
-  //게시글 타입
-  const postTypes = ['개발 피드', 'Q & A 피드 '];
-  const [isClick, setIsClick] = useState(true);
+  //이미지 압축
+  const actionImgCompress = async (fileSrc: File) => {
+    const options = {
+      maxSizeMb: 0.1,
+      maxWidthOrHeight: 1200,
+      useWebWorker: true,
+    };
+    try {
+      const compressedFile = await imageCompression(fileSrc, options);
+      return compressedFile;
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   // 사진 업로드
   const imgRef = useRef<HTMLInputElement>(null);
-  const handleChangeProfileImg = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangeProfileImg = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const fileArr = e.target.files as FileList;
-    let fileURLs: (string | ArrayBuffer | null)[] = [];
-    let file;
     let filesLength = fileArr.length > 10 ? 10 : fileArr.length;
-    for (let i = 0; i < filesLength; i++) {
-      file = fileArr[i];
-      let reader = new FileReader();
-      reader.onload = () => {
-        fileURLs[i] = reader.result;
-        setPostInfo({ ...postInfo, pic: [...fileURLs] });
-      };
-      reader.readAsDataURL(file);
-    }
+
+    const compressedFiles = await Promise.all(
+      Array.from(fileArr)
+        .slice(0, filesLength)
+        .map(async (file) => {
+          return await actionImgCompress(file);
+        })
+    );
+
+    const compressedFileURLs = await Promise.all(
+      compressedFiles.map((compressed) => {
+        return new Promise<string>((resolve) => {
+          let reader = new FileReader();
+          reader.onload = () => {
+            resolve(reader.result as string);
+          };
+          reader.readAsDataURL(compressed as Blob);
+        });
+      })
+    );
+
+    setPostInfo({
+      ...postInfo,
+      pic: [...compressedFileURLs],
+    });
   };
 
   // 사진 popUp
@@ -124,7 +154,7 @@ export default function PostCreate() {
                 }
                 value={postInfo.des}
                 placeholder="내용을 입력하세요"
-                className="h-full w-full cursor-pointer rounded-[20px] bg-midIvory p-4 text-[16px] leading-5 transition-all placeholder:font-semibold placeholder:text-[#7b6d6d] placeholder:opacity-80 focus:outline-none dark:bg-lightNavy dark:placeholder:text-white"
+                className="h-full w-full rounded-[20px] bg-midIvory p-4 text-[16px] leading-5 transition-all placeholder:font-semibold placeholder:text-[#7b6d6d] placeholder:opacity-80 focus:outline-none dark:bg-lightNavy dark:placeholder:text-white"
               />
             </div>
           </div>

@@ -36,18 +36,16 @@ export default function UserListModal({ isUserList, setIsUserList }: ConfirmModa
                 <div className="bg-white p-2 sm:p-6 sm:pb-4">
                   <div className="sm:flex sm:items-start">
                     {isUserList.list.map((user, idx) => (
-                      <>
-                        <div className="flex items-center justify-between">
-                          <div onClick={() => navigate(`/otherProfile/${user.name}`)} key={idx} className="my-2 flex cursor-pointer items-center gap-3 px-4">
-                            <img src={user.pic} className="h-[50px] w-[50px] rounded-full object-cover" />
-                            <div className=" text-[16px] font-semibold">{user.name}</div>
-                          </div>
-                          <div className="mr-4 flex cursor-pointer items-center gap-1 text-[14px] font-semibold">
-                            <RiUserFollowFill className="text-[16px]" />
-                            <span>팔로우</span>
-                          </div>
+                      <div key={idx} className="flex  items-center justify-between">
+                        <div onClick={() => navigate(`/otherProfile/${user.name}`)} className="my-2 flex cursor-pointer items-center gap-3 px-4">
+                          <img src={user.pic} className="h-[50px] w-[50px] rounded-full object-cover" />
+                          <div className=" text-[16px] font-semibold">{user.name}</div>
                         </div>
-                      </>
+                        <div className="mr-4 flex cursor-pointer items-center gap-1 text-[14px] font-semibold">
+                          <RiUserFollowFill className="text-[16px]" />
+                          <span>팔로우</span>
+                        </div>
+                      </div>
                     ))}
                   </div>
                 </div>

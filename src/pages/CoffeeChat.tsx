@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 import CoffeeChatRoom from '../components/coffeeChat/CoffeeChatRoom';
 import CoffeeTitle from '../components/coffeeChat/CoffeeTitle';
 import AddBtn from '../components/common/AddBtn';
@@ -9,6 +10,24 @@ export default function CoffeeChat() {
   const [inputValue, setInputValue] = useState('');
 
   let chatRoomsResult = [...chatRooms];
+  // const [chatRoom, setChatRoom] = useState(null);
+
+  // useEffect(() => {
+  //   const fetchChatRoom = async () => {
+  //     try {
+  //       const response = await axios.get('http://34.64.224.24/:8080/chatroom', {
+  //         params: {
+  //           page: 0,
+  //         },
+  //       });
+  //       console.log(response.data);
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
+  //   };
+  //   fetchChatRoom();
+  // }, []);
+
   if (inputValue) {
     chatRoomsResult = chatRooms.filter(
       (room) =>

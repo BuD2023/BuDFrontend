@@ -65,7 +65,7 @@ export default function RoomChats({ chatsResult }: IChatRoomPropsType) {
                           pic: chat.text as string,
                         });
                       }}
-                      className="flex items-center justify-center overflow-hidden rounded-[10px] bg-white px-3 py-[0.65rem]"
+                      className="flex cursor-pointer items-center justify-center overflow-hidden rounded-[10px] bg-white px-3 py-[0.65rem]"
                     >
                       <img src={chat.text} className="max-h-[70vw] max-w-[50vw] object-cover" />
                     </div>
@@ -90,7 +90,7 @@ export default function RoomChats({ chatsResult }: IChatRoomPropsType) {
                         pic: chat.text as string,
                       });
                     }}
-                    className="flex items-center justify-center rounded-[10px] bg-white px-3 py-[0.65rem]"
+                    className="flex cursor-pointer items-center justify-center rounded-[10px] bg-white px-3 py-[0.65rem]"
                   >
                     <img src={chat.text} className="max-h-[70vw] max-w-[50vw] object-cover" />
                   </div>
