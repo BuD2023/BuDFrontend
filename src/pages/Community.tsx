@@ -37,7 +37,7 @@ export default function Community() {
 
   return (
     <section>
-      <div className="relative mt-9 mb-16 flex h-full min-h-[calc(100vh-160px)] w-full flex-col items-center gap-4 p-4 text-lightText dark:text-white">
+      <div className="relative mb-16 mt-9 flex h-full min-h-[calc(100vh-160px)] w-full flex-col items-center gap-4 p-4 text-lightText dark:text-white">
         <Header type="category" title="커뮤니티" icon={<FcGlobe />} />
         <AddBtn url="/postCreate" text="글쓰기" />
         <SearchBar inputValue={inputValue} setInputValue={setInputValue} />

@@ -5,11 +5,12 @@ import { IconType } from 'react-icons/lib';
 import { useNavigate } from 'react-router-dom';
 import NotiBtn from './NotiBtn';
 import MainBtn from '../common/MainBtn';
+import { AiFillCopy } from 'react-icons/ai';
 
 interface IHeader {
-  type: string;
-  title: string;
-  icon: ReactElement<IconType>;
+  type?: string;
+  title?: string;
+  icon?: ReactElement<IconType>;
   onSubmit?: object;
 }
 
@@ -41,7 +42,7 @@ export default function Header({ type, title, icon, onSubmit }: IHeader) {
   }, []);
 
   return (
-    <div className={'fixed top-0 left-0 z-10 flex w-full items-center justify-between bg-lightIvory p-4 py-5 transition-all dark:bg-darkNavy ' + (visible ? '' : 'opacity-0')}>
+    <div className={'fixed left-0 top-0 z-10 flex w-full items-center justify-between bg-lightIvory p-4 py-5 transition-all dark:bg-darkNavy ' + (visible ? '' : 'opacity-0')}>
       <div className="flex items-center gap-3 text-[26px] font-bold">
         {type === 'category' ? (
           <div className="rounded-xl bg-white p-1">{icon}</div>
@@ -52,8 +53,9 @@ export default function Header({ type, title, icon, onSubmit }: IHeader) {
         )}
         <h1>{title}</h1>
       </div>
-      {type === 'community' && <BsThreeDots size={26} />}
       {type === 'category' && <NotiBtn />}
+      {type === 'news' && <AiFillCopy size={26} />}
+      {type === 'community' && <BsThreeDots size={26} />}
       {type === 'withMainBtn' && <MainBtn onSubmit={onSubmit} content={'완료'} size={20} />}
     </div>
   );

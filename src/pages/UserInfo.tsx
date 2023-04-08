@@ -5,7 +5,7 @@ import { userInfos } from '../store/dummy';
 
 export default function UserInfo() {
   return (
-    <section className="flex min-h-[calc(100vh-160px)] flex-col gap-7 py-4 px-6 text-lightText dark:text-white">
+    <section className="flex min-h-[calc(100vh-160px)] flex-col gap-7 px-6 py-4 text-lightText dark:text-white">
       <div className="fixed left-0 top-0 z-10 w-full bg-lightIvory pb-4 text-2xl dark:bg-darkNavy">
         <Header type="setting" title="회원 정보 조회" icon={<BsChevronLeft />} />
       </div>

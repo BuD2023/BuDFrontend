@@ -76,9 +76,10 @@ export default function PostCreate() {
   return (
     <>
       <PicModal isPicPopUp={isPicPopUp} setIsPicPopUp={setIsPicPopUp} />
-      <section className="inset-0 flex flex-col gap-7 py-4 px-6 text-lightText dark:text-white">
+      <section className="inset-0 flex flex-col gap-7 px-6 py-4 text-lightText dark:text-white">
         <Header type="withMainBtn" title="글쓰기" icon={<BsChevronLeft />} onSubmit={postInfo} />
         <div className="mt-9 flex h-full flex-col gap-8 px-2 pt-10">
+          <p className="flex w-full justify-center rounded-2xl bg-greyBeige py-2 font-semibold dark:bg-sky ">필수 항목들은 반드시 작성하셔야 합니다.</p>
           <div className="flex flex-col gap-4 text-xl font-medium">
             <div className="flex w-full flex-col items-center text-[18px] font-semibold">
               <button
@@ -119,11 +120,11 @@ export default function PostCreate() {
                 }
                 value={postInfo.title}
                 type="text"
-                placeholder="제목"
+                placeholder="제목을 입력해주세요(필수)"
                 className="h-[54px] w-full rounded-[20px] bg-midIvory p-2 px-4 text-[16px] placeholder:font-semibold  placeholder:text-[#7b6d6d] placeholder:opacity-80 focus:outline-none dark:bg-lightNavy dark:placeholder:text-white"
               />
               <input ref={imgRef} type="file" accept="image/*" multiple onChange={handleChangeProfileImg} className="hidden" />
-              <div onClick={() => imgRef?.current?.click()} className="flex h-[54px] w-[54px] shrink-0 items-center justify-center rounded-full bg-midIvory dark:bg-lightNavy">
+              <div onClick={() => imgRef?.current?.click()} className="flex h-[54px] w-[54px] shrink-0 cursor-pointer items-center justify-center rounded-full bg-midIvory dark:bg-lightNavy">
                 <AiFillPicture className="opacity-80" />
               </div>
             </div>
@@ -153,7 +154,7 @@ export default function PostCreate() {
                   })
                 }
                 value={postInfo.des}
-                placeholder="내용을 입력하세요"
+                placeholder="내용을 입력해주세요(필수)"
                 className="h-full w-full rounded-[20px] bg-midIvory p-4 text-[16px] leading-5 transition-all placeholder:font-semibold placeholder:text-[#7b6d6d] placeholder:opacity-80 focus:outline-none dark:bg-lightNavy dark:placeholder:text-white"
               />
             </div>

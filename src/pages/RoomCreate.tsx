@@ -10,7 +10,7 @@ export default function RoomCreate() {
   });
 
   return (
-    <section className="inset-0 flex flex-col gap-7 py-4 px-6 text-lightText dark:text-white">
+    <section className="inset-0 flex flex-col gap-7 px-6 py-4 text-lightText dark:text-white">
       <Header type="withMainBtn" title="방 만들기" icon={<BsChevronLeft />} onSubmit={roomInfo} />
       <div className="mt-9 flex h-full flex-col gap-8 px-2 pt-10">
         <p className="flex w-full justify-center rounded-2xl bg-greyBeige py-2 font-semibold dark:bg-sky ">필수 항목들은 반드시 작성하셔야 합니다.</p>
