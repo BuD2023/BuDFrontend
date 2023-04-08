@@ -21,6 +21,7 @@ import LogInPage from './pages/LogInPage';
 import SignUp from './pages/SignUp';
 import SetPicture from './components/SignUp/SetPicture';
 import SetJob from './components/SignUp/SetJob';
+import Test from './pages/Test';
 
 function App() {
   const $html = document.querySelector('html');
@@ -59,6 +60,8 @@ function App() {
 
       <Route path="/notification" element={<Notification />} />
       <Route path="*" element={<NotFound />} />
+
+      <Route path="/test" element={<Test />} />
     </Routes>
   );
 }

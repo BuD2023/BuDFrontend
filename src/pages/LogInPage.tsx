@@ -2,8 +2,12 @@ import axios from 'axios';
 import { useEffect } from 'react';
 import { AiFillGithub } from 'react-icons/ai';
 
-export const CLIENT_ID = 'Iv1.84b5d4fbbbce583a';
-export const CLIENT_SECRET = '8cd84cb9cfbe60abc820cc302c22c591599be3ad';
+export const CLIENT_ID = 'bec71f378661578c68bd';
+export const CLIENT_SECRET = 'a96b2fec345416f95516a64712b7eba1b1e8cf1b';
+// 00a1b5a79f81ce98c4f9
+
+// export const CLIENT_ID = 'Iv1.84b5d4fbbbce583a';
+// export const CLIENT_SECRET = '8cd84cb9cfbe60abc820cc302c22c591599be3ad';
 export default function LogIn() {
   useEffect(() => {
     const getOauth = async () => {
