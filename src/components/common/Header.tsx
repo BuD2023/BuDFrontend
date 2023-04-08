@@ -41,7 +41,7 @@ export default function Header({ type, title, icon, onSubmit }: IHeader) {
   }, []);
 
   return (
-    <div className={'fixed top-0 left-0 z-10 flex w-full items-center justify-between bg-lightIvory p-4 py-5 transition-all dark:bg-darkNavy ' + (visible ? '' : 'opacity-0')}>
+    <div className={'fixed left-0 top-0 z-30 flex w-full items-center justify-between bg-lightIvory p-4 py-5 transition-all dark:bg-darkNavy ' + (visible ? '' : 'opacity-0')}>
       <div className="flex items-center gap-3 text-[26px] font-bold">
         {type === 'category' ? (
           <div className="rounded-xl bg-white p-1">{icon}</div>

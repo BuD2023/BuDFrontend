@@ -12,17 +12,17 @@ export const CLIENT_ID = 'bec71f378661578c68bd';
 export const CLIENT_SECRET = 'a96b2fec345416f95516a64712b7eba1b1e8cf1b';
 
 export default function Home() {
-  // useEffect(() => {
-  //   const fetchGithubInfo = async () => {
-  //     try {
-  //       const response = await axios.get('http://34.64.224.24:8080/home/github/info');
-  //       console.log(response.data);
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //   };
-  //   fetchGithubInfo();
-  // }, []);
+  useEffect(() => {
+    const fetchGithubInfo = async () => {
+      try {
+        const response = await axios.get('http://34.64.224.24:8080/home/github/info');
+        console.log(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchGithubInfo();
+  }, []);
 
   // useEffect(() => {
   //   const urlParams = new URLSearchParams(window.location.search);
