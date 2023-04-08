@@ -1,18 +1,15 @@
 import { useEffect, useState } from 'react';
-import { AiFillCopy } from 'react-icons/ai';
-import { MdOutlineKeyboardArrowLeft } from 'react-icons/md';
-import { useNavigate } from 'react-router-dom';
 import newsSrc from '../assets/newsSrc.jpeg';
 import _ from 'lodash';
+import Header from '../components/common/Header';
+import { BsChevronLeft } from 'react-icons/bs';
 
 export default function NewsDetail() {
-  const navigate = useNavigate();
-
   const [isScroll, setIsScroll] = useState(false);
 
   useEffect(() => {
     const scroll = _.throttle(function () {
-      console.log(window.scrollY);
+      // console.log(window.scrollY);
       if (window.scrollY > 5) {
         setIsScroll(true);
       } else {
@@ -27,10 +24,7 @@ export default function NewsDetail() {
 
   return (
     <section className="flex h-full min-h-screen flex-col items-start gap-4 py-4">
-      <div className="mt-8 flex w-full cursor-pointer justify-between px-4 text-[24px]">
-        <MdOutlineKeyboardArrowLeft onClick={() => navigate('/news')} />
-        <AiFillCopy />
-      </div>
+      <Header type="news" icon={<BsChevronLeft />} />
       <div className="relative h-[70vh] w-full">
         <img src={newsSrc} className="h-full w-full rounded-[30px] object-cover" />
         <div className={`absolute ${isScroll ? 'top-0' : 'top-[65%]'} flex min-h-screen w-full justify-center transition-all duration-500`}>

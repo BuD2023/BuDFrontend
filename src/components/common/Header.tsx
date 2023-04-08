@@ -5,11 +5,12 @@ import { IconType } from 'react-icons/lib';
 import { useNavigate } from 'react-router-dom';
 import NotiBtn from './NotiBtn';
 import MainBtn from '../common/MainBtn';
+import { AiFillCopy } from 'react-icons/ai';
 
 interface IHeader {
-  type: string;
-  title: string;
-  icon: ReactElement<IconType>;
+  type?: string;
+  title?: string;
+  icon?: ReactElement<IconType>;
   onSubmit?: object;
 }
 
@@ -52,8 +53,9 @@ export default function Header({ type, title, icon, onSubmit }: IHeader) {
         )}
         <h1>{title}</h1>
       </div>
-      {type === 'community' && <BsThreeDots size={26} />}
       {type === 'category' && <NotiBtn />}
+      {type === 'news' && <AiFillCopy size={26} />}
+      {type === 'community' && <BsThreeDots size={26} />}
       {type === 'withMainBtn' && <MainBtn onSubmit={onSubmit} content={'완료'} size={20} />}
     </div>
   );

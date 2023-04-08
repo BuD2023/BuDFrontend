@@ -15,7 +15,7 @@ export default function MyProfileEdit() {
   const editProfileData = { profileImg: profileImg, nickName: nickName, introduction: introduction, selectedJob: selectedJob };
 
   return (
-    <section className="flex min-h-[calc(100vh-160px)] flex-col gap-7 py-4 px-6 text-lightText dark:text-white">
+    <section className="flex min-h-[calc(100vh-160px)] flex-col gap-7 px-6 py-4 text-lightText dark:text-white">
       <Header type="withMainBtn" title="프로필 편집" icon={<BsChevronLeft />} onSubmit={editProfileData} />
       <div className="mt-9 flex h-full flex-col gap-7 p-4 px-2 text-xl font-bold">
         <ChangeProfilePic profileImg={profileImg} setProfileImg={setProfileImg} />
