@@ -5,6 +5,7 @@ import CoffeeTitle from '../components/coffeeChat/CoffeeTitle';
 import AddBtn from '../components/common/AddBtn';
 import FooterMenu from '../components/common/FooterMenu';
 import { chatRooms } from '../store/chatsDummy';
+import tw from 'tailwind-styled-components';
 
 export default function CoffeeChat() {
   const [inputValue, setInputValue] = useState('');
@@ -15,8 +16,9 @@ export default function CoffeeChat() {
   useEffect(() => {
     const fetchChatRoom = async () => {
       try {
-        const response = await axios.get('http://34.64.224.24:8080/chatroom', {
+        const response = await axios.get('https://proxy.cors.sh/http://34.64.224.24:8080/api/chatroom', {
           params: { page: 0 },
+          headers: { Authorization: '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' },
         });
         console.log(response.data);
       } catch (error) {
@@ -36,7 +38,7 @@ export default function CoffeeChat() {
 
   return (
     <section>
-      <div className="relative mb-20 mt-9 flex h-full min-h-[calc(100vh-160px)] w-full flex-col items-center justify-center gap-4 p-4">
+      <div className="relative mb-20 mt-9  flex  h-full  min-h-[calc(100vh-160px)]  w-full  flex-col  items-center  justify-center  gap-4  p-4">
         <AddBtn url="/roomCreate" text="방만들기" />
         <CoffeeTitle chatRooms={chatRooms} inputValue={inputValue} setInputValue={setInputValue} />
         <CoffeeChatRoom chatRooms={chatRoomsResult} />
