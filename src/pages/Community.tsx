@@ -34,7 +34,6 @@ export default function Community() {
   const [sort, setSort] = useState('recent');
   if (sort === 'popular') resultData = resultData.sort((a, b) => b.likeCount - a.likeCount);
   if (sort === 'recent') resultData = resultData.sort((a, b) => Number(b.createdAt.split(' ').join('').split(':').join('')) - Number(a.createdAt.split(' ').join('').split(':').join('')));
-
   return (
     <section>
       <div className="relative mb-16 mt-9 flex h-full min-h-[calc(100vh-160px)] w-full flex-col items-center gap-4 p-4 text-lightText dark:text-white">

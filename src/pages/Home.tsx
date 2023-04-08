@@ -5,7 +5,7 @@ import HomeCommitSection from '../components/home/HomeCommitSection';
 import HomeCommitCalendar from '../components/home/HomeCommitCalendar';
 import axios from 'axios';
 import { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 // import { CLIENT_ID, CLIENT_SECRET } from './LogInPage';
 
 export const CLIENT_ID = 'bec71f378661578c68bd';
@@ -23,6 +23,7 @@ export default function Home() {
   //   };
   //   fetchGithubInfo();
   // }, []);
+  const navigate = useNavigate();
 
   // useEffect(() => {
   //   const urlParams = new URLSearchParams(window.location.search);
@@ -59,6 +60,9 @@ export default function Home() {
         <HomeLevelSection />
         <HomeCommitSection />
         <HomeCommitCalendar />
+        <button onClick={() => navigate('/test')} className="mb-4 flex w-full items-center justify-center rounded-[20px] bg-greyBeige p-4 text-[22px] font-semibold">
+          test
+        </button>
       </div>
       <FooterMenu />
     </section>
