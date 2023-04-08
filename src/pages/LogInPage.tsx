@@ -1,9 +1,24 @@
+import axios from 'axios';
+import { useEffect } from 'react';
 import { AiFillGithub } from 'react-icons/ai';
 
+export const CLIENT_ID = 'bec71f378661578c68bd';
+export const CLIENT_SECRET = 'a96b2fec345416f95516a64712b7eba1b1e8cf1b';
 export default function LogIn() {
-  const CLIENT_ID = 'bec71f378661578c68bd';
+  useEffect(() => {
+    const getOauth = async () => {
+      try {
+        const response = await axios.get('http://34.64.224.24:8080/oauth2/authorization/github');
+        console.log(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    getOauth();
+  }, []);
+
   function loginWithGithub() {
-    window.location.assign('https://github.com/login/oauth/authorize?client_id=' + CLIENT_ID);
+    window.location.assign('https://github.com/login/oauth/authorize?client_id=' + CLIENT_ID + '&scope=repo:status read:repo_hook user:email&redirect_uri=http://127.0.0.1:5173/');
   }
 
   return (
@@ -14,7 +29,7 @@ export default function LogIn() {
         <span>My Little Forest</span>
         <span className="text-pointGreen">{` />`}</span>
       </div>
-      <div className="mt-12 mb-20 text-center text-[20px] font-bold text-lightText dark:text-white">
+      <div className="mb-20 mt-12 text-center text-[20px] font-bold text-lightText dark:text-white">
         <div className="">마이 리틀 포레스트에 오신 것을 환영해요</div>
         <div className="mt-4">깃허브를 통해 로그인해주세요</div>
       </div>
