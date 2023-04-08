@@ -10,23 +10,21 @@ export default function CoffeeChat() {
   const [inputValue, setInputValue] = useState('');
 
   let chatRoomsResult = [...chatRooms];
-  // const [chatRoom, setChatRoom] = useState(null);
+  const [chatRoom, setChatRoom] = useState(null);
 
-  // useEffect(() => {
-  //   const fetchChatRoom = async () => {
-  //     try {
-  //       const response = await axios.get('http://34.64.224.24/:8080/chatroom', {
-  //         params: {
-  //           page: 0,
-  //         },
-  //       });
-  //       console.log(response.data);
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //   };
-  //   fetchChatRoom();
-  // }, []);
+  useEffect(() => {
+    const fetchChatRoom = async () => {
+      try {
+        const response = await axios.get('http://34.64.224.24:8080/chatroom', {
+          params: { page: 0 },
+        });
+        console.log(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchChatRoom();
+  }, []);
 
   if (inputValue) {
     chatRoomsResult = chatRooms.filter(
@@ -38,7 +36,7 @@ export default function CoffeeChat() {
 
   return (
     <section>
-      <div className="relative mt-9 mb-20 flex h-full min-h-[calc(100vh-160px)] w-full flex-col items-center justify-center gap-4 p-4">
+      <div className="relative mb-20 mt-9 flex h-full min-h-[calc(100vh-160px)] w-full flex-col items-center justify-center gap-4 p-4">
         <AddBtn url="/roomCreate" text="방만들기" />
         <CoffeeTitle chatRooms={chatRooms} inputValue={inputValue} setInputValue={setInputValue} />
         <CoffeeChatRoom chatRooms={chatRoomsResult} />

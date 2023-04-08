@@ -5,9 +5,11 @@ import { useState } from 'react';
 export default function RoomCreate() {
   const [roomInfo, setRoomInfo] = useState({
     title: '',
-    des: '',
-    tag: ['', '', ''] as string[],
+    description: '',
+    hashTag$set: true,
+    hashTag$value: ['', '', ''] as string[],
   });
+  console.log(roomInfo);
 
   return (
     <section className="inset-0 flex flex-col gap-7 px-6 py-4 text-lightText dark:text-white">
@@ -35,10 +37,10 @@ export default function RoomCreate() {
             onChange={(e) =>
               setRoomInfo({
                 ...roomInfo,
-                des: e.target.value,
+                description: e.target.value,
               })
             }
-            value={roomInfo.des}
+            value={roomInfo.description}
             placeholder="어떤 방인지 간단한 소개를 적어주세요(필수)"
             className="h-[120px] w-full rounded-[20px] bg-midIvory p-4 text-[16px] leading-5 placeholder:font-semibold placeholder:text-[#7b6d6d] focus:outline-none dark:bg-lightNavy dark:placeholder:text-white dark:placeholder:opacity-50"
           />
@@ -46,13 +48,13 @@ export default function RoomCreate() {
         <div className="flex flex-col gap-4 text-xl font-medium">
           <p className="font-bold">태그</p>
           <div className="flex gap-2">
-            {roomInfo.tag.map((_, index) => (
+            {roomInfo.hashTag$value.map((_, index) => (
               <input
                 onChange={(e) => {
                   setRoomInfo({
                     ...roomInfo,
-                    tag: [
-                      ...roomInfo.tag.map((i, idx) => {
+                    hashTag$value: [
+                      ...roomInfo.hashTag$value.map((i, idx) => {
                         if (idx === index) return e.target.value;
                         else return i;
                       }),
