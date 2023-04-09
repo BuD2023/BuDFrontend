@@ -1,4 +1,4 @@
-import { useInfiniteQuery } from 'react-query';
+import { useInfiniteQuery } from '@tanstack/react-query';
 import { useInView } from 'react-intersection-observer';
 import axios from 'axios';
 import { useEffect } from 'react';
@@ -26,7 +26,7 @@ const fetchData = ({ pageParam = 0 }) => {
 };
 
 export default function Test2() {
-  const { isLoading, isError, data, hasNextPage, fetchNextPage, isFetching, isFetchingNextPage } = useInfiniteQuery('passengers', fetchData, {
+  const { isLoading, isError, data, hasNextPage, fetchNextPage, isFetching, isFetchingNextPage } = useInfiniteQuery(['passengers'], fetchData, {
     getNextPageParam: (prevData, allPages) => {
       const maxPages = prevData.data.totalPages;
       const nextPage = allPages.length + 1;
