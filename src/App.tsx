@@ -22,6 +22,7 @@ import SignUp from './pages/SignUp';
 import SetPicture from './components/SignUp/SetPicture';
 import SetJob from './components/SignUp/SetJob';
 import Test from './pages/Test';
+import Test2 from './pages/Test2';
 
 function App() {
   const $html = document.querySelector('html');
@@ -62,6 +63,7 @@ function App() {
       <Route path="*" element={<NotFound />} />
 
       <Route path="/test" element={<Test />} />
+      <Route path="/test2" element={<Test2 />} />
     </Routes>
   );
 }
