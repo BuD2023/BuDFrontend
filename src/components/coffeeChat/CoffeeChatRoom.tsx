@@ -18,7 +18,7 @@ export default function CoffeeChatRoom({ chatRooms }: CoffeeChatRoomPropsType) {
               <div className="text-[19px] font-semibold leading-6">{room.roomName}</div>
               <div className="flex w-full gap-2">
                 {room.tag.map((item, idx) => (
-                  <div key={idx} className="flex items-center rounded-[40px] bg-greyBeige pl-2 pr-2.5 pt-1 pb-1.5">
+                  <div key={idx} className="flex items-center rounded-[40px] bg-greyBeige pl-2 pr-2.5 pt-1 pb-1.5 dark:bg-sky">
                     {`# ${item}`}
                   </div>
                 ))}

@@ -85,7 +85,7 @@ export default function PostCreate() {
               <button
                 onClick={() => setIsClick(!isClick)}
                 type="button"
-                className="mb-2 flex h-[54px] w-full items-center rounded-[20px] bg-midIvory p-2 px-4 text-start text-[21px] dark:bg-lightNavy"
+                className="text-start mb-2 flex h-[54px] w-full items-center rounded-[20px] bg-midIvory p-2 px-4 text-[21px] dark:bg-lightNavy"
               >
                 <span className="grow text-[18px] font-semibold">{postInfo.type}</span>
                 <RxTriangleDown className="text-[40px] opacity-50" />
@@ -101,7 +101,7 @@ export default function PostCreate() {
                           setIsClick(true);
                         }}
                         type="button"
-                        className="w-full p-1 px-4 text-start hover:rounded-[20px] hover:bg-greyBeige hover:bg-opacity-50 dark:hover:bg-[#506779] dark:hover:bg-opacity-50"
+                        className="text-start w-full p-1 px-4 hover:rounded-[20px] hover:bg-greyBeige hover:bg-opacity-50 dark:hover:bg-[#506779] dark:hover:bg-opacity-50"
                       >
                         {job}
                       </button>
@@ -128,7 +128,7 @@ export default function PostCreate() {
                 <AiFillPicture className="opacity-80" />
               </div>
             </div>
-            <div className={`${!isClick ? 'h-[calc(100vh-414px)]' : 'h-[calc(100vh-290px)]'} flex w-full flex-col gap-2 transition-all`}>
+            <div className={`${!isClick ? 'h-[calc(100vh-470px)]' : 'h-[calc(100vh-346px)]'} flex w-full flex-col gap-2 transition-all`}>
               {postInfo.pic.length > 0 && (
                 <div className="flex w-full shrink-0 items-center gap-2 overflow-auto rounded-[20px] bg-midIvory p-2">
                   {postInfo.pic.map((img, idx) => (

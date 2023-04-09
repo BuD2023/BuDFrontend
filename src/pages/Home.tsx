@@ -60,7 +60,7 @@ export default function Home() {
         <HomeLevelSection />
         <HomeCommitSection />
         <HomeCommitCalendar />
-        <button onClick={() => navigate('/test')} className="mb-4 flex w-full items-center justify-center rounded-[20px] bg-greyBeige p-4 text-[22px] font-semibold">
+        <button onClick={() => navigate('/test')} className="mb-4 flex w-full items-center justify-center rounded-[20px] bg-greyBeige p-4 text-[22px] font-semibold dark:bg-sky">
           test
         </button>
       </div>
