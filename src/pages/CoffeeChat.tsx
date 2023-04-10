@@ -12,9 +12,7 @@ export default function CoffeeChat() {
   let chatRoomsResult = [...chatRooms];
   const [chatRoom, setChatRoom] = useState(null);
 
-  const accessToken =
-    'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJKSG5pMiIsInJvbGUiOiJbUk9MRV9WRVJJRklFRF0iLCJpYXQiOjE2ODEwMzkwODgsImV4cCI6MTY4MTA0MjY4OH0.SWnSKEbQLtxoXaNgPY8FJWmn3TdRfWLfsOOY_wOkn2n-LcRFWKtaRu0BDIcUei4lW5kiifbUWk5aCt4ddL_XhA';
-
+  const accessToken = localStorage.getItem('accessToken');
   const headers = {
     Authorization: `Bearer ${accessToken}`,
     withCredentials: true,

@@ -5,49 +5,47 @@ import HomeCommitSection from '../components/home/HomeCommitSection';
 import HomeCommitCalendar from '../components/home/HomeCommitCalendar';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-
-const CLIENT_ID = 'bec71f378661578c68bd';
-const CLIENT_SECRET = 'a96b2fec345416f95516a64712b7eba1b1e8cf1b';
+import { useNavigate } from 'react-router-dom';
 
 export default function Home() {
   const navigate = useNavigate();
   const [rerender, setRerender] = useState(false);
 
-  async function getUserData() {
+  const accessToken = localStorage.getItem('accessToken');
+  const headers = {
+    Authorization: `Bearer ${accessToken}`,
+    withCredentials: true,
+  };
+
+  const getUserData = async () => {
     try {
-      const response = await axios('http://34.64.224.24:8080/home/github/info', {
-        method: 'GET',
-        headers: {
-          Authorization: 'Bearer ' + localStorage.getItem('accessToken'),
-          withCredentials: true,
-        },
-      });
+      const response = await axios.get('http://34.64.224.24:8080/home/github/info', { headers });
       console.log(response.data);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
-  }
+  };
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
-    const codeParams = urlParams.get('code');
-    console.log(codeParams);
+    const code = urlParams.get('code');
+    console.log(code);
 
-    if (codeParams && localStorage.getItem('accessToken') === null) {
-      async function getAccessToken() {
-        const response = await axios('http://서버주소/getAccessToken?code=' + codeParams, {
-          method: 'GET',
-        });
-        console.log(response.data);
-        if (response.data.access_token) {
-          localStorage.setItem('accessToken', response.data.access_token);
-          setRerender(!rerender);
+    if (code && localStorage.getItem('accessToken') === null) {
+      const getAccessToken = async () => {
+        try {
+          const response = await axios.get(`http://서버주소/getAccessToken?code= ${code}`);
+          console.log(response.data);
+          if (response.data.access_token) {
+            localStorage.setItem('accessToken', response.data.access_token);
+            setRerender(!rerender);
+          }
+        } catch (error) {
+          console.log(error);
         }
-      }
+      };
       getAccessToken();
     }
-    getUserData();
   }, []);
 
   return (
@@ -57,6 +55,23 @@ export default function Home() {
         <HomeLevelSection />
         <HomeCommitSection />
         <HomeCommitCalendar />
+        {localStorage.getItem('accessToken') ? (
+          <>
+            <button
+              onClick={() => {
+                localStorage.removeItem('accessToken');
+                setRerender(!rerender);
+              }}
+            >
+              로그아웃
+            </button>
+            <button onClick={getUserData}>유저 정보 가져오기</button>
+          </>
+        ) : (
+          <>
+            <button onClick={() => navigate('/signUp')}>로그인하기</button>
+          </>
+        )}
         <button onClick={() => navigate('/test')} className="mb-4 flex w-full items-center justify-center rounded-[20px] bg-greyBeige p-4 text-[22px] font-semibold dark:bg-sky">
           test
         </button>

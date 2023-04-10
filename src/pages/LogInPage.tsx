@@ -1,5 +1,3 @@
-import axios from 'axios';
-import { useEffect } from 'react';
 import { AiFillGithub } from 'react-icons/ai';
 
 export const CLIENT_ID = 'bec71f378661578c68bd';
@@ -10,7 +8,7 @@ export const CLIENT_SECRET = 'a96b2fec345416f95516a64712b7eba1b1e8cf1b';
 
 export default function LogIn() {
   function loginWithGithub() {
-    window.location.assign('https://github.com/login/oauth/authorize?client_id=' + CLIENT_ID + '&redirect_uri=http://127.0.0.1:5173/');
+    window.location.assign('https://github.com/login/oauth/authorize?client_id=' + process.env.CLIENT_ID + '&redirect_uri=http://127.0.0.1:5173/');
   }
 
   return (
