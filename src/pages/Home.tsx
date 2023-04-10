@@ -4,54 +4,49 @@ import HomeLevelSection from '../components/home/HomeLevelSection';
 import HomeCommitSection from '../components/home/HomeCommitSection';
 import HomeCommitCalendar from '../components/home/HomeCommitCalendar';
 import axios from 'axios';
-import { useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-// import { CLIENT_ID, CLIENT_SECRET } from './LogInPage';
-
-export const CLIENT_ID = 'bec71f378661578c68bd';
-export const CLIENT_SECRET = 'a96b2fec345416f95516a64712b7eba1b1e8cf1b';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export default function Home() {
-  // useEffect(() => {
-  //   const fetchGithubInfo = async () => {
-  //     try {
-  //       const response = await axios.get('http://34.64.224.24:8080/home/github/info');
-  //       console.log(response.data);
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //   };
-  //   fetchGithubInfo();
-  // }, []);
   const navigate = useNavigate();
+  const [rerender, setRerender] = useState(false);
 
-  // useEffect(() => {
-  //   const urlParams = new URLSearchParams(window.location.search);
-  //   const code = urlParams.get('code');
-  //   console.log(code);
-  //   const getAccessToken = async () => {
-  //     try {
-  //       const response = await axios.post('https://github.com/login/oauth/access_token', null, {
-  //         params: {
-  //           client_id: CLIENT_ID,
-  //           client_secret: CLIENT_SECRET,
-  //           code: code,
-  //         },
-  //         headers: {
-  //           Accept: 'application/json',
-  //         },
-  //       });
-  //       const { access_token } = response.data;
-  //       localStorage.setItem('token', access_token);
-  //       console.log(access_token);
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //   };
-  //   if (code) {
-  //     getAccessToken();
-  //   }
-  // }, []);
+  const accessToken = localStorage.getItem('accessToken');
+  const headers = {
+    Authorization: `Bearer ${accessToken}`,
+    withCredentials: true,
+  };
+
+  const getUserData = async () => {
+    try {
+      const response = await axios.get('http://34.64.224.24:8080/home/github/info', { headers });
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const code = urlParams.get('code');
+    console.log(code);
+
+    if (code && localStorage.getItem('accessToken') === null) {
+      const getAccessToken = async () => {
+        try {
+          const response = await axios.get(`http://서버주소/getAccessToken?code= ${code}`);
+          console.log(response.data);
+          if (response.data.access_token) {
+            localStorage.setItem('accessToken', response.data.access_token);
+            setRerender(!rerender);
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      getAccessToken();
+    }
+  }, []);
 
   return (
     <section>
@@ -60,6 +55,23 @@ export default function Home() {
         <HomeLevelSection />
         <HomeCommitSection />
         <HomeCommitCalendar />
+        {localStorage.getItem('accessToken') ? (
+          <>
+            <button
+              onClick={() => {
+                localStorage.removeItem('accessToken');
+                setRerender(!rerender);
+              }}
+            >
+              로그아웃
+            </button>
+            <button onClick={getUserData}>유저 정보 가져오기</button>
+          </>
+        ) : (
+          <>
+            <button onClick={() => navigate('/signUp')}>로그인하기</button>
+          </>
+        )}
         <button onClick={() => navigate('/test')} className="mb-4 flex w-full items-center justify-center rounded-[20px] bg-greyBeige p-4 text-[22px] font-semibold dark:bg-sky">
           test
         </button>
