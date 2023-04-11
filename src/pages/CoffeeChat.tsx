@@ -1,7 +1,5 @@
-import { useInfiniteQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
-import { useInView } from 'react-intersection-observer';
 import CoffeeChatRoom from '../components/coffeeChat/CoffeeChatRoom';
 import CoffeeTitle from '../components/coffeeChat/CoffeeTitle';
 import AddBtn from '../components/common/AddBtn';
@@ -11,18 +9,19 @@ import { accessToken } from '../main';
 
 export default function CoffeeChat() {
   const [inputValue, setInputValue] = useState('');
+  const [chatRoomsResult, setChatRoomsResult] = useState([]);
 
-  const getChatRooms = async ({ pageParam = 0 }) => {
+  const getChatRooms = async () => {
     try {
-      const response = await axios.get(`api/chatrooms?page=${pageParam}`, {
+      const response = await axios.get(`api/chatrooms?page=0`, {
         headers: {
           'Access-Control-Allow-Origin': '*',
           Authorization: `Bearer ${accessToken}`,
           'Content-Type': 'application/json',
         },
       });
-
-      return response.data;
+      console.log(response.data.content);
+      setChatRoomsResult(response.data.content);
     } catch (error) {
       console.error(error);
     }
@@ -37,48 +36,27 @@ export default function CoffeeChat() {
           'Content-Type': 'application/json',
         },
       });
-
-      return response.data;
+      setChatRoomsResult(response.data.content);
     } catch (error) {
       console.error(error);
     }
   };
 
-  const { isLoading, isError, data, hasNextPage, fetchNextPage, isFetching, isFetchingNextPage } = useInfiniteQuery(['chatRooms'], getChatRooms, {
-    getNextPageParam: (prevData, allPages) => {
-      const lastPage = prevData.last;
-      const nextPage = allPages.length;
-      return lastPage ? undefined : nextPage + 1;
-    },
-  });
-
-  const { ref, inView } = useInView();
-
-  useEffect(() => {
-    if (inView && hasNextPage && !isFetching && !isFetchingNextPage) {
-      fetchNextPage();
-    }
-  }, [inView]);
-
   useEffect(() => {
     if (inputValue) {
       searchChatRoomsResult();
     } else {
-      getChatRooms({ pageParam: 0 });
+      getChatRooms();
     }
   }, [inputValue]);
-
-  if (isLoading) return <h2>Loading...!!</h2>;
-  if (isError) return <h2>Error fetching data</h2>;
 
   return (
     <section>
       <div className="relative mb-20 mt-9  flex  h-full  min-h-[calc(100vh-160px)]  w-full  flex-col  items-center  justify-center  gap-4  p-4">
         <AddBtn url="/roomCreate" text="방만들기" />
         <CoffeeTitle chatRooms={chatRooms} inputValue={inputValue} setInputValue={setInputValue} />
-        <CoffeeChatRoom chatRooms={data.pages.flatMap((page) => page.content)} />
+        <CoffeeChatRoom chatRooms={chatRoomsResult} />
       </div>
-      <div ref={ref} />
       <FooterMenu />
     </section>
   );
