@@ -6,15 +6,19 @@ import { useNavigate } from 'react-router-dom';
 import NotiBtn from './NotiBtn';
 import MainBtn from '../common/MainBtn';
 import { AiFillCopy } from 'react-icons/ai';
+import { MdOutlineRestartAlt } from 'react-icons/md';
+import { accessToken } from '../../pages/Home';
+import axios from 'axios';
 
 interface IHeader {
   type?: string;
   title?: string;
+  restart?: boolean;
   icon?: ReactElement<IconType>;
   onSubmit?: object;
 }
 
-export default function Header({ type, title, icon, onSubmit }: IHeader) {
+export default function Header({ type, title, restart, icon, onSubmit }: IHeader) {
   const [visible, setVisible] = useState(true);
   const beforeScrollY = useRef(0);
   const navigate = useNavigate();
@@ -41,6 +45,21 @@ export default function Header({ type, title, icon, onSubmit }: IHeader) {
     };
   }, []);
 
+  const headers = {
+    Authorization: `Bearer ${accessToken}`,
+    'content-type': 'application/json',
+    withCredentials: true,
+  };
+
+  const postGitHub = async () => {
+    try {
+      const response = await axios.post('/api/home/github', { headers: headers });
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <div className={'fixed left-0 top-0 z-30 flex w-full items-center justify-between bg-lightIvory p-4 py-5 transition-all dark:bg-darkNavy ' + (visible ? '' : 'opacity-0')}>
       <div className="flex items-center gap-3 text-[26px] font-bold">
@@ -51,7 +70,10 @@ export default function Header({ type, title, icon, onSubmit }: IHeader) {
             {icon}
           </div>
         )}
-        <h1>{title}</h1>
+        <div className="flex gap-2">
+          <h1>{title}</h1>
+          {restart && <MdOutlineRestartAlt onClick={postGitHub} className="cursor-pointer" />}
+        </div>
       </div>
       {type === 'category' && <NotiBtn />}
       {type === 'news' && <AiFillCopy size={26} />}

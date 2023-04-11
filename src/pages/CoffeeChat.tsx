@@ -1,5 +1,4 @@
-import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import CoffeeChatRoom from '../components/coffeeChat/CoffeeChatRoom';
 import CoffeeTitle from '../components/coffeeChat/CoffeeTitle';
 import AddBtn from '../components/common/AddBtn';
@@ -11,20 +10,6 @@ export default function CoffeeChat() {
   const [inputValue, setInputValue] = useState('');
 
   let chatRoomsResult = [...chatRooms];
-  // const headers = {
-  //   Authorization: `Bearer ${accessToken}`,
-  //   'content-type': 'application/json',
-  //   withCredentials: true,
-  // };
-
-  // const postGitHub = async () => {
-  //   try {
-  //     const response = await axios.post('/api/home/github', { headers: headers });
-  //     console.log(response.data);
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
 
   if (inputValue) {
     chatRoomsResult = chatRooms.filter(

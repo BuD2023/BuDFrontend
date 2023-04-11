@@ -1,15 +1,8 @@
 import { AiFillGithub } from 'react-icons/ai';
 
-export const CLIENT_ID = 'bec71f378661578c68bd';
-export const CLIENT_SECRET = 'a96b2fec345416f95516a64712b7eba1b1e8cf1b';
-// 00a1b5a79f81ce98c4f9
-// export const CLIENT_ID = 'Iv1.84b5d4fbbbce583a';
-// export const CLIENT_SECRET = '8cd84cb9cfbe60abc820cc302c22c591599be3ad';
-
 export default function LogIn() {
   function loginWithGithub() {
-    // window.location.assign('https://github.com/login/oauth/authorize?client_id=' + CLIENT_ID + '&redirect_uri=http://127.0.0.1:5173/');
-    window.location.assign('http://34.64.224.24:8080/oauth2/authorization/github');
+    window.location.assign('http://34.64.224.24:8080/oauth2/authorization/github ');
   }
 
   return (
