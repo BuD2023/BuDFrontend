@@ -6,15 +6,17 @@ import { useNavigate } from 'react-router-dom';
 import NotiBtn from './NotiBtn';
 import MainBtn from '../common/MainBtn';
 import { AiFillCopy } from 'react-icons/ai';
+import { MdOutlineRestartAlt } from 'react-icons/md';
 
 interface IHeader {
   type?: string;
   title?: string;
+  restart?: boolean;
   icon?: ReactElement<IconType>;
   onSubmit?: object;
 }
 
-export default function Header({ type, title, icon, onSubmit }: IHeader) {
+export default function Header({ type, title, restart, icon, onSubmit }: IHeader) {
   const [visible, setVisible] = useState(true);
   const beforeScrollY = useRef(0);
   const navigate = useNavigate();
@@ -51,7 +53,10 @@ export default function Header({ type, title, icon, onSubmit }: IHeader) {
             {icon}
           </div>
         )}
-        <h1>{title}</h1>
+        <div className="flex gap-2">
+          <h1>{title}</h1>
+          {restart && <MdOutlineRestartAlt className="cursor-pointer" />}
+        </div>
       </div>
       {type === 'category' && <NotiBtn />}
       {type === 'news' && <AiFillCopy size={26} />}

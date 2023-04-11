@@ -55,28 +55,15 @@ export default function Home() {
         <HomeLevelSection />
         <HomeCommitSection />
         <HomeCommitCalendar />
-        {localStorage.getItem('accessToken') ? (
-          <>
-            <button
-              onClick={() => {
-                localStorage.removeItem('accessToken');
-                setRerender(!rerender);
-              }}
-            >
-              로그아웃
-            </button>
-            <button onClick={getUserData}>유저 정보 가져오기</button>
-          </>
-        ) : (
-          <>
-            <button onClick={() => navigate('/signUp')}>로그인하기</button>
-          </>
-        )}
+
         <button onClick={() => navigate('/test')} className="mb-4 flex w-full items-center justify-center rounded-[20px] bg-greyBeige p-4 text-[22px] font-semibold dark:bg-sky">
           test
         </button>
         <button onClick={() => navigate('/test2')} className="mb-4 flex w-full items-center justify-center rounded-[20px] bg-greyBeige p-4 text-[22px] font-semibold">
           test2
+        </button>
+        <button onClick={() => navigate('/test3')} className="mb-4 flex w-full items-center justify-center rounded-[20px] bg-greyBeige p-4 text-[22px] font-semibold">
+          test3
         </button>
       </div>
       <FooterMenu />
