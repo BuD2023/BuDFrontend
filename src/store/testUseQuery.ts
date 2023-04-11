@@ -1,6 +1,6 @@
 import { useInfiniteQuery, useQuery, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
-import { getPostData } from '../api/getPostData';
+import { getPostData } from '../apiFetcher/getPostData';
 
 //데이터 타입 정의
 export interface airlineType {
