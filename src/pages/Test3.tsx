@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 import FooterMenu from '../components/common/FooterMenu';
-import { accessToken } from './Home';
+import { accessToken } from '../main';
 
 export default function Test3() {
   axios.defaults.withCredentials = true;

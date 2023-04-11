@@ -3,7 +3,7 @@ import customAxios from '../customAxios';
 const postChatroomAxios = async (token: string) => {
   return await customAxios({
     method: 'post',
-    url: '/chatroom',
+    url: '/chatrooms',
     headers: {
       Authorization: token,
       'Content-Type': 'application/json',

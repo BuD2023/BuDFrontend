@@ -1,11 +1,12 @@
 import axios from 'axios';
-import { accessToken } from '../../pages/Home';
+import { accessToken } from '../../main';
 
 interface IOnSubmitType {
   title: string;
   description: string;
   hashTag: string[];
 
+  postId: string;
   content: string;
   pic: (string | ArrayBuffer | null)[];
 
@@ -61,13 +62,20 @@ export default function MainBtn({ onSubmit, content, size }: IMainBtn) {
   };
 
   const handleSubitData = () => {
-    if (onSubmit?.content) createPost();
+    if (onSubmit?.content) {
+      if (onSubmit?.postId) {
+        // 게시물 업데이트하는 함수
+        console.log(onSubmit);
+      } else {
+        createPost();
+      }
+    }
     if (onSubmit?.description) postChatRoom();
   };
 
   return (
     <button
-      disabled={(onSubmit?.title?.trim().length === 0 || onSubmit?.description?.trim().length === 0) as boolean}
+      disabled={(onSubmit?.title?.trim().length === 0 || onSubmit?.description?.trim().length === 0 || onSubmit?.content?.trim().length === 0) as boolean}
       onClick={handleSubitData}
       className={'flex cursor-pointer justify-center rounded-[50px] bg-greyBeige disabled:opacity-40 dark:bg-sky ' + `text-[${size}px]`}
     >

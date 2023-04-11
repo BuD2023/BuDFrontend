@@ -7,7 +7,7 @@ import axios from 'axios';
 import { useEffect, useRef, useState } from 'react';
 import tw from 'tailwind-styled-components';
 import * as StompJs from '@stomp/stompjs';
-import { accessToken } from './Home';
+import { accessToken } from '../main';
 
 export default function ChatRoom() {
   const { id } = useParams();

@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 import getAllChatroomList from '../../apiFetcher/coffeeChatInfo/getAllChatroomList';
-import postGithubInfoAxios from '../../apiFetcher/githubInfo/postGithubInfo';
-import { accessToken } from '../../pages/Home';
+import postChatroomAxios from '../../apiFetcher/coffeeChatInfo/postChatroom';
+import { accessToken } from '../../main';
 
 export function useAllChatroomQuery() {
   return useQuery(['coffeeChatList', 'all'], () => getAllChatroomList(accessToken), {
@@ -15,8 +15,8 @@ export function useAllChatroomQuery() {
   });
 }
 
-export function useGithubMutation() {
-  return useMutation(postGithubInfoAxios, {
+export function useCreateRoomMutation() {
+  return useMutation(postChatroomAxios, {
     onError: (err) => {
       console.log(err);
     },

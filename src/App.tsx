@@ -25,6 +25,8 @@ import Test from './pages/Test';
 import Test2 from './pages/Test2';
 import Test3 from './pages/Test3';
 import PostEdit from './pages/PostEdit';
+import QAAnswerUpdate from './pages/QAAnswerUpdate';
+import QAAnswerCreate from './pages/QAAnswerCreate';
 
 function App() {
   const $html = document.querySelector('html');
@@ -51,6 +53,8 @@ function App() {
       <Route path="/communityFeedDetail/:id" element={<CommunityFeedDetail />} />
       <Route path="/postCreate" element={<PostCreate />} />
       <Route path="/postEdit/:id" element={<PostEdit />} />
+      <Route path="/answerEdit/:postId/:answerId" element={<QAAnswerUpdate />} />
+      <Route path="/answerCreate/:postId" element={<QAAnswerCreate />} />
 
       <Route path="/coffeeChat" element={<CoffeeChat />} />
       <Route path="/chatRoom/:id" element={<ChatRoom />} />

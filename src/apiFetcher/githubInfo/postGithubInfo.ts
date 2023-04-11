@@ -3,7 +3,7 @@ import customAxios from '../customAxios';
 const postGithubInfo = async (token: string) => {
   return await customAxios({
     method: 'post',
-    url: '/home/github',
+    url: '/github',
     headers: {
       Authorization: token,
     },

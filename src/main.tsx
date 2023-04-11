@@ -6,6 +6,9 @@ import './index.css';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
+export var accessToken =
+  'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJqYW1lc2tpbTk3Iiwicm9sZSI6IltST0xFX1ZFUklGSUVEXSIsImlhdCI6MTY4MTIyMjI1NCwiZXhwIjoxNjgxMjI1ODU0fQ.X41_SB9mHS4g0DBNdmZEJVzEFqdcn29iTgrCDiLRMNlj-a0an_r5AJeimN6SwKmDKlsxuXzBKG3gNr-BEQWwsw';
+
 export const queryClient = new QueryClient({
   defaultOptions: {
     queries: {

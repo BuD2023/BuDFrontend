@@ -7,7 +7,7 @@ import CoffeeTitle from '../components/coffeeChat/CoffeeTitle';
 import AddBtn from '../components/common/AddBtn';
 import FooterMenu from '../components/common/FooterMenu';
 import { chatRooms } from '../store/chatsDummy';
-import { accessToken } from './Home';
+import { accessToken } from '../main';
 
 export default function CoffeeChat() {
   const [inputValue, setInputValue] = useState('');

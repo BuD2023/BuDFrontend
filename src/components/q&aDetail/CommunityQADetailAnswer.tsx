@@ -11,15 +11,36 @@ export default function CommunityQADetailAnswer() {
   const data = dummyData.find((i) => i.id === Number(id)) as IBlogData;
   const [isCommentOpen, setIsCommentOpen] = useState(false);
   const navigate = useNavigate();
+  const [isMenu, setIsMenu] = useState<boolean>();
 
   return (
-    <div className="flex w-full flex-col items-center overflow-hidden rounded-[20px] border-[3px] border-pointGreen  dark:border-sky ">
-      <div className="flex h-[55px] w-full items-center justify-between border-b-[0.5px] border-b-darkIvory  bg-midIvory p-5  text-[20px]  font-bold dark:border-b-lightNavy dark:bg-midNavy">
+    <div
+      className="flex w-full flex-col items-center overflow-hidden rounded-[20px] border-[3px] border-pointGreen  dark:border-sky "
+      onClick={(e) => {
+        e.stopPropagation();
+        setIsMenu(false);
+      }}
+    >
+      <div className="relative flex h-[55px] w-full items-center justify-between border-b-[0.5px] border-b-darkIvory  bg-midIvory p-5  text-[20px]  font-bold dark:border-b-lightNavy dark:bg-midNavy">
         <div className="flex items-center gap-2">
           <FcApproval size={24} />
           <span>답변 1</span>
         </div>
-        <BsThreeDots className="text-[24px]" />
+        <BsThreeDots
+          className="cursor-pointer text-[24px]"
+          onClick={(e) => {
+            e.stopPropagation();
+            setIsMenu(!isMenu);
+          }}
+        />
+        {isMenu && (
+          <div className="absolute right-4 top-[45px] flex flex-col gap-3 rounded-xl bg-greyBeige p-3 text-[16px] font-medium">
+            <div onClick={() => navigate(`/answerEdit/${id}/1`)} className="cursor-pointer">
+              수정하기
+            </div>
+            <div className="cursor-pointer">삭제하기</div>
+          </div>
+        )}
       </div>
       <div className="flex w-full flex-col gap-4 bg-midIvory p-4 py-8 dark:bg-midNavy">
         <div className="flex w-full">
@@ -41,7 +62,7 @@ export default function CommunityQADetailAnswer() {
               <div className="mt-1 text-[16px] opacity-50">프론트엔드 개발자</div>
             </div>
           </div>
-          <div className="grow text-end font-bold">
+          <div className="text-end grow font-bold">
             <div className="flex h-full items-center justify-end ">
               <div className="flex cursor-pointer gap-3">
                 <FcPortraitMode />

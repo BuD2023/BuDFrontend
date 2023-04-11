@@ -1,5 +1,5 @@
 import axios, { AxiosInstance, AxiosError } from 'axios';
-import { accessToken } from '../pages/Home';
+import { accessToken } from '../main';
 
 export const basicHeaders = {
   Authorization: accessToken,

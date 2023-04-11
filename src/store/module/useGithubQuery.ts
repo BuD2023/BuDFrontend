@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 import getGithubInfoAxios from '../../apiFetcher/githubInfo/getGithubInfo';
 import postGithubInfoAxios from '../../apiFetcher/githubInfo/postGithubInfo';
-import { accessToken } from '../../pages/Home';
+import { accessToken } from '../../main';
 
 export function useGithubQuery() {
   return useQuery(['githubInfo'], () => getGithubInfoAxios(accessToken), {

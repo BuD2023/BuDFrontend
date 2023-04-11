@@ -10,7 +10,7 @@ export interface INewCommunityPostType {
 const postCommunityPostAxios = async (token: string, postData: INewCommunityPostType) => {
   return await customAxios({
     method: 'post',
-    url: '/community/post',
+    url: '/posts',
     headers: {
       Authorization: token,
       'Content-Type': 'application/json',

@@ -7,8 +7,9 @@ import NotiBtn from './NotiBtn';
 import MainBtn from '../common/MainBtn';
 import { AiFillCopy } from 'react-icons/ai';
 import { MdOutlineRestartAlt } from 'react-icons/md';
-import { accessToken } from '../../pages/Home';
+import { accessToken } from '../../main';
 import axios from 'axios';
+import EditDeleteBtn from './EditDeleteBtn';
 
 interface IHeader {
   type?: string;
@@ -83,14 +84,7 @@ export default function Header({ type, title, restart, icon, onSubmit, postId }:
       {type === 'category' && <NotiBtn />}
       {type === 'news' && <AiFillCopy size={26} />}
       {type === 'community' && <BsThreeDots size={26} onClick={() => setIsMenu(!isMenu)} className="cursor-pointer" />}
-      {isMenu && (
-        <div className="absolute right-4 top-[55px] flex flex-col gap-3 rounded-xl bg-greyBeige p-3 text-[16px] font-medium">
-          <div onClick={() => navigate(`/postEdit/${postId}`)} className="cursor-pointer">
-            수정하기
-          </div>
-          <div className="cursor-pointer">삭제하기</div>
-        </div>
-      )}
+      {isMenu && <EditDeleteBtn postId={String(postId)} />}
       {type === 'withMainBtn' && <MainBtn onSubmit={onSubmit} content={'완료'} size={20} />}
     </div>
   );

@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 import postCommunityPostAxios, { INewCommunityPostType } from '../../apiFetcher/communityInfo/postCommunityPost';
-import { accessToken } from '../../pages/Home';
+import { accessToken } from '../../main';
 
 export function useCommunityMutation() {
   return useMutation((data: INewCommunityPostType) => postCommunityPostAxios(accessToken, data), {
