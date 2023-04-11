@@ -1,11 +1,14 @@
 import axios from 'axios';
+import { accessToken } from '../../pages/Home';
 
 interface IOnSubmitType {
   title: string;
   description: string;
-  hashTag$set: boolean;
-  hashTag$value: string[];
+  hashTag: string[];
+
+  content: string;
   pic: (string | ArrayBuffer | null)[];
+
   profileImg: string | ArrayBuffer | null;
   nickName: string;
   selectedJob: string;
@@ -16,25 +19,50 @@ interface IMainBtn {
   size: number;
   onSubmit?: Partial<IOnSubmitType>;
 }
+const headers = {
+  Authorization: `Bearer ${accessToken}`,
+  'Content-Type': `application/json`,
+  withCredentials: true,
+};
+const createPostData = {
+  title: '이게 올라간다면?',
+  content: '테스트용입니다',
+  postType: 'FEED',
+  imageUrl: 'imageUrl',
+};
 
 export default function MainBtn({ onSubmit, content, size }: IMainBtn) {
   const postChatRoom = async () => {
     try {
       const response = await axios({
-        url: '/chatroom',
+        url: '/api/chatrooms',
         method: 'post',
-        data: onSubmit,
-        baseURL: 'http://34.64.224.24:8080',
-        //withCredentials: true,
+        headers: headers,
+        data: JSON.stringify(onSubmit),
       });
       console.log(response.data);
     } catch (error) {
       console.error(error);
     }
   };
+
+  const createPost = async () => {
+    try {
+      const response = await axios({
+        url: '/api/community/post',
+        method: 'post',
+        headers: headers,
+        data: JSON.stringify(createPostData),
+      });
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const handleSubitData = () => {
-    console.log(onSubmit);
-    postChatRoom();
+    if (onSubmit?.content) createPost();
+    if (onSubmit?.description) postChatRoom();
   };
 
   return (

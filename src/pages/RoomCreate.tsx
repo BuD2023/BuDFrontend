@@ -1,14 +1,15 @@
 import Header from '../components/common/Header';
 import { BsChevronLeft } from 'react-icons/bs';
 import { useState } from 'react';
+import axios from 'axios';
 
 export default function RoomCreate() {
   const [roomInfo, setRoomInfo] = useState({
     title: '',
     description: '',
-    hashTag$set: true,
-    hashTag$value: ['', '', ''] as string[],
+    hashTag: ['', '', ''] as string[],
   });
+
   console.log(roomInfo);
 
   return (
@@ -48,13 +49,13 @@ export default function RoomCreate() {
         <div className="flex flex-col gap-4 text-xl font-medium">
           <p className="font-bold">태그</p>
           <div className="flex gap-2">
-            {roomInfo.hashTag$value.map((_, index) => (
+            {roomInfo.hashTag.map((_, index) => (
               <input
                 onChange={(e) => {
                   setRoomInfo({
                     ...roomInfo,
-                    hashTag$value: [
-                      ...roomInfo.hashTag$value.map((i, idx) => {
+                    hashTag: [
+                      ...roomInfo.hashTag.map((i, idx) => {
                         if (idx === index) return e.target.value;
                         else return i;
                       }),

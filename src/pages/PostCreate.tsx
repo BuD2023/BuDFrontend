@@ -9,16 +9,17 @@ import imageCompression from 'browser-image-compression';
 
 export default function PostCreate() {
   //게시글 타입
-  const postTypes = ['개발 피드', 'Q & A 피드 '];
+  const postTypes = ['개발 피드', 'Q & A 피드'];
   const [isClick, setIsClick] = useState(true);
 
   // 게시글 전체 정보
   const [postInfo, setPostInfo] = useState({
     title: '',
-    des: '',
-    type: '개발 피드',
-    pic: [] as (string | ArrayBuffer | null)[],
+    content: '',
+    postType: '개발 피드',
+    imageUrl: [] as (string | ArrayBuffer | null)[],
   });
+  console.log(postInfo);
 
   //이미지 압축
   const actionImgCompress = async (fileSrc: File) => {
@@ -63,7 +64,7 @@ export default function PostCreate() {
 
     setPostInfo({
       ...postInfo,
-      pic: [...compressedFileURLs],
+      imageUrl: [...compressedFileURLs],
     });
   };
 
@@ -87,7 +88,7 @@ export default function PostCreate() {
                 type="button"
                 className="text-start mb-2 flex h-[54px] w-full items-center rounded-[20px] bg-midIvory p-2 px-4 text-[21px] dark:bg-lightNavy"
               >
-                <span className="grow text-[18px] font-semibold">{postInfo.type}</span>
+                <span className="grow text-[18px] font-semibold">{postInfo.postType}</span>
                 <RxTriangleDown className="text-[40px] opacity-50" />
               </button>
               <ul className={`w-full overflow-hidden rounded-[20px] bg-midIvory px-4 transition-all dark:bg-lightNavy ${isClick ? 'h-0' : 'h-[124px] py-2'}`}>
@@ -97,7 +98,7 @@ export default function PostCreate() {
                       <button
                         onClick={(e) => {
                           e.preventDefault();
-                          setPostInfo({ ...postInfo, type: e.currentTarget.innerText });
+                          setPostInfo({ ...postInfo, postType: e.currentTarget.innerText });
                           setIsClick(true);
                         }}
                         type="button"
@@ -129,9 +130,9 @@ export default function PostCreate() {
               </div>
             </div>
             <div className={`${!isClick ? 'h-[calc(100vh-470px)]' : 'h-[calc(100vh-346px)]'} flex w-full flex-col gap-2 transition-all`}>
-              {postInfo.pic.length > 0 && (
+              {postInfo.imageUrl.length > 0 && (
                 <div className="flex w-full shrink-0 items-center gap-2 overflow-auto rounded-[20px] bg-midIvory p-2">
-                  {postInfo.pic.map((img, idx) => (
+                  {postInfo.imageUrl.map((img, idx) => (
                     <img
                       onClick={(e) => {
                         setIsPicPopUp({
@@ -150,10 +151,10 @@ export default function PostCreate() {
                 onChange={(e) =>
                   setPostInfo({
                     ...postInfo,
-                    des: e.target.value,
+                    content: e.target.value,
                   })
                 }
-                value={postInfo.des}
+                value={postInfo.content}
                 placeholder="내용을 입력해주세요(필수)"
                 className="h-full w-full rounded-[20px] bg-midIvory p-4 text-[16px] leading-5 transition-all placeholder:font-semibold placeholder:text-[#7b6d6d] placeholder:opacity-80 focus:outline-none dark:bg-lightNavy dark:placeholder:text-white"
               />
