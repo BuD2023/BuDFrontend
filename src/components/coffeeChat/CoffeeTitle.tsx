@@ -11,7 +11,7 @@ interface CoffeeTitlePropsType {
 }
 
 export default function CoffeeTitle({ chatRooms, inputValue, setInputValue }: CoffeeTitlePropsType) {
-  const totalChattingMembers = chatRooms.map((room) => Number(room.memberId.length)).reduce((a, b) => a + b);
+  const totalChattingMembers = chatRooms.map((room) => Number(room.numberOfMembers)).reduce((a, b) => a + b);
 
   const coffeeInputHandler = (e: React.KeyboardEvent<HTMLInputElement>) => {
     e.preventDefault();

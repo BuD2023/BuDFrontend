@@ -11,8 +11,8 @@ import { accessToken } from './Home';
 
 export default function ChatRoom() {
   const { id } = useParams();
-  const chatRoom = chatRooms.find((i) => i.roomId === Number(id)) as IChatRoomType;
-  const chatsResult = chats.filter((i) => i.roomId === Number(id)) as IChatsType[];
+  const chatRoom = chatRooms.find((i) => i.chatRoomId === Number(id)) as IChatRoomType;
+  const chatsResult = chats.filter((i) => i.chatRoomId === Number(id)) as IChatsType[];
 
   // const client = useRef({});
   // const connect = () => {
@@ -80,11 +80,8 @@ export default function ChatRoom() {
 
   return (
     <section>
-      <RoomHeader roomName={chatRoom.roomName} numOfMember={chatRoom.memberId} />
+      <RoomHeader title={chatRoom.title} numOfMember={chatRoom.numberOfMembers} />
       <div className="fixed left-0 top-20 h-full w-full rounded-[20px] bg-midIvory dark:bg-midNavy"></div>
-      {/* <Hello>
-        <div></div>
-      </Hello> */}
       <RoomChats chatsResult={chatsResult} />
       <div className="fixed bottom-0 left-0 z-20 flex w-full items-center gap-4 bg-lightIvory p-3 dark:bg-darkNavy">
         <BsCameraFill size="40" className="grow cursor-pointer " />

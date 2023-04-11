@@ -42,6 +42,10 @@ export default function Test2() {
     }
   }, [inView, hasNextPage, isFetching, isFetchingNextPage, fetchNextPage]);
 
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
+
   if (isLoading) return <h2>Loading...!!</h2>;
   if (isError) return <h2>Error fetching data</h2>;
 
