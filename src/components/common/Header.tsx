@@ -16,9 +16,10 @@ interface IHeader {
   restart?: boolean;
   icon?: ReactElement<IconType>;
   onSubmit?: object;
+  postId?: string;
 }
 
-export default function Header({ type, title, restart, icon, onSubmit }: IHeader) {
+export default function Header({ type, title, restart, icon, onSubmit, postId }: IHeader) {
   const [visible, setVisible] = useState(true);
   const beforeScrollY = useRef(0);
   const navigate = useNavigate();
@@ -30,8 +31,10 @@ export default function Header({ type, title, restart, icon, onSubmit }: IHeader
 
         if (beforeScrollY.current < currentScrollY && currentScrollY > 50) {
           setVisible(false);
+          setIsMenu(false);
         } else {
           setVisible(true);
+          setIsMenu(false);
         }
         beforeScrollY.current = currentScrollY;
       }, 250),
@@ -44,6 +47,8 @@ export default function Header({ type, title, restart, icon, onSubmit }: IHeader
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
+
+  const [isMenu, setIsMenu] = useState<boolean>();
 
   const headers = {
     Authorization: `Bearer ${accessToken}`,
@@ -77,7 +82,15 @@ export default function Header({ type, title, restart, icon, onSubmit }: IHeader
       </div>
       {type === 'category' && <NotiBtn />}
       {type === 'news' && <AiFillCopy size={26} />}
-      {type === 'community' && <BsThreeDots size={26} />}
+      {type === 'community' && <BsThreeDots size={26} onClick={() => setIsMenu(!isMenu)} className="cursor-pointer" />}
+      {isMenu && (
+        <div className="absolute right-4 top-[55px] flex flex-col gap-3 rounded-xl bg-greyBeige p-3 text-[16px] font-medium">
+          <div onClick={() => navigate(`/postEdit/${postId}`)} className="cursor-pointer">
+            수정하기
+          </div>
+          <div className="cursor-pointer">삭제하기</div>
+        </div>
+      )}
       {type === 'withMainBtn' && <MainBtn onSubmit={onSubmit} content={'완료'} size={20} />}
     </div>
   );

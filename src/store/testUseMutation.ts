@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
-import { mutatePassengerData } from '../api/mutateData';
+import { mutatePassengerData } from '../apiFetcher/mutateData';
 
 // post 할 데이터 타입 정의
 export interface createDataType {

@@ -24,6 +24,7 @@ import SetJob from './components/SignUp/SetJob';
 import Test from './pages/Test';
 import Test2 from './pages/Test2';
 import Test3 from './pages/Test3';
+import PostEdit from './pages/PostEdit';
 
 function App() {
   const $html = document.querySelector('html');
@@ -49,6 +50,7 @@ function App() {
       <Route path="/communityQADetail/:id" element={<CommunityQADetail />} />
       <Route path="/communityFeedDetail/:id" element={<CommunityFeedDetail />} />
       <Route path="/postCreate" element={<PostCreate />} />
+      <Route path="/postEdit/:id" element={<PostEdit />} />
 
       <Route path="/coffeeChat" element={<CoffeeChat />} />
       <Route path="/chatRoom/:id" element={<ChatRoom />} />
