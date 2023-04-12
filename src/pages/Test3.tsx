@@ -15,10 +15,6 @@ export default function Test3() {
   const postData = JSON.stringify({
     title: 'title',
     content: 'content',
-<<<<<<< HEAD
-    // imageUrl: 'imageUrl',
-=======
->>>>>>> f6bdd26b9a362077520c74001a72108e97c78a8a
     postType: 'FEED',
   });
 
@@ -72,11 +68,7 @@ export default function Test3() {
 
   const postCommunity = async () => {
     try {
-<<<<<<< HEAD
-      const response = await axios.post('api/posts', JSON.stringify(communityData), {
-=======
       const response = await axios.post('api/posts', postData, {
->>>>>>> f6bdd26b9a362077520c74001a72108e97c78a8a
         headers: {
           'Access-Control-Allow-Origin': '*',
           Authorization: `Bearer ${accessToken}`,
@@ -116,13 +108,9 @@ export default function Test3() {
 
   const getGithub = async () => {
     try {
-<<<<<<< HEAD
       const response = await axios({
         method: 'get',
         url: 'api/github',
-=======
-      const response = await axios.get('api/github', {
->>>>>>> f6bdd26b9a362077520c74001a72108e97c78a8a
         headers: {
           'Access-Control-Allow-Origin': '*',
           Authorization: `Bearer ${accessToken}`,
