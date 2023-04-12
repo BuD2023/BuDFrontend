@@ -18,9 +18,10 @@ interface IHeader {
   icon?: ReactElement<IconType>;
   onSubmit?: object;
   postId?: string;
+  copyUrl?: string;
 }
 
-export default function Header({ type, title, restart, icon, onSubmit, postId }: IHeader) {
+export default function Header({ type, title, restart, icon, onSubmit, postId, copyUrl }: IHeader) {
   const [visible, setVisible] = useState(true);
   const beforeScrollY = useRef(0);
   const navigate = useNavigate();
@@ -82,7 +83,7 @@ export default function Header({ type, title, restart, icon, onSubmit, postId }:
         </div>
       </div>
       {type === 'category' && <NotiBtn />}
-      {type === 'news' && <AiFillCopy size={26} />}
+      {type === 'news' && <AiFillCopy size={26} className="cursor-pointer" onClick={() => navigator.clipboard.writeText((copyUrl ??= ''))} />}
       {type === 'community' && <BsThreeDots size={26} onClick={() => setIsMenu(!isMenu)} className="cursor-pointer" />}
       {isMenu && <EditDeleteBtn postId={String(postId)} />}
       {type === 'withMainBtn' && <MainBtn onSubmit={onSubmit} content={'완료'} size={20} />}

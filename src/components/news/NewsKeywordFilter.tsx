@@ -37,7 +37,7 @@ const NEWS_KEYWORD = [
 
 export default function NewsKeywordFilter(props: NewsKeywordFilterPropsType) {
   const [keyWords, setKeyWords] = useState([] as string[]);
-  console.log(keyWords);
+  // console.log(keyWords);
   return (
     <Transition.Root show={props.filter} as={Fragment}>
       <Dialog as="div" className="relative z-20" onClose={() => props.setFilter(false)}>
