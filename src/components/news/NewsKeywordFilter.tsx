@@ -6,7 +6,8 @@ import { BiReset } from 'react-icons/bi';
 interface NewsKeywordFilterPropsType {
   filter: boolean;
   setFilter: (a: boolean) => void;
-  getKeywords: (arr: string[]) => void;
+  filterKeywords: string;
+  setFilterKeywords: React.Dispatch<React.SetStateAction<string>>;
 }
 const NEWS_KEYWORD = [
   'IT',
@@ -32,19 +33,16 @@ const NEWS_KEYWORD = [
   '전산',
   '정보보안',
   'C#',
-  '떠오르는 개발',
+  '떠오르는개발',
 ];
 
 export default function NewsKeywordFilter(props: NewsKeywordFilterPropsType) {
-  const [keyWords, setKeyWords] = useState([] as string[]);
-  // console.log(keyWords);
   return (
     <Transition.Root show={props.filter} as={Fragment}>
       <Dialog as="div" className="relative z-20" onClose={() => props.setFilter(false)}>
         <Transition.Child as={Fragment} enter="ease-in-out duration-500" enterFrom="opacity-0" enterTo="opacity-100" leave="ease-in-out duration-500" leaveFrom="opacity-100" leaveTo="opacity-0">
           <div className="fixed inset-0 bg-[#53535c] bg-opacity-75 transition-opacity" />
         </Transition.Child>
-
         <div className="fixed inset-0 overflow-hidden">
           <div className="absolute inset-0 overflow-hidden">
             <div className="pointer-events-none fixed inset-y-0 right-0 flex max-w-full">
@@ -73,7 +71,6 @@ export default function NewsKeywordFilter(props: NewsKeywordFilterPropsType) {
                     <div className="flex items-center justify-between px-6">
                       <button
                         onClick={() => {
-                          props.getKeywords(keyWords);
                           props.setFilter(false);
                         }}
                         type="button"
@@ -84,7 +81,7 @@ export default function NewsKeywordFilter(props: NewsKeywordFilterPropsType) {
                       </button>
                       <Dialog.Title className="mt-2 text-center text-2xl font-semibold leading-6 ">Filter</Dialog.Title>
                       <button className="rounded-lg border-[2px] border-greyBeige p-1 dark:border-sky ">
-                        <BiReset onClick={() => setKeyWords([])} size="20px" className="box-contents cursor-pointer text-greyBeige dark:text-white" />
+                        <BiReset onClick={() => props.setFilterKeywords('')} size="20px" className="box-contents cursor-pointer text-greyBeige dark:text-white" />
                       </button>
                     </div>
                     <div className="relative mt-6 flex-1 p-6">
@@ -93,14 +90,15 @@ export default function NewsKeywordFilter(props: NewsKeywordFilterPropsType) {
                           <div
                             key={idx}
                             onClick={() => {
-                              if (keyWords.includes(i)) {
-                                setKeyWords([...keyWords.filter((j) => j !== i)]);
+                              if (props.filterKeywords === i) {
+                                props.setFilterKeywords('');
                               } else {
-                                setKeyWords([...keyWords, i]);
+                                props.setFilterKeywords(i);
                               }
+                              props.setFilter(false);
                             }}
                             className={`${
-                              keyWords.includes(i) ? 'bg-greyBeige' : 'bg-opacity-0'
+                              props.filterKeywords === i ? 'bg-greyBeige' : 'bg-opacity-0'
                             } cursor-pointer rounded-[10px] border-[2px] border-greyBeige p-2 text-[18px] font-[500] transition-all hover:scale-[1.1] hover:bg-midIvory`}
                           >
                             {i}

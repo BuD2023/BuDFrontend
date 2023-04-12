@@ -12,10 +12,9 @@ export default function Test3() {
     hashTag: ['인공지능', '챗지비티', 'ai'],
   });
 
-  const communityData = JSON.stringify({
+  const postData = JSON.stringify({
     title: 'title',
     content: 'content',
-    imageUrl: 'imageUrl',
     postType: 'FEED',
   });
 
@@ -25,7 +24,13 @@ export default function Test3() {
 
   const fetchChatRoom = async () => {
     try {
-      const response = await axios.get('api/chatrooms?page=0 ');
+      const response = await axios.get('api/chatrooms?page=0', {
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          Authorization: `Bearer ${accessToken}`,
+          'Content-Type': 'application/json',
+        },
+      });
       console.log(response.data);
     } catch (error) {
       console.error(error);
@@ -33,7 +38,13 @@ export default function Test3() {
   };
   const fetchSearchedChatRoom = async () => {
     try {
-      const response = await axios.get('api/chatrooms/search?keyword=test&page=0&size=5');
+      const response = await axios.get('api/chatrooms/search?keyword=test&page=0&size=5', {
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          Authorization: `Bearer ${accessToken}`,
+          'Content-Type': 'application/json',
+        },
+      });
       console.log(response.data);
     } catch (error) {
       console.error(error);
@@ -46,7 +57,7 @@ export default function Test3() {
         headers: {
           'Access-Control-Allow-Origin': '*',
           Authorization: `Bearer ${accessToken}`,
-          'Content-Type': 'application/json',
+          'Content-Type': 'multipart/form-data',
         },
       });
       console.log(response.data);
@@ -57,7 +68,7 @@ export default function Test3() {
 
   const postCommunity = async () => {
     try {
-      const response = await axios.post('api/community/post', communityData, {
+      const response = await axios.post('api/posts', postData, {
         headers: {
           'Access-Control-Allow-Origin': '*',
           Authorization: `Bearer ${accessToken}`,
@@ -70,9 +81,24 @@ export default function Test3() {
     }
   };
 
+  const deletePost = async () => {
+    try {
+      const response = await axios.delete('api/posts/1');
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const getGithub = async () => {
     try {
-      const response = await axios.get('api/github');
+      const response = await axios.get('api/github', {
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          Authorization: `Bearer ${accessToken}`,
+          'Content-Type': 'application/json',
+        },
+      });
       console.log(response.data);
     } catch (error) {
       console.error(error);
@@ -81,7 +107,15 @@ export default function Test3() {
 
   const postGithub = async () => {
     try {
-      const response = await axios.post('api/github');
+      const response = await axios({
+        method: 'post',
+        url: 'api/github',
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          Authorization: `Bearer ${accessToken}`,
+          'Content-Type': 'application/json',
+        },
+      });
       console.log(response.data);
     } catch (error) {
       console.error(error);
@@ -98,6 +132,7 @@ export default function Test3() {
         <button onClick={postCommunity}>커뮤니티 post</button>
         <button onClick={getGithub}>깃허브 get</button>
         <button onClick={postGithub}>깃허브 post</button>
+        <button onClick={deletePost}>게시글 delete</button>
       </div>
       <FooterMenu />
     </section>
