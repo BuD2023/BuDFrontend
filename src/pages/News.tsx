@@ -1,4 +1,3 @@
-import { dummyData } from '../store/dummy';
 import FooterMenu from '../components/common/FooterMenu';
 import NewsFilter from '../components/news/NewsFilter';
 import NewsPosts from '../components/news/NewsPosts';
@@ -6,6 +5,7 @@ import Header from '../components/common/Header';
 import { FcNews } from 'react-icons/fc';
 import { useState } from 'react';
 import NewsKeywordFilter from '../components/news/NewsKeywordFilter';
+import { useNewsQuery } from '../store/module/useNewsQuery';
 
 export default function News() {
   // 키워드 필터
@@ -14,6 +14,24 @@ export default function News() {
     console.log(arr);
   };
 
+  const [page, setPage] = useState(0);
+  const [keyword, setKeyword] = useState('');
+  const [inputKeyword, setInputKeyword] = useState('');
+
+  const { data, isLoading, error } = useNewsQuery(page, inputKeyword);
+
+  const handleInputChange = (e: any) => {
+    setInputKeyword(e.currentTarget.value);
+  };
+
+  if (isLoading) {
+    return <p>Loading...</p>;
+  }
+
+  if (error) {
+    console.log(error);
+  }
+
   return (
     <>
       <NewsKeywordFilter filter={filter} setFilter={setFilter} getKeywords={getKeywords} />
@@ -21,7 +39,14 @@ export default function News() {
         <div className="mt-9 flex min-h-[calc(100vh-160px)] flex-col gap-4 p-4 text-lightText dark:text-white">
           <Header type="category" title="IT 소식" icon={<FcNews />} />
           <div>
-            <input type="text" placeholder="키워드로 검색" className="searchInput h-[60px] w-full rounded-xl bg-white p-4 text-xl font-bold text-[#514848] dark:bg-[#E4E4E4]" />
+            <input
+              onKeyPress={(e) => {
+                if (e.key === 'Enter') handleInputChange(e);
+              }}
+              type="text"
+              placeholder="키워드로 검색"
+              className="searchInput h-[60px] w-full rounded-xl bg-white p-4 text-xl font-bold text-[#514848] dark:bg-[#E4E4E4]"
+            />
           </div>
           <div className="flex justify-between gap-4 text-[18px] font-bold">
             <div className="flex h-[56px] w-full flex-col items-center justify-center rounded-xl bg-greyBeige px-4 dark:bg-midNavy">
@@ -30,7 +55,7 @@ export default function News() {
             </div>
           </div>
           <NewsFilter setFilter={setFilter} />
-          <NewsPosts newsData={dummyData} />
+          {data !== undefined && <NewsPosts newsData={data} />}
         </div>
         <FooterMenu />
       </section>

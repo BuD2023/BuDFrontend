@@ -2,8 +2,8 @@ import { FcApproval, FcCalendar, FcCloseUpMode } from 'react-icons/fc';
 import { useGithubQuery } from '../../store/module/useGithubQuery';
 
 export default function HomeCommitSection() {
-  const { isLoading, data } = useGithubQuery();
-  console.log(data);
+  // const { isLoading, data } = useGithubQuery();
+  // console.log(data);
 
   return (
     <div className="relative flex min-h-[260px] w-full flex-col">
