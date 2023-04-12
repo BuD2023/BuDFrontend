@@ -1,18 +1,19 @@
-const orders = ['최신순', '인기순'];
-
 interface INewsFilterPropsType {
   setFilter: (x: boolean) => void;
+  setSort: (x: boolean) => void;
+  sort: boolean;
 }
 
-export default function NewsFilter({ setFilter }: INewsFilterPropsType) {
+export default function NewsFilter({ setFilter, setSort, sort }: INewsFilterPropsType) {
   return (
-    <ul className="dark:text- flex h-[40px] items-center justify-between gap-4 rounded-[20px] bg-pointGreen px-4 text-xs font-bold text-white dark:bg-lightNavy">
+    <ul className="dark:text- flex h-[40px] items-center justify-between gap-4 rounded-[20px] bg-pointGreen px-4 text-xs  text-white dark:bg-lightNavy">
       <div className="flex items-center gap-4">
-        {orders.map((order) => (
-          <li key={order} className="cursor-pointer">
-            · {order}
-          </li>
-        ))}
+        <li onClick={() => setSort(false)} className={'cursor-pointer ' + (sort ? 'opacity-50' : '')}>
+          · 인기순
+        </li>
+        <li onClick={() => setSort(true)} className={'cursor-pointer ' + (sort ? '' : 'opacity-50')}>
+          · 최신순
+        </li>
       </div>
       <button onClick={() => setFilter(true)} className="cursor-pointer">
         ✨키워드 필터

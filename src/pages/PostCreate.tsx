@@ -158,7 +158,7 @@ export default function PostCreate() {
                 <div className="flex w-full shrink-0 items-center gap-2 overflow-auto rounded-[20px] bg-midIvory p-2">
                   {imgPeek.map((img, idx) => (
                     <img
-                      onClick={(e) => {
+                      onClick={() => {
                         setIsPicPopUp({
                           open: true,
                           pic: img as string,
