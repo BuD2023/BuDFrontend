@@ -3,7 +3,7 @@ import customAxios from '../customAxios';
 export interface INewCommunityPostType {
   title: string;
   content: string;
-  imageUrl: string[];
+  images?: null | FormData;
   postType: string;
 }
 
@@ -12,8 +12,9 @@ const updateCommunityPostAxios = async (token: string, postData: INewCommunityPo
     method: 'post',
     url: '/posts/update',
     headers: {
-      Authorization: token,
-      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'multipart/form-data',
+      charset: 'utf-8',
     },
     data: postData,
   });

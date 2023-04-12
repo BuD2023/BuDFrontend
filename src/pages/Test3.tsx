@@ -15,7 +15,7 @@ export default function Test3() {
   const communityData = JSON.stringify({
     title: 'title',
     content: 'content',
-    imageUrl: 'imageUrl',
+    // imageUrl: 'imageUrl',
     postType: 'FEED',
   });
 
@@ -57,7 +57,40 @@ export default function Test3() {
 
   const postCommunity = async () => {
     try {
-      const response = await axios.post('api/community/post', communityData, {
+      const response = await axios.post('api/posts', JSON.stringify(communityData), {
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          Authorization: `Bearer ${accessToken}`,
+          'Content-Type': 'application/json',
+        },
+      });
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  // const postCommunity = async () => {
+  //   try {
+  //     const response = await axios({
+  //       method: 'post',
+  //       url: 'api/github',
+  //       headers: {
+  //         'Access-Control-Allow-Origin': '*',
+  //         Authorization: `Bearer ${accessToken}`,
+  //         'Content-Type': 'application/json',
+  //       },
+  //     });
+  //     console.log(response.data);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
+
+  const getGithub = async () => {
+    try {
+      const response = await axios({
+        method: 'get',
+        url: 'api/github',
         headers: {
           'Access-Control-Allow-Origin': '*',
           Authorization: `Bearer ${accessToken}`,
@@ -70,18 +103,17 @@ export default function Test3() {
     }
   };
 
-  const getGithub = async () => {
-    try {
-      const response = await axios.get('api/github');
-      console.log(response.data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   const postGithub = async () => {
     try {
-      const response = await axios.post('api/github');
+      const response = await axios({
+        method: 'post',
+        url: 'api/github',
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          Authorization: `Bearer ${accessToken}`,
+          'Content-Type': 'application/json',
+        },
+      });
       console.log(response.data);
     } catch (error) {
       console.error(error);

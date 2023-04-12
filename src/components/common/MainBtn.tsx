@@ -1,5 +1,8 @@
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import { accessToken } from '../../main';
+import { useCreateRoomMutation } from '../../store/module/useCoffeeChatQuery';
+import { usePostCommunityMutation, useUpdateCommunityMutation } from '../../store/module/useCommunityQuery';
 
 interface IOnSubmitType {
   title: string;
@@ -8,7 +11,9 @@ interface IOnSubmitType {
 
   postId: string;
   content: string;
-  pic: (string | ArrayBuffer | null)[];
+  postType: string;
+  pic?: (string | ArrayBuffer | null)[];
+  images?: null | FormData;
 
   profileImg: string | ArrayBuffer | null;
   nickName: string;
@@ -25,52 +30,80 @@ const headers = {
   'Content-Type': `application/json`,
   withCredentials: true,
 };
-const createPostData = {
-  title: '이게 올라간다면?',
-  content: '테스트용입니다',
-  postType: 'FEED',
-  imageUrl: 'imageUrl',
-};
 
 export default function MainBtn({ onSubmit, content, size }: IMainBtn) {
-  const postChatRoom = async () => {
-    try {
-      const response = await axios({
-        url: '/api/chatrooms',
-        method: 'post',
-        headers: headers,
-        data: JSON.stringify(onSubmit),
-      });
-      console.log(response.data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  const navigate = useNavigate();
 
-  const createPost = async () => {
-    try {
-      const response = await axios({
-        url: '/api/community/post',
-        method: 'post',
-        headers: headers,
-        data: JSON.stringify(createPostData),
-      });
-      console.log(response.data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  //reactQuery - mutation
+  const { mutate: mutateCreateRoom } = useCreateRoomMutation();
+  const { mutate: mutateCreatePost } = usePostCommunityMutation();
+  const { mutate: mutateUpdatePost } = useUpdateCommunityMutation();
+
+  // const createPost = async () => {
+  //   try {
+  //     const response = await axios({
+  //       url: '/api/posts',
+  //       method: 'post',
+  //       headers: headers,
+  //       data: JSON.stringify(onSubmit),
+  //     });
+  //     console.log(response.data);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
   const handleSubitData = () => {
     if (onSubmit?.content) {
       if (onSubmit?.postId) {
-        // 게시물 업데이트하는 함수
+        if (onSubmit.images === null) {
+          mutateUpdatePost({
+            title: onSubmit.title as string,
+            content: onSubmit.content as string,
+            postType: onSubmit.postType as string,
+          });
+          console.log('이미지 없음');
+        } else {
+          mutateUpdatePost(
+            onSubmit as {
+              title: string;
+              content: string;
+              postType: string;
+              images?: null | FormData;
+            }
+          );
+          console.log('이미지 있음');
+        }
         console.log(onSubmit);
       } else {
-        createPost();
+        if (onSubmit.images === null) {
+          mutateCreatePost({
+            title: onSubmit.title as string,
+            content: onSubmit.content as string,
+            postType: onSubmit.postType as string,
+          });
+        } else {
+          mutateCreatePost(
+            onSubmit as {
+              title: string;
+              content: string;
+              postType: string;
+              images?: null | FormData;
+            }
+          );
+        }
       }
     }
-    if (onSubmit?.description) postChatRoom();
+    if (onSubmit?.description) {
+      mutateCreateRoom(
+        onSubmit as {
+          title: string;
+          description: string;
+          hashTag?: string[];
+        }
+      );
+      navigate('/coffeeChat');
+    }
   };
 
   return (
