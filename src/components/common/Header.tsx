@@ -59,7 +59,7 @@ export default function Header({ type, title, restart, icon, onSubmit, postId }:
 
   const postGitHub = async () => {
     try {
-      const response = await axios.post('/api/home/github', { headers: headers });
+      const response = await axios.post('/api/github', { headers: headers });
       console.log(response.data);
     } catch (error) {
       console.error(error);

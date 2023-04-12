@@ -48,7 +48,6 @@ export default function usePassengerQuery() {
       console.log(nextPage);
       return nextPage < maxPages ? nextPage : undefined;
     },
-
     // getHasNextPage: (lastPage, allPages) => lastPage.totalPages > allPages.length,
     // enabled: true,
     refetchOnMount: false,

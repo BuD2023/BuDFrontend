@@ -1,19 +1,56 @@
+import { useEffect } from 'react';
 import { BsFillPersonFill } from 'react-icons/bs';
 import { useNavigate } from 'react-router-dom';
+import { ChatroomType } from '../../apiFetcher/coffeeChatInfo/getAllChatroomList';
 import { IChatRoomType } from '../../store/chatsDummy';
 import { timeForToday } from '../../store/commentDummy';
+import { useAllChatroomQuery, useSearchChatroomQuery } from '../../store/module/useCoffeeChatQuery';
+import { useInView } from 'react-intersection-observer';
 
 interface CoffeeChatRoomPropsType {
-  chatRooms: IChatRoomType[];
+  inputValue: string;
 }
 
-export default function CoffeeChatRoom({ chatRooms }: CoffeeChatRoomPropsType) {
+export default function CoffeeChatRoom({ inputValue }: CoffeeChatRoomPropsType) {
+  //리액트 쿼리 - useQuery
+  const {
+    isLoading: allLoading,
+    isFetching: allIsFetching,
+    isFetchingNextPage: allIsFetchingNextPage,
+    data: chatRooms,
+    fetchNextPage: fetchAllNextPage,
+    hasNextPage: allHasNextPage,
+  } = useAllChatroomQuery();
+
+  const {
+    isLoading: searchLoading,
+    isFetching: searchIsFetching,
+    isFetchingNextPage: searchIsFetchingNextpage,
+    data: searchData,
+    fetchNextPage: fetchSearchNextPage,
+    hasNextPage: searchHasNextPage,
+  } = useSearchChatroomQuery(inputValue);
+
+  // 페이지 이동
   const navigate = useNavigate();
+
+  // 인피니티 스크롤
+  const { ref, inView } = useInView();
+  useEffect(() => {
+    if (inputValue) {
+      if (inView && searchHasNextPage && !searchIsFetching && !searchIsFetchingNextpage) fetchSearchNextPage();
+    } else {
+      if (inView && allHasNextPage && !allIsFetching && !allIsFetchingNextPage) fetchAllNextPage();
+    }
+  }, [inView]);
+
+  //뿌리는 데이터
+  let chatRoomsResult = inputValue.length > 0 ? (searchData?.pages.map((i) => i.content).flat() as ChatroomType[]) : (chatRooms?.pages.map((i) => i.content).flat() as ChatroomType[]);
 
   return (
     <>
-      {chatRooms.length !== 0 ? (
-        chatRooms.map((room, index) => (
+      {chatRoomsResult ? (
+        chatRoomsResult.map((room, index) => (
           <div onClick={() => navigate(`/chatRoom/${room.chatRoomId}`)} key={room.title + String(index)} className="relative flex min-h-[280px] w-full flex-col">
             <div className="absolute inset-0 flex cursor-pointer flex-col justify-between rounded-2xl bg-midIvory p-6 dark:bg-midNavy">
               <div className="text-[19px] font-semibold leading-6">{room.title}</div>
@@ -27,7 +64,7 @@ export default function CoffeeChatRoom({ chatRooms }: CoffeeChatRoomPropsType) {
               <div className="leading-5">{room.description}</div>
               <div className="flex w-full items-center justify-between text-[16px]">
                 <div className="flex gap-2">
-                  <img src={room.hostProfileUrl} className="h-[60px] w-[60px] rounded-full object-cover" />
+                  <img src={room.hostProfileUrl as string} className="h-[60px] w-[60px] rounded-full object-cover" />
                   <div className="flex flex-col justify-center gap-1.5">
                     <div className="font-bold">Host</div>
                     <div className="text-[18px]">{room.hostName}</div>
@@ -51,6 +88,7 @@ export default function CoffeeChatRoom({ chatRooms }: CoffeeChatRoomPropsType) {
           </div>
         </div>
       )}
+      <div ref={ref} />
     </>
   );
 }

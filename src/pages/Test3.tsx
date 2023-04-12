@@ -31,6 +31,14 @@ export default function Test3() {
       console.error(error);
     }
   };
+  const fetchSearchedChatRoom = async () => {
+    try {
+      const response = await axios.get('api/chatrooms/search?keyword=test&page=0&size=5');
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const postChatroom = async () => {
     try {
@@ -64,7 +72,7 @@ export default function Test3() {
 
   const getGithub = async () => {
     try {
-      const response = await axios.get('api/home/github/info');
+      const response = await axios.get('api/github');
       console.log(response.data);
     } catch (error) {
       console.error(error);
@@ -73,7 +81,7 @@ export default function Test3() {
 
   const postGithub = async () => {
     try {
-      const response = await axios.post('api/home/github');
+      const response = await axios.post('api/github');
       console.log(response.data);
     } catch (error) {
       console.error(error);
@@ -85,6 +93,7 @@ export default function Test3() {
       <div className="relative mb-20 mt-9  flex  h-full  min-h-[calc(100vh-160px)]  w-full  flex-col  items-center  justify-center  gap-4  p-4">
         <button onClick={githubLogin}>깃허브 로그인하기</button>
         <button onClick={fetchChatRoom}>채팅방 get</button>
+        <button onClick={fetchSearchedChatRoom}>채팅방 search</button>
         <button onClick={postChatroom}>채팅방 post</button>
         <button onClick={postCommunity}>커뮤니티 post</button>
         <button onClick={getGithub}>깃허브 get</button>
