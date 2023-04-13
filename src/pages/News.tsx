@@ -11,8 +11,6 @@ import { useInView } from 'react-intersection-observer';
 export default function News() {
   // 키워드 필터
   const [filter, setFilter] = useState(false);
-
-  const [page, setPage] = useState(0);
   const [filterKeywords, setFilterKeywords] = useState('');
   const [inputKeyword, setInputKeyword] = useState('');
   const [sort, setSort] = useState(false);
@@ -23,10 +21,6 @@ export default function News() {
     setInputKeyword(e.currentTarget.value);
     setFilterKeywords('');
   };
-
-  // if (isLoading) {
-  //   return <p>Loading...</p>;
-  // }
 
   if (error) {
     console.log(error);

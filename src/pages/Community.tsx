@@ -1,42 +1,33 @@
 import { useState } from 'react';
 import FooterMenu from '../components/common/FooterMenu';
 import PostFormat from '../components/common/PostFormat';
-import { dummyData } from '../store/dummy';
 import AddBtn from '../components/common/AddBtn';
 import CommunityFilter from '../components/community/CommunityFilter';
 import CommunitySort from '../components/community/CommunitySort';
 import SearchBar from '../components/common/SearchBar';
 import Header from '../components/common/Header';
 import { FcGlobe } from 'react-icons/fc';
-import { useGithubQuery } from '../store/module/useCommunityQuery';
+import { PostTypeType } from '../apiFetcher/communityInfo/getCommunityPost';
+import { OrderType, SortType } from '../store/module/useCommunityQuery';
+
+export interface SortAndOrderType {
+  sort: SortType;
+  order: OrderType;
+}
 
 export default function Community() {
-  let resultData = [...dummyData];
-
   // 커뮤니티 글 검색
   const [inputValue, setInputValue] = useState('');
 
-  if (inputValue) {
-    resultData = [...resultData.filter((i) => i.title.trim().split(' ').join('').toLowerCase().includes(inputValue.trim().split(' ').join('').toLowerCase()))];
-  }
-
-  const { isLoading, data } = useGithubQuery();
-
   // 커뮤니티 필터
-  const [communityFilter, setCommunityFilter] = useState('all');
-  if (communityFilter !== 'all') {
-    if (communityFilter === 'feed') {
-      resultData = dummyData.filter((i) => i.type === 'feed');
-    }
-    if (communityFilter === 'qna') {
-      resultData = dummyData.filter((i) => i.type === 'qna');
-    }
-  }
+  const [communityFilter, setCommunityFilter] = useState<PostTypeType | null>(null);
 
   // 정렬
-  const [sort, setSort] = useState('recent');
-  if (sort === 'popular') resultData = resultData.sort((a, b) => b.likeCount - a.likeCount);
-  if (sort === 'recent') resultData = resultData.sort((a, b) => Number(b.createdAt.split(' ').join('').split(':').join('')) - Number(a.createdAt.split(' ').join('').split(':').join('')));
+  const [sortAndOrder, setSortAndOrder] = useState<SortAndOrderType>({
+    sort: 'DATE',
+    order: 'DESC',
+  });
+
   return (
     <section>
       <div className="relative mb-16 mt-9 flex h-full min-h-[calc(100vh-160px)] w-full flex-col items-center gap-4 p-4 text-lightText dark:text-white">
@@ -44,8 +35,8 @@ export default function Community() {
         <AddBtn url="/postCreate" text="글쓰기" />
         <SearchBar inputValue={inputValue} setInputValue={setInputValue} />
         <CommunityFilter communityFilter={communityFilter} setCommunityFilter={setCommunityFilter} />
-        <CommunitySort setSort={setSort} />
-        <PostFormat resultData={resultData} />
+        <CommunitySort setSortAndOrder={setSortAndOrder} sortAndOrder={sortAndOrder} />
+        <PostFormat inputValue={inputValue} communityFilter={communityFilter} sortAndOrder={sortAndOrder} />
       </div>
       <FooterMenu />
     </section>

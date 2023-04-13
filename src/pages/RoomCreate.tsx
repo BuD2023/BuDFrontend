@@ -10,8 +10,6 @@ export default function RoomCreate() {
     hashTag: ['', '', ''] as string[],
   });
 
-  console.log(roomInfo);
-
   return (
     <section className="inset-0 flex flex-col gap-7 px-6 py-4 text-lightText dark:text-white">
       <Header type="withMainBtn" title="방 만들기" icon={<BsChevronLeft />} onSubmit={roomInfo} />

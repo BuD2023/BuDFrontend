@@ -1,6 +1,6 @@
-import axios from 'axios';
+import { xor } from 'lodash';
 import { useNavigate } from 'react-router-dom';
-import { accessToken } from '../../main';
+import { postChatroomData } from '../../apiFetcher/coffeeChatInfo/postChatroom';
 import { useCreateRoomMutation } from '../../store/module/useCoffeeChatQuery';
 import { usePostCommunityMutation, useUpdateCommunityMutation } from '../../store/module/useCommunityQuery';
 
@@ -13,23 +13,17 @@ interface IOnSubmitType {
   content: string;
   postType: string;
   pic?: (string | ArrayBuffer | null)[];
-  images?: null | FormData;
+  images?: Blob[];
 
   profileImg: string | ArrayBuffer | null;
   nickName: string;
   selectedJob: string;
 }
-
 interface IMainBtn {
   content: string;
   size: number;
   onSubmit?: Partial<IOnSubmitType>;
 }
-const headers = {
-  Authorization: `Bearer ${accessToken}`,
-  'Content-Type': `application/json`,
-  withCredentials: true,
-};
 
 export default function MainBtn({ onSubmit, content, size }: IMainBtn) {
   const navigate = useNavigate();
@@ -39,69 +33,81 @@ export default function MainBtn({ onSubmit, content, size }: IMainBtn) {
   const { mutate: mutateCreatePost } = usePostCommunityMutation();
   const { mutate: mutateUpdatePost } = useUpdateCommunityMutation();
 
-  // const createPost = async () => {
-  //   try {
-  //     const response = await axios({
-  //       url: '/api/posts',
-  //       method: 'post',
-  //       headers: headers,
-  //       data: JSON.stringify(onSubmit),
-  //     });
-  //     console.log(response.data);
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
-
-  const handleSubitData = () => {
-    if (onSubmit?.content) {
-      if (onSubmit?.postId) {
-        if (onSubmit.images === null) {
-          mutateUpdatePost({
-            title: onSubmit.title as string,
-            content: onSubmit.content as string,
-            postType: onSubmit.postType as string,
-          });
-          console.log('이미지 없음');
-        } else {
-          mutateUpdatePost(
-            onSubmit as {
-              title: string;
-              content: string;
-              postType: string;
-              images?: null | FormData;
-            }
-          );
-          console.log('이미지 있음');
-        }
-        console.log(onSubmit);
-      } else {
-        if (onSubmit.images === null) {
-          mutateCreatePost({
-            title: onSubmit.title as string,
-            content: onSubmit.content as string,
-            postType: onSubmit.postType as string,
-          });
-        } else {
-          mutateCreatePost(
-            onSubmit as {
-              title: string;
-              content: string;
-              postType: string;
-              images?: null | FormData;
-            }
-          );
+  // 폼데이터로 만들기
+  const toFormData = (arg: Partial<IOnSubmitType>) => {
+    const formData = new FormData();
+    Object.entries(arg).forEach(([key, value]) => {
+      if (typeof value === 'string') formData.append(key, value as string);
+      if (Array.isArray(value)) {
+        for (let i = 0; i < value.length; i++) {
+          formData.append(key, value[i] as Blob);
         }
       }
+    });
+    // form data 확인
+    for (let x of (formData as FormData).entries()) {
+      console.log(x);
     }
-    if (onSubmit?.description) {
-      mutateCreateRoom(
-        onSubmit as {
-          title: string;
-          description: string;
-          hashTag?: string[];
+    return formData;
+  };
+
+  const handleSubitData = () => {
+    // 채팅방관련인지 VS 커뮤니티관련인지
+    if (onSubmit?.content) {
+      // 커뮤니티 게시글 create VS update
+      if (onSubmit.postId) {
+        // 게시글 업데이트 이미지 유 VS 무
+        if (onSubmit.images === null) {
+          mutateUpdatePost(
+            toFormData({
+              title: onSubmit.title as string,
+              content: onSubmit.content as string,
+              postType: onSubmit.postType as string,
+              postId: onSubmit.postId as string,
+            })
+          );
+          console.log('Post Update : No Image');
+          // 게시글 업데이트 이미지 유
+        } else {
+          mutateUpdatePost(toFormData(onSubmit));
+          console.log('Post Update : Image contained');
         }
-      );
+        console.log(onSubmit);
+        // 게시글 create
+      } else {
+        // 게시글 생성 이미지 유 VS 무
+        if (onSubmit.images === null) {
+          mutateCreatePost(
+            toFormData({
+              title: onSubmit.title as string,
+              content: onSubmit.content as string,
+              postType: onSubmit.postType as string,
+            })
+          );
+          console.log('Post Create : No Image');
+          // 게시글 생성 이미지 유
+        } else {
+          mutateCreatePost(toFormData(onSubmit));
+          console.log('Post Create : Image contained');
+        }
+      }
+      navigate('/community');
+    }
+    // 채팅방 생성
+    if (onSubmit?.description) {
+      // 해쉬태그가 있다면
+      if (onSubmit.hashTag && onSubmit?.hashTag.join('').length > 0) {
+        mutateCreateRoom(onSubmit as postChatroomData);
+        console.log('Chatroom : Hashtag Contained');
+      }
+      // 해쉬태그가 없다면
+      else {
+        mutateCreateRoom({
+          title: onSubmit.title as string,
+          description: onSubmit.description as string,
+        });
+        console.log('Chatroom : No Hashtag');
+      }
       navigate('/coffeeChat');
     }
   };

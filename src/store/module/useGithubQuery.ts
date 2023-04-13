@@ -16,12 +16,12 @@ export function useGithubQuery() {
 }
 
 export function useGithubMutation() {
-  return useMutation(postGithubInfoAxios, {
+  return useMutation(() => postGithubInfoAxios(accessToken), {
     onError: (err) => {
       console.log(err);
     },
-    onSettled: () => {
-      console.log('요청이 실행되었습니다.');
+    onSuccess: () => {
+      console.log('깃헙 정보 요청이 실행되었습니다.');
     },
   });
 }

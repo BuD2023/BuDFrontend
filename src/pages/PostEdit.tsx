@@ -20,7 +20,7 @@ export default function PostEdit() {
     title: '',
     content: '',
     postType: '개발 피드',
-    images: null as FormData | null,
+    images: null as null | Blob[],
     postId: postId,
   });
   console.log(postInfo);
@@ -62,13 +62,13 @@ export default function PostEdit() {
   };
 
   //multipart form data로 저장
-  const makeMultipartForm = (compressedFiles: Blob[] | FileList) => {
-    const formData = new FormData();
-    for (let i = 0; i < compressedFiles.length; i++) {
-      formData.append(`photos`, compressedFiles[i]);
-    }
-    return formData;
-  };
+  // const makeMultipartForm = (compressedFiles: Blob[] | FileList) => {
+  //   const formData = new FormData();
+  //   for (let i = 0; i < compressedFiles.length; i++) {
+  //     formData.append(`photos`, compressedFiles[i]);
+  //   }
+  //   return formData;
+  // };
 
   const handleChangeProfileImg = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const fileArr = e.target.files as FileList;
@@ -88,13 +88,21 @@ export default function PostEdit() {
     );
     setImgPeek(compressedFileURLs);
 
-    const MultipartData = makeMultipartForm(compressedFiles as Blob[]);
+    // const MultipartData = makeMultipartForm(compressedFiles as Blob[]);
     setPostInfo({
       ...postInfo,
-      images: MultipartData as FormData,
+      images: compressedFiles as Blob[],
     });
   };
-  console.log(postInfo.images);
+  // form data 확인
+  // if (postInfo.images !== null) {
+  //   for (let key of (postInfo.images as FormData).keys()) {
+  //     console.log(key);
+  //   }
+  //   for (let value of (postInfo.images as FormData).values()) {
+  //     console.log(value);
+  //   }
+  // }
 
   // 사진 popUp
   const [isPicPopUp, setIsPicPopUp] = useState({

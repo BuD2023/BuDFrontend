@@ -1,13 +1,20 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, useMutation, useQuery } from '@tanstack/react-query';
+import { deleteCommunityPostAxios } from '../../apiFetcher/communityInfo/deleteCommunityPost';
 import getCommunityPostAxios from '../../apiFetcher/communityInfo/getCommunityPost';
-import postCommunityPostAxios, { INewCommunityPostType } from '../../apiFetcher/communityInfo/postCommunityPost';
-import updateCommunityPostAxios from '../../apiFetcher/communityInfo/updateCommunityPost';
+import postCommunityPostAxios, { CreateCommunityPostType } from '../../apiFetcher/communityInfo/postCommunityPost';
+import updateCommunityPostAxios, { UpdateCommunityPostType } from '../../apiFetcher/communityInfo/updateCommunityPost';
 import { accessToken } from '../../main';
 
-// getCommunityPostAxios
-// (token: string, word: string, sort: string = 'DATE', order: string = 'DESC', page: number = 0, size: number = 5)
-export function useGithubQuery(word?: string, sort?: string, order?: string, page?: number, size?: number) {
-  return useQuery(['Community'], () => getCommunityPostAxios(accessToken, word, sort, order, page, size), {
+export type SortType = 'HIT' | 'LIKE' | 'DATE';
+export type OrderType = 'ASC' | 'DESC';
+
+export function useCommunityPostQuery(word?: string, sort?: SortType, order?: OrderType, page?: number, size?: number) {
+  return useInfiniteQuery(['Community', word, sort, order], () => getCommunityPostAxios(accessToken, word, sort, order, page, size), {
+    getNextPageParam: (prevData, allPages) => {
+      const maxPages = prevData.totalPages;
+      const nextPage = allPages.length + 1;
+      return nextPage < maxPages ? nextPage : undefined;
+    },
     // enabled: true,
     refetchOnMount: false,
     refetchOnReconnect: false,
@@ -19,7 +26,7 @@ export function useGithubQuery(word?: string, sort?: string, order?: string, pag
 }
 
 export function usePostCommunityMutation() {
-  return useMutation((data: INewCommunityPostType) => postCommunityPostAxios(accessToken, data), {
+  return useMutation((data: FormData) => postCommunityPostAxios(accessToken, data), {
     onError: (err) => {
       console.log(err);
     },
@@ -30,12 +37,16 @@ export function usePostCommunityMutation() {
 }
 
 export function useUpdateCommunityMutation() {
-  return useMutation((data: INewCommunityPostType) => updateCommunityPostAxios(accessToken, data), {
+  return useMutation((data: FormData) => updateCommunityPostAxios(accessToken, data), {
     onError: (err) => {
       console.log(err);
     },
-    onSettled: () => {
+    onSuccess: () => {
       console.log('요청이 실행되었습니다.');
     },
   });
+}
+
+export function useDeleteCommunityMutation(id: number) {
+  return useMutation(() => deleteCommunityPostAxios(accessToken, id), {});
 }

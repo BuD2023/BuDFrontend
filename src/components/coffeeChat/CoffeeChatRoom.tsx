@@ -49,7 +49,7 @@ export default function CoffeeChatRoom({ inputValue }: CoffeeChatRoomPropsType) 
 
   return (
     <>
-      {chatRoomsResult ? (
+      {chatRoomsResult && chatRoomsResult.length > 0 ? (
         chatRoomsResult.map((room, index) => (
           <div onClick={() => navigate(`/chatRoom/${room.chatRoomId}`)} key={room.title + String(index)} className="relative flex min-h-[280px] w-full flex-col">
             <div className="absolute inset-0 flex cursor-pointer flex-col justify-between rounded-2xl bg-midIvory p-6 dark:bg-midNavy">

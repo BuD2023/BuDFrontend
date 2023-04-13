@@ -1,13 +1,13 @@
 import customAxios from '../customAxios';
 
-export interface INewCommunityPostType {
+export interface CreateCommunityPostType {
   title: string;
   content: string;
   images?: null | FormData;
   postType: string;
 }
 
-const postCommunityPostAxios = async (token: string, postData: INewCommunityPostType) => {
+const postCommunityPostAxios = async (token: string, postData: FormData) => {
   return await customAxios({
     method: 'post',
     url: '/posts',

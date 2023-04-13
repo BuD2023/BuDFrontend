@@ -7,9 +7,8 @@ import NotiBtn from './NotiBtn';
 import MainBtn from '../common/MainBtn';
 import { AiFillCopy } from 'react-icons/ai';
 import { MdOutlineRestartAlt } from 'react-icons/md';
-import { accessToken } from '../../main';
-import axios from 'axios';
 import EditDeleteBtn from './EditDeleteBtn';
+import { useGithubMutation } from '../../store/module/useGithubQuery';
 
 interface IHeader {
   type?: string;
@@ -52,20 +51,7 @@ export default function Header({ type, title, restart, icon, onSubmit, postId, c
 
   const [isMenu, setIsMenu] = useState<boolean>();
 
-  const headers = {
-    Authorization: `Bearer ${accessToken}`,
-    'content-type': 'application/json',
-    withCredentials: true,
-  };
-
-  const postGitHub = async () => {
-    try {
-      const response = await axios.post('/api/github', { headers: headers });
-      console.log(response.data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  const { mutate: postGithub } = useGithubMutation();
 
   return (
     <div className={'fixed left-0 top-0 z-30 flex w-full items-center justify-between bg-lightIvory p-4 py-5 transition-all dark:bg-darkNavy ' + (visible ? '' : 'opacity-0')}>
@@ -79,13 +65,13 @@ export default function Header({ type, title, restart, icon, onSubmit, postId, c
         )}
         <div className="flex gap-2">
           <h1>{title}</h1>
-          {restart && <MdOutlineRestartAlt onClick={postGitHub} className="cursor-pointer" />}
+          {restart && <MdOutlineRestartAlt onClick={() => postGithub()} className="cursor-pointer" />}
         </div>
       </div>
       {type === 'category' && <NotiBtn />}
       {type === 'news' && <AiFillCopy size={26} className="cursor-pointer" onClick={() => navigator.clipboard.writeText((copyUrl ??= ''))} />}
       {type === 'community' && <BsThreeDots size={26} onClick={() => setIsMenu(!isMenu)} className="cursor-pointer" />}
-      {isMenu && <EditDeleteBtn postId={String(postId)} />}
+      {isMenu && <EditDeleteBtn postId={String(postId)} setIsMenu={setIsMenu} />}
       {type === 'withMainBtn' && <MainBtn onSubmit={onSubmit} content={'완료'} size={20} />}
     </div>
   );

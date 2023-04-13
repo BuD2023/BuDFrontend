@@ -14,7 +14,7 @@ import ProfileEdit from './pages/MyProfileEdit';
 import Setting from './pages/Setting';
 import UserInfo from './pages/UserInfo';
 import Notification from './pages/Notification';
-import { useLayoutEffect } from 'react';
+import { useEffect, useLayoutEffect } from 'react';
 import RoomCreate from './pages/RoomCreate';
 import PostCreate from './pages/PostCreate';
 import LogInPage from './pages/LogInPage';
