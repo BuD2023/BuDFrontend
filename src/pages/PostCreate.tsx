@@ -17,9 +17,12 @@ export default function PostCreate() {
     title: '',
     content: '',
     postType: '개발 피드',
-    imageUrl: [] as (string | ArrayBuffer | null)[],
+    images: null as FormData | null,
   });
   console.log(postInfo);
+
+  // 사진 미리보기
+  const [imgPeek, setImgPeek] = useState<string[] | ArrayBuffer[] | null[]>([]);
 
   //이미지 압축
   const actionImgCompress = async (fileSrc: File) => {
@@ -38,9 +41,11 @@ export default function PostCreate() {
 
   // 사진 업로드
   const imgRef = useRef<HTMLInputElement>(null);
-  const handleChangeProfileImg = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const fileArr = e.target.files as FileList;
+
+  //사진 압축
+  const makeCompressedImg = async (fileArr: FileList) => {
     let filesLength = fileArr.length > 10 ? 10 : fileArr.length;
+    console.log(fileArr);
 
     const compressedFiles = await Promise.all(
       Array.from(fileArr)
@@ -49,7 +54,23 @@ export default function PostCreate() {
           return await actionImgCompress(file);
         })
     );
+    return compressedFiles;
+  };
 
+  //multipart form data로 저장
+  const makeMultipartForm = (compressedFiles: Blob[] | FileList) => {
+    const formData = new FormData();
+    for (let i = 0; i < compressedFiles.length; i++) {
+      formData.append(`photos`, compressedFiles[i]);
+    }
+    return formData;
+  };
+
+  const handleChangeProfileImg = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const fileArr = e.target.files as FileList;
+
+    const compressedFiles = await makeCompressedImg(fileArr);
+    console.log(compressedFiles);
     const compressedFileURLs = await Promise.all(
       compressedFiles.map((compressed) => {
         return new Promise<string>((resolve) => {
@@ -61,12 +82,15 @@ export default function PostCreate() {
         });
       })
     );
+    setImgPeek(compressedFileURLs);
 
+    const MultipartData = makeMultipartForm(compressedFiles as Blob[]);
     setPostInfo({
       ...postInfo,
-      imageUrl: [...compressedFileURLs],
+      images: MultipartData as FormData,
     });
   };
+  console.log(postInfo.images);
 
   // 사진 popUp
   const [isPicPopUp, setIsPicPopUp] = useState({
@@ -130,9 +154,9 @@ export default function PostCreate() {
               </div>
             </div>
             <div className={`${!isClick ? 'h-[calc(100vh-470px)]' : 'h-[calc(100vh-346px)]'} flex w-full flex-col gap-2 transition-all`}>
-              {postInfo.imageUrl.length > 0 && (
+              {imgPeek.length > 0 && (
                 <div className="flex w-full shrink-0 items-center gap-2 overflow-auto rounded-[20px] bg-midIvory p-2">
-                  {postInfo.imageUrl.map((img, idx) => (
+                  {imgPeek.map((img, idx) => (
                     <img
                       onClick={() => {
                         setIsPicPopUp({

@@ -1,6 +1,12 @@
 import customAxios from '../customAxios';
 
-const postChatroomAxios = async (token: string) => {
+export interface postChatroomData {
+  title: string;
+  description: string;
+  hashTag?: string[];
+}
+
+const postChatroomAxios = async (token: string, data: postChatroomData) => {
   return await customAxios({
     method: 'post',
     url: '/chatrooms',
@@ -8,6 +14,7 @@ const postChatroomAxios = async (token: string) => {
       Authorization: token,
       'Content-Type': 'application/json',
     },
+    data: data,
   });
 };
 

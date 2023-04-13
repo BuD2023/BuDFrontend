@@ -1,7 +1,7 @@
 import { useInfiniteQuery, useMutation, useQuery } from '@tanstack/react-query';
 import getAllChatroomListAxios from '../../apiFetcher/coffeeChatInfo/getAllChatroomList';
 import getSearchChatroomListAxios from '../../apiFetcher/coffeeChatInfo/getSearchChatroomList';
-import postChatroomAxios from '../../apiFetcher/coffeeChatInfo/postChatroom';
+import postChatroomAxios, { postChatroomData } from '../../apiFetcher/coffeeChatInfo/postChatroom';
 import { accessToken } from '../../main';
 
 export function useAllChatroomQuery() {
@@ -25,6 +25,7 @@ export function useSearchChatroomQuery(keyword: string, size?: number) {
     getNextPageParam: (prevData, allPages) => {
       const lastPage = prevData.last;
       const nextPage = allPages.length + 1;
+      console.log(lastPage);
       return lastPage ? undefined : nextPage;
     },
     onSettled: (result) => console.log(result),
@@ -38,7 +39,7 @@ export function useSearchChatroomQuery(keyword: string, size?: number) {
 }
 
 export function useCreateRoomMutation() {
-  return useMutation(postChatroomAxios, {
+  return useMutation((data: postChatroomData) => postChatroomAxios(accessToken, data), {
     onError: (err) => {
       console.log(err);
     },

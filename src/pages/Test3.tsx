@@ -76,6 +76,22 @@ export default function Test3() {
       console.error(error);
     }
   };
+  // const postCommunity = async () => {
+  //   try {
+  //     const response = await axios({
+  //       method: 'post',
+  //       url: 'api/github',
+  //       headers: {
+  //         'Access-Control-Allow-Origin': '*',
+  //         Authorization: `Bearer ${accessToken}`,
+  //         'Content-Type': 'application/json',
+  //       },
+  //     });
+  //     console.log(response.data);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
   const deletePost = async () => {
     try {
@@ -88,7 +104,9 @@ export default function Test3() {
 
   const getGithub = async () => {
     try {
-      const response = await axios.get('api/github', {
+      const response = await axios({
+        method: 'get',
+        url: 'api/github',
         headers: {
           Authorization: `Bearer ${accessToken}`,
           'Content-Type': 'application/json',

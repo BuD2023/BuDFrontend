@@ -8,6 +8,7 @@ import CommunitySort from '../components/community/CommunitySort';
 import SearchBar from '../components/common/SearchBar';
 import Header from '../components/common/Header';
 import { FcGlobe } from 'react-icons/fc';
+import { useGithubQuery } from '../store/module/useCommunityQuery';
 
 export default function Community() {
   let resultData = [...dummyData];
@@ -18,6 +19,8 @@ export default function Community() {
   if (inputValue) {
     resultData = [...resultData.filter((i) => i.title.trim().split(' ').join('').toLowerCase().includes(inputValue.trim().split(' ').join('').toLowerCase()))];
   }
+
+  const { isLoading, data } = useGithubQuery();
 
   // 커뮤니티 필터
   const [communityFilter, setCommunityFilter] = useState('all');
