@@ -16,3 +16,15 @@ export interface NewsProps {
 export interface NewsPostsProps {
   newsData: NewsProps[];
 }
+export interface NewsKeywordFilterPropsType {
+  filter: boolean;
+  setFilter: (a: boolean) => void;
+  filterKeywords: string;
+  setFilterKeywords: React.Dispatch<React.SetStateAction<string>>;
+}
+
+export interface INewsFilterPropsType {
+  setFilter: (x: boolean) => void;
+  setSort: (x: boolean) => void;
+  sort: boolean;
+}

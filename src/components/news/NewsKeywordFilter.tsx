@@ -1,40 +1,9 @@
-import React, { Fragment, useState } from 'react';
+import { Fragment } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import { BiReset } from 'react-icons/bi';
-
-interface NewsKeywordFilterPropsType {
-  filter: boolean;
-  setFilter: (a: boolean) => void;
-  filterKeywords: string;
-  setFilterKeywords: React.Dispatch<React.SetStateAction<string>>;
-}
-const NEWS_KEYWORD = [
-  'IT',
-  'Java',
-  'Javascript',
-  'Python',
-  '알고리즘',
-  '코딩테스트',
-  '개발',
-  '개발자',
-  'AI',
-  '인공지능',
-  '안드로이드',
-  'Android',
-  '아이폰',
-  'IOS',
-  '프론트엔드',
-  '백엔드',
-  '웹개발',
-  '퍼블리셔',
-  '웹퍼블리셔',
-  '데이터분석',
-  '전산',
-  '정보보안',
-  'C#',
-  '떠오르는개발',
-];
+import { NEWS_KEYWORDS } from '../../store/constants/NewsConstants';
+import { NewsKeywordFilterPropsType } from './_News.interface';
 
 export default function NewsKeywordFilter(props: NewsKeywordFilterPropsType) {
   return (
@@ -86,7 +55,7 @@ export default function NewsKeywordFilter(props: NewsKeywordFilterPropsType) {
                     </div>
                     <div className="relative mt-6 flex-1 p-6">
                       <div className="flex h-full w-full flex-wrap items-center justify-between gap-2">
-                        {NEWS_KEYWORD.map((i, idx) => (
+                        {NEWS_KEYWORDS.map((i, idx) => (
                           <div
                             key={idx}
                             onClick={() => {

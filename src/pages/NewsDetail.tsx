@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
-import newsSrc from '../assets/newsSrc.jpeg';
 import _ from 'lodash';
 import Header from '../components/common/Header';
 import { BsChevronLeft } from 'react-icons/bs';
 import { useNewsDetailQuery } from '../store/module/useNewsQuery';
 import { timeForToday } from '../store/commentDummy';
 import PicModal from '../components/common/PicModal';
+import newsDefaultImg from '../assets/newsDefaultImg.webp';
 
 export default function NewsDetail() {
   const [isScroll, setIsScroll] = useState(false);
@@ -60,7 +60,7 @@ export default function NewsDetail() {
                   pic: e.currentTarget.src,
                 });
               }}
-              src={data.mainImgUrl}
+              src={data.mainImgUrl.length > 0 ? data.mainImgUrl : newsDefaultImg}
               className="h-full w-full cursor-pointer object-cover"
             />
             <div className={`absolute ${isScroll ? 'top-0' : 'top-[50%]'} flex min-h-screen w-full cursor-pointer justify-center transition-all duration-500`}>
@@ -68,7 +68,7 @@ export default function NewsDetail() {
                 onClick={() => {
                   setIsPicPopUp({
                     open: true,
-                    pic: data.mainImgUrl,
+                    pic: data.mainImgUrl.length > 0 ? data.mainImgUrl : newsDefaultImg,
                   });
                 }}
                 style={{ background: 'linear-gradient( to top, rgba(0,0,0,0.9), rgba(0,0,0,0.7), rgba(0,0,0,0.5), transparent )' }}

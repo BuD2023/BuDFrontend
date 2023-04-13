@@ -26,7 +26,6 @@ export default function Test3() {
     try {
       const response = await axios.get('api/chatrooms?page=0', {
         headers: {
-          'Access-Control-Allow-Origin': '*',
           Authorization: `Bearer ${accessToken}`,
           'Content-Type': 'application/json',
         },
@@ -40,7 +39,6 @@ export default function Test3() {
     try {
       const response = await axios.get('api/chatrooms/search?keyword=test&page=0&size=5', {
         headers: {
-          'Access-Control-Allow-Origin': '*',
           Authorization: `Bearer ${accessToken}`,
           'Content-Type': 'application/json',
         },
@@ -55,7 +53,6 @@ export default function Test3() {
     try {
       const response = await axios.post('api/chatrooms ', chatroomData, {
         headers: {
-          'Access-Control-Allow-Origin': '*',
           Authorization: `Bearer ${accessToken}`,
           'Content-Type': 'multipart/form-data',
         },
@@ -70,7 +67,6 @@ export default function Test3() {
     try {
       const response = await axios.post('api/posts', postData, {
         headers: {
-          'Access-Control-Allow-Origin': '*',
           Authorization: `Bearer ${accessToken}`,
           'Content-Type': 'application/json',
         },
@@ -94,7 +90,6 @@ export default function Test3() {
     try {
       const response = await axios.get('api/github', {
         headers: {
-          'Access-Control-Allow-Origin': '*',
           Authorization: `Bearer ${accessToken}`,
           'Content-Type': 'application/json',
         },
@@ -111,7 +106,6 @@ export default function Test3() {
         method: 'post',
         url: 'api/github',
         headers: {
-          'Access-Control-Allow-Origin': '*',
           Authorization: `Bearer ${accessToken}`,
           'Content-Type': 'application/json',
         },
