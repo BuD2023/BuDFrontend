@@ -12,7 +12,7 @@ export default function ChangeJob({ selectedJob, setSelectedJob }: IChangeJobPro
 
   return (
     <div className="flex w-full flex-col items-center gap-4 text-xl font-bold">
-      <button onClick={() => setIsClick(!isClick)} type="button" className="mb-6 flex h-[54px] w-full items-center rounded-[20px] bg-midIvory p-2 px-4 text-start text-[21px] dark:bg-lightNavy">
+      <button onClick={() => setIsClick(!isClick)} type="button" className="text-start mb-6 flex h-[54px] w-full items-center rounded-[20px] bg-midIvory p-2 px-4 text-[21px] dark:bg-lightNavy">
         <span className="grow font-bold">{selectedJob}</span>
         <RxTriangleDown className="inline text-[#ffffff30]" />
       </button>
@@ -26,7 +26,7 @@ export default function ChangeJob({ selectedJob, setSelectedJob }: IChangeJobPro
                   setIsClick(false);
                 }}
                 type="button"
-                className="w-[95%] p-2 px-4 text-start text-[21px] font-bold hover:rounded-[20px] hover:bg-greyBeige hover:bg-opacity-50 dark:hover:bg-[#506779] dark:hover:bg-opacity-50"
+                className="text-start w-[95%] p-2 px-4 text-[21px] font-bold hover:rounded-[20px] hover:bg-greyBeige hover:bg-opacity-50 dark:hover:bg-[#506779] dark:hover:bg-opacity-50"
               >
                 {job}
               </button>

@@ -7,25 +7,6 @@ import newsDefaultImg from '../../assets/newsDefaultImg.webp';
 export default function NewsPosts({ newsData }: NewsPostsProps) {
   const navigate = useNavigate();
 
-  async function compressUrlImage(url: string) {
-    try {
-      const response = await fetch(url);
-      const blob = await response.blob();
-      const options = {
-        maxSizeMB: 0.1,
-        maxWidthOrHeight: 800,
-      };
-      const compressedBlob = await imageCompression(blob as File, options);
-      const compressedFile = new File([compressedBlob], 'compressed.jpg', { type: compressedBlob.type });
-      return URL.createObjectURL(compressedFile);
-    } catch (error) {
-      console.log(error);
-      return url;
-    }
-  }
-
-  // const newsDataResult = newsData.map(async (data) => ({ ...data, img: await compressUrlImage(data.img) }));
-
   return (
     <ul>
       {newsData.map((data, idx) => (

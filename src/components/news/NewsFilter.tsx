@@ -1,8 +1,4 @@
-interface INewsFilterPropsType {
-  setFilter: (x: boolean) => void;
-  setSort: (x: boolean) => void;
-  sort: boolean;
-}
+import { INewsFilterPropsType } from './_News.interface';
 
 export default function NewsFilter({ setFilter, setSort, sort }: INewsFilterPropsType) {
   return (
