@@ -1,6 +1,6 @@
 import customAxios from '../customAxios';
 
-const getMyProfile = async (token: string): Promise<[]> => {
+const getMyProfileInfo = async (token: string): Promise<[]> => {
   return await customAxios({
     method: 'get',
     url: `/users`,
@@ -10,4 +10,4 @@ const getMyProfile = async (token: string): Promise<[]> => {
   });
 };
 
-export default getMyProfile;
+export default getMyProfileInfo;

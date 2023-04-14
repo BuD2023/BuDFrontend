@@ -6,6 +6,7 @@ import { RxTriangleDown } from 'react-icons/rx';
 import { AiFillPicture } from 'react-icons/ai';
 import PicModal from '../components/common/PicModal';
 import imageCompression from 'browser-image-compression';
+import { PostTypeType } from '../apiFetcher/communityInfo/getCommunityPost';
 
 export default function PostCreate() {
   //게시글 타입
@@ -16,7 +17,7 @@ export default function PostCreate() {
   const [postInfo, setPostInfo] = useState({
     title: '',
     content: '',
-    postType: '개발 피드',
+    postType: 'FEED' as PostTypeType,
     images: null as null | Blob[],
   });
 
@@ -119,7 +120,7 @@ export default function PostCreate() {
                 type="button"
                 className="text-start mb-2 flex h-[54px] w-full items-center rounded-[20px] bg-midIvory p-2 px-4 text-[21px] dark:bg-lightNavy"
               >
-                <span className="grow text-[18px] font-semibold">{postInfo.postType}</span>
+                <span className="grow text-[18px] font-semibold">{postInfo.postType === 'FEED' ? '개발 피드' : 'Q & A'}</span>
                 <RxTriangleDown className="text-[40px] opacity-50" />
               </button>
               <ul className={`w-full overflow-hidden rounded-[20px] bg-midIvory px-4 transition-all dark:bg-lightNavy ${isClick ? 'h-0' : 'h-[124px] py-2'}`}>
@@ -129,7 +130,7 @@ export default function PostCreate() {
                       <button
                         onClick={(e) => {
                           e.preventDefault();
-                          setPostInfo({ ...postInfo, postType: e.currentTarget.innerText });
+                          setPostInfo({ ...postInfo, postType: e.currentTarget.innerText === '개발 피드' ? 'FEED' : 'QNA' });
                           setIsClick(true);
                         }}
                         type="button"
