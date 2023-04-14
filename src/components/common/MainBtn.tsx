@@ -2,6 +2,7 @@ import { xor } from 'lodash';
 import { useNavigate } from 'react-router-dom';
 import { postChatroomData } from '../../apiFetcher/coffeeChatInfo/postChatroom';
 import { useCreateRoomMutation } from '../../store/module/useCoffeeChatQuery';
+import { useCreateAnswerMutation } from '../../store/module/useCommunityDetailQuery';
 import { usePostCommunityMutation, useUpdateCommunityMutation } from '../../store/module/useCommunityQuery';
 
 interface IOnSubmitType {
@@ -14,6 +15,7 @@ interface IOnSubmitType {
   postType: string;
   pic?: (string | ArrayBuffer | null)[];
   images?: Blob[];
+  qnaAnswerId?: number;
 
   profileImg: string | ArrayBuffer | null;
   nickName: string;
@@ -32,6 +34,7 @@ export default function MainBtn({ onSubmit, content, size }: IMainBtn) {
   const { mutate: mutateCreateRoom } = useCreateRoomMutation();
   const { mutate: mutateCreatePost } = usePostCommunityMutation();
   const { mutate: mutateUpdatePost } = useUpdateCommunityMutation();
+  const { mutate: mutateCreateQnaAnswer } = useCreateAnswerMutation();
 
   // 폼데이터로 만들기
   const toFormData = (arg: Partial<IOnSubmitType>) => {
@@ -52,46 +55,83 @@ export default function MainBtn({ onSubmit, content, size }: IMainBtn) {
   };
 
   const handleSubitData = () => {
-    // 채팅방관련인지 VS 커뮤니티관련인지
+    // 채팅방관련인지 VS 커뮤니티관련인지(게시글 or QNA답변)
     if (onSubmit?.content) {
-      // 커뮤니티 게시글 create VS update
-      if (onSubmit.postId) {
-        // 게시글 업데이트 이미지 유 VS 무
-        if (onSubmit.images === null) {
-          mutateUpdatePost(
-            toFormData({
-              title: onSubmit.title as string,
-              content: onSubmit.content as string,
-              postType: onSubmit.postType as string,
-              postId: onSubmit.postId as string,
-            })
-          );
-          console.log('Post Update : No Image');
-          // 게시글 업데이트 이미지 유
+      // 게시글인지 VS QNA 답변인지
+      if (onSubmit.postType) {
+        // 커뮤니티 게시글 create VS update
+        if (onSubmit.postId) {
+          // 게시글 업데이트 이미지 유 VS 무
+          if (onSubmit.images === null) {
+            mutateUpdatePost(
+              toFormData({
+                title: onSubmit.title as string,
+                content: onSubmit.content as string,
+                postType: onSubmit.postType as string,
+                postId: onSubmit.postId as string,
+              })
+            );
+            console.log('Post Update : No Image');
+            // 게시글 업데이트 이미지 유
+          } else {
+            mutateUpdatePost(toFormData(onSubmit));
+            console.log('Post Update : Image contained');
+          }
+          console.log(onSubmit);
+          // 게시글 create
         } else {
-          mutateUpdatePost(toFormData(onSubmit));
-          console.log('Post Update : Image contained');
+          // 게시글 생성 이미지 유 VS 무
+          if (onSubmit.images === null) {
+            mutateCreatePost(
+              toFormData({
+                title: onSubmit.title as string,
+                content: onSubmit.content as string,
+                postType: onSubmit.postType as string,
+              })
+            );
+            console.log('Post Create : No Image');
+            // 게시글 생성 이미지 유
+          } else {
+            mutateCreatePost(toFormData(onSubmit));
+            console.log('Post Create : Image contained');
+          }
         }
-        console.log(onSubmit);
-        // 게시글 create
+        navigate('/community');
+        // QNA 답변
       } else {
-        // 게시글 생성 이미지 유 VS 무
-        if (onSubmit.images === null) {
-          mutateCreatePost(
-            toFormData({
-              title: onSubmit.title as string,
-              content: onSubmit.content as string,
-              postType: onSubmit.postType as string,
-            })
-          );
-          console.log('Post Create : No Image');
-          // 게시글 생성 이미지 유
+        // image 있는지 없는지
+        if (onSubmit.images && onSubmit.images.length === 0) {
+          // QNA 답변 Update
+          if (onSubmit.qnaAnswerId) {
+            mutateCreateQnaAnswer(
+              toFormData({
+                postId: onSubmit.postId as string,
+                content: onSubmit.content as string,
+                qnaAnswerId: onSubmit.qnaAnswerId as number,
+              })
+            );
+            console.log('Update Answer : No Image');
+            // QNA 답변 Create
+          } else {
+            mutateCreateQnaAnswer(
+              toFormData({
+                postId: onSubmit.postId as string,
+                content: onSubmit.content as string,
+              })
+            );
+            console.log('Create Answer : No Image');
+          }
+          // image 없는 QNA 답변
         } else {
-          mutateCreatePost(toFormData(onSubmit));
-          console.log('Post Create : Image contained');
+          mutateCreateQnaAnswer(toFormData(onSubmit));
+          if (onSubmit.qnaAnswerId) {
+            console.log('Update Answer : Image Contained');
+          } else {
+            console.log('Create Answer : Image Contained');
+          }
         }
+        navigate(`/communityQADetail/${onSubmit.postId}`);
       }
-      navigate('/community');
     }
     // 채팅방 생성
     if (onSubmit?.description) {

@@ -16,7 +16,7 @@ export default function MyProfile() {
         <MyProfileHeader />
         <MyProfileInfo />
         <MyProfileMenu postView={postView} setPostView={setPostView} />
-        <PostFormat resultData={resultData} />
+        {/* <PostFormat resultData={resultData} /> */}
       </div>
       <FooterMenu />
     </section>

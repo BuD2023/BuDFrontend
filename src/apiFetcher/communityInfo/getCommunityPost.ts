@@ -1,8 +1,8 @@
 import customAxios from '../customAxios';
 
-type PostStatusType = 'ACTIVE' | 'INACTIVE';
+export type PostStatusType = 'ACTIVE' | 'INACTIVE';
 export type PostTypeType = 'FEED' | 'QNA';
-interface CommunityPostListContentType {
+export interface CommunityPostListContentType {
   id: number;
   title: string;
   imageUrls: string[];
@@ -16,7 +16,7 @@ interface CommunityPostListContentType {
   createdAt: string;
   updatedAt: string;
 }
-interface CommunityPostListType {
+export interface CommunityPostListType {
   content: CommunityPostListContentType[];
   pageable: {
     sort: {

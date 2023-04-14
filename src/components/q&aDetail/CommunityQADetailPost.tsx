@@ -3,6 +3,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { dummyData, IBlogData } from '../../store/dummy';
 import { BsDot, BsFillHandThumbsUpFill } from 'react-icons/bs';
 import { timeForToday } from '../../store/commentDummy';
+import LikeCommentScrap from '../common/LikeCommentScrap';
+import { PostTypeType } from '../../apiFetcher/communityInfo/getCommunityPost';
 
 export default function CommunityQADetailPost() {
   const { id } = useParams();
@@ -32,7 +34,7 @@ export default function CommunityQADetailPost() {
               <div className="mt-1 text-[16px] opacity-50">프론트엔드 개발자</div>
             </div>
           </div>
-          <div className="grow text-end font-bold">
+          <div className="text-end grow font-bold">
             <div className="flex h-full items-center justify-end ">
               <div className="flex cursor-pointer gap-3">
                 <FcPortraitMode />
@@ -47,14 +49,7 @@ export default function CommunityQADetailPost() {
         </div>
       </div>
       <div className="flex h-[54px] w-full items-center gap-8 rounded-b-[20px] bg-[#a49c7c] p-4 text-base text-white dark:bg-[#383030] dark:dark:bg-[#2c2e34]">
-        <div className="flex cursor-pointer items-center gap-2">
-          <BsFillHandThumbsUpFill size="20px" className="text-[#fbceb1]" />
-          {data?.likeCount}
-        </div>
-        <div className="flex cursor-pointer items-center gap-2">
-          <FcVoicePresentation size="30px" />
-          {data?.commentCount}
-        </div>
+        <LikeCommentScrap postType={data.type as PostTypeType} likeCount={data?.likeCount as number} commentCount={data?.commentCount as number} />
         <div className="flex grow items-center justify-end">
           <div className="flex cursor-pointer gap-2">
             <svg

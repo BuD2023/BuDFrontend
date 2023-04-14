@@ -4,9 +4,7 @@ import AddBtn from '../components/common/AddBtn';
 import FooterMenu from '../components/common/FooterMenu';
 import Header from '../components/common/Header';
 import CommunityDetailPost from '../components/feedDetail/CommunityDetailPost';
-import CommunityQACommentForm from '../components/q&aDetail/CommunityQACommentForm';
 import CommunityQADetailAnswer from '../components/q&aDetail/CommunityQADetailAnswer';
-import CommunityQADetailPost from '../components/q&aDetail/CommunityQADetailPost';
 
 export default function () {
   const { id } = useParams();

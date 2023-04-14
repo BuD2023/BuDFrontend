@@ -1,6 +1,6 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { getCommunityDetailAxios } from '../../apiFetcher/communityInfo/getCommunityDetail';
-import { postQnaAnswerAxios, QnaAnswerType } from '../../apiFetcher/communityInfo/postQnaAnswer';
+import { postQnaAnswerAxios } from '../../apiFetcher/communityInfo/postQnaAnswer';
 import { accessToken } from '../../main';
 
 export function useCommunityDetailQuery(id: number) {
@@ -16,7 +16,7 @@ export function useCommunityDetailQuery(id: number) {
 }
 
 export function useCreateAnswerMutation() {
-  return useMutation((answer: QnaAnswerType) => postQnaAnswerAxios(accessToken, answer), {
+  return useMutation((answer: FormData) => postQnaAnswerAxios(accessToken, answer), {
     onError: (err) => {
       console.log(err);
     },

@@ -16,7 +16,7 @@ export default function OtherProfile() {
         <OtherProfileHeader />
         <OtherProfileInfo />
         <OtherProfileMenu postView={postView} setPostView={setPostView} />
-        <PostFormat resultData={resultData} />
+        {/* <PostFormat resultData={resultData} /> */}
       </div>
       <FooterMenu />
     </section>

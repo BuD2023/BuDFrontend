@@ -1,14 +1,14 @@
 import customAxios from '../customAxios';
 
-export interface QnaAnswerType {
-  postId: number;
-  content: string;
-}
+// export interface QnaAnswerType {
+//   postId: number;
+//   content: string;
+// }
 
-export const postQnaAnswerAxios = async (token: string, answerPost: QnaAnswerType) => {
+export const postQnaAnswerAxios = async (token: string, answerPost: FormData) => {
   return await customAxios({
     method: 'post',
-    url: `/posts/answer`,
+    url: `/posts/qna-answer`,
     headers: {
       Authorization: `Bearer ${token}`,
       'Content-Type': 'application/json',

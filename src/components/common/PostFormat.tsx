@@ -8,6 +8,7 @@ import { useInView } from 'react-intersection-observer';
 import { useEffect } from 'react';
 import { PostTypeType } from '../../apiFetcher/communityInfo/getCommunityPost';
 import { SortAndOrderType } from '../../pages/Community';
+import LikeCommentScrap from './LikeCommentScrap';
 
 interface IPostFormatPropsType {
   inputValue: string;
@@ -92,29 +93,7 @@ export default function PostFormat({ inputValue, communityFilter, sortAndOrder }
                 </div>
               </div>
               <div className="flex h-[54px] w-full items-center gap-8 rounded-b-[20px] bg-[#a49c7c] p-4 text-base text-white dark:bg-[#2c2e34]">
-                {data.postType === 'FEED' ? (
-                  <>
-                    <div className="flex items-center gap-2">
-                      <FcLike size="20px" />
-                      {data.likeCount}
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <FcSms size="20px" />
-                      {data.commentCount}
-                    </div>
-                  </>
-                ) : (
-                  <>
-                    <div className="flex items-center gap-2">
-                      <BsFillHandThumbsUpFill size="20px" className="text-[#fbceb1]" />
-                      {data.likeCount}
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <FcVoicePresentation size="30px" />
-                      {data.commentCount}
-                    </div>
-                  </>
-                )}
+                <LikeCommentScrap postType={data.postType} likeCount={data.likeCount} commentCount={data.commentCount} />
                 <div className="flex grow items-center justify-end gap-2">
                   <svg
                     stroke="currentColor"

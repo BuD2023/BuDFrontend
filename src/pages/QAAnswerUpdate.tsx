@@ -10,15 +10,27 @@ import { useParams } from 'react-router-dom';
 export default function QAAnswerUpdate() {
   const { postId } = useParams();
 
-  // 게시글 전체 정보
+  // 원래 qna 답변 글 정보
+  const answer =
+    '어쩌구저쩌구 어쩌구저쩌구 어쩌구저쩌구 어쩌구저쩌구 어쩌구저쩌구 어쩌구저쩌구 어쩌구저쩌구 어쩌구저쩌구 어쩌구저쩌구 어쩌구저쩌구 어쩌구저쩌구 어쩌구저쩌구 어쩌구저쩌구 어쩌구저쩌구 어쩌구저쩌구 어쩌구저쩌구 어쩌구저쩌구 어쩌구저쩌구 ';
+
+  // QNA 질문 글 정보
+  const question = {
+    title: 'useMemo는 어떨 때 쓰는게 가장 좋을까요?',
+    content:
+      '어쩌구저쩌구 어쩌구저쩌구 어쩌구저쩌구 어쩌구저쩌구 어쩌구저쩌구 어쩌구저쩌구 어쩌구저쩌구 어쩌구저쩌구 어쩌구저쩌구 어쩌구저쩌구 어쩌구저쩌구 어쩌구저쩌구 어쩌구저쩌구 어쩌구저쩌구 어쩌구저쩌구 어쩌구저쩌구 어쩌구저쩌구 어쩌구저쩌구 ',
+  };
+
+  // 보낼 게시글 전체 정보
   const [postInfo, setPostInfo] = useState({
     postId: postId,
-    title: 'useMemo는 언제 어떻게 쓰는게 좋을까요??',
-    content: '',
-    postType: 'QNA',
-    imageUrl: [] as (string | ArrayBuffer | null)[],
+    qnaAnswerId: 1,
+    content: answer,
+    images: [] as Blob[],
   });
-  console.log(postInfo);
+
+  // 사진 미리보기
+  const [imgPeek, setImgPeek] = useState<string[] | ArrayBuffer[] | null[]>([]);
 
   //이미지 압축
   const actionImgCompress = async (fileSrc: File) => {
@@ -37,9 +49,11 @@ export default function QAAnswerUpdate() {
 
   // 사진 업로드
   const imgRef = useRef<HTMLInputElement>(null);
-  const handleChangeProfileImg = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const fileArr = e.target.files as FileList;
+
+  //사진 압축
+  const makeCompressedImg = async (fileArr: FileList) => {
     let filesLength = fileArr.length > 10 ? 10 : fileArr.length;
+    console.log(fileArr);
 
     const compressedFiles = await Promise.all(
       Array.from(fileArr)
@@ -48,7 +62,23 @@ export default function QAAnswerUpdate() {
           return await actionImgCompress(file);
         })
     );
+    return compressedFiles;
+  };
 
+  //multipart form data로 저장
+  // const makeMultipartForm = (compressedFiles: Blob[] | FileList) => {
+  //   const formData = new FormData();
+  //   for (let i = 0; i < compressedFiles.length; i++) {
+  //     formData.append(`photos`, compressedFiles[i]);
+  //   }
+  //   return formData;
+  // };
+
+  const handleChangeProfileImg = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const fileArr = e.target.files as FileList;
+
+    const compressedFiles = await makeCompressedImg(fileArr);
+    console.log(compressedFiles);
     const compressedFileURLs = await Promise.all(
       compressedFiles.map((compressed) => {
         return new Promise<string>((resolve) => {
@@ -60,12 +90,23 @@ export default function QAAnswerUpdate() {
         });
       })
     );
+    setImgPeek(compressedFileURLs);
 
+    // const MultipartData = makeMultipartForm(compressedFiles as Blob[]);
     setPostInfo({
       ...postInfo,
-      imageUrl: [...compressedFileURLs],
+      images: compressedFiles as Blob[],
     });
   };
+  // form data 확인
+  // if (postInfo.images !== null) {
+  //   for (let key of (postInfo.images as FormData).keys()) {
+  //     console.log(key);
+  //   }
+  //   for (let value of (postInfo.images as FormData).values()) {
+  //     console.log(value);
+  //   }
+  // }
 
   // 사진 popUp
   const [isPicPopUp, setIsPicPopUp] = useState({
@@ -84,7 +125,7 @@ export default function QAAnswerUpdate() {
             <div className="flex w-full flex-col items-center text-[18px] font-semibold">
               <div className="flex w-full items-center justify-between gap-2">
                 <div className="text-start flex h-[54px] w-full items-center overflow-hidden rounded-[20px] bg-midIvory p-2 px-4 text-[21px] dark:bg-lightNavy">
-                  <div className="w-full grow truncate text-[18px] font-semibold">{postInfo.title}</div>
+                  <div className="w-full grow truncate text-[18px] font-semibold">{question.title}</div>
                 </div>
                 <div onClick={() => imgRef?.current?.click()} className="flex h-[54px] w-[54px] shrink-0 cursor-pointer items-center justify-center rounded-full bg-midIvory dark:bg-lightNavy">
                   <AiFillPicture className="opacity-80" />
@@ -93,9 +134,9 @@ export default function QAAnswerUpdate() {
               <input ref={imgRef} type="file" accept="image/*" multiple onChange={handleChangeProfileImg} className="hidden" />
             </div>
             <div className={`flex h-[calc(100vh-286px)] w-full flex-col gap-2 transition-all`}>
-              {postInfo.imageUrl.length > 0 && (
+              {imgPeek.length > 0 && (
                 <div className="flex w-full shrink-0 items-center gap-2 overflow-auto rounded-[20px] bg-midIvory p-2">
-                  {postInfo.imageUrl.map((img, idx) => (
+                  {imgPeek.map((img, idx) => (
                     <img
                       onClick={(e) => {
                         setIsPicPopUp({
