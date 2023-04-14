@@ -14,7 +14,7 @@ import ProfileEdit from './pages/MyProfileEdit';
 import Setting from './pages/Setting';
 import UserInfo from './pages/UserInfo';
 import Notification from './pages/Notification';
-import { useEffect, useLayoutEffect } from 'react';
+import { useLayoutEffect } from 'react';
 import RoomCreate from './pages/RoomCreate';
 import PostCreate from './pages/PostCreate';
 import LogInPage from './pages/LogInPage';
@@ -22,10 +22,9 @@ import SignUp from './pages/SignUp';
 import SetPicture from './components/SignUp/SetPicture';
 import SetJob from './components/SignUp/SetJob';
 import Test from './pages/Test';
-import Test2 from './pages/Test2';
 import Test3 from './pages/Test3';
 import PostEdit from './pages/PostEdit';
-import QAAnswerUpdate from './pages/QAAnswerUpdate';
+import QAAnswerEdit from './pages/QAAnswerEdit';
 import QAAnswerCreate from './pages/QAAnswerCreate';
 
 function App() {
@@ -53,7 +52,7 @@ function App() {
       <Route path="/communityFeedDetail/:id" element={<CommunityFeedDetail />} />
       <Route path="/postCreate" element={<PostCreate />} />
       <Route path="/postEdit/:id" element={<PostEdit />} />
-      <Route path="/answerEdit/:postId/:answerId" element={<QAAnswerUpdate />} />
+      <Route path="/answerEdit/:postId/:answerId" element={<QAAnswerEdit />} />
       <Route path="/answerCreate/:postId" element={<QAAnswerCreate />} />
 
       <Route path="/coffeeChat" element={<CoffeeChat />} />
@@ -70,7 +69,6 @@ function App() {
       <Route path="*" element={<NotFound />} />
 
       <Route path="/test" element={<Test />} />
-      <Route path="/test2" element={<Test2 />} />
       <Route path="/test3" element={<Test3 />} />
     </Routes>
   );

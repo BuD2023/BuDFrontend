@@ -93,7 +93,7 @@ export default function PostFormat({ inputValue, communityFilter, sortAndOrder }
                 </div>
               </div>
               <div className="flex h-[54px] w-full items-center gap-8 rounded-b-[20px] bg-[#a49c7c] p-4 text-base text-white dark:bg-[#2c2e34]">
-                <LikeCommentScrap postType={data.postType} likeCount={data.likeCount} commentCount={data.commentCount} />
+                <LikeCommentScrap postType={data.postType} likeCount={data.likeCount} commentCount={data.commentCount} postId={data.id} />
                 <div className="flex grow items-center justify-end gap-2">
                   <svg
                     stroke="currentColor"

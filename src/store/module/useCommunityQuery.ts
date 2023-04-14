@@ -1,6 +1,7 @@
 import { useInfiniteQuery, useMutation, useQuery } from '@tanstack/react-query';
 import { deleteCommunityPostAxios } from '../../apiFetcher/communityInfo/deleteCommunityPost';
 import getCommunityPostAxios from '../../apiFetcher/communityInfo/getCommunityPost';
+import postCommunityLikeAxios from '../../apiFetcher/communityInfo/postCommunityLike';
 import postCommunityPostAxios, { CreateCommunityPostType } from '../../apiFetcher/communityInfo/postCommunityPost';
 import updateCommunityPostAxios, { UpdateCommunityPostType } from '../../apiFetcher/communityInfo/updateCommunityPost';
 import { accessToken } from '../../main';
@@ -48,5 +49,23 @@ export function useUpdateCommunityMutation() {
 }
 
 export function useDeleteCommunityMutation(id: number) {
-  return useMutation(() => deleteCommunityPostAxios(accessToken, id), {});
+  return useMutation(() => deleteCommunityPostAxios(accessToken, id), {
+    onError: (err) => {
+      console.log(err);
+    },
+    onSuccess: () => {
+      console.log('게시글 삭제 요청이 실행되었습니다.');
+    },
+  });
+}
+
+export function useCommunityLikeMutation(postId: number) {
+  return useMutation(() => postCommunityLikeAxios(accessToken, postId), {
+    onError: (err) => {
+      console.log(err);
+    },
+    onSuccess: () => {
+      console.log('좋아요 상태 변경 반영됨');
+    },
+  });
 }
