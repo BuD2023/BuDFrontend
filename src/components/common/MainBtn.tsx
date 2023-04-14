@@ -1,4 +1,4 @@
-import { xor } from 'lodash';
+import { split, xor } from 'lodash';
 import { useNavigate } from 'react-router-dom';
 import { postChatroomData } from '../../apiFetcher/coffeeChatInfo/postChatroom';
 import { useCreateRoomMutation } from '../../store/module/useCoffeeChatQuery';
@@ -36,23 +36,21 @@ export default function MainBtn({ onSubmit, content, size }: IMainBtn) {
   const { mutate: mutateUpdatePost } = useUpdateCommunityMutation();
   const { mutate: mutateCreateQnaAnswer } = useCreateAnswerMutation();
 
-  // 폼데이터로 만들기
-  const toFormData = (arg: Partial<IOnSubmitType>) => {
+  function toFormData(obj: Partial<IOnSubmitType>) {
     const formData = new FormData();
-    Object.entries(arg).forEach(([key, value]) => {
-      if (typeof value === 'string') formData.append(key, value as string);
-      if (Array.isArray(value)) {
-        for (let i = 0; i < value.length; i++) {
-          formData.append(key, value[i] as Blob);
-        }
-      }
-    });
-    // form data 확인
+    const { images, ...rest } = obj;
+    formData.append('createPostRequest', JSON.stringify(rest));
+    if (images) {
+      Object.values(images).forEach((blob) => {
+        formData.append('Images', blob);
+      });
+    }
+    // 폼데이터 데이터 잘들어가나~ 확인!
     for (let x of (formData as FormData).entries()) {
       console.log(x);
     }
     return formData;
-  };
+  }
 
   const handleSubitData = () => {
     // 채팅방관련인지 VS 커뮤니티관련인지(게시글 or QNA답변)

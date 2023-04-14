@@ -3,6 +3,7 @@ import { deleteCommunityPostAxios } from '../../apiFetcher/communityInfo/deleteC
 import getCommunityPostAxios from '../../apiFetcher/communityInfo/getCommunityPost';
 import postCommunityLikeAxios from '../../apiFetcher/communityInfo/postCommunityLike';
 import postCommunityPostAxios, { CreateCommunityPostType } from '../../apiFetcher/communityInfo/postCommunityPost';
+import postCommunityScrapAxios from '../../apiFetcher/communityInfo/postCommunityScrap';
 import updateCommunityPostAxios, { UpdateCommunityPostType } from '../../apiFetcher/communityInfo/updateCommunityPost';
 import { accessToken } from '../../main';
 
@@ -66,6 +67,16 @@ export function useCommunityLikeMutation(postId: number) {
     },
     onSuccess: () => {
       console.log('좋아요 상태 변경 반영됨');
+    },
+  });
+}
+export function useCommunityScrapMutation(postId: number) {
+  return useMutation(() => postCommunityScrapAxios(accessToken, postId), {
+    onError: (err) => {
+      console.log(err);
+    },
+    onSuccess: () => {
+      console.log('게시물 스크랩 상태 변경 반영됨');
     },
   });
 }

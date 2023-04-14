@@ -7,7 +7,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 export var accessToken =
-  'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJKSG5pMiIsInJvbGUiOiJbUk9MRV9WRVJJRklFRF0iLCJpYXQiOjE2ODEzODM4NDgsImV4cCI6MTY4MTM4NzQ0OH0.ixitX7I0btw7_3fV7xjnvjZVGeSXi3pkbrwt-3v8ipa8ugpBAwqWJ7y3-duOzNTLKCkBZ2ApjbmKXFp7lp6Xew';
+  'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJKSG5pMiIsInJvbGUiOiJbUk9MRV9WRVJJRklFRF0iLCJpYXQiOjE2ODEyNjE5MjgsImV4cCI6MTY4MTI2NTUyOH0.rk_AIDCC6Cd3axsc8vWcbLn8J5wEL6BLUTB95TdTDR_70i4p-vXdxnLUqM84_6G9fVIFk3xdwpWx7vvOE6Q6bw';
 export const queryClient = new QueryClient({
   defaultOptions: {
     queries: {

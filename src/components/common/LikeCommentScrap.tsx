@@ -2,7 +2,7 @@ import React from 'react';
 import { BsFillHandThumbsUpFill } from 'react-icons/bs';
 import { FcLike, FcSms, FcVoicePresentation } from 'react-icons/fc';
 import { PostTypeType } from '../../apiFetcher/communityInfo/getCommunityPost';
-import { useCommunityLikeMutation } from '../../store/module/useCommunityQuery';
+import { useCommunityLikeMutation, useCommunityScrapMutation } from '../../store/module/useCommunityQuery';
 
 interface LikeCommentScrapPropsType {
   postType: PostTypeType;
@@ -12,17 +12,18 @@ interface LikeCommentScrapPropsType {
 }
 
 export default function LikeCommentScrap({ postType, likeCount, commentCount, postId }: LikeCommentScrapPropsType) {
-  const { mutate } = useCommunityLikeMutation(postId);
+  const { mutate: likeMutate } = useCommunityLikeMutation(postId);
+  const { mutate: scrapMutate } = useCommunityScrapMutation(postId);
 
   return (
-    <>
+    <div className="flex h-[54px] w-full items-center gap-8 rounded-b-[20px] bg-[#a49c7c] p-4 text-base text-white dark:bg-[#2c2e34]">
       {postType === 'FEED' ? (
         <>
           <div
             className="flex items-center gap-2"
             onClick={(e) => {
               e.stopPropagation();
-              mutate();
+              likeMutate();
             }}
           >
             <FcLike size="20px" />
@@ -39,7 +40,7 @@ export default function LikeCommentScrap({ postType, likeCount, commentCount, po
             className="flex items-center gap-2"
             onClick={(e) => {
               e.stopPropagation();
-              mutate();
+              likeMutate();
             }}
           >
             <BsFillHandThumbsUpFill size="20px" className="text-[#fbceb1]" />
@@ -51,6 +52,18 @@ export default function LikeCommentScrap({ postType, likeCount, commentCount, po
           </div>
         </>
       )}
-    </>
+      <div
+        className="flex grow items-center justify-end gap-2"
+        onClick={(e) => {
+          e.stopPropagation();
+          scrapMutate();
+        }}
+      >
+        <svg stroke="currentColor" fill="currentColor" strokeWidth="0" version="1" viewBox="0 0 48 48" enableBackground="new 0 0 48 48" height="20px" width="20px" xmlns="http://www.w3.org/2000/svg">
+          <path fill={`#f9e288`} d="M37,43l-13-6l-13,6V9c0-2.2,1.8-4,4-4h18c2.2,0,4,1.8,4,4V43z"></path>
+        </svg>
+        스크랩
+      </div>
+    </div>
   );
 }
