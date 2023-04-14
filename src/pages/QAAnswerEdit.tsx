@@ -23,7 +23,6 @@ export default function QAAnswerEdit() {
 
   // 보낼 게시글 전체 정보
   const [postInfo, setPostInfo] = useState({
-    postId: postId,
     qnaAnswerId: 1,
     content: answer,
     images: [] as Blob[],

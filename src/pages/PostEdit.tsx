@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Header from '../components/common/Header';
 import { BsChevronLeft } from 'react-icons/bs';
 import { useRef, useState } from 'react';
@@ -7,6 +7,7 @@ import { AiFillPicture } from 'react-icons/ai';
 import PicModal from '../components/common/PicModal';
 import imageCompression from 'browser-image-compression';
 import { useParams } from 'react-router-dom';
+import { useCommunityDetailQuery } from '../store/module/useCommunityDetailQuery';
 
 export default function PostEdit() {
   const { id: postId } = useParams();
@@ -16,14 +17,18 @@ export default function PostEdit() {
   const [isClick, setIsClick] = useState(true);
 
   // 게시글 전체 정보
+  const { data, isLoading, error } = useCommunityDetailQuery(Number(postId));
   const [postInfo, setPostInfo] = useState({
-    title: '',
-    content: '',
-    postType: '개발 피드',
-    images: null as null | Blob[],
+    title: data?.title,
+    content: data?.content,
+    postType: data?.postType,
+    images: data?.imageUrls as null[] | Blob[],
     postId: postId,
   });
-  console.log(postInfo);
+
+  useEffect(() => {
+    setPostInfo({ title: data?.title, content: data?.content, postType: data?.postType, images: data?.imageUrls as null[] | Blob[], postId: postId });
+  }, [data]);
 
   // 사진 미리보기
   const [imgPeek, setImgPeek] = useState<string[] | ArrayBuffer[] | null[]>([]);
@@ -124,23 +129,23 @@ export default function PostEdit() {
                 type="button"
                 className="text-start mb-2 flex h-[54px] w-full items-center rounded-[20px] bg-midIvory p-2 px-4 text-[21px] dark:bg-lightNavy"
               >
-                <span className="grow text-[18px] font-semibold">{postInfo.postType}</span>
+                <span className="grow text-[18px] font-semibold">{postInfo.postType === 'QNA' ? 'Q & A 피드' : '개발 피드'}</span>
                 <RxTriangleDown className="text-[40px] opacity-50" />
               </button>
               <ul className={`w-full overflow-hidden rounded-[20px] bg-midIvory px-4 transition-all dark:bg-lightNavy ${isClick ? 'h-0' : 'h-[124px] py-2'}`}>
                 <div className="scroll max-h-[45vh] overflow-auto">
-                  {postTypes.map((job) => (
-                    <li key={job} className="my-3">
+                  {postTypes.map((postType) => (
+                    <li key={postType} className="my-3">
                       <button
                         onClick={(e) => {
                           e.preventDefault();
-                          setPostInfo({ ...postInfo, postType: e.currentTarget.innerText });
+                          setPostInfo({ ...postInfo, postType: e.currentTarget.innerHTML === '개발 피드' ? 'FEED' : 'QNA' });
                           setIsClick(true);
                         }}
                         type="button"
                         className="text-start w-full p-1 px-4 hover:rounded-[20px] hover:bg-greyBeige hover:bg-opacity-50 dark:hover:bg-[#506779] dark:hover:bg-opacity-50"
                       >
-                        {job}
+                        {postType}
                       </button>
                     </li>
                   ))}
@@ -155,7 +160,7 @@ export default function PostEdit() {
                     title: e.target.value,
                   })
                 }
-                value={postInfo.title}
+                defaultValue={postInfo.title}
                 type="text"
                 placeholder="제목을 입력해주세요(필수)"
                 className="h-[54px] w-full rounded-[20px] bg-midIvory p-2 px-4 text-[16px] placeholder:font-semibold  placeholder:text-[#7b6d6d] placeholder:opacity-80 focus:outline-none dark:bg-lightNavy dark:placeholder:text-white"

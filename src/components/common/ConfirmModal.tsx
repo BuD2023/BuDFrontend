@@ -20,7 +20,7 @@ export default function ConfirmModal({ confirmModal, setConfirmModal, getModalAn
       <Dialog as="div" className="relative z-50" initialFocus={cancelButtonRef} onClose={setConfirmModal}>
         <Transition.Child as={Fragment} enter="ease-out duration-300" enterFrom="opacity-0" enterTo="opacity-100" leave="ease-in duration-200" leaveFrom="opacity-100" leaveTo="opacity-0">
           {/* 배경색 회색 */}
-          <div className="fixed inset-0 bg-[#6b7280] bg-opacity-75 transition-opacity" />
+          <div className="fixed inset-0 bg-black bg-opacity-75 transition-opacity" />
         </Transition.Child>
         <div className="fixed inset-0 z-10 overflow-y-auto">
           <div className="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
@@ -54,7 +54,7 @@ export default function ConfirmModal({ confirmModal, setConfirmModal, getModalAn
                 <div className="bg-[#f9fafb] px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
                   <button
                     type="button"
-                    className="inline-flex w-full justify-center rounded-md bg-[#dc2626] px-3 py-2 text-sm font-semibold text-white shadow-sm  hover:bg-[#ef4444] sm:ml-3 sm:w-auto"
+                    className="inline-flex w-full justify-center rounded-full bg-[#dc2626] px-3 py-2 text-sm font-semibold text-white shadow-sm  hover:bg-[#ef4444] sm:ml-3 sm:w-auto"
                     onClick={() => {
                       setConfirmModal(false);
                       getModalAnswer(true);
@@ -64,7 +64,7 @@ export default function ConfirmModal({ confirmModal, setConfirmModal, getModalAn
                   </button>
                   <button
                     type="button"
-                    className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-[#111827] shadow-sm outline-none ring-1 ring-inset ring-[#d1d5db] hover:bg-[#f9fafb] sm:mt-0 sm:w-auto"
+                    className="mt-3 inline-flex w-full justify-center rounded-full bg-white px-3 py-2 text-sm font-semibold text-[#111827] shadow-sm outline-none ring-1 ring-inset ring-[#d1d5db] hover:bg-[#f9fafb] sm:mt-0 sm:w-auto"
                     onClick={() => {
                       setConfirmModal(false);
                       getModalAnswer(false);

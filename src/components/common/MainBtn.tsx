@@ -68,7 +68,6 @@ export default function MainBtn({ onSubmit, content, size }: IMainBtn) {
                 title: onSubmit.title as string,
                 content: onSubmit.content as string,
                 postType: onSubmit.postType as string,
-                postId: onSubmit.postId as string,
               })
             );
             console.log('Post Update : No Image');
@@ -105,7 +104,6 @@ export default function MainBtn({ onSubmit, content, size }: IMainBtn) {
           if (onSubmit.qnaAnswerId) {
             mutateCreateQnaAnswer(
               toFormData({
-                postId: onSubmit.postId as string,
                 content: onSubmit.content as string,
                 qnaAnswerId: onSubmit.qnaAnswerId as number,
               })
@@ -115,7 +113,6 @@ export default function MainBtn({ onSubmit, content, size }: IMainBtn) {
           } else {
             mutateCreateQnaAnswer(
               toFormData({
-                postId: onSubmit.postId as string,
                 content: onSubmit.content as string,
               })
             );
