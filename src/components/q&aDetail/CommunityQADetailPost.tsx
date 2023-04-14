@@ -49,7 +49,7 @@ export default function CommunityQADetailPost() {
         </div>
       </div>
       <div className="flex h-[54px] w-full items-center gap-8 rounded-b-[20px] bg-[#a49c7c] p-4 text-base text-white dark:bg-[#383030] dark:dark:bg-[#2c2e34]">
-        <LikeCommentScrap postType={data.type as PostTypeType} likeCount={data?.likeCount as number} commentCount={data?.commentCount as number} />
+        <LikeCommentScrap postType={data.type as PostTypeType} likeCount={data?.likeCount as number} commentCount={data?.commentCount as number} postId={data?.id as number} />
         <div className="flex grow items-center justify-end">
           <div className="flex cursor-pointer gap-2">
             <svg
