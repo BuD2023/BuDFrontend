@@ -6,20 +6,19 @@ import { AiFillPicture } from 'react-icons/ai';
 import PicModal from '../components/common/PicModal';
 import imageCompression from 'browser-image-compression';
 import { useParams } from 'react-router-dom';
+import { useCommunityDetailQuery } from '../store/module/useCommunityDetailQuery';
+import QuestionModal from '../components/common/QuestionModal';
 
 export default function QAAnswerCreate() {
   const { postId } = useParams();
 
+  const [alertModal, setAlertModal] = useState(false);
+
   // QNA 질문 글 정보
-  const question = {
-    title: 'useMemo는 어떨 때 쓰는게 가장 좋을까요?',
-    content:
-      '어쩌구저쩌구 어쩌구저쩌구 어쩌구저쩌구 어쩌구저쩌구 어쩌구저쩌구 어쩌구저쩌구 어쩌구저쩌구 어쩌구저쩌구 어쩌구저쩌구 어쩌구저쩌구 어쩌구저쩌구 어쩌구저쩌구 어쩌구저쩌구 어쩌구저쩌구 어쩌구저쩌구 어쩌구저쩌구 어쩌구저쩌구 어쩌구저쩌구 ',
-  };
+  const { isLoading, data } = useCommunityDetailQuery(Number(postId));
 
   // 보낼 게시글 전체 정보
   const [postInfo, setPostInfo] = useState({
-    postId: postId,
     content: '',
     images: [] as Blob[],
   });
@@ -111,6 +110,7 @@ export default function QAAnswerCreate() {
   return (
     <>
       <PicModal isPicPopUp={isPicPopUp} setIsPicPopUp={setIsPicPopUp} />
+      {data !== undefined && <QuestionModal alertModal={alertModal} setAlertModal={setAlertModal} title={data?.title} des={data?.content} />}
       <section className="inset-0 flex flex-col gap-7 px-6 py-4 text-lightText dark:text-white">
         <Header type="withMainBtn" title="답변달기" icon={<BsChevronLeft />} onSubmit={postInfo} />
         <div className="mt-9 flex h-full flex-col gap-8 px-2 pt-10">
@@ -119,7 +119,9 @@ export default function QAAnswerCreate() {
             <div className="flex w-full flex-col items-center text-[18px] font-semibold">
               <div className="flex w-full items-center justify-between gap-2">
                 <div className="text-start flex h-[54px] w-full items-center overflow-hidden rounded-[20px] bg-midIvory p-2 px-4 text-[21px] dark:bg-lightNavy">
-                  <div className="w-full grow truncate text-[18px] font-semibold">{question.title}</div>
+                  <div onClick={() => setAlertModal(!alertModal)} className="w-full grow cursor-pointer truncate text-[18px] font-semibold">
+                    {data?.title}
+                  </div>
                 </div>
                 <div onClick={() => imgRef?.current?.click()} className="flex h-[54px] w-[54px] shrink-0 cursor-pointer items-center justify-center rounded-full bg-midIvory dark:bg-lightNavy">
                   <AiFillPicture className="opacity-80" />

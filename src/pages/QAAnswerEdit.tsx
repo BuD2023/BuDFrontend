@@ -7,7 +7,7 @@ import PicModal from '../components/common/PicModal';
 import imageCompression from 'browser-image-compression';
 import { useParams } from 'react-router-dom';
 
-export default function QAAnswerUpdate() {
+export default function QAAnswerEdit() {
   const { postId } = useParams();
 
   // 원래 qna 답변 글 정보
@@ -23,7 +23,6 @@ export default function QAAnswerUpdate() {
 
   // 보낼 게시글 전체 정보
   const [postInfo, setPostInfo] = useState({
-    postId: postId,
     qnaAnswerId: 1,
     content: answer,
     images: [] as Blob[],
