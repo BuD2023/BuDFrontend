@@ -11,7 +11,7 @@ const postChatroomAxios = async (token: string, data: postChatroomData) => {
     method: 'post',
     url: '/chatrooms',
     headers: {
-      Authorization: token,
+      Authorization: `Bearer ${token}`,
       'Content-Type': 'application/json',
     },
     data: data,

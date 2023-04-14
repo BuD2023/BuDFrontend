@@ -19,7 +19,7 @@ export default function CommunitySort({ setSortAndOrder, sortAndOrder }: ICommun
   };
 
   return (
-    <ul className="flex h-[40px] w-full items-center justify-between rounded-[20px] bg-pointGreen px-4 text-xs font-bold text-white dark:bg-lightNavy">
+    <ul className="flex h-[40px] w-full items-center justify-between rounded-[20px] bg-pointGreen px-4 text-xs text-white dark:bg-lightNavy">
       <div className="flex items-center gap-2">
         {sort.map((sorting, idx) => (
           <li key={idx} onClick={() => setSortAndOrder({ ...sortAndOrder, sort: sorting })} className={`cursor-pointer ${sortAndOrder.sort === sorting ? '' : 'opacity-50'}`}>

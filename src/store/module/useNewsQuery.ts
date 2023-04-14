@@ -3,8 +3,8 @@ import getNewsDetailAxios from '../../apiFetcher/newsInfo/getNewsDetail';
 import getNewsList from '../../apiFetcher/newsInfo/getNewsList';
 import { accessToken } from '../../main';
 
-export function useNewsQuery(inputKeyword: string, sort: boolean, filterKeywords: string) {
-  return useInfiniteQuery(['newsList', inputKeyword, sort, filterKeywords], ({ pageParam = 0 }) => getNewsList(accessToken, pageParam, inputKeyword, sort, filterKeywords), {
+export function useNewsQuery(inputKeyword: string, sort: boolean, order: boolean, filterKeywords: string) {
+  return useInfiniteQuery(['newsList', inputKeyword, sort, order, filterKeywords], ({ pageParam = 0 }) => getNewsList(accessToken, pageParam, inputKeyword, sort, order, filterKeywords), {
     getNextPageParam: (prevData: any, allPages) => {
       const lastPage = prevData.last;
       const nextPage = allPages.length + 1;

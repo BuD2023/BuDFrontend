@@ -7,7 +7,7 @@ const getSearchChatroomListAxios = async (token: string, keyword: string = '', p
     url: `/chatrooms/search?keyword=${keyword}&page=${page}&size=${size}`,
     headers: {
       'Content-Type': 'application/json',
-      Authorization: token,
+      Authorization: `Bearer ${token}`,
     },
   });
 };

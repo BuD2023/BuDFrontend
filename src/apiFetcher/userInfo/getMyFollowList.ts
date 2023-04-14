@@ -5,8 +5,7 @@ const getMyFollowList = async (token: string): Promise<[]> => {
     method: 'get',
     url: `/users/follows`,
     headers: {
-      Authorization: token,
-      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
     },
   });
 };

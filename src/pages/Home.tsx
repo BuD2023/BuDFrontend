@@ -17,10 +17,6 @@ export default function Home() {
   //   return <p>Loading...</p>;
   // }
 
-  if (error) {
-    console.log(error);
-  }
-
   const firebaseConfig = {
     apiKey: 'AIzaSyAM_TR8SQwJGMU3vPc3UcGRddtyychQa84',
     authDomain: 'budproject-da24e.firebaseapp.com',
@@ -36,18 +32,18 @@ export default function Home() {
   const messaging = getMessaging();
   const VAPID_KEY = 'BGBMikI1-QuF8fwFB9tz7qzursPE8XiBUxxq2CGqK04L1nnZPl40IG3nV61d3bNyhfHyEVrf2DLiHmIA2y2-a98';
 
-  getToken(messaging, { vapidKey: VAPID_KEY })
-    .then((currentToken) => {
-      if (currentToken) {
-        console.log('됐음');
-        console.log(currentToken);
-      } else {
-        console.log('No registration token available. Request permission to generate one.');
-      }
-    })
-    .catch((err) => {
-      console.log('An error occurred while retrieving token. ', err);
-    });
+  // getToken(messaging, { vapidKey: VAPID_KEY })
+  //   .then((currentToken) => {
+  //     if (currentToken) {
+  //       console.log('됐음');
+  //       console.log(currentToken);
+  //     } else {
+  //       console.log('No registration token available. Request permission to generate one.');
+  //     }
+  //   })
+  //   .catch((err) => {
+  //     console.log('An error occurred while retrieving token. ', err);
+  //   });
 
   return (
     <section>

@@ -27,4 +27,6 @@ export interface INewsFilterPropsType {
   setFilter: (x: boolean) => void;
   setSort: (x: boolean) => void;
   sort: boolean;
+  setOrder: (x: boolean) => void;
+  order: boolean;
 }

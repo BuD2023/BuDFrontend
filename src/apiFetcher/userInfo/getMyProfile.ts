@@ -1,14 +1,13 @@
 import customAxios from '../customAxios';
 
-const getUserInfo = async (token: string): Promise<[]> => {
+const getMyProfile = async (token: string): Promise<[]> => {
   return await customAxios({
     method: 'get',
     url: `/users`,
     headers: {
-      Authorization: token,
-      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
     },
   });
 };
 
-export default getUserInfo;
+export default getMyProfile;

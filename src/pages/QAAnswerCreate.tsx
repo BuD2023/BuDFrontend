@@ -11,7 +11,6 @@ import QuestionModal from '../components/common/QuestionModal';
 
 export default function QAAnswerCreate() {
   const { postId } = useParams();
-
   const [alertModal, setAlertModal] = useState(false);
 
   // QNA 질문 글 정보
