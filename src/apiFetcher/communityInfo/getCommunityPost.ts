@@ -2,11 +2,43 @@ import customAxios from '../customAxios';
 
 export type PostStatusType = 'ACTIVE' | 'INACTIVE';
 export type PostTypeType = 'FEED' | 'QNA';
+
+export interface memberType {
+  createdAt: string;
+  updatedAt: string;
+  id: number;
+  userId: string;
+  level: {
+    createdAt: string;
+    updatedAt: string;
+    id: number;
+    levelNumber: number;
+    levelCode: string;
+    levelStartCommitCount: number;
+    nextLevelStartCommitCount: number;
+  };
+  nickName: string;
+  profileImg: null | string;
+  job: null | string;
+  status: string;
+  introduceMessage: null | string;
+  addInfoYn: boolean;
+  enabled: boolean;
+  oauthAccessToken: string;
+  username: string;
+  password: null | string;
+  credentialNonExpired: boolean;
+  accountNonExpired: boolean;
+  accountNonLocked: boolean;
+  authorities: {
+    authority: string;
+  }[];
+}
 export interface CommunityPostListContentType {
   id: number;
-  member: null;
+  member: memberType;
   title: string;
-  imageUrls: string[];
+  imageUrls: any[];
   content: string;
   commentCount: number;
   likeCount: number;

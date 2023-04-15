@@ -8,6 +8,7 @@ import PicModal from '../components/common/PicModal';
 import imageCompression from 'browser-image-compression';
 import { useParams } from 'react-router-dom';
 import { useCommunityDetailQuery } from '../store/module/useCommunityDetailQuery';
+import actionImgCompress from '../utils/imgCompress';
 
 export default function PostEdit() {
   const { id: postId } = useParams();
@@ -27,26 +28,14 @@ export default function PostEdit() {
   });
 
   useEffect(() => {
+    // if(!isLoading || !data) {
+    //   return
+    // }
     setPostInfo({ title: data?.title, content: data?.content, postType: data?.postType, images: data?.imageUrls as null[] | Blob[], postId: postId });
   }, [data]);
 
   // 사진 미리보기
   const [imgPeek, setImgPeek] = useState<string[] | ArrayBuffer[] | null[]>([]);
-
-  //이미지 압축
-  const actionImgCompress = async (fileSrc: File) => {
-    const options = {
-      maxSizeMb: 0.1,
-      maxWidthOrHeight: 1200,
-      useWebWorker: true,
-    };
-    try {
-      const compressedFile = await imageCompression(fileSrc, options);
-      return compressedFile;
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   // 사진 업로드
   const imgRef = useRef<HTMLInputElement>(null);

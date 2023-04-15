@@ -5,10 +5,12 @@ import { timeForToday } from '../../store/commentDummy';
 import { useCommunityPostQuery } from '../../store/module/useCommunityQuery';
 import DefaultProfileImage from '../../assets/DefaultProfileImage.webp';
 import { useInView } from 'react-intersection-observer';
-import { useEffect } from 'react';
-import { PostTypeType } from '../../apiFetcher/communityInfo/getCommunityPost';
+import { useEffect, useState } from 'react';
+import { CommunityPostListContentType, PostTypeType } from '../../apiFetcher/communityInfo/getCommunityPost';
 import { SortAndOrderType } from '../../pages/Community';
 import LikeCommentScrap from './LikeCommentScrap';
+import ImagePeek from './ImagePeek';
+import PicModal from './PicModal';
 
 interface IPostFormatPropsType {
   inputValue: string;
@@ -20,7 +22,8 @@ export default function PostFormat({ inputValue, communityFilter, sortAndOrder }
   const { sort, order } = sortAndOrder;
   const navigate = useNavigate();
   const { isLoading, data, hasNextPage, isFetching, isFetchingNextPage, fetchNextPage } = useCommunityPostQuery(inputValue, sort, order);
-  let resultData = data?.pages.map((i) => i.content).flat();
+  let resultData = data?.pages.map((i) => i.content).flat() as CommunityPostListContentType[];
+  console.log(resultData);
   if (communityFilter !== null) {
     if (communityFilter === 'FEED') resultData = resultData?.filter((i) => i.postType === 'FEED');
     if (communityFilter === 'QNA') resultData = resultData?.filter((i) => i.postType === 'QNA');
@@ -32,8 +35,20 @@ export default function PostFormat({ inputValue, communityFilter, sortAndOrder }
     if (inView && hasNextPage && !isFetching && !isFetchingNextPage) fetchNextPage();
   }, [inView]);
 
+  // 사진 미리보기
+  let imgPeek = resultData?.map((i) => i?.imageUrls).flat();
+  // console.log(imgPeek);
+  // let imageArr = resultData?.map((i) => i?.imageUrls.map((j) => URL.createObjectURL(j))).flat();
+
+  //사진 팝업모달
+  const [isPicPopUp, setIsPicPopUp] = useState({
+    open: false,
+    pic: '',
+  });
+
   return (
     <>
+      <PicModal isPicPopUp={isPicPopUp} setIsPicPopUp={setIsPicPopUp} />
       <ul className="w-full">
         {data?.pages && resultData && resultData?.length > 0 ? (
           resultData?.map((data, idx) => (
@@ -55,10 +70,9 @@ export default function PostFormat({ inputValue, communityFilter, sortAndOrder }
                     <img
                       onClick={(e) => {
                         e.stopPropagation();
-                        // 수정 필요
-                        navigate(`/otherProfile/${data.id}`);
+                        navigate(`/otherProfile/${data.member.id}`);
                       }}
-                      src={DefaultProfileImage}
+                      src={data.member.profileImg ? data.member.profileImg : DefaultProfileImage}
                       alt={data.title}
                       className="w-[58px] rounded-full"
                     />
@@ -66,13 +80,11 @@ export default function PostFormat({ inputValue, communityFilter, sortAndOrder }
                       <p
                         onClick={(e) => {
                           e.stopPropagation();
-                          // 수정 필요
-                          navigate(`/otherProfile/${data.id}`);
+                          navigate(`/otherProfile/${data.member.id}`);
                         }}
                         className="text-xl font-bold"
                       >
-                        {/* 수정 필요 */}
-                        {data.id}
+                        {data.member.username}
                       </p>
                       <p className="text-[17px] opacity-50">{timeForToday(data.createdAt)}</p>
                     </div>
@@ -92,7 +104,7 @@ export default function PostFormat({ inputValue, communityFilter, sortAndOrder }
                   <p className="text-base">{data.content}</p>
                 </div>
               </div>
-
+              <ImagePeek setIsPicPopUp={setIsPicPopUp} imgPeek={imgPeek as string[]} />
               <LikeCommentScrap postType={data.postType} likeCount={data.likeCount} commentCount={data.commentCount} postId={data.id} />
             </li>
           ))

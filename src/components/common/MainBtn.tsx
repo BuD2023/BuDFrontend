@@ -39,10 +39,28 @@ export default function MainBtn({ onSubmit, content, size }: IMainBtn) {
   function toFormData(obj: Partial<IOnSubmitType>) {
     const formData = new FormData();
     const { images, ...rest } = obj;
-    formData.append('createPostRequest', JSON.stringify(rest));
+    const blob = new Blob([JSON.stringify(rest)], { type: 'application/json' });
+    formData.append('createPostRequest', blob);
     if (images) {
-      Object.values(images).forEach((blob) => {
-        formData.append('Images', blob);
+      console.log(images);
+      Object.values(images).forEach((blob, i) => {
+        let imgType;
+        let type;
+        let name = `BudImg(${Date.now()}${Math.random()})`;
+        switch (images[i].type) {
+          case 'image/png':
+            imgType = 'image/png';
+            type = '.png';
+            break;
+          case 'image/webp':
+            imgType = 'image/webp';
+            break;
+          default:
+            imgType = 'image/jpeg';
+            type = '.jpeg';
+        }
+        const file = new File([blob], `${name}${type}`, { type: imgType });
+        formData.append(`images`, file);
       });
     }
     // 폼데이터 데이터 잘들어가나~ 확인!

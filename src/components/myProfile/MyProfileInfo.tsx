@@ -12,8 +12,6 @@ interface MyProfileInfoPropsType {
 export default function MyProfileInfo({ level, followers, follows, posts }: MyProfileInfoPropsType) {
   const navigate = useNavigate();
 
-  const [isUserList, setIsUserList] = useState();
-
   return (
     <>
       {/* <UserListModal /> */}

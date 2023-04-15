@@ -7,6 +7,8 @@ import { AiFillPicture } from 'react-icons/ai';
 import PicModal from '../components/common/PicModal';
 import imageCompression from 'browser-image-compression';
 import { PostTypeType } from '../apiFetcher/communityInfo/getCommunityPost';
+import actionImgCompress from '../utils/imgCompress';
+import ImagePeek from '../components/common/ImagePeek';
 
 export default function PostCreate() {
   //게시글 타입
@@ -23,21 +25,6 @@ export default function PostCreate() {
 
   // 사진 미리보기
   const [imgPeek, setImgPeek] = useState<string[] | ArrayBuffer[] | null[]>([]);
-
-  //이미지 압축
-  const actionImgCompress = async (fileSrc: File) => {
-    const options = {
-      maxSizeMb: 0.1,
-      maxWidthOrHeight: 1200,
-      useWebWorker: true,
-    };
-    try {
-      const compressedFile = await imageCompression(fileSrc, options);
-      return compressedFile;
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   // 사진 업로드
   const imgRef = useRef<HTMLInputElement>(null);
@@ -162,23 +149,7 @@ export default function PostCreate() {
               </div>
             </div>
             <div className={`${!isClick ? 'h-[calc(100vh-470px)]' : 'h-[calc(100vh-346px)]'} flex w-full flex-col gap-2 transition-all`}>
-              {imgPeek.length > 0 && (
-                <div className="flex w-full shrink-0 items-center gap-2 overflow-auto rounded-[20px] bg-midIvory p-2">
-                  {imgPeek.map((img, idx) => (
-                    <img
-                      onClick={() => {
-                        setIsPicPopUp({
-                          open: true,
-                          pic: img as string,
-                        });
-                      }}
-                      key={idx}
-                      src={img as string}
-                      className="pre-img h-[120px] w-[120px] cursor-pointer rounded-[20px] object-cover"
-                    />
-                  ))}
-                </div>
-              )}
+              <ImagePeek setIsPicPopUp={setIsPicPopUp} imgPeek={imgPeek} />
               <textarea
                 onChange={(e) =>
                   setPostInfo({

@@ -23,3 +23,7 @@ const getMyProfileInfo = async (token: string): Promise<UserProfileType> => {
 };
 
 export default getMyProfileInfo;
+
+// const { data: asdf, isLoading, error } = useMyFollowersQuery();
+
+// const { data:asdfasdf, isLoading, error } = useMyFollowsQuery();
