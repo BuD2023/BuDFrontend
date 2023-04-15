@@ -1,89 +1,88 @@
-import { useQueryClient } from '@tanstack/react-query';
-import React, { useEffect, useState } from 'react';
-import FooterMenu from '../components/common/FooterMenu';
-import usePassengerMutation, { createDataType } from '../store/testUseMutation';
-import usePassengerQuery, { responseDataType, responseType } from '../store/testUseQuery';
+import React, { useEffect, useRef, useState } from 'react';
+import * as StompJs from '@stomp/stompjs';
+import { accessToken } from '../main';
 
-export default function Test() {
-  const [info, setInfo] = useState({
-    name: '',
-    trips: 0,
-    airline: 0,
-  } as createDataType);
-  const handleAddNewPost = () => {
-    mutate(info);
-  };
+const ROOM_NUM = 1;
+const SOCKET_URL = 'http://34.64.224.24:8083/ws';
 
-  const queryClient = useQueryClient();
-  const cachedData = queryClient.getQueryData(['passengerInfo']);
-
-  //useQuery
-  const { isLoading, data: passengerData, fetchNextPage, hasNextPage } = usePassengerQuery();
-  console.log(passengerData);
+const Test = () => {
+  const client = useRef({});
+  const [chatMessages, setChatMessages] = useState<any[]>([]);
+  const [message, setMessage] = useState({
+    senderId: 1,
+    chatroomId: ROOM_NUM,
+    chatText: '',
+  });
 
   useEffect(() => {
-    let fetching = false;
-    const onScroll = async (e: any) => {
-      const { scrollHeight, scrollTop, clientHeight } = e?.target.scrollingElement;
+    connect();
 
-      if (!fetching && scrollHeight - scrollTop <= clientHeight) {
-        fetching = true;
-        console.log(hasNextPage);
-        if (hasNextPage) await fetchNextPage();
-        fetching = false;
-      }
-    };
-    document.addEventListener('scroll', onScroll);
-    return () => {
-      document.removeEventListener('scroll', onScroll);
-    };
+    return () => disconnect();
   }, []);
 
-  //useMutation
-  const { mutate, isLoading: isAdding } = usePassengerMutation();
+  const connect = () => {
+    client.current = new StompJs.Client({
+      brokerURL: SOCKET_URL, // 웹소켓 서버로 직접 접속
+      connectHeaders: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+      debug: function (str) {
+        console.log(str);
+      },
+      reconnectDelay: 5000,
+      heartbeatIncoming: 4000,
+      heartbeatOutgoing: 4000,
+      onConnect: () => {
+        subscribe();
+      },
+      onStompError: (frame) => {
+        console.error(frame);
+      },
+    });
 
-  if (isLoading) {
-    return <div className="w-full text-center text-[20px] font-semibold">...isLoading</div>;
-  }
+    (client.current as StompJs.Client).activate();
+  };
+
+  const disconnect = () => {
+    (client.current as StompJs.Client).deactivate();
+  };
+
+  const subscribe = () => {
+    (client.current as StompJs.Client).subscribe(`/chatrooms/${ROOM_NUM}`, ({ body }) => {
+      setChatMessages((_chatMessages: any[]) => [..._chatMessages, JSON.parse(body)]);
+    });
+  };
+
+  const publish = (text: any) => {
+    if (!(client.current as StompJs.Client).connected) {
+      return;
+    }
+
+    (client.current as StompJs.Client).publish({
+      destination: '/chats/message',
+      body: JSON.stringify(text),
+    });
+
+    setMessage({ ...message, chatText: '' });
+  };
 
   return (
-    <>
-      <div className="relative mt-8 flex min-h-[calc(100vh-160px)] w-full flex-col gap-6 overflow-x-hidden bg-lightIvory p-4 text-lightText dark:bg-darkNavy dark:text-white ">
-        <div>
-          <label>name</label>
-          <input value={info.name} onChange={(e) => setInfo({ ...info, name: e.target.value })} /> <br />
-        </div>
-        <div>
-          <label>trip</label>
-          <input type="number" value={info.trips} onChange={(e) => setInfo({ ...info, trips: Number(e.target.value) })} />
-        </div>
-        <div>
-          <label>airline</label>
-          <input type="number" value={info.airline} onChange={(e) => setInfo({ ...info, airline: Number(e.target.value) })} />
-        </div>
-        {isAdding && <div>....Adding New Post</div>}
-        <button
-          onClick={() => {
-            handleAddNewPost();
-          }}
-          className="mb-3 rounded-xl bg-midIvory p-4 text-[20px] font-semibold"
-        >
-          Add new post
-        </button>
-        <div>
-          {passengerData?.pages
-            .map((i) => i.data)
-            .flat()
-            .map((item: responseDataType) => (
-              <div key={item._id} className="mb-4 flex w-full flex-col justify-center rounded-2xl border border-black p-4">
-                <h1 className="mb-1 text-[20px] font-semibold">{item.name}</h1>
-                <span>{item.country}</span>
-                <img src={item.logo} className="w-[50%]" />
-              </div>
-            ))}
-        </div>
+    <div className="relative mb-20 mt-9  flex  h-full  min-h-[calc(100vh-160px)]  w-full  flex-col  items-center  justify-center  gap-4  p-4">
+      {chatMessages && chatMessages.length > 0 && (
+        <ul>
+          {chatMessages.map((_chatMessage, index) => (
+            <li className="text-black" key={index}>
+              {_chatMessage.message}
+            </li>
+          ))}
+        </ul>
+      )}
+      <div>
+        <input type="text" placeholder="메세지 입력" value={message.chatText} onChange={(e) => setMessage({ ...message, chatText: e.target.value })} />
+        <button onClick={() => publish(message)}>전송</button>
       </div>
-      <FooterMenu />
-    </>
+    </div>
   );
-}
+};
+
+export default Test;

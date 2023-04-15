@@ -20,9 +20,6 @@ export default function Community() {
   // 커뮤니티 글 검색
   const [inputValue, setInputValue] = useState('');
 
-  // 커뮤니티 필터
-  const [communityFilter, setCommunityFilter] = useState<PostTypeType | null>(null);
-
   // 정렬
   const [sortAndOrder, setSortAndOrder] = useState<SortAndOrderType>({
     sort: 'DATE',
@@ -36,9 +33,9 @@ export default function Community() {
         <Header type="category" title="커뮤니티" icon={<FcGlobe />} />
         <AddBtn url="/postCreate" text="글쓰기" />
         <SearchBar inputValue={inputValue} setInputValue={setInputValue} />
-        <CommunityFilter communityFilter={communityFilter} setCommunityFilter={setCommunityFilter} />
+        <CommunityFilter />
         <CommunitySort setSortAndOrder={setSortAndOrder} sortAndOrder={sortAndOrder} />
-        <PostFormat inputValue={inputValue} communityFilter={communityFilter} sortAndOrder={sortAndOrder} />
+        <PostFormat inputValue={inputValue} sortAndOrder={sortAndOrder} />
       </div>
       <FooterMenu />
     </section>

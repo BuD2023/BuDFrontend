@@ -1,6 +1,6 @@
 import { BsFillHandThumbsUpFill } from 'react-icons/bs';
 import { FcLike, FcPortraitMode, FcSms, FcVoicePresentation } from 'react-icons/fc';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { timeForToday } from '../../store/commentDummy';
 import { useCommunityPostQuery } from '../../store/module/useCommunityQuery';
 import DefaultProfileImage from '../../assets/DefaultProfileImage.webp';
@@ -11,22 +11,26 @@ import { SortAndOrderType } from '../../pages/Community';
 import LikeCommentScrap from './LikeCommentScrap';
 import ImagePeek from './ImagePeek';
 import PicModal from './PicModal';
+import { BASE_URL } from '../../constant/union';
 
 interface IPostFormatPropsType {
   inputValue: string;
-  communityFilter: PostTypeType | null;
   sortAndOrder: SortAndOrderType;
 }
 
-export default function PostFormat({ inputValue, communityFilter, sortAndOrder }: IPostFormatPropsType) {
+export default function PostFormat({ inputValue, sortAndOrder }: IPostFormatPropsType) {
+  const { filter } = useParams();
   const { sort, order } = sortAndOrder;
   const navigate = useNavigate();
   const { isLoading, data, hasNextPage, isFetching, isFetchingNextPage, fetchNextPage } = useCommunityPostQuery(inputValue, sort, order);
-  let resultData = data?.pages.map((i) => i.content).flat() as CommunityPostListContentType[];
+  let resultData = data?.pages
+    .map((i) => i.content)
+    .flat()
+    .map((i) => ({ ...i, imageUrls: i.imageUrls.map((j) => BASE_URL + j) })) as CommunityPostListContentType[];
   console.log(resultData);
-  if (communityFilter !== null) {
-    if (communityFilter === 'FEED') resultData = resultData?.filter((i) => i.postType === 'FEED');
-    if (communityFilter === 'QNA') resultData = resultData?.filter((i) => i.postType === 'QNA');
+  if (filter !== 'all') {
+    if (filter === 'FEED') resultData = resultData?.filter((i) => i.postType === 'FEED');
+    if (filter === 'QNA') resultData = resultData?.filter((i) => i.postType === 'QNA');
   }
 
   // 인피니티 스크롤
@@ -34,11 +38,6 @@ export default function PostFormat({ inputValue, communityFilter, sortAndOrder }
   useEffect(() => {
     if (inView && hasNextPage && !isFetching && !isFetchingNextPage) fetchNextPage();
   }, [inView]);
-
-  // 사진 미리보기
-  let imgPeek = resultData?.map((i) => i?.imageUrls).flat();
-  // console.log(imgPeek);
-  // let imageArr = resultData?.map((i) => i?.imageUrls.map((j) => URL.createObjectURL(j))).flat();
 
   //사진 팝업모달
   const [isPicPopUp, setIsPicPopUp] = useState({
@@ -104,7 +103,7 @@ export default function PostFormat({ inputValue, communityFilter, sortAndOrder }
                   <p className="text-base">{data.content}</p>
                 </div>
               </div>
-              <ImagePeek setIsPicPopUp={setIsPicPopUp} imgPeek={imgPeek as string[]} />
+              <ImagePeek setIsPicPopUp={setIsPicPopUp} imgPeek={data.imageUrls as string[]} />
               <LikeCommentScrap postType={data.postType} likeCount={data.likeCount} commentCount={data.commentCount} postId={data.id} />
             </li>
           ))

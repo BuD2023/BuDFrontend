@@ -24,7 +24,7 @@ export default function PostCreate() {
   });
 
   // 사진 미리보기
-  const [imgPeek, setImgPeek] = useState<string[] | ArrayBuffer[] | null[] | string[]>([]);
+  const [imgPeek, setImgPeek] = useState<string[]>([]);
 
   // 사진 업로드
   const imgRef = useRef<HTMLInputElement>(null);
@@ -33,7 +33,6 @@ export default function PostCreate() {
   const makeCompressedImg = async (fileArr: FileList) => {
     let filesLength = fileArr.length > 10 ? 10 : fileArr.length;
     console.log(fileArr);
-
     const compressedFiles = await Promise.all(
       Array.from(fileArr)
         .slice(0, filesLength)
@@ -43,15 +42,6 @@ export default function PostCreate() {
     );
     return compressedFiles;
   };
-
-  //multipart form data로 저장
-  // const makeMultipartForm = (compressedFiles: Blob[] | FileList) => {
-  //   const formData = new FormData();
-  //   for (let i = 0; i < compressedFiles.length; i++) {
-  //     formData.append(`photos`, compressedFiles[i]);
-  //   }
-  //   return formData;
-  // };
 
   const handleChangeProfileImg = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const fileArr = e.target.files as FileList;
@@ -77,15 +67,6 @@ export default function PostCreate() {
       images: compressedFiles as Blob[],
     });
   };
-  // form data 확인
-  // if (postInfo.images !== null) {
-  //   for (let key of (postInfo.images as FormData).keys()) {
-  //     console.log(key);
-  //   }
-  //   for (let value of (postInfo.images as FormData).values()) {
-  //     console.log(value);
-  //   }
-  // }
 
   // 사진 popUp
   const [isPicPopUp, setIsPicPopUp] = useState({
