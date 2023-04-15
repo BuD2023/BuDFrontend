@@ -5,15 +5,12 @@ import ScrollToTopBtn from '../components/common/ScrollToTopBtn';
 import MyProfileHeader from '../components/myProfile/MyProfileHeader';
 import MyProfileInfo from '../components/myProfile/MyProfileInfo';
 import MyProfileMenu from '../components/myProfile/MyProfileMenu';
-import { dummyData } from '../store/dummy';
 import { useMyProfileQuery } from '../store/module/useMyProfileQuery';
 
 export default function MyProfile() {
   const [postView, setPostView] = useState('feed');
-  const resultData = [...dummyData];
 
   const { data, isLoading, error } = useMyProfileQuery();
-  console.log(data);
 
   return (
     <section>

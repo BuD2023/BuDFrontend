@@ -18,7 +18,7 @@ export function useUserProfileQuery(id: number) {
 
 export function useUserFollowsQuery(id: number) {
   return useQuery(['userFollows', id], () => getUserFollowList(accessToken, id), {
-    // enabled: true,
+    enabled: false,
     refetchOnMount: true,
     refetchOnReconnect: true,
     refetchOnWindowFocus: true, // react-query는 사용자가 사용하는 윈도우가 다른 곳을 갔다가 다시 화면으로 돌아오면 이 함수를 재실행합니다. 그 재실행 여부 옵션 입니다.
@@ -30,7 +30,7 @@ export function useUserFollowsQuery(id: number) {
 
 export function useUserFollowersQuery(id: number) {
   return useQuery(['userFollowers', id], () => getUserFollowerList(accessToken, id), {
-    // enabled: true,
+    enabled: false,
     refetchOnMount: true,
     refetchOnReconnect: true,
     refetchOnWindowFocus: true, // react-query는 사용자가 사용하는 윈도우가 다른 곳을 갔다가 다시 화면으로 돌아오면 이 함수를 재실행합니다. 그 재실행 여부 옵션 입니다.

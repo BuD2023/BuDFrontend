@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+
 import UserListModal from '../common/UserListModal';
 
 interface MyProfileInfoPropsType {
@@ -11,21 +12,33 @@ interface MyProfileInfoPropsType {
 
 export default function MyProfileInfo({ level, followers, follows, posts }: MyProfileInfoPropsType) {
   const navigate = useNavigate();
+  const [type, setType] = useState('');
+  const [isUserList, setIsUserList] = useState<boolean>(false);
+
+  const handleClickFollower = () => {
+    setIsUserList(!isUserList);
+    setType('MyFollowers');
+  };
+
+  const handleClickFollow = () => {
+    setIsUserList(!isUserList);
+    setType('MyFollows');
+  };
 
   return (
     <>
-      {/* <UserListModal /> */}
+      <UserListModal isUserList={isUserList} setIsUserList={setIsUserList} type={type} />
       <div className="mt-3 flex h-[185px] w-full flex-col rounded-2xl bg-midIvory text-lightText dark:bg-sky dark:text-white">
         <div className="flex h-[122px] w-full items-center justify-around px-3">
           <div className="flex flex-col items-center justify-around text-[22px] font-bold">
             <div>{posts}</div>
             <div className="mt-2 text-[18px] font-medium">게시물</div>
           </div>
-          <div className="flex flex-col items-center justify-around text-[22px] font-bold">
+          <div onClick={handleClickFollower} className="flex cursor-pointer flex-col items-center justify-around text-[22px] font-bold">
             <div>{followers}</div>
             <div className="mt-2 text-[18px] font-medium">팔로워</div>
           </div>
-          <div className="flex flex-col items-center justify-around text-[22px] font-bold">
+          <div onClick={handleClickFollow} className="flex cursor-pointer flex-col items-center justify-around text-[22px] font-bold">
             <div>{follows}</div>
             <div className="mt-2 text-[18px] font-medium">팔로우</div>
           </div>
