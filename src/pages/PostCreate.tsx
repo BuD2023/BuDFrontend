@@ -24,7 +24,7 @@ export default function PostCreate() {
   });
 
   // 사진 미리보기
-  const [imgPeek, setImgPeek] = useState<string[] | ArrayBuffer[] | null[]>([]);
+  const [imgPeek, setImgPeek] = useState<string[] | ArrayBuffer[] | null[] | string[]>([]);
 
   // 사진 업로드
   const imgRef = useRef<HTMLInputElement>(null);
@@ -149,7 +149,7 @@ export default function PostCreate() {
               </div>
             </div>
             <div className={`${!isClick ? 'h-[calc(100vh-470px)]' : 'h-[calc(100vh-346px)]'} flex w-full flex-col gap-2 transition-all`}>
-              <ImagePeek setIsPicPopUp={setIsPicPopUp} imgPeek={imgPeek} />
+              <ImagePeek setIsPicPopUp={setIsPicPopUp} imgPeek={imgPeek as string[]} />
               <textarea
                 onChange={(e) =>
                   setPostInfo({
