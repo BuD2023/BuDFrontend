@@ -12,7 +12,6 @@ interface MyProfileHeaderPropsType {
 
 export default function MyProfileHeader({ userId, nickName, description, profileUrl }: MyProfileHeaderPropsType) {
   const navigate = useNavigate();
-  const githubID = 'jameskim97';
 
   return (
     <div className="text-lighText flex w-full justify-between gap-4 text-[26px] font-bold dark:text-white">

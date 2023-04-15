@@ -10,6 +10,8 @@ interface UserProfileType {
   numberOfFollows: number;
   numberOfPosts: number;
   profileUrl: string;
+  isFollowing: boolean;
+  isReader: boolean;
 }
 
 const getMyProfileInfo = async (token: string): Promise<UserProfileType> => {
