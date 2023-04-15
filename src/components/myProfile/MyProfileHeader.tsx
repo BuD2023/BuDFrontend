@@ -3,7 +3,14 @@ import { FcReadingEbook } from 'react-icons/fc';
 import { useNavigate } from 'react-router-dom';
 import profile1 from '../../assets/profile1.jpg';
 
-export default function MyProfileHeader() {
+interface MyProfileHeaderPropsType {
+  userId: string;
+  nickName: string;
+  description: string;
+  profileUrl: string;
+}
+
+export default function MyProfileHeader({ userId, nickName, description, profileUrl }: MyProfileHeaderPropsType) {
   const navigate = useNavigate();
   const githubID = 'jameskim97';
 
@@ -15,23 +22,23 @@ export default function MyProfileHeader() {
             <div className="rounded-xl bg-white p-0.5">
               <FcReadingEbook size={30} />
             </div>
-            <h1>{`Kody님`}</h1>
+            <h1>{nickName}</h1>
           </div>
           <div onClick={() => navigate('/setting')} className="flex cursor-pointer items-center justify-center rounded-full bg-darkIvory dark:bg-lightNavy">
             <AiFillSetting className="box-content p-1 text-[18px] text-white opacity-80" />
           </div>
         </div>
         <div className="mb-1 flex items-center gap-2 text-[16px] font-medium">
-          <AiFillGithub className="cursor-pointer opacity-60" onClick={() => window.open(`https://github.com/${githubID}`)} />
-          <span className="cursor-pointer opacity-60 hover:underline" onClick={() => window.open(`https://github.com/${githubID}`)}>
-            {githubID}
+          <AiFillGithub className="cursor-pointer opacity-60" onClick={() => window.open(`https://github.com/${userId}`)} />
+          <span className="cursor-pointer opacity-60 hover:underline" onClick={() => window.open(`https://github.com/${userId}`)}>
+            {userId}
           </span>
         </div>
         <div className="min-h-[40px] w-full rounded-2xl bg-white p-2.5 text-sm font-semibold leading-[1.2] opacity-70 dark:bg-midNavy dark:text-white dark:opacity-100">
-          <div className="dark:font-normal">안녕하세요 FE_김동성입니다. 이곳에는 간단한 자기소개를 적어보아요~ㅁㄴㅇㄹㅁㄴㅇㄹㅁㄴㅇㄹㅁㄴㅇㄹㅁㄴㅇㄹㅁㄴㅇㄹㅁㄴㅇㄹㅁㄴㅇㄹ</div>
+          <div className="dark:font-normal">{description ? description : `${nickName}님의 프로필입니다.`}</div>
         </div>
       </div>
-      <img src={profile1} className="h-[120px] w-[120px] rounded-full object-cover" />
+      <img src={profileUrl ? profileUrl : profile1} className="h-[120px] w-[120px] rounded-full object-cover" />
     </div>
   );
 }

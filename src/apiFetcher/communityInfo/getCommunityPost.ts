@@ -4,6 +4,7 @@ export type PostStatusType = 'ACTIVE' | 'INACTIVE';
 export type PostTypeType = 'FEED' | 'QNA';
 export interface CommunityPostListContentType {
   id: number;
+  member: null;
   title: string;
   imageUrls: string[];
   content: string;

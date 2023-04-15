@@ -1,6 +1,18 @@
 import customAxios from '../customAxios';
 
-const getMyProfileInfo = async (token: string): Promise<[]> => {
+interface UserProfileType {
+  id: number;
+  userId: string;
+  nickName: string;
+  description: string;
+  level: number;
+  numberOfFollowers: number;
+  numberOfFollows: number;
+  numberOfPosts: number;
+  profileUrl: string;
+}
+
+const getMyProfileInfo = async (token: string): Promise<UserProfileType> => {
   return await customAxios({
     method: 'get',
     url: `/users`,
