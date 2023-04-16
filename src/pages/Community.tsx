@@ -18,7 +18,7 @@ export interface SortAndOrderType {
 
 export default function Community() {
   // 커뮤니티 글 검색
-  const [inputValue, setInputValue] = useState('');
+  const [inputValue, setInputValue] = useState<string>('');
 
   // 정렬
   const [sortAndOrder, setSortAndOrder] = useState<SortAndOrderType>({

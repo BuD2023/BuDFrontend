@@ -11,7 +11,8 @@ import { SortAndOrderType } from '../../pages/Community';
 import LikeCommentScrap from './LikeCommentScrap';
 import ImagePeek from './ImagePeek';
 import PicModal from './PicModal';
-import { BASE_URL } from '../../constant/union';
+import { BASE_URL, S3_URL } from '../../constant/union';
+import Loading from './Loading';
 
 interface IPostFormatPropsType {
   inputValue: string;
@@ -23,10 +24,11 @@ export default function PostFormat({ inputValue, sortAndOrder }: IPostFormatProp
   const { sort, order } = sortAndOrder;
   const navigate = useNavigate();
   const { isLoading, data, hasNextPage, isFetching, isFetchingNextPage, fetchNextPage } = useCommunityPostQuery(inputValue, sort, order);
+
   let resultData = data?.pages
     .map((i) => i.content)
     .flat()
-    .map((i) => ({ ...i, imageUrls: i.imageUrls.map((j) => BASE_URL + j) })) as CommunityPostListContentType[];
+    .map((i) => ({ ...i, imageUrls: i.imageUrls.map((j) => S3_URL + j) })) as CommunityPostListContentType[];
   console.log(resultData);
   if (filter !== 'all') {
     if (filter === 'FEED') resultData = resultData?.filter((i) => i.postType === 'FEED');
@@ -44,6 +46,9 @@ export default function PostFormat({ inputValue, sortAndOrder }: IPostFormatProp
     open: false,
     pic: '',
   });
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <>
