@@ -1,17 +1,17 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import * as StompJs from '@stomp/stompjs';
 import { accessToken } from '../main';
 
-const ROOM_NUM = 1;
-const SOCKET_URL = 'http://34.64.224.24:8083/ws';
+const ROOM_NUM = 10;
+const SOCKET_URL = 'ws://34.64.224.24:8083/ws/websocket';
 
 const Test = () => {
   const client = useRef({});
   const [chatMessages, setChatMessages] = useState<any[]>([]);
   const [message, setMessage] = useState({
-    senderId: 1,
+    senderId: 2,
     chatroomId: ROOM_NUM,
-    chatText: '',
+    message: 'test',
   });
 
   useEffect(() => {
@@ -48,22 +48,29 @@ const Test = () => {
   };
 
   const subscribe = () => {
-    (client.current as StompJs.Client).subscribe(`/chatrooms/${ROOM_NUM}`, ({ body }) => {
+    (client.current as StompJs.Client).subscribe(`8083/ws/chatrooms/${ROOM_NUM}`, ({ body }) => {
       setChatMessages((_chatMessages: any[]) => [..._chatMessages, JSON.parse(body)]);
-    });
+    }),
+      {
+        Authorization: `Bearer ${accessToken}`,
+      };
   };
 
-  const publish = (text: any) => {
+  const publish = () => {
     if (!(client.current as StompJs.Client).connected) {
       return;
     }
 
     (client.current as StompJs.Client).publish({
       destination: '/chats/message',
-      body: JSON.stringify(text),
+      body: JSON.stringify({
+        senderId: message.senderId,
+        chatroomId: ROOM_NUM,
+        message: message.message,
+      }),
     });
 
-    setMessage({ ...message, chatText: '' });
+    setMessage({ ...message, message: '' });
   };
 
   return (
@@ -78,8 +85,8 @@ const Test = () => {
         </ul>
       )}
       <div>
-        <input type="text" placeholder="메세지 입력" value={message.chatText} onChange={(e) => setMessage({ ...message, chatText: e.target.value })} />
-        <button onClick={() => publish(message)}>전송</button>
+        <input type="text" placeholder="메세지 입력" value={message.message} onChange={(e) => setMessage({ ...message, message: e.target.value })} />
+        <button onClick={() => publish()}>전송</button>
       </div>
     </div>
   );

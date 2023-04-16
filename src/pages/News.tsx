@@ -34,7 +34,7 @@ export default function News() {
   const { ref, inView } = useInView();
   useEffect(() => {
     if (inView && hasNextPage && !isFetching && !isFetchingNextPage) fetchNextPage();
-  }, [inView, hasNextPage, isFetching, isFetchingNextPage, fetchNextPage]);
+  }, [inView]);
 
   const clearInputValue = () => {
     inputRef.current && (inputRef.current.value = '');

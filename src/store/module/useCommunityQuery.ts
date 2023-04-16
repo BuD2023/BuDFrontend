@@ -10,11 +10,11 @@ import { accessToken } from '../../main';
 export type SortType = 'HIT' | 'LIKE' | 'DATE';
 export type OrderType = 'ASC' | 'DESC';
 
-export function useCommunityPostQuery(word?: string, sort?: SortType, order?: OrderType, page?: number, size?: number) {
-  return useInfiniteQuery(['Community', word, sort, order], () => getCommunityPostAxios(accessToken, word, sort, order, page, size), {
+export function useCommunityPostQuery(word?: string, sort?: SortType, order?: OrderType, size?: number) {
+  return useInfiniteQuery(['Community', word, sort, order], ({ pageParam = 0 }) => getCommunityPostAxios(accessToken, word, sort, order, pageParam, size), {
     getNextPageParam: (prevData, allPages) => {
       const maxPages = prevData.totalPages;
-      const nextPage = allPages.length + 1;
+      const nextPage = allPages.length;
       return nextPage < maxPages ? nextPage : undefined;
     },
     // enabled: true,

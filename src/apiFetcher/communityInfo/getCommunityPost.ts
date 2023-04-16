@@ -79,6 +79,7 @@ export interface CommunityPostListType {
 }
 
 const getCommunityPostAxios = async (token: string, word: string | null = null, sort: string = 'DATE', order: string = 'DESC', page: number = 0, size: number = 5): Promise<CommunityPostListType> => {
+  console.log(page);
   return await customAxios({
     method: 'get',
     url: `/posts?keyword=${word}&sort=${sort}&order=${order}&page=${page}&size=${size}`,

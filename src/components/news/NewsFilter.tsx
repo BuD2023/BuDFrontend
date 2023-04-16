@@ -2,7 +2,7 @@ import { INewsFilterPropsType } from './_News.interface';
 
 export default function NewsFilter({ setFilter, setSort, sort, setOrder, order }: INewsFilterPropsType) {
   const sortList = ['인기순', '최신순'];
-  const orderList = ['오름차순', '내림차순'];
+  const orderList = ['내림차순', '오름차순'];
 
   return (
     <ul className="dark:text- flex h-[40px] items-center justify-between gap-4 rounded-[20px] bg-pointGreen px-4 text-xs  text-white dark:bg-lightNavy">
@@ -22,9 +22,9 @@ export default function NewsFilter({ setFilter, setSort, sort, setOrder, order }
           <li
             key={ordering}
             onClick={() => {
-              ordering === '오름차순' ? setOrder(false) : setOrder(true);
+              ordering === '내림차순' ? setOrder(false) : setOrder(true);
             }}
-            className={'cursor-pointer ' + ((order && ordering === '오름차순') || (!order && ordering === '내림차순') ? 'opacity-50' : '')}
+            className={'cursor-pointer ' + ((order && ordering === '내림차순') || (!order && ordering === '오름차순') ? 'opacity-50' : '')}
           >
             · {ordering}
           </li>

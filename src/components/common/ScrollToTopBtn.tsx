@@ -9,7 +9,6 @@ export default function ScrollToTopBtn() {
   const handleShowButton = useMemo(
     () =>
       throttle(() => {
-        console.log(window.scrollY);
         if (window.scrollY > 700) {
           setShowBtn(true);
         } else {

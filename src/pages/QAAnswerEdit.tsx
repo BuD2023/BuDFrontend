@@ -12,15 +12,13 @@ import QuestionModal from '../components/common/QuestionModal';
 export default function QAAnswerEdit() {
   const { postId } = useParams();
   const [alertModal, setAlertModal] = useState(false);
+  const initialValue = { content: '', images: [] as Blob[] };
 
   // QNA 질문 글 정보
   const { isLoading, data } = useCommunityDetailQuery(Number(postId));
 
   // 보낼 게시글 전체 정보
-  const [postInfo, setPostInfo] = useState({
-    content: '',
-    images: [] as Blob[],
-  });
+  const [postInfo, setPostInfo] = useState(initialValue);
 
   // 사진 미리보기
   const [imgPeek, setImgPeek] = useState<string[] | ArrayBuffer[] | null[]>([]);
