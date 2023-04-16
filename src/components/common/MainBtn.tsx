@@ -59,7 +59,7 @@ export default function MainBtn({ onSubmit, content, size }: IMainBtn) {
             imgType = 'image/jpeg';
             type = '.jpeg';
         }
-        const file = new File([blob], `${name}${type}`, { type: imgType });
+        const file = new File([blob], `${name}${i}${type}`, { type: imgType });
         formData.append(`images`, file);
       });
     }
@@ -111,7 +111,7 @@ export default function MainBtn({ onSubmit, content, size }: IMainBtn) {
             console.log('Post Create : Image contained');
           }
         }
-        navigate('/community');
+        navigate('/community/all');
         // QNA 답변
       } else {
         // image 있는지 없는지
