@@ -42,7 +42,7 @@ export default function NewsDetail() {
   }
 
   const handleTitleClick = (e: React.MouseEvent<HTMLElement>) => {
-    window.open(data.link, '_blank');
+    window.open(data?.link, '_blank');
     e.stopPropagation();
   };
 
