@@ -27,7 +27,7 @@ export default function EditDeleteBtn({ postId, setIsMenu }: IEditDeleteBtnProps
         onClick={() => {
           setIsMenu(false);
           deletePostMutate();
-          navigate('/community');
+          navigate('/community/all');
         }}
       >
         삭제하기
