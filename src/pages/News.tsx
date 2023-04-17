@@ -41,6 +41,8 @@ export default function News() {
     setInputKeyword('');
   };
 
+  console.log(data);
+
   return (
     <>
       <ScrollToTopBtn />

@@ -48,12 +48,15 @@ const Test = () => {
   };
 
   const subscribe = () => {
-    (client.current as StompJs.Client).subscribe(`8083/ws/chatrooms/${ROOM_NUM}`, ({ body }) => {
-      setChatMessages((_chatMessages: any[]) => [..._chatMessages, JSON.parse(body)]);
-    }),
+    (client.current as StompJs.Client).subscribe(
+      `8083/ws/chatrooms/${ROOM_NUM}`,
+      ({ body }) => {
+        setChatMessages((_chatMessages: any[]) => [..._chatMessages, JSON.parse(body)]);
+      },
       {
         Authorization: `Bearer ${accessToken}`,
-      };
+      }
+    );
   };
 
   const publish = () => {

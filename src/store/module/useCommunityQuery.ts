@@ -1,4 +1,4 @@
-import { useInfiniteQuery, useMutation, useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { deleteCommunityPostAxios } from '../../apiFetcher/communityInfo/deleteCommunityPost';
 import getCommunityPostAxios from '../../apiFetcher/communityInfo/getCommunityPost';
 import postCommunityLikeAxios from '../../apiFetcher/communityInfo/postCommunityLike';
@@ -6,6 +6,7 @@ import postCommunityPostAxios, { CreateCommunityPostType } from '../../apiFetche
 import postCommunityScrapAxios from '../../apiFetcher/communityInfo/postCommunityScrap';
 import updateCommunityPostAxios, { UpdateCommunityPostType } from '../../apiFetcher/communityInfo/updateCommunityPost';
 import { accessToken } from '../../main';
+import { useMyScrapsQuery } from './useMyProfileQuery';
 
 export type SortType = 'HIT' | 'LIKE' | 'DATE';
 export type OrderType = 'ASC' | 'DESC';
@@ -71,12 +72,14 @@ export function useCommunityLikeMutation(postId: number) {
   });
 }
 export function useCommunityScrapMutation(postId: number) {
+  const { refetch } = useMyScrapsQuery('postId,DESC');
   return useMutation(() => postCommunityScrapAxios(accessToken, postId), {
     onError: (err) => {
       console.log(err);
     },
     onSuccess: () => {
       console.log('게시물 스크랩 상태 변경 반영됨');
+      refetch();
     },
   });
 }
