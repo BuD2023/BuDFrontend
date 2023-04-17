@@ -1,6 +1,7 @@
 import React from 'react';
 import { BsFillHandThumbsUpFill } from 'react-icons/bs';
 import { FcLike, FcSms, FcVoicePresentation } from 'react-icons/fc';
+import { useLocation } from 'react-router-dom';
 import { PostTypeType } from '../../apiFetcher/communityInfo/getCommunityPost';
 import { useCommunityLikeMutation, useCommunityScrapMutation } from '../../store/module/useCommunityQuery';
 

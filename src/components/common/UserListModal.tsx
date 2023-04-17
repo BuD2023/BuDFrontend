@@ -52,7 +52,7 @@ export default function UserListModal({ isUserList, setIsUserList, type }: Confi
     }
   }, [type]);
 
-  console.log(data);
+  // console.log(data);
 
   return (
     <Transition.Root show={isUserList} as={Fragment}>

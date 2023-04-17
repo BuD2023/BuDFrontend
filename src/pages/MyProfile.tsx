@@ -1,26 +1,52 @@
-import { useState } from 'react';
+import { InfiniteData } from '@tanstack/react-query';
+import { useEffect, useRef, useState } from 'react';
+import { useInView } from 'react-intersection-observer';
+import { ScrpListType } from '../apiFetcher/userInfo/getMyScrapList';
 import FooterMenu from '../components/common/FooterMenu';
-import PostFormat from '../components/common/PostFormat';
+import ScrapPostFormat from '../components/common/ScrapPostFormat';
 import ScrollToTopBtn from '../components/common/ScrollToTopBtn';
 import MyProfileHeader from '../components/myProfile/MyProfileHeader';
 import MyProfileInfo from '../components/myProfile/MyProfileInfo';
 import MyProfileMenu from '../components/myProfile/MyProfileMenu';
-import { useMyProfileQuery } from '../store/module/useMyProfileQuery';
+import { useMyProfileQuery, useMyScrapsQuery } from '../store/module/useMyProfileQuery';
 
 export default function MyProfile() {
   const [postView, setPostView] = useState('feed');
 
-  const { data, isLoading, error } = useMyProfileQuery();
+  const { data: myProfileData, isLoading: myProfileIsLoading, error: myProfileError } = useMyProfileQuery();
+  const { data: myScrapsData, isLoading: myScrapsIsLoading, error: myScrapsError, isFetching, isFetchingNextPage, fetchNextPage, hasNextPage } = useMyScrapsQuery('postId,DESC');
+
+  // 인피니티 스크롤
+  const { ref, inView } = useInView();
+
+  useEffect(() => {
+    if (inView && hasNextPage && !isFetching && !isFetchingNextPage) fetchNextPage();
+  }, [inView]);
+
+  useEffect(() => {
+    if (postView === 'scrap') fetchNextPage();
+  }, [postView]);
 
   return (
     <section>
       <ScrollToTopBtn />
       <div className="relative flex min-h-[calc(100vh-160px)] w-full flex-col items-center gap-4 bg-lightIvory p-4 pt-0 text-lightText dark:bg-darkNavy dark:text-white">
-        <MyProfileHeader userId={data?.userId as string} nickName={data?.nickName as string} profileUrl={data?.profileUrl as string} description={data?.description as string} />
-        <MyProfileInfo level={data?.level as number} followers={data?.numberOfFollowers as number} follows={data?.numberOfFollows as number} posts={data?.numberOfPosts as number} />
+        <MyProfileHeader
+          userId={myProfileData?.userId as string}
+          nickName={myProfileData?.nickName as string}
+          profileUrl={myProfileData?.profileUrl as string}
+          description={myProfileData?.description as string}
+        />
+        <MyProfileInfo
+          level={myProfileData?.level as number}
+          followers={myProfileData?.numberOfFollowers as number}
+          follows={myProfileData?.numberOfFollows as number}
+          posts={myProfileData?.numberOfPosts as number}
+        />
         <MyProfileMenu postView={postView} setPostView={setPostView} />
-        {/* <PostFormat resultData={resultData} /> */}
+        {myScrapsData && postView === 'scrap' && <ScrapPostFormat resultData={myScrapsData.pages.flatMap((page) => page.content)} />}
       </div>
+      <div ref={ref} />
       <FooterMenu />
     </section>
   );
