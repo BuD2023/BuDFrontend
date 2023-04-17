@@ -85,7 +85,7 @@ export default function ScrapPostFormat({ resultData, refetch }: ScrapPostFormat
                 </div>
               </div>
               {data.post.imageUrls.length > 0 && data.post.imageUrls[0] !== null && <ImagePeek setIsPicPopUp={setIsPicPopUp} imgPeek={data.post.imageUrls.map((imgeUrl) => S3_URL + imgeUrl)} />}
-              <LikeCommentScrap refetch={refetch} postType={data.post.postType} likeCount={data.post.likeCount} commentCount={data.post.commentCount} postId={data.post.id} />
+              <LikeCommentScrap postType={data.post.postType} likeCount={data.post.likeCount} commentCount={data.post.commentCount} postId={data.post.id} />
             </li>
           ))
         ) : (
