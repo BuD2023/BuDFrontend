@@ -14,10 +14,9 @@ import { ScrapPostProps } from '../../apiFetcher/userInfo/getMyScrapList';
 
 interface ScrapPostFormatProps {
   resultData: ScrapPostProps[];
-  refetch: any;
 }
 
-export default function ScrapPostFormat({ resultData, refetch }: ScrapPostFormatProps) {
+export default function ScrapPostFormat({ resultData }: ScrapPostFormatProps) {
   const navigate = useNavigate();
 
   //사진 팝업모달

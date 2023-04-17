@@ -10,13 +10,11 @@ interface LikeCommentScrapPropsType {
   likeCount: number;
   commentCount: number;
   postId: number;
-  refetch: any;
 }
 
-export default function LikeCommentScrap({ postType, likeCount, commentCount, postId, refetch }: LikeCommentScrapPropsType) {
+export default function LikeCommentScrap({ postType, likeCount, commentCount, postId }: LikeCommentScrapPropsType) {
   const { mutate: likeMutate } = useCommunityLikeMutation(postId);
   const { mutate: scrapMutate } = useCommunityScrapMutation(postId);
-  const url = useLocation();
 
   return (
     <div className="flex h-[54px] w-full items-center gap-8 rounded-b-[20px] bg-[#a49c7c] p-4 text-base text-white dark:bg-[#2c2e34]">
@@ -60,7 +58,6 @@ export default function LikeCommentScrap({ postType, likeCount, commentCount, po
         onClick={(e) => {
           e.stopPropagation();
           scrapMutate();
-          // if (url.pathname === '/myProfile') refetch();
         }}
       >
         <svg stroke="currentColor" fill="currentColor" strokeWidth="0" version="1" viewBox="0 0 48 48" enableBackground="new 0 0 48 48" height="20px" width="20px" xmlns="http://www.w3.org/2000/svg">

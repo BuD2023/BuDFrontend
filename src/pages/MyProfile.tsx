@@ -14,7 +14,7 @@ export default function MyProfile() {
   const [postView, setPostView] = useState('feed');
 
   const { data: myProfileData, isLoading: myProfileIsLoading, error: myProfileError } = useMyProfileQuery();
-  const { data: myScrapsData, isLoading: myScrapsIsLoading, error: myScrapsError, isFetching, isFetchingNextPage, fetchNextPage, hasNextPage, refetch } = useMyScrapsQuery('postId,DESC');
+  const { data: myScrapsData, isLoading: myScrapsIsLoading, error: myScrapsError, isFetching, isFetchingNextPage, fetchNextPage, hasNextPage } = useMyScrapsQuery('postId,DESC');
 
   // 인피니티 스크롤
   const { ref, inView } = useInView();
@@ -44,7 +44,7 @@ export default function MyProfile() {
           posts={myProfileData?.numberOfPosts as number}
         />
         <MyProfileMenu postView={postView} setPostView={setPostView} />
-        {myScrapsData && postView === 'scrap' && <ScrapPostFormat refetch={refetch} resultData={myScrapsData.pages.flatMap((page) => page.content)} />}
+        {myScrapsData && postView === 'scrap' && <ScrapPostFormat resultData={myScrapsData.pages.flatMap((page) => page.content)} />}
       </div>
       <div ref={ref} />
       <FooterMenu />
