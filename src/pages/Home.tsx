@@ -5,47 +5,17 @@ import HomeCommitSection from '../components/home/HomeCommitSection';
 import HomeCommitCalendar from '../components/home/HomeCommitCalendar';
 import { useNavigate } from 'react-router-dom';
 import { useGithubQuery } from '../store/module/useGithubQuery';
-import { getMessaging, getToken } from 'firebase/messaging';
-import { initializeApp } from 'firebase/app';
 import { useEffect } from 'react';
-import { useRecoilState } from 'recoil';
-import { user } from '../store/recoil/user';
+import sendFCMTokenFunc, { requestPermission } from '../utils/fcm';
 
 export default function Home() {
   const navigate = useNavigate();
   const { data, isLoading, error } = useGithubQuery();
 
-  // if (isLoading) {
-  //   return <p>Loading...</p>;
-  // }
-
-  const firebaseConfig = {
-    apiKey: 'AIzaSyAM_TR8SQwJGMU3vPc3UcGRddtyychQa84',
-    authDomain: 'budproject-da24e.firebaseapp.com',
-    projectId: 'budproject-da24e',
-    storageBucket: 'budproject-da24e.appspot.com',
-    messagingSenderId: '553292178134',
-    appId: '1:553292178134:web:9c2d682ce5dc68c16e1f77',
-    measurementId: 'G-PCYWPF0345',
-  };
-
-  const app = initializeApp(firebaseConfig);
-
-  const messaging = getMessaging();
-  const VAPID_KEY = 'BGBMikI1-QuF8fwFB9tz7qzursPE8XiBUxxq2CGqK04L1nnZPl40IG3nV61d3bNyhfHyEVrf2DLiHmIA2y2-a98';
-
-  // getToken(messaging, { vapidKey: VAPID_KEY })
-  //   .then((currentToken) => {
-  //     if (currentToken) {
-  //       console.log('됐음');
-  //       console.log(currentToken);
-  //     } else {
-  //       console.log('No registration token available. Request permission to generate one.');
-  //     }
-  //   })
-  //   .catch((err) => {
-  //     console.log('An error occurred while retrieving token. ', err);
-  //   });
+  useEffect(() => {
+    requestPermission();
+    sendFCMTokenFunc();
+  }, []);
 
   return (
     <section>
@@ -58,10 +28,6 @@ export default function Home() {
             <HomeCommitCalendar commits={data.commits} />
           </>
         )}
-
-        <button onClick={() => navigate('/test')} className="mb-4 flex w-full items-center justify-center rounded-[20px] bg-greyBeige p-4 text-[22px] font-semibold dark:bg-sky">
-          test
-        </button>
         <button onClick={() => navigate('/test3')} className="mb-4 flex w-full items-center justify-center rounded-[20px] bg-greyBeige p-4 text-[22px] font-semibold">
           test3
         </button>

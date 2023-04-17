@@ -2,20 +2,17 @@ import { BsCameraFill } from 'react-icons/bs';
 import { useParams } from 'react-router-dom';
 import RoomChats from '../components/chatRoom/RoomChats';
 import RoomHeader from '../components/chatRoom/RoomHeader';
-import { chats, chatRooms, IChatRoomType, IChatsType } from '../store/chatsDummy';
-import axios from 'axios';
 import React, { useEffect, useRef, useState } from 'react';
 import tw from 'tailwind-styled-components';
 import * as StompJs from '@stomp/stompjs';
 import { accessToken } from '../main';
 import { SOCKET_URL } from '../constant/union';
 import { myChatroomListContentType, myChatroomListType } from '../apiFetcher/coffeeChatInfo/getMyChatroomList';
-import { useInView } from 'react-intersection-observer';
 import { useMyChatroomListQuery } from '../store/module/useChatroomQuery';
 import { makeCompressedImg } from '../utils/makeCompressedImg';
 import PicModal from '../components/common/PicModal';
 
-interface MessageType {
+export interface MessageType {
   senderId: number;
   chatroomId: number;
   message: string;
@@ -24,14 +21,12 @@ interface MessageType {
 export default function ChatRoom() {
   const { id } = useParams();
   const ROOM_NUM = Number(id);
-  // const chatRoom = chatRooms.find((i) => i.chatRoomId === Number(id)) as IChatRoomType;
-  // const chatsResult = chats.filter((i) => i.chatRoomId === Number(id)) as IChatsType[];
 
   const { isLoading, data: chatroomListData, hasNextPage, isFetching, isFetchingNextPage, fetchNextPage, refetch } = useMyChatroomListQuery(ROOM_NUM, 10);
 
   const client = useRef({});
   const [newChatMessages, setNewChatMessages] = useState<MessageType[]>([]);
-  const [messageList, setMessageList] = useState<myChatroomListContentType[]>([]);
+  const [messageList, setMessageList] = useState<myChatroomListContentType[]>(chatroomListData?.pages.map((i: myChatroomListType) => i.content).flat() as myChatroomListContentType[]);
   useEffect(() => {
     setMessageList(chatroomListData?.pages.map((i: myChatroomListType) => i.content).flat() as myChatroomListContentType[]);
   }, [chatroomListData]);
@@ -89,7 +84,7 @@ export default function ChatRoom() {
       (client.current as StompJs.Client).publish({
         destination: '/chats/image',
         body: JSON.stringify({
-          senderId: 2,
+          senderId: 4,
           chatroomId: ROOM_NUM,
           imageByte: imgPeek,
         }),
@@ -98,7 +93,7 @@ export default function ChatRoom() {
       (client.current as StompJs.Client).publish({
         destination: '/chats/message',
         body: JSON.stringify({
-          senderId: 2,
+          senderId: 4,
           chatroomId: ROOM_NUM,
           message: message,
         }),
@@ -151,7 +146,7 @@ export default function ChatRoom() {
       <PicModal isPicPopUp={isPicPopUp} setIsPicPopUp={setIsPicPopUp} />
       <RoomHeader />
       <div className="fixed left-0 top-20 h-full w-full rounded-[20px] bg-midIvory dark:bg-midNavy"></div>
-      <RoomChats messageList={messageList} hasNextPage={hasNextPage} isFetching={isFetching} isFetchingNextPage={isFetchingNextPage} fetchNextPage={fetchNextPage} />
+      <RoomChats messageList={messageList} newChatMessages={newChatMessages} hasNextPage={hasNextPage} isFetching={isFetching} isFetchingNextPage={isFetchingNextPage} fetchNextPage={fetchNextPage} />
       <div className={`fixed bottom-0 left-0 z-20 flex w-full ${imgPeek ? 'items-end' : 'items-center'} justify-start gap-4 bg-lightIvory p-3 dark:bg-darkNavy`}>
         <BsCameraFill size="40" className="grow cursor-pointer " onClick={() => imgRef?.current?.click()} />
         <input ref={imgRef} type="file" accept="image/*" onChange={handleChangeProfileImg} className="hidden" />

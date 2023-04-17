@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { BsFillPersonFill } from 'react-icons/bs';
 import { useNavigate } from 'react-router-dom';
 import { ChatroomType } from '../../apiFetcher/coffeeChatInfo/getAllChatroomList';
-import { IChatRoomType } from '../../store/chatsDummy';
+import DefaultImage from '../../assets/Monica.webp';
 import { timeForToday } from '../../store/commentDummy';
 import { useAllChatroomQuery, useSearchChatroomQuery } from '../../store/module/useCoffeeChatQuery';
 import { useInView } from 'react-intersection-observer';
@@ -65,7 +65,7 @@ export default function CoffeeChatRoom({ inputValue }: CoffeeChatRoomPropsType) 
               <div className="leading-5">{room.description}</div>
               <div className="flex w-full items-center justify-between text-[16px]">
                 <div className="flex gap-2">
-                  <img src={room.hostProfileUrl as string} className="h-[60px] w-[60px] rounded-full object-cover" />
+                  <img src={room.hostProfileUrl ? room.hostProfileUrl : DefaultImage} className="h-[60px] w-[60px] rounded-full object-cover" />
                   <div className="flex flex-col justify-center gap-1.5">
                     <div className="font-bold">Host</div>
                     <div className="text-[18px]">{room.hostName}</div>

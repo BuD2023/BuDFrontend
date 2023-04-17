@@ -21,7 +21,6 @@ import LogInPage from './pages/LogInPage';
 import SignUp from './pages/SignUp';
 import SetPicture from './components/SignUp/SetPicture';
 import SetJob from './components/SignUp/SetJob';
-import Test from './pages/Test';
 import Test3 from './pages/Test3';
 import PostEdit from './pages/PostEdit';
 import QAAnswerEdit from './pages/QAAnswerEdit';
@@ -68,7 +67,6 @@ function App() {
       <Route path="/notification" element={<Notification />} />
       <Route path="*" element={<NotFound />} />
 
-      <Route path="/test" element={<Test />} />
       <Route path="/test3" element={<Test3 />} />
     </Routes>
   );

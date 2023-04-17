@@ -5,8 +5,7 @@ export type chatType = 'IMAGE' | 'MESSAGE';
 export interface myChatroomListContentType {
   chatroomId: null | number;
   chatId: number;
-  message?: string;
-  imageUrl?: string;
+  message: string;
   chatType: chatType;
   createdAt: string;
   userProfileUrl: string;
