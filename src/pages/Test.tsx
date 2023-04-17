@@ -1,22 +1,40 @@
 import { useEffect, useRef, useState } from 'react';
 import * as StompJs from '@stomp/stompjs';
 import { accessToken } from '../main';
+import { myChatroomListContentType } from '../apiFetcher/coffeeChatInfo/getMyChatroomList';
+import { useMyChatroomListQuery } from '../store/module/useChatroomQuery';
+import { useInView } from 'react-intersection-observer';
+import { SOCKET_URL } from '../constant/union';
 
 const ROOM_NUM = 10;
-const SOCKET_URL = 'ws://34.64.224.24:8083/ws/websocket';
+interface MessageType {
+  senderId: number;
+  chatroomId: number;
+  message: string;
+}
 
 const Test = () => {
+  const { isLoading, data: chatroomListData, hasNextPage, isFetching, isFetchingNextPage, fetchNextPage, refetch } = useMyChatroomListQuery(ROOM_NUM, 20);
+  console.log(chatroomListData);
   const client = useRef({});
-  const [chatMessages, setChatMessages] = useState<any[]>([]);
-  const [message, setMessage] = useState({
-    senderId: 2,
-    chatroomId: ROOM_NUM,
-    message: 'test',
-  });
+  const [newChatMessages, setNewChatMessages] = useState<MessageType[]>([]);
+  const [messageList, setMessageList] = useState<myChatroomListContentType[]>([]);
+  useEffect(() => {
+    setMessageList(chatroomListData?.pages.map((i) => i.content).flat() as myChatroomListContentType[]);
+    console.log(messageList);
+    refetch();
+  }, [chatroomListData]);
+
+  const [message, setMessage] = useState<string>('');
+
+  // 인피니티 스크롤
+  const { ref, inView } = useInView();
+  useEffect(() => {
+    if (inView && hasNextPage && !isFetching && !isFetchingNextPage) fetchNextPage();
+  }, [inView]);
 
   useEffect(() => {
     connect();
-
     return () => disconnect();
   }, []);
 
@@ -49,13 +67,15 @@ const Test = () => {
 
   const subscribe = () => {
     (client.current as StompJs.Client).subscribe(`8083/ws/chatrooms/${ROOM_NUM}`, ({ body }) => {
-      setChatMessages((_chatMessages: any[]) => [..._chatMessages, JSON.parse(body)]);
+      setNewChatMessages((_chatMessages) => [..._chatMessages, JSON.parse(body)]);
     }),
       {
         Authorization: `Bearer ${accessToken}`,
       };
+    console.log(`Subscribed to chatroom ${ROOM_NUM}`);
   };
 
+  // 메시지 전송 함수 수정
   const publish = () => {
     if (!(client.current as StompJs.Client).connected) {
       return;
@@ -64,29 +84,47 @@ const Test = () => {
     (client.current as StompJs.Client).publish({
       destination: '/chats/message',
       body: JSON.stringify({
-        senderId: message.senderId,
+        senderId: 2,
         chatroomId: ROOM_NUM,
-        message: message.message,
+        message: message,
       }),
     });
 
-    setMessage({ ...message, message: '' });
+    setMessage('');
   };
 
   return (
-    <div className="relative mb-20 mt-9  flex  h-full  min-h-[calc(100vh-160px)]  w-full  flex-col  items-center  justify-center  gap-4  p-4">
-      {chatMessages && chatMessages.length > 0 && (
-        <ul>
-          {chatMessages.map((_chatMessage, index) => (
-            <li className="text-black" key={index}>
-              {_chatMessage.message}
-            </li>
-          ))}
-        </ul>
-      )}
+    <div className="relative inset-0 flex-col  items-center justify-center  gap-4  p-4">
+      <div className="just flex h-[40%] w-[70%] justify-center overflow-auto bg-white ">
+        {messageList && messageList.length > 0 && (
+          <ul className="flex flex-col-reverse text-lg">
+            {messageList.map((_chatMessage, index) => (
+              <li className="text-black" key={index}>
+                {_chatMessage.message}
+              </li>
+            ))}
+            {/* <div ref={ref} /> */}
+          </ul>
+        )}
+        {newChatMessages && newChatMessages.length > 0 && (
+          <ul className="flex flex-col-reverse text-lg">
+            {newChatMessages.map((_chatMessage, index) => (
+              <li className="text-black" key={index}>
+                {_chatMessage.message}
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
       <div>
-        <input type="text" placeholder="메세지 입력" value={message.message} onChange={(e) => setMessage({ ...message, message: e.target.value })} />
-        <button onClick={() => publish()}>전송</button>
+        <input type="text" placeholder="메세지 입력" value={message} onChange={(e) => setMessage(e.target.value)} />
+        <button
+          onClick={() => {
+            publish();
+          }}
+        >
+          전송
+        </button>
       </div>
     </div>
   );

@@ -9,6 +9,7 @@ import imageCompression from 'browser-image-compression';
 import { PostTypeType } from '../apiFetcher/communityInfo/getCommunityPost';
 import actionImgCompress from '../utils/imgCompress';
 import ImagePeek from '../components/common/ImagePeek';
+import { makeCompressedImg } from '../utils/makeCompressedImg';
 
 export default function PostCreate() {
   //게시글 타입
@@ -24,20 +25,6 @@ export default function PostCreate() {
 
   // 사진 업로드
   const imgRef = useRef<HTMLInputElement>(null);
-
-  //사진 압축
-  const makeCompressedImg = async (fileArr: FileList) => {
-    let filesLength = fileArr.length > 10 ? 10 : fileArr.length;
-    console.log(fileArr);
-    const compressedFiles = await Promise.all(
-      Array.from(fileArr)
-        .slice(0, filesLength)
-        .map(async (file) => {
-          return await actionImgCompress(file);
-        })
-    );
-    return compressedFiles;
-  };
 
   const handleChangeProfileImg = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const fileArr = e.target.files as FileList;
@@ -57,7 +44,6 @@ export default function PostCreate() {
     );
     setImgPeek(compressedFileURLs);
 
-    // const MultipartData = makeMultipartForm(compressedFiles as Blob[]);
     setPostInfo({
       ...postInfo,
       images: compressedFiles as Blob[],

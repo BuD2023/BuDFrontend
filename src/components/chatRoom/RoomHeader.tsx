@@ -1,19 +1,18 @@
 import { BsChevronLeft, BsFillPersonFill } from 'react-icons/bs';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useState } from 'react';
+import { useChatroomDetailQuery } from '../../store/module/useChatroomQuery';
 
-interface IRoomHeaderPropsType {
-  title: string;
-  numOfMember: number;
-}
-
-export default function RoomHeader({ title, numOfMember }: IRoomHeaderPropsType) {
+export default function RoomHeader() {
   const navigate = useNavigate();
+  const { id } = useParams();
+
+  const { data: chatRoomInfo } = useChatroomDetailQuery(Number(id));
 
   // userList popUp
   const [isUserList, setIsUserList] = useState({
     open: false,
-    list: numOfMember,
+    list: chatRoomInfo?.numberOfMembers,
   });
 
   return (
@@ -21,7 +20,7 @@ export default function RoomHeader({ title, numOfMember }: IRoomHeaderPropsType)
       {/* <UserListModal isUserList={isUserList} setIsUserList={setIsUserList} /> */}
       <div className="fixed top-0 left-0 mt-8 flex w-full items-center justify-between gap-2 px-4 py-2 text-xl font-bold">
         <BsChevronLeft onClick={() => navigate('/coffeeChat')} className="shrink-0 cursor-pointer" />
-        <p className="truncate px-1">{title}</p>
+        <p className="truncate px-1">{chatRoomInfo?.title}</p>
         <div
           onClick={() => {
             setIsUserList({
@@ -32,7 +31,7 @@ export default function RoomHeader({ title, numOfMember }: IRoomHeaderPropsType)
           className="flex items-center gap-1 font-normal opacity-70"
         >
           <BsFillPersonFill className="shrink-0" />
-          <p className="text-sm ">{numOfMember}</p>
+          <p className="text-sm ">{chatRoomInfo?.numberOfMembers}</p>
         </div>
       </div>
     </>

@@ -7,10 +7,12 @@ import { useNavigate } from 'react-router-dom';
 import { useGithubQuery } from '../store/module/useGithubQuery';
 import { getMessaging, getToken } from 'firebase/messaging';
 import { initializeApp } from 'firebase/app';
+import { useEffect } from 'react';
+import { useRecoilState } from 'recoil';
+import { user } from '../store/recoil/user';
 
 export default function Home() {
   const navigate = useNavigate();
-
   const { data, isLoading, error } = useGithubQuery();
 
   // if (isLoading) {
