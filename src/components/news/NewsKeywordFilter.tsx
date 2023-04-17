@@ -2,8 +2,8 @@ import { Fragment } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import { BiReset } from 'react-icons/bi';
-import { NEWS_KEYWORDS } from '../../store/constants/NewsConstants';
 import { NewsKeywordFilterPropsType } from './_News.interface';
+import { NEWS_KEYWORDS } from '../../constant/union';
 
 export default function NewsKeywordFilter(props: NewsKeywordFilterPropsType) {
   return (

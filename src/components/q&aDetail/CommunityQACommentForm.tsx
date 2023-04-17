@@ -1,10 +1,11 @@
 import { SwipeableList, SwipeableListItem } from '@sandstreamdev/react-swipeable-list';
 import { BsArrowReturnRight, BsDot, BsFillPinAngleFill, BsFillTrashFill, BsHeartFill } from 'react-icons/bs';
+import { useParams } from 'react-router-dom';
 import { commentArr, commentDummyType, timeForToday } from '../../store/commentDummy';
+import { useCommentQuery, useDeleteCommentMutation } from '../../store/module/useCommunityDetailQuery';
 
 export default function CommunityQACommentForm() {
-  console.log(timeForToday('2023 02 02 14:31:10'));
-  console.log(timeForToday('2023-03-23T18:36:31.581773'));
+  const { id } = useParams();
 
   const getCommentResult = (arr: commentDummyType[]) => {
     arr.sort((a, b) => Number(a.createdAt.trim().split(':').join('').split(' ').join('')) - Number(b.createdAt.trim().split(':').join('').split(' ').join('')));
@@ -24,6 +25,9 @@ export default function CommunityQACommentForm() {
       });
     return resultArr;
   };
+
+  const { data } = useCommentQuery(Number(id));
+  const { mutate: deletePostMutate } = useDeleteCommentMutation(Number(id));
 
   return (
     <div className="flex w-full flex-col items-center gap-4 rounded-[20px] bg-midIvory dark:bg-midNavy">
@@ -47,7 +51,10 @@ export default function CommunityQACommentForm() {
                         </span>
                       </div>
                     ),
-                    action: () => console.log('Deleting item:', comment.id),
+                    action: () => {
+                      console.log('Deleting item:', comment.id);
+                      deletePostMutate();
+                    },
                   }}
                 >
                   <li key={comment.id} className="flex min-h-[60px] w-full gap-2 bg-midIvory pr-4 dark:bg-midNavy">
