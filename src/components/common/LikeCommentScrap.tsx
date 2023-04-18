@@ -17,44 +17,46 @@ export default function LikeCommentScrap({ postType, likeCount, commentCount, po
   const { mutate: scrapMutate } = useCommunityScrapMutation(postId);
 
   return (
-    <div className="flex h-[54px] w-full items-center gap-8 rounded-b-[20px] bg-[#a49c7c] p-4 text-base text-white dark:bg-[#2c2e34]">
-      {postType === 'FEED' ? (
-        <>
-          <div
-            className="flex items-center gap-2"
-            onClick={(e) => {
-              e.stopPropagation();
-              likeMutate();
-            }}
-          >
-            <FcLike size="20px" />
-            {likeCount}
-          </div>
-          <div className="flex items-center gap-2">
-            <FcSms size="20px" />
-            {commentCount}
-          </div>
-        </>
-      ) : (
-        <>
-          <div
-            className="flex items-center gap-2"
-            onClick={(e) => {
-              e.stopPropagation();
-              likeMutate();
-            }}
-          >
-            <BsFillHandThumbsUpFill size="20px" className="text-[#fbceb1]" />
-            {likeCount}
-          </div>
-          <div className="flex items-center gap-2">
-            <FcVoicePresentation size="30px" />
-            {commentCount}
-          </div>
-        </>
-      )}
+    <div className="flex h-[54px] w-full items-center justify-between rounded-b-[20px] bg-[#a49c7c] p-4 text-base text-white dark:bg-[#2c2e34]">
+      <div className="flex gap-6">
+        {postType === 'FEED' ? (
+          <>
+            <div
+              className="flex items-center gap-2"
+              onClick={(e) => {
+                e.stopPropagation();
+                likeMutate();
+              }}
+            >
+              <FcLike size="20px" />
+              {likeCount}
+            </div>
+            <div className="flex items-center gap-2">
+              <FcSms size="20px" />
+              {commentCount}
+            </div>
+          </>
+        ) : (
+          <>
+            <div
+              className="flex items-center gap-2"
+              onClick={(e) => {
+                e.stopPropagation();
+                likeMutate();
+              }}
+            >
+              <BsFillHandThumbsUpFill size="20px" className="text-[#fbceb1]" />
+              {likeCount}
+            </div>
+            <div className="flex items-center gap-2">
+              <FcVoicePresentation size="30px" />
+              {commentCount}
+            </div>
+          </>
+        )}
+      </div>
       <div
-        className="flex grow items-center justify-end gap-2"
+        className="flex items-center justify-end gap-2 "
         onClick={(e) => {
           e.stopPropagation();
           scrapMutate();

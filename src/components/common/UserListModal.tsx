@@ -31,7 +31,25 @@ export default function UserListModal({ isUserList, setIsUserList, type }: Confi
   const { data: UserFollowersData, isLoading: UserFollowersIsLoading, error: UserFollowersError, refetch: UserFollowersRefetch } = useUserFollowersQuery(Number(id));
   const { data: UserFollowsData, isLoading: UserFollowsIsLading, error: UserFollowsError, refetch: UserFollowsRefetch } = useUserFollowsQuery(Number(id));
 
-  const data = type === 'UserFollows' ? UserFollowsData : type === 'UserFollowers' ? UserFollowersData : type === 'MyFollows' ? MyFollowsData : type === 'MyFollowers' ? MyFollowersData : [];
+  // const data = type === 'UserFollows' ? UserFollowsData : (type === 'UserFollowers' ? UserFollowersData : (type === 'MyFollows' ? MyFollowsData : (type === 'MyFollowers' ? MyFollowersData : [])));
+  let data: UserListProps[];
+  switch (type) {
+    case 'UserFollows':
+      data = UserFollowsData as UserListProps[];
+      break;
+    case 'UserFollowers':
+      data = UserFollowersData as UserListProps[];
+      break;
+    case 'MyFollows':
+      data = MyFollowsData as UserListProps[];
+      break;
+    case 'MyFollowers':
+      data = MyFollowersData as UserListProps[];
+      break;
+    default:
+      data = [];
+      break;
+  }
 
   useEffect(() => {
     switch (type) {
