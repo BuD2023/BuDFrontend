@@ -68,7 +68,7 @@ export default function Header({ type, title, restart, icon, onSubmit, postId, c
         {type === 'category' ? (
           <div className="rounded-xl bg-white p-1">{icon}</div>
         ) : (
-          <div onClick={() => (url.pathname.includes('Detail') ? navigate(-1) : setConfirmModal(true))} className="cursor-pointer rounded-xl p-1">
+          <div onClick={() => (url.pathname.includes('post') ? setConfirmModal(true) : navigate(-1))} className="cursor-pointer rounded-xl p-1">
             {icon}
           </div>
         )}

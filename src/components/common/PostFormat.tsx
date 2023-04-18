@@ -1,17 +1,16 @@
-import { BsFillHandThumbsUpFill } from 'react-icons/bs';
-import { FcLike, FcPortraitMode, FcSms, FcVoicePresentation } from 'react-icons/fc';
+import { FcPortraitMode } from 'react-icons/fc';
 import { useNavigate, useParams } from 'react-router-dom';
 import { timeForToday } from '../../store/commentDummy';
-import { useCommunityPostQuery } from '../../store/module/useCommunityQuery';
+import { useCommunityPostQuery, useFollowMutation } from '../../store/module/useCommunityQuery';
 import DefaultProfileImage from '../../assets/DefaultProfileImage.webp';
 import { useInView } from 'react-intersection-observer';
 import { useEffect, useState } from 'react';
-import { CommunityPostListContentType, PostTypeType } from '../../apiFetcher/communityInfo/getCommunityPost';
+import { CommunityPostListContentType } from '../../apiFetcher/communityInfo/getCommunityPost';
 import { SortAndOrderType } from '../../pages/Community';
 import LikeCommentScrap from './LikeCommentScrap';
 import ImagePeek from './ImagePeek';
 import PicModal from './PicModal';
-import { BASE_URL, S3_URL } from '../../constant/union';
+import { S3_URL } from '../../constant/union';
 import Loading from './Loading';
 
 interface IPostFormatPropsType {
@@ -24,6 +23,14 @@ export default function PostFormat({ inputValue, sortAndOrder }: IPostFormatProp
   const { sort, order } = sortAndOrder;
   const navigate = useNavigate();
   const { isLoading, data, hasNextPage, isFetching, isFetchingNextPage, fetchNextPage } = useCommunityPostQuery(inputValue, sort, order);
+  const [userId, setUserId] = useState(0);
+  const { mutate } = useFollowMutation(Number(userId));
+
+  const handleClickFollow = (e: React.MouseEvent<HTMLElement>, memberId: number) => {
+    setUserId(memberId);
+    e.stopPropagation();
+    mutate();
+  };
 
   let resultData = data?.pages
     .map((i) => i.content)
@@ -94,7 +101,7 @@ export default function PostFormat({ inputValue, sortAndOrder }: IPostFormatProp
                     </div>
                   </div>
                   <div className="text-end grow font-bold">
-                    <div className="flex h-full items-center justify-end gap-3">
+                    <div onClick={(e) => handleClickFollow(e, data.member.id)} className="flex h-full items-center justify-end gap-3">
                       <FcPortraitMode />
                       <p>팔로우</p>
                     </div>
