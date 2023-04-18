@@ -6,6 +6,7 @@ import { useNewsDetailQuery } from '../store/module/useNewsQuery';
 import { timeForToday } from '../store/commentDummy';
 import PicModal from '../components/common/PicModal';
 import newsDefaultImg from '../assets/newsDefaultImg.webp';
+import NotFound from './NotFound';
 
 export default function NewsDetail() {
   const [isScroll, setIsScroll] = useState(false);
@@ -17,6 +18,11 @@ export default function NewsDetail() {
     open: false,
     pic: '',
   });
+
+  const handleTitleClick = (e: React.MouseEvent<HTMLElement>) => {
+    window.open(data?.link, '_blank');
+    e.stopPropagation();
+  };
 
   useEffect(() => {
     const scroll = _.throttle(function () {
@@ -34,17 +40,18 @@ export default function NewsDetail() {
   }, []);
 
   if (isLoading) {
-    return <p>Loading...</p>;
+    return (
+      <section className="relative h-full">
+        <div className="h-[calc(74px-1.5rem)]"></div>
+        <div className="h-[70vh] bg-greyBeige dark:bg-sky"></div>
+        <div className="absolute bottom-0 h-[44.5vh] w-full rounded-[40px] bg-lightIvory dark:bg-darkNavy"></div>
+      </section>
+    );
   }
 
   if (error) {
-    console.log(error);
+    return <NotFound />;
   }
-
-  const handleTitleClick = (e: React.MouseEvent<HTMLElement>) => {
-    window.open(data?.link, '_blank');
-    e.stopPropagation();
-  };
 
   return (
     <section className="flex h-full min-h-screen flex-col items-start gap-4 py-4">

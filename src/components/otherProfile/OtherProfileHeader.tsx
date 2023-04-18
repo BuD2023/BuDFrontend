@@ -7,9 +7,21 @@ interface MyProfileHeaderPropsType {
   nickName: string;
   description: string;
   profileUrl: string;
+  isLoading: boolean;
 }
 
-export default function OtherProfileHeader({ userId, nickName, description, profileUrl }: MyProfileHeaderPropsType) {
+export default function OtherProfileHeader({ userId, nickName, description, profileUrl, isLoading }: MyProfileHeaderPropsType) {
+  if (isLoading) {
+    return (
+      <div className="h-[120px] w-full">
+        <div className="flex w-full justify-between gap-4">
+          <div className="w-full"></div>
+          <div className="h-[120px] w-[120px] shrink-0 rounded-full bg-greyBeige dark:bg-sky"></div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="text-lighText flex w-full justify-between gap-4 text-[26px] font-bold dark:text-white">
       <div className="flex w-full flex-col gap-2.5">

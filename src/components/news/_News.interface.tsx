@@ -14,7 +14,8 @@ export interface NewsProps {
 }
 
 export interface NewsPostsProps {
-  newsData: NewsProps[];
+  newsData?: NewsProps[];
+  isLoading: boolean;
 }
 export interface NewsKeywordFilterPropsType {
   filter: boolean;

@@ -31,7 +31,6 @@ export default function UserListModal({ isUserList, setIsUserList, type }: Confi
   const { data: UserFollowersData, isLoading: UserFollowersIsLoading, error: UserFollowersError, refetch: UserFollowersRefetch } = useUserFollowersQuery(Number(id));
   const { data: UserFollowsData, isLoading: UserFollowsIsLading, error: UserFollowsError, refetch: UserFollowsRefetch } = useUserFollowsQuery(Number(id));
 
-  // const data = type === 'UserFollows' ? UserFollowsData : (type === 'UserFollowers' ? UserFollowersData : (type === 'MyFollows' ? MyFollowsData : (type === 'MyFollowers' ? MyFollowersData : [])));
   let data: UserListProps[];
   switch (type) {
     case 'UserFollows':
@@ -70,8 +69,6 @@ export default function UserListModal({ isUserList, setIsUserList, type }: Confi
     }
   }, [type]);
 
-  // console.log(data);
-
   return (
     <Transition.Root show={isUserList} as={Fragment}>
       <Dialog as="div" className="relative z-50" initialFocus={cancelButtonRef} onClose={() => setIsUserList(false)}>
@@ -96,7 +93,7 @@ export default function UserListModal({ isUserList, setIsUserList, type }: Confi
                     {data !== undefined && data.length > 0 ? (
                       data.map((user: UserListProps) => (
                         <div key={user.id} className="flex items-center justify-between">
-                          <div onClick={() => navigate(`/otherProfile/${user.nickName}`)} className="my-2 flex cursor-pointer items-center gap-3 px-4">
+                          <div onClick={() => navigate(`/otherProfile/${user.id}`)} className="my-2 flex cursor-pointer items-center gap-3 px-4">
                             <img src={user.profileUrl} className="h-[50px] w-[50px] rounded-full object-cover" />
                             <div className=" text-[16px] font-semibold">{user.nickName}</div>
                           </div>

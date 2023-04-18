@@ -59,15 +59,27 @@ export default function Notification() {
         <p>알림 설정</p>
       </div>
       <div className="flex flex-col text-xl">
-        <div onClick={(e) => handleToggle(e)} id="all" className="flex cursor-pointer items-center justify-between p-2 hover:rounded-lg hover:bg-greyBeige hover:bg-opacity-50">
+        <div
+          onClick={(e) => handleToggle(e)}
+          id="all"
+          className="flex cursor-pointer items-center justify-between p-2 hover:rounded-lg hover:bg-greyBeige hover:bg-opacity-50 dark:hover:bg-sky dark:hover:bg-opacity-50"
+        >
           <p className="grow">알림 모두 끄기</p>
           <Toggle isOn={notification.all} />
         </div>
-        <div onClick={(e) => handleToggle(e)} id="chat" className="flex cursor-pointer items-center justify-between p-2 hover:rounded-lg hover:bg-greyBeige hover:bg-opacity-50">
+        <div
+          onClick={(e) => handleToggle(e)}
+          id="chat"
+          className="flex cursor-pointer items-center justify-between p-2 hover:rounded-lg hover:bg-greyBeige hover:bg-opacity-50 dark:hover:bg-sky dark:hover:bg-opacity-50"
+        >
           <p className="grow">팔로우 알림</p>
           <Toggle isOn={notification.chat} />
         </div>
-        <div onClick={(e) => handleToggle(e)} id="comment" className="flex cursor-pointer items-center justify-between p-2 hover:rounded-lg hover:bg-greyBeige hover:bg-opacity-50">
+        <div
+          onClick={(e) => handleToggle(e)}
+          id="comment"
+          className="flex cursor-pointer items-center justify-between p-2 hover:rounded-lg hover:bg-greyBeige hover:bg-opacity-50 dark:hover:bg-sky dark:hover:bg-opacity-50"
+        >
           <p className="grow">게시글 알림</p>
           <Toggle isOn={notification.comment} />
         </div>

@@ -9,6 +9,7 @@ import { useNewsQuery } from '../store/module/useNewsQuery';
 import { useInView } from 'react-intersection-observer';
 import { BsBackspace } from 'react-icons/bs';
 import ScrollToTopBtn from '../components/common/ScrollToTopBtn';
+import NotFound from './NotFound';
 
 export default function News() {
   // 키워드 필터
@@ -27,7 +28,7 @@ export default function News() {
   };
 
   if (error) {
-    console.log(error);
+    return <NotFound />;
   }
 
   // 인피니티 스크롤
@@ -40,8 +41,6 @@ export default function News() {
     inputRef.current && (inputRef.current.value = '');
     setInputKeyword('');
   };
-
-  console.log(data);
 
   return (
     <>
@@ -69,7 +68,7 @@ export default function News() {
             </div>
           </div>
           <NewsFilter setFilter={setFilter} sort={sort} setSort={setSort} order={order} setOrder={setOrder} />
-          {data !== undefined && <NewsPosts newsData={data.pages.flatMap((page) => page.content)} />}
+          <NewsPosts isLoading={isLoading} newsData={data?.pages.flatMap((page) => page.content)} />
         </div>
         <div ref={ref} />
         <FooterMenu />

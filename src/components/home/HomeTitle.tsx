@@ -3,7 +3,11 @@ import { AiFillGithub } from 'react-icons/ai';
 import Header from '../common/Header';
 import { HomeTitleProps } from './_Home.interface';
 
-export default function HomeTitle({ nickName }: HomeTitleProps) {
+export default function HomeTitle({ nickName, isLoading }: HomeTitleProps) {
+  if (isLoading) {
+    return <div className="mb-6 h-[60px]"></div>;
+  }
+
   return (
     <div className="mb-6 text-[26px] font-bold ">
       <div className="flex">

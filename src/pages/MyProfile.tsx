@@ -9,6 +9,7 @@ import MyProfileHeader from '../components/myProfile/MyProfileHeader';
 import MyProfileInfo from '../components/myProfile/MyProfileInfo';
 import MyProfileMenu from '../components/myProfile/MyProfileMenu';
 import { useMyProfileQuery, useMyScrapsQuery } from '../store/module/useMyProfileQuery';
+import NotFound from './NotFound';
 
 export default function MyProfile() {
   const [postView, setPostView] = useState('feed');
@@ -27,6 +28,10 @@ export default function MyProfile() {
     if (postView === 'scrap') fetchNextPage();
   }, [postView]);
 
+  if (myProfileError || myScrapsError) {
+    return <NotFound />;
+  }
+
   return (
     <section>
       <ScrollToTopBtn />
@@ -36,12 +41,14 @@ export default function MyProfile() {
           nickName={myProfileData?.nickName as string}
           profileUrl={myProfileData?.profileUrl as string}
           description={myProfileData?.description as string}
+          isLoading={myProfileIsLoading}
         />
         <MyProfileInfo
           level={myProfileData?.level as number}
           followers={myProfileData?.numberOfFollowers as number}
           follows={myProfileData?.numberOfFollows as number}
           posts={myProfileData?.numberOfPosts as number}
+          isLoading={myProfileIsLoading}
         />
         <MyProfileMenu postView={postView} setPostView={setPostView} />
         {myScrapsData && postView === 'scrap' && <ScrapPostFormat resultData={myScrapsData.pages.flatMap((page) => page.content)} />}

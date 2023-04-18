@@ -31,14 +31,14 @@ export default function Theme() {
         <p>테마 설정</p>
       </div>
       <ul className="flex flex-col text-xl">
-        <li className="flex cursor-pointer p-2 hover:rounded-lg hover:bg-greyBeige hover:bg-opacity-50">
+        <li className="flex cursor-pointer p-2 hover:rounded-lg hover:bg-greyBeige hover:bg-opacity-50 dark:hover:bg-sky dark:hover:bg-opacity-50">
           <input type="radio" id="light" name="theme" className="cursor-pointer appearance-none" />
           <label onClick={handleTheme} htmlFor="light" className="flex grow cursor-pointer justify-between">
             <span>라이트 모드</span>
             {theme === themeLight ? <MdOutlineRadioButtonChecked color="#327559" size="22" /> : <MdOutlineRadioButtonUnchecked color="white" />}
           </label>
         </li>
-        <li className="flex cursor-pointer p-2 hover:rounded-lg hover:bg-greyBeige hover:bg-opacity-50">
+        <li className="flex cursor-pointer p-2 hover:rounded-lg hover:bg-greyBeige hover:bg-opacity-50 dark:hover:bg-sky dark:hover:bg-opacity-50">
           <input type="radio" id="dark" name="theme" defaultChecked className="cursor-pointer appearance-none" />
           <label onClick={handleTheme} htmlFor="dark" className="flex grow cursor-pointer justify-between">
             <span>다크 모드</span>

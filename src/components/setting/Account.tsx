@@ -25,13 +25,13 @@ export default function Account() {
           <p>계정 설정</p>
         </div>
         <div className="flex flex-col text-xl">
-          <p onClick={() => navigate('/userInfo')} className="cursor-pointer p-2 hover:rounded-lg hover:bg-greyBeige hover:bg-opacity-50">
+          <p onClick={() => navigate('/userInfo')} className="cursor-pointer p-2 hover:rounded-lg hover:bg-greyBeige hover:bg-opacity-50 dark:hover:bg-sky dark:hover:bg-opacity-50">
             회원 정보 조회
           </p>
-          <p onClick={() => setAlertModal(true)} className="cursor-pointer p-2 hover:rounded-lg hover:bg-greyBeige hover:bg-opacity-50">
+          <p onClick={() => setAlertModal(true)} className="cursor-pointer p-2 hover:rounded-lg hover:bg-greyBeige hover:bg-opacity-50 dark:hover:bg-sky dark:hover:bg-opacity-50">
             로그아웃
           </p>
-          <p onClick={() => setConfirmModal(true)} className="cursor-pointer p-2 hover:rounded-lg hover:bg-greyBeige hover:bg-opacity-50">
+          <p onClick={() => setConfirmModal(true)} className="cursor-pointer p-2 hover:rounded-lg hover:bg-greyBeige hover:bg-opacity-50 dark:hover:bg-sky dark:hover:bg-opacity-50">
             회원 탈퇴
           </p>
         </div>
