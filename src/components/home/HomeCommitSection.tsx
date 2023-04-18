@@ -1,10 +1,14 @@
 import { FcApproval, FcCalendar, FcCloseUpMode } from 'react-icons/fc';
 import { HomeCommitSectionProps } from './_Home.interface';
 
-export default function HomeCommitSection({ todayCommitCount, thisWeekCommitCount, consecutiveCommitDays }: HomeCommitSectionProps) {
+export default function HomeCommitSection({ todayCommitCount, thisWeekCommitCount, consecutiveCommitDays, isLoading }: HomeCommitSectionProps) {
+  if (isLoading) {
+    return <div className="relative min-h-[260px] w-full rounded-[50px] bg-midIvory dark:bg-midNavy"></div>;
+  }
+
   return (
     <div className="relative flex min-h-[260px] w-full flex-col">
-      <div className="absolute inset-0 flex flex-col justify-between rounded-[50px] bg-[#E8E1C1] p-10 text-[#392F31] dark:bg-midNavy dark:text-white">
+      <div className="absolute inset-0 flex flex-col justify-between rounded-[50px] bg-midIvory p-10 text-[#392F31] dark:bg-midNavy dark:text-white">
         <div className="text-[26px] font-bold">커밋 기록</div>
         <div className="flex justify-around text-[45px]">
           <FcApproval />

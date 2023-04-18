@@ -49,7 +49,6 @@ export default function CoffeeChatRoom({ inputValue }: CoffeeChatRoomPropsType) 
 
   //뿌리는 데이터
   let chatRoomsResult = inputValue.length > 0 ? (searchData?.pages.map((i) => i.content).flat() as ChatroomType[]) : (chatRooms?.pages.map((i) => i.content).flat() as ChatroomType[]);
-  console.log(chatRoomsResult);
 
   if (allLoading || searchLoading) {
     return (

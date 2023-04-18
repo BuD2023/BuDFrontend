@@ -8,10 +8,21 @@ interface MyProfileHeaderPropsType {
   nickName: string;
   description: string;
   profileUrl: string;
+  isLoading: boolean;
 }
 
-export default function MyProfileHeader({ userId, nickName, description, profileUrl }: MyProfileHeaderPropsType) {
+export default function MyProfileHeader({ userId, nickName, description, profileUrl, isLoading }: MyProfileHeaderPropsType) {
   const navigate = useNavigate();
+  if (isLoading) {
+    return (
+      <div className="h-[120px] w-full">
+        <div className="flex w-full justify-between gap-4">
+          <div className="w-full"></div>
+          <div className="h-[120px] w-[120px] shrink-0 rounded-full bg-greyBeige dark:bg-lightNavy"></div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="text-lighText flex w-full justify-between gap-4 text-[26px] font-bold dark:text-white">
@@ -37,7 +48,9 @@ export default function MyProfileHeader({ userId, nickName, description, profile
           <div className="dark:font-normal">{description ? description : `${nickName}님의 프로필입니다.`}</div>
         </div>
       </div>
-      <img src={profileUrl ? profileUrl : profile1} className="h-[120px] w-[120px] rounded-full object-cover" />
+      <div className="h-[120px] w-[120px] shrink-0">
+        <img src={profileUrl ? profileUrl : profile1} className="h-[120px] w-[120px] rounded-full object-cover" />
+      </div>
     </div>
   );
 }

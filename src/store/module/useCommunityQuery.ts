@@ -1,13 +1,14 @@
-import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useInfiniteQuery, useMutation } from '@tanstack/react-query';
 import { deleteCommunityPostAxios } from '../../apiFetcher/communityInfo/deleteCommunityPost';
 import getCommunityPostAxios from '../../apiFetcher/communityInfo/getCommunityPost';
 import postCommunityLikeAxios from '../../apiFetcher/communityInfo/postCommunityLike';
-import postCommunityPostAxios, { CreateCommunityPostType } from '../../apiFetcher/communityInfo/postCommunityPost';
+import postCommunityPostAxios from '../../apiFetcher/communityInfo/postCommunityPost';
 import postCommunityScrapAxios from '../../apiFetcher/communityInfo/postCommunityScrap';
 import postUserFollow from '../../apiFetcher/communityInfo/postUserFollow';
-import updateCommunityPostAxios, { UpdateCommunityPostType } from '../../apiFetcher/communityInfo/updateCommunityPost';
+import updateCommunityPostAxios from '../../apiFetcher/communityInfo/updateCommunityPost';
 import { accessToken } from '../../main';
-import { useMyScrapsQuery } from './useMyProfileQuery';
+import { useMyFollowersQuery, useMyFollowsQuery, useMyProfileQuery, useMyScrapsQuery } from './useMyProfileQuery';
+import { useUserProfileQuery } from './useUserProfileQuery';
 
 export type SortType = 'HIT' | 'LIKE' | 'DATE';
 export type OrderType = 'ASC' | 'DESC';
@@ -86,12 +87,21 @@ export function useCommunityScrapMutation(postId: number) {
 }
 
 export function useFollowMutation(id: number) {
+  const { refetch: followersRefetch } = useMyFollowersQuery();
+  const { refetch: followrRefetch } = useMyFollowsQuery();
+  const { refetch: myProfileRefetch } = useMyProfileQuery();
+  const { refetch: userProfileRefetch } = useUserProfileQuery(id);
+
   return useMutation(() => postUserFollow(accessToken, id), {
     onError: (err) => {
       console.log(err);
     },
     onSuccess: () => {
       console.log('팔로우 상태가 변경되었습니다.');
+      followrRefetch();
+      followersRefetch();
+      myProfileRefetch();
+      if (id !== 0) userProfileRefetch();
     },
   });
 }

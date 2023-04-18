@@ -12,23 +12,27 @@ export interface githubProps {
 }
 
 export interface HomeTitleProps {
-  nickName: string;
+  nickName?: string;
+  isLoading?: boolean;
 }
 
 export interface HomeLevelSectionProps {
-  levelCode: string;
-  remainCommitCountNextLevel: number;
+  levelCode?: string;
+  remainCommitCountNextLevel?: number;
+  isLoading?: boolean;
 }
 
 export interface HomeCommitSectionProps {
-  todayCommitCount: number;
-  thisWeekCommitCount: number;
-  consecutiveCommitDays: number;
+  todayCommitCount?: number;
+  thisWeekCommitCount?: number;
+  consecutiveCommitDays?: number;
+  isLoading?: boolean;
 }
 
 export interface HomeCommitCalendarProps {
-  commits: {
-    commitDate: string;
-    commitCount: number;
+  commits?: {
+    commitDate?: string;
+    commitCount?: number;
   }[];
+  isLoading?: boolean;
 }

@@ -9,9 +9,10 @@ interface OtherProfileInfoProps {
   numberOfFollows: number;
   level: number;
   isFollowing: boolean;
+  isLoading: boolean;
 }
 
-export default function OtherProfileInfo({ numberOfPosts, numberOfFollowers, numberOfFollows, level, isFollowing }: OtherProfileInfoProps) {
+export default function OtherProfileInfo({ numberOfPosts, numberOfFollowers, numberOfFollows, level, isFollowing, isLoading }: OtherProfileInfoProps) {
   const { id } = useParams();
   const [type, setType] = useState('');
   const [isUserList, setIsUserList] = useState<boolean>(false);
@@ -31,6 +32,10 @@ export default function OtherProfileInfo({ numberOfPosts, numberOfFollowers, num
     followMutation.mutate();
   };
 
+  if (isLoading) {
+    return <div className="mt-3 h-[185px] w-full rounded-2xl bg-midIvory dark:bg-sky"></div>;
+  }
+
   return (
     <>
       <UserListModal isUserList={isUserList} setIsUserList={setIsUserList} type={type} />
@@ -40,11 +45,11 @@ export default function OtherProfileInfo({ numberOfPosts, numberOfFollowers, num
             <div>{numberOfPosts}</div>
             <div className="mt-2 text-[18px] font-medium">게시물</div>
           </div>
-          <div onClick={handleClickFollower} className="flex cursor-pointer flex-col items-center justify-around text-[22px] font-bold">
+          <div onClick={numberOfFollowers > 0 ? handleClickFollower : undefined} className="flex cursor-pointer flex-col items-center justify-around text-[22px] font-bold">
             <div>{numberOfFollowers}</div>
             <div className="mt-2 text-[18px] font-medium">팔로워</div>
           </div>
-          <div onClick={handleClickFollow} className="flex cursor-pointer flex-col items-center justify-around text-[22px] font-bold">
+          <div onClick={numberOfFollows > 0 ? handleClickFollow : undefined} className="flex cursor-pointer flex-col items-center justify-around text-[22px] font-bold">
             <div>{numberOfFollows}</div>
             <div className="mt-2 text-[18px] font-medium">팔로우</div>
           </div>
