@@ -1,19 +1,18 @@
 import { useRef } from 'react';
 import { BsBackspace } from 'react-icons/bs';
 import { FcIcons8Cup } from 'react-icons/fc';
+import { useChatroomStatusQuery } from '../../store/module/useChatroomQuery';
 import Header from '../common/Header';
 
 interface CoffeeTitlePropsType {
   inputValue: string;
-  titleInfo: {
-    numberOfElements: number;
-    numberOfUsers: number;
-  };
   setInputValue: (x: string) => void;
 }
 
-export default function CoffeeTitle({ setInputValue, titleInfo, inputValue }: CoffeeTitlePropsType) {
+export default function CoffeeTitle({ setInputValue, inputValue }: CoffeeTitlePropsType) {
   const inputRef = useRef<HTMLInputElement>(null);
+
+  const { data } = useChatroomStatusQuery();
 
   const clearInputValue = () => {
     inputRef.current && (inputRef.current.value = '');
@@ -34,7 +33,7 @@ export default function CoffeeTitle({ setInputValue, titleInfo, inputValue }: Co
         />
         {inputValue && <BsBackspace onClick={clearInputValue} className="absolute right-5 cursor-pointer" size={20} />}
       </div>
-      <div className="rounded-full bg-pointGreen py-3 text-center text-[16px] font-medium text-white dark:bg-sky">{`총 ${titleInfo.numberOfElements}개의 채팅방에서 ${titleInfo.numberOfUsers}명이 대화중입니다.`}</div>
+      <div className="rounded-full bg-pointGreen py-3 text-center text-[16px] font-medium text-white dark:bg-sky">{`총 ${data?.numberOfChatRooms}개의 채팅방에서 ${data?.numberOfUsers}명이 대화중입니다.`}</div>
     </div>
   );
 }

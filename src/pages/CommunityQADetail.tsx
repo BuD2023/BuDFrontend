@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { BsChevronLeft } from 'react-icons/bs';
 import { useParams } from 'react-router-dom';
 import AddBtn from '../components/common/AddBtn';
@@ -8,15 +9,17 @@ import CommunityQADetailAnswer from '../components/q&aDetail/CommunityQADetailAn
 
 export default function () {
   const { id } = useParams();
+  const [isCommentOpen, setIsCommentOpen] = useState(false);
+
   return (
     <section>
       <div className="mb-[80px] mt-9 flex h-full min-h-[calc(100vh-160px)] w-full flex-col items-center gap-4 p-4 text-lightText dark:text-white">
         <AddBtn url={`/answerCreate/${id}`} text="답변달기" />
         <Header type="community" title="Q	&#38; A 피드" icon={<BsChevronLeft />} postId={id} />
         <CommunityDetailPost />
-        <CommunityQADetailAnswer />
+        <CommunityQADetailAnswer isCommentOpen={isCommentOpen} setIsCommentOpen={setIsCommentOpen} />
       </div>
-      <FooterMenu />
+      {!isCommentOpen && <FooterMenu />}
     </section>
   );
 }

@@ -9,10 +9,9 @@ import { useInView } from 'react-intersection-observer';
 
 interface CoffeeChatRoomPropsType {
   inputValue: string;
-  getTitleInfo: (x: number, y: number) => void;
 }
 
-export default function CoffeeChatRoom({ inputValue, getTitleInfo }: CoffeeChatRoomPropsType) {
+export default function CoffeeChatRoom({ inputValue }: CoffeeChatRoomPropsType) {
   //리액트 쿼리 - useQuery
   const {
     isLoading: allLoading,
@@ -31,16 +30,6 @@ export default function CoffeeChatRoom({ inputValue, getTitleInfo }: CoffeeChatR
     fetchNextPage: fetchSearchNextPage,
     hasNextPage: searchHasNextPage,
   } = useSearchChatroomQuery(inputValue);
-
-  //커피챗 타이틀정보 보내기
-  useEffect(() => {
-    const El = chatRooms?.pages.map((i) => i.numberOfElements).reduce((a, b) => a + b);
-    const Num = chatRooms?.pages
-      .map((i) => i.content.map((j) => j.numberOfMembers))
-      .flat()
-      .reduce((a, b) => a + b);
-    getTitleInfo(Number(El), Number(Num));
-  }, [chatRooms]);
 
   // 페이지 이동
   const navigate = useNavigate();

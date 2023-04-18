@@ -3,7 +3,7 @@ import customAxios from '../customAxios';
 const getCommentAxios = async (token: string, page: number = 0, postId: number) => {
   return await customAxios({
     method: 'get',
-    url: `/posts/${postId}/comments?page=${page}&`,
+    url: `/posts/${1}/comments?page=${page}`,
     headers: {
       Authorization: `Bearer ${token}`,
       'Content-Type': 'application/json',

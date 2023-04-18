@@ -1,4 +1,5 @@
 import { SwipeableList, SwipeableListItem } from '@sandstreamdev/react-swipeable-list';
+import { useState } from 'react';
 import { BsArrowReturnRight, BsDot, BsFillPinAngleFill, BsFillTrashFill, BsHeartFill } from 'react-icons/bs';
 import { useParams } from 'react-router-dom';
 import { commentArr, commentDummyType, timeForToday } from '../../store/commentDummy';
@@ -26,8 +27,17 @@ export default function CommunityFeedCommentForm() {
     return resultArr;
   };
 
-  const { data } = useCommentQuery(Number(id));
+  // const { data } = useCommentQuery(Number(id));
   const { mutate: deletePostMutate } = useDeleteCommentMutation(Number(id));
+
+  const [message, setMessage] = useState<string>('');
+  const pressEnterKey = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      if (event.nativeEvent.isComposing) return;
+      event.preventDefault();
+      console.log('댓글 입력 완료 ^^');
+    }
+  };
 
   return (
     <div className="flex w-full flex-col items-center gap-4 rounded-[20px] bg-midIvory dark:bg-midNavy">
@@ -90,6 +100,15 @@ export default function CommunityFeedCommentForm() {
           </div>
         )}
       </SwipeableList>
+      <div className="fixed bottom-0 left-0 z-20 flex w-full items-center justify-start gap-4 bg-lightIvory p-3 dark:bg-darkNavy">
+        <input
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+          onKeyDown={pressEnterKey}
+          type="text"
+          className="mb-0.5 h-[40px] w-full grow rounded-[20px] bg-greyBeige px-4 py-2 focus:outline-none dark:bg-lightNavy"
+        />
+      </div>
     </div>
   );
 }

@@ -13,20 +13,13 @@ export default function CoffeeChat() {
     numberOfUsers: 0,
   });
 
-  const getTitleInfo = (Elements: number, users: number) => {
-    setTitleInfo({
-      numberOfElements: Elements,
-      numberOfUsers: users,
-    });
-  };
-
   return (
     <section>
       <ScrollToTopBtn />
       <div className="relative mb-20 mt-9 flex h-full min-h-[calc(100vh-160px)] w-full flex-col items-center gap-4  p-4">
         <AddBtn url="/roomCreate" text="방만들기" />
-        <CoffeeTitle inputValue={inputValue} setInputValue={setInputValue} titleInfo={titleInfo} />
-        <CoffeeChatRoom inputValue={inputValue} getTitleInfo={getTitleInfo} />
+        <CoffeeTitle inputValue={inputValue} setInputValue={setInputValue} />
+        <CoffeeChatRoom inputValue={inputValue} />
       </div>
       <FooterMenu />
     </section>

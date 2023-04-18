@@ -9,9 +9,10 @@ interface ConfirmModalPropsType {
   title: string;
   des: string;
   confirmBtn: string;
+  action?: () => void;
 }
 
-export default function ConfirmModal({ confirmModal, setConfirmModal, getModalAnswer, title, des, confirmBtn }: ConfirmModalPropsType) {
+export default function ConfirmModal({ confirmModal, setConfirmModal, getModalAnswer, title, des, confirmBtn, action }: ConfirmModalPropsType) {
   // const [open, setOpen] = useState(true)
   const cancelButtonRef = useRef(null);
 
@@ -58,6 +59,7 @@ export default function ConfirmModal({ confirmModal, setConfirmModal, getModalAn
                     onClick={() => {
                       setConfirmModal(false);
                       getModalAnswer(true);
+                      action && action();
                     }}
                   >
                     {confirmBtn}
