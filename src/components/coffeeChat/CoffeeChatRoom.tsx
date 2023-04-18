@@ -50,9 +50,9 @@ export default function CoffeeChatRoom({ inputValue }: CoffeeChatRoomPropsType) 
   if (allLoading || searchLoading) {
     return (
       <>
-        <div className="mb-1.5 flex h-[29vh] w-full cursor-pointer flex-col items-center gap-4 rounded-[20px] bg-midIvory dark:bg-midNavy"></div>
-        <div className="mb-1.5 flex h-[29vh] w-full cursor-pointer flex-col items-center gap-4 rounded-[20px] bg-midIvory dark:bg-midNavy"></div>
-        <div className="mb-1.5 flex h-[29vh] w-full cursor-pointer flex-col items-center gap-4 rounded-[20px] bg-midIvory dark:bg-midNavy"></div>
+        {Array.from({ length: 5 }).map((_, index) => (
+          <li key={index} className="min-h-[250px] w-full list-none rounded-2xl bg-midIvory dark:bg-midNavy"></li>
+        ))}
       </>
     );
   }
@@ -61,7 +61,7 @@ export default function CoffeeChatRoom({ inputValue }: CoffeeChatRoomPropsType) 
     <>
       {chatRoomsResult && chatRoomsResult.length > 0 ? (
         chatRoomsResult.map((room, index) => (
-          <div onClick={() => navigate(`/chatRoom/${room.chatRoomId}`)} key={room.title + String(index)} className="relative flex min-h-[280px] w-full flex-col">
+          <div onClick={() => navigate(`/chatRoom/${room.chatRoomId}`)} key={room.title + String(index)} className="relative flex min-h-[250px] w-full flex-col">
             <div className="absolute inset-0 flex cursor-pointer flex-col justify-between rounded-2xl bg-midIvory p-6 dark:bg-midNavy">
               <div className="text-[19px] font-semibold leading-6">{room.title}</div>
               <div className="flex w-full gap-2">

@@ -45,7 +45,9 @@ export default function PostFormat({ inputValue, sortAndOrder }: IPostFormatProp
   }
 
   // 인피니티 스크롤
-  const { ref, inView } = useInView();
+  const { ref, inView } = useInView({
+    threshold: 0,
+  });
   useEffect(() => {
     if (inView && hasNextPage && !isFetching && !isFetchingNextPage) fetchNextPage();
   }, [inView]);
@@ -59,8 +61,9 @@ export default function PostFormat({ inputValue, sortAndOrder }: IPostFormatProp
   if (isLoading) {
     return (
       <>
-        <div className="mb-4 flex h-[48vh] w-full cursor-pointer flex-col items-center gap-4 rounded-[20px] bg-midIvory dark:bg-midNavy"></div>
-        <div className="mb-4 flex h-[48vh] w-full cursor-pointer flex-col items-center gap-4 rounded-[20px] bg-midIvory dark:bg-midNavy"></div>
+        {Array.from({ length: 5 }).map((_, index) => (
+          <li key={index} className="mb-4 flex h-[298px] w-full rounded-[20px] bg-midIvory dark:bg-midNavy"></li>
+        ))}
       </>
     );
   }
@@ -130,7 +133,7 @@ export default function PostFormat({ inputValue, sortAndOrder }: IPostFormatProp
             </li>
           ))
         ) : (
-          <div className="mb-6 flex h-[298px] cursor-pointer flex-col items-center justify-center gap-4 rounded-[20px] bg-midIvory dark:bg-midNavy">
+          <div className="mb-6 flex h-[298px] flex-col items-center justify-center gap-4 rounded-[20px] bg-midIvory dark:bg-midNavy">
             <div className="flex h-[200px] w-full items-center justify-center p-4 text-[24px] font-semibold text-lightText dark:text-white">해당 검색 결과가 없습니다.</div>
           </div>
         )}

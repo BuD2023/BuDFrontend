@@ -110,6 +110,11 @@ export default function UserListModal({ isUserList, setIsUserList, type, follows
                         <div key={user.id} className="flex items-center justify-between">
                           <div
                             onClick={(e) => {
+                              if (user.nickName === 'JHni2') {
+                                navigate('/myProfile');
+                                e.stopPropagation;
+                                return;
+                              }
                               navigate(`/otherProfile/${user.id}`);
                               setIsUserList(false);
                               e.stopPropagation();
