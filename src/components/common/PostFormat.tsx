@@ -12,6 +12,7 @@ import LikeCommentScrap from './LikeCommentScrap';
 import ImagePeek from './ImagePeek';
 import PicModal from './PicModal';
 import { S3_URL } from '../../constant/union';
+import NotFound from '../../pages/NotFound';
 
 interface IPostFormatPropsType {
   inputValue: string;
@@ -24,7 +25,7 @@ export default function PostFormat({ inputValue, sortAndOrder }: IPostFormatProp
   const navigate = useNavigate();
 
   //리액트 쿼리
-  const { isLoading, data, hasNextPage, isFetching, isFetchingNextPage, fetchNextPage } = useCommunityPostQuery(inputValue, sort, order);
+  const { isLoading, isError, data, hasNextPage, isFetching, isFetchingNextPage, fetchNextPage } = useCommunityPostQuery(inputValue, sort, order);
   const [userId, setUserId] = useState(0);
   const { mutate } = useFollowMutation(Number(userId));
 
@@ -34,18 +35,23 @@ export default function PostFormat({ inputValue, sortAndOrder }: IPostFormatProp
     mutate();
   };
 
-  let resultData = data?.pages
-    .map((i) => i.content)
-    .flat()
-    .map((i) => ({ ...i, imageUrls: i.imageUrls.map((j) => j !== null && S3_URL + j) })) as CommunityPostListContentType[];
+  let resultData = data?.pages.map((i) => i.content.map((j) => ({ ...j, imageUrls: j.imageUrls.map((j) => j !== null && S3_URL + j) }))).flat() as CommunityPostListContentType[];
 
   if (filter !== 'all') {
-    if (filter === 'FEED') resultData = resultData?.filter((i) => i.postType === 'FEED');
-    if (filter === 'QNA') resultData = resultData?.filter((i) => i.postType === 'QNA');
+    if (filter === 'FEED')
+      resultData = data?.pages
+        .map((i) => i.content.map((j) => ({ ...j, imageUrls: j.imageUrls.map((j) => j !== null && S3_URL + j) })))
+        .flat()
+        .filter((i) => i.postType === 'FEED') as CommunityPostListContentType[];
+    if (filter === 'QNA')
+      resultData = data?.pages
+        .map((i) => i.content.map((j) => ({ ...j, imageUrls: j.imageUrls.map((j) => j !== null && S3_URL + j) })))
+        .flat()
+        .filter((i) => i.postType === 'QNA') as CommunityPostListContentType[];
   }
 
   // 인피니티 스크롤
-  const { ref, inView } = useInView();
+  const { ref, inView } = useInView({ threshold: 0.1 });
   useEffect(() => {
     if (inView && hasNextPage && !isFetching && !isFetchingNextPage) fetchNextPage();
   }, [inView]);
@@ -63,6 +69,10 @@ export default function PostFormat({ inputValue, sortAndOrder }: IPostFormatProp
         <div className="mb-4 flex h-[48vh] w-full cursor-pointer flex-col items-center gap-4 rounded-[20px] bg-midIvory dark:bg-midNavy"></div>
       </>
     );
+  }
+
+  if (isError) {
+    return <NotFound />;
   }
 
   return (

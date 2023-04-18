@@ -10,11 +10,12 @@ import ImagePeek from '../common/ImagePeek';
 import { useState } from 'react';
 import { S3_URL } from '../../constant/union';
 import { useFollowMutation } from '../../store/module/useCommunityQuery';
+import NotFound from '../../pages/NotFound';
 
 export default function CommunityDetailPost() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { isLoading, data } = useCommunityDetailQuery(Number(id));
+  const { isLoading, isError, data } = useCommunityDetailQuery(Number(id));
 
   const [userId, setUserId] = useState(0);
   const { mutate } = useFollowMutation(Number(userId));
@@ -30,6 +31,9 @@ export default function CommunityDetailPost() {
     open: false,
     pic: '',
   });
+  if (isError) {
+    return <NotFound />;
+  }
 
   if (isLoading) {
     return (

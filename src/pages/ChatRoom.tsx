@@ -24,7 +24,7 @@ export default function ChatRoom() {
   const { isLoading, data: chatroomListData, hasNextPage, isFetching, isFetchingNextPage, fetchNextPage, refetch } = useMyChatroomListQuery(ROOM_NUM, 10);
 
   const client = useRef({});
-  const [newChatMessages, setNewChatMessages] = useState<MessageType[]>([]);
+  const [newChatMessages, setNewChatMessages] = useState<any[]>([]);
   const [messageList, setMessageList] = useState<myChatroomListContentType[]>(chatroomListData?.pages.map((i: myChatroomListType) => i.content).flat() as myChatroomListContentType[]);
   useEffect(() => {
     setMessageList(chatroomListData?.pages.map((i: myChatroomListType) => i.content).flat() as myChatroomListContentType[]);
@@ -64,8 +64,10 @@ export default function ChatRoom() {
     (client.current as StompJs.Client).deactivate();
   };
 
+  console.log(newChatMessages);
   const subscribe = () => {
-    (client.current as StompJs.Client).subscribe(`8083/ws/chatrooms/${ROOM_NUM}`, ({ body }) => {
+    (client.current as StompJs.Client).subscribe(`/chatrooms/${ROOM_NUM}`, ({ body }) => {
+      console.log(JSON.parse(body));
       setNewChatMessages((_chatMessages) => [..._chatMessages, JSON.parse(body)]);
     }),
       {
@@ -79,13 +81,13 @@ export default function ChatRoom() {
     if (!(client.current as StompJs.Client).connected) {
       return;
     }
-    if (imgPeek) {
+    if (imgPeek.image) {
       (client.current as StompJs.Client).publish({
         destination: '/chats/image',
         body: JSON.stringify({
           senderId: 4,
           chatroomId: ROOM_NUM,
-          imageByte: imgPeek,
+          imageByte: imgPeek.image,
         }),
       });
     } else {

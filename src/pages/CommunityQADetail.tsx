@@ -14,7 +14,7 @@ export default function () {
   return (
     <section>
       <div className="mb-[80px] mt-9 flex h-full min-h-[calc(100vh-160px)] w-full flex-col items-center gap-4 p-4 text-lightText dark:text-white">
-        <AddBtn url={`/answerCreate/${id}`} text="답변달기" />
+        <AddBtn url={`/answerCreate/${Number(id)}`} text="답변달기" />
         <Header type="community" title="Q	&#38; A 피드" icon={<BsChevronLeft />} postId={id} />
         <CommunityDetailPost />
         <CommunityQADetailAnswer isCommentOpen={isCommentOpen} setIsCommentOpen={setIsCommentOpen} />
