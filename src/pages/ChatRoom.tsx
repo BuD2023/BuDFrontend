@@ -11,6 +11,8 @@ import { myChatroomListContentType, myChatroomListType } from '../apiFetcher/cof
 import { useMyChatroomListQuery } from '../store/module/useChatroomQuery';
 import { makeCompressedImg } from '../utils/makeCompressedImg';
 import PicModal from '../components/common/PicModal';
+import ScrollToTopBtn from '../components/common/ScrollToTopBtn';
+import ScrollToBottomBtn from '../components/common/ScrollToBottomBtn';
 
 export interface MessageType {
   senderId: number;

@@ -18,8 +18,7 @@ export default async function sendFCMTokenFunc() {
   try {
     const currentToken = await getToken(messaging, { vapidKey: VAPID_KEY });
     if (currentToken) {
-      console.log('됐음');
-      console.log(currentToken);
+      console.log(`fcmToken: ${currentToken}`);
     } else {
       console.log('No registration token available. Request permission to generate one.');
     }

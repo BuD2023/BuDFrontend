@@ -1,18 +1,18 @@
 import { useRef } from 'react';
 import { BsBackspace } from 'react-icons/bs';
 import { FcIcons8Cup } from 'react-icons/fc';
-import { IChatRoomType } from '../../store/chatsDummy';
 import Header from '../common/Header';
 
 interface CoffeeTitlePropsType {
-  chatRooms: IChatRoomType[];
   inputValue: string;
-  // eslint-disable-next-line no-unused-vars
+  titleInfo: {
+    numberOfElements: number;
+    numberOfUsers: number;
+  };
   setInputValue: (x: string) => void;
 }
 
-export default function CoffeeTitle({ chatRooms, setInputValue, inputValue }: CoffeeTitlePropsType) {
-  const totalChattingMembers = chatRooms.map((room) => Number(room.numberOfMembers)).reduce((a, b) => a + b);
+export default function CoffeeTitle({ setInputValue, titleInfo, inputValue }: CoffeeTitlePropsType) {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const clearInputValue = () => {
@@ -34,7 +34,7 @@ export default function CoffeeTitle({ chatRooms, setInputValue, inputValue }: Co
         />
         {inputValue && <BsBackspace onClick={clearInputValue} className="absolute right-5 cursor-pointer" size={20} />}
       </div>
-      <div className="rounded-full bg-pointGreen py-3 text-center text-[16px] font-medium text-white dark:bg-sky">{`총 ${chatRooms.length}개의 채팅방에서 ${totalChattingMembers}명이 대화중입니다.`}</div>
+      <div className="rounded-full bg-pointGreen py-3 text-center text-[16px] font-medium text-white dark:bg-sky">{`총 ${titleInfo.numberOfElements}개의 채팅방에서 ${titleInfo.numberOfUsers}명이 대화중입니다.`}</div>
     </div>
   );
 }
