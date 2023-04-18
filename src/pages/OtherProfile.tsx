@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import FooterMenu from '../components/common/FooterMenu';
 import PostFormat from '../components/common/PostFormat';
@@ -12,11 +12,15 @@ export default function OtherProfile() {
   const [postView, setPostView] = useState(true);
   const { id } = useParams();
 
-  const { data, isLoading, error } = useUserProfileQuery(Number(id));
+  const { data, isLoading, error, refetch } = useUserProfileQuery(Number(id));
 
   if (error) {
     return <NotFound />;
   }
+
+  useEffect(() => {
+    refetch();
+  }, []);
 
   return (
     <section>

@@ -5,11 +5,14 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useMyFollowersQuery } from '../../store/module/useMyProfileQuery';
 import { useMyFollowsQuery } from '../../store/module/useMyProfileQuery';
 import { useUserFollowersQuery, useUserFollowsQuery } from '../../store/module/useUserProfileQuery';
+import profile1 from '../../assets/profile1.jpg';
+import { useFollowMutation } from '../../store/module/useCommunityQuery';
 
 interface ConfirmModalPropsType {
   isUserList: boolean;
   setIsUserList: (x: boolean) => void;
   type: string;
+  follows?: number;
 }
 
 interface UserListProps {
@@ -21,7 +24,7 @@ interface UserListProps {
   profileUrl: string;
 }
 
-export default function UserListModal({ isUserList, setIsUserList, type }: ConfirmModalPropsType) {
+export default function UserListModal({ isUserList, setIsUserList, type, follows }: ConfirmModalPropsType) {
   const cancelButtonRef = useRef(null);
   const { id } = useParams();
   const navigate = useNavigate();
@@ -69,6 +72,18 @@ export default function UserListModal({ isUserList, setIsUserList, type }: Confi
     }
   }, [type]);
 
+  const [userId, setUserId] = useState(id ?? 0);
+  const { mutate } = useFollowMutation(Number(userId));
+
+  const handleClickFollow = (memberId: number) => {
+    setUserId(memberId);
+    mutate();
+  };
+
+  useEffect(() => {
+    setIsUserList(false);
+  }, [follows === 0]);
+
   return (
     <Transition.Root show={isUserList} as={Fragment}>
       <Dialog as="div" className="relative z-50" initialFocus={cancelButtonRef} onClose={() => setIsUserList(false)}>
@@ -90,22 +105,29 @@ export default function UserListModal({ isUserList, setIsUserList, type }: Confi
               <Dialog.Panel className="relative my-8 max-h-[50vh] w-full max-w-lg transform overflow-auto rounded-lg bg-white text-left shadow-xl transition-all">
                 <div className="bg-white p-2 sm:p-6 sm:pb-4">
                   <div className="sm:flex sm:items-start">
-                    {data !== undefined && data.length > 0 ? (
+                    {data !== undefined &&
                       data.map((user: UserListProps) => (
                         <div key={user.id} className="flex items-center justify-between">
-                          <div onClick={() => navigate(`/otherProfile/${user.id}`)} className="my-2 flex cursor-pointer items-center gap-3 px-4">
-                            <img src={user.profileUrl} className="h-[50px] w-[50px] rounded-full object-cover" />
+                          <div
+                            onClick={(e) => {
+                              navigate(`/otherProfile/${user.id}`);
+                              setIsUserList(false);
+                              e.stopPropagation();
+                            }}
+                            className="my-2 flex cursor-pointer items-center gap-3 px-4"
+                          >
+                            <img src={user.profileUrl ?? profile1} className="h-[50px] w-[50px] rounded-full object-cover" />
                             <div className=" text-[16px] font-semibold">{user.nickName}</div>
                           </div>
-                          <div className="mr-4 flex cursor-pointer items-center gap-1 text-[14px] font-semibold">
+                          <div
+                            onClick={() => handleClickFollow(user.id)}
+                            className={`mr-4 flex cursor-pointer items-center gap-1 text-[14px] font-semibold ` + (user.nickName === 'JHni2' ? 'hidden' : '')}
+                          >
                             <RiUserFollowFill className="text-[16px]" />
                             <span>팔로우 {user.isFollow}</span>
                           </div>
                         </div>
-                      ))
-                    ) : (
-                      <div>없읍니다</div>
-                    )}
+                      ))}
                   </div>
                 </div>
               </Dialog.Panel>

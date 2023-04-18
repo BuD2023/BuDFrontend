@@ -58,7 +58,7 @@ export default function CommunityDetailPost() {
               <p
                 onClick={(e) => {
                   e.stopPropagation();
-                  navigate(`/otherProfile/${data?.member.nickname}`);
+                  navigate(`/otherProfile/${data?.member.id}`);
                 }}
                 className="text-xl font-bold"
               >
