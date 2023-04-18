@@ -1,6 +1,7 @@
 import { useRef } from 'react';
 import { BsBackspace } from 'react-icons/bs';
 import { FcIcons8Cup } from 'react-icons/fc';
+import NotFound from '../../pages/NotFound';
 import { useChatroomStatusQuery } from '../../store/module/useChatroomQuery';
 import Header from '../common/Header';
 
@@ -12,12 +13,15 @@ interface CoffeeTitlePropsType {
 export default function CoffeeTitle({ setInputValue, inputValue }: CoffeeTitlePropsType) {
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const { isLoading, data } = useChatroomStatusQuery();
+  const { isLoading, data, isError } = useChatroomStatusQuery();
 
   const clearInputValue = () => {
     inputRef.current && (inputRef.current.value = '');
     setInputValue('');
   };
+  if (isError) {
+    return <NotFound />;
+  }
 
   return (
     <div className="flex w-full flex-col gap-4 text-[26px] font-bold">

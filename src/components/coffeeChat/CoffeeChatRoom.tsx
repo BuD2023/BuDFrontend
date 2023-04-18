@@ -6,6 +6,7 @@ import DefaultImage from '../../assets/Monica.webp';
 import { timeForToday } from '../../store/commentDummy';
 import { useAllChatroomQuery, useSearchChatroomQuery } from '../../store/module/useCoffeeChatQuery';
 import { useInView } from 'react-intersection-observer';
+import NotFound from '../../pages/NotFound';
 
 interface CoffeeChatRoomPropsType {
   inputValue: string;
@@ -15,6 +16,7 @@ export default function CoffeeChatRoom({ inputValue }: CoffeeChatRoomPropsType) 
   //리액트 쿼리 - useQuery
   const {
     isLoading: allLoading,
+    isError: allError,
     isFetching: allIsFetching,
     isFetchingNextPage: allIsFetchingNextPage,
     data: chatRooms,
@@ -24,6 +26,7 @@ export default function CoffeeChatRoom({ inputValue }: CoffeeChatRoomPropsType) 
 
   const {
     isLoading: searchLoading,
+    isError: searchError,
     isFetching: searchIsFetching,
     isFetchingNextPage: searchIsFetchingNextpage,
     data: searchData,
@@ -55,6 +58,9 @@ export default function CoffeeChatRoom({ inputValue }: CoffeeChatRoomPropsType) 
         ))}
       </>
     );
+  }
+  if (allError || searchError) {
+    return <NotFound />;
   }
 
   return (

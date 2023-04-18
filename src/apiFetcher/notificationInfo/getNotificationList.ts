@@ -1,14 +1,14 @@
 import customAxios from '../customAxios';
 
-type notificationType = 'POST' | 'FOLLOW';
-type notificationDetailType = 'ANSWER' | 'PIN' | 'COMMENT' | 'LIKE' | 'FOLLOWED' | 'NEWPOST';
-type postTypeType = 'QNA' | 'FEED';
+export type notificationType = 'POST' | 'FOLLOW';
+export type notificationDetailType = 'ANSWER' | 'PIN' | 'COMMENT' | 'LIKE' | 'FOLLOWED' | 'NEW_POST';
+export type pageType = 'QNA' | 'FEED' | 'OTHER_PROFILE';
 
 interface NotificationListContentType {
   senderNickName: string;
   notificationId: string;
   notificationType: notificationType;
-  pageType: postTypeType;
+  pageType: pageType;
   pageId: number;
   notificationDetailType: notificationDetailType;
   notificationStatus: string;

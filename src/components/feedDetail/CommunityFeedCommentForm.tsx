@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { BsArrowReturnRight, BsDot, BsFillPinAngleFill, BsFillTrashFill, BsHeartFill } from 'react-icons/bs';
 import { useParams } from 'react-router-dom';
 import { commentArr, commentDummyType, timeForToday } from '../../store/commentDummy';
-import { useCommentQuery, useDeleteCommentMutation } from '../../store/module/useCommunityDetailQuery';
+import { useDeleteCommentMutation } from '../../store/module/useCommunityDetailQuery';
 
 export default function CommunityFeedCommentForm() {
   const { id } = useParams();
@@ -27,9 +27,7 @@ export default function CommunityFeedCommentForm() {
     return resultArr;
   };
 
-  // const { data } = useCommentQuery(Number(id));
   const { mutate: deletePostMutate } = useDeleteCommentMutation(Number(id));
-
   const [message, setMessage] = useState<string>('');
   const pressEnterKey = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {

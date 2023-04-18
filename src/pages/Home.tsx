@@ -25,7 +25,7 @@ export default function Home() {
   return (
     <section>
       <div className="relative mt-8 flex min-h-[calc(100vh-160px)] w-full flex-col gap-6 overflow-x-hidden bg-lightIvory p-4 text-lightText dark:bg-darkNavy dark:text-white">
-        <HomeTitle isLoading={isLoading} nickName={data?.nickName} />
+        <HomeTitle isLoading={isLoading} nickName={data?.nickName as string} />
         <HomeLevelSection isLoading={isLoading} levelCode={data?.levelCode} remainCommitCountNextLevel={data?.remainCommitCountNextLevel} />
         <HomeCommitSection isLoading={isLoading} todayCommitCount={data?.todayCommitCount} consecutiveCommitDays={data?.consecutiveCommitDays} thisWeekCommitCount={data?.thisWeekCommitCount} />
         <HomeCommitCalendar isLoading={isLoading} commits={data?.commits} />
