@@ -3,7 +3,6 @@ import { useParams } from 'react-router-dom';
 import RoomChats from '../components/chatRoom/RoomChats';
 import RoomHeader from '../components/chatRoom/RoomHeader';
 import React, { useEffect, useRef, useState } from 'react';
-import tw from 'tailwind-styled-components';
 import * as StompJs from '@stomp/stompjs';
 import { accessToken } from '../main';
 import { SOCKET_URL } from '../constant/union';
@@ -11,8 +10,6 @@ import { myChatroomListContentType, myChatroomListType } from '../apiFetcher/cof
 import { useMyChatroomListQuery } from '../store/module/useChatroomQuery';
 import { makeCompressedImg } from '../utils/makeCompressedImg';
 import PicModal from '../components/common/PicModal';
-import ScrollToTopBtn from '../components/common/ScrollToTopBtn';
-import ScrollToBottomBtn from '../components/common/ScrollToBottomBtn';
 
 export interface MessageType {
   senderId: number;
@@ -101,7 +98,7 @@ export default function ChatRoom() {
         }),
       });
     }
-    setImgPeek('');
+    setImgPeek({ isLoading: false, image: '' });
     setMessage('');
   };
   const pressEnterKey = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -119,29 +116,42 @@ export default function ChatRoom() {
   });
 
   // 사진 미리보기
-  const [imgPeek, setImgPeek] = useState<string>('');
+  const [imgPeek, setImgPeek] = useState<{ isLoading: boolean; image: string }>({
+    isLoading: false,
+    image: '',
+  });
 
   // 사진 업로드
   const imgRef = useRef<HTMLInputElement>(null);
   const handleChangeProfileImg = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const fileArr = e.target.files as FileList;
-
-    const compressedFiles = await makeCompressedImg(fileArr);
-    console.log(compressedFiles);
-    const compressedFileURLs = await Promise.all(
-      compressedFiles
-        .map((compressed) => {
-          return new Promise<string>((resolve) => {
-            let reader = new FileReader();
-            reader.onload = () => {
-              resolve(reader.result as string);
-            };
-            reader.readAsDataURL(compressed as Blob);
-          });
-        })
-        .flat()
-    );
-    setImgPeek(compressedFileURLs[0]);
+    // 사진 파일이 있으면 로딩상태로 변경
+    if (fileArr) {
+      setImgPeek({ ...imgPeek, isLoading: true });
+    } else return;
+    try {
+      const compressedFiles = await makeCompressedImg(fileArr);
+      const compressedFileURLs = await Promise.all(
+        compressedFiles
+          .map((compressed) => {
+            return new Promise<string>((resolve) => {
+              let reader = new FileReader();
+              reader.onload = () => {
+                resolve(reader.result as string);
+              };
+              reader.readAsDataURL(compressed as Blob);
+            });
+          })
+          .flat()
+      );
+      setTimeout(() => {
+        console.log('파일 업로드 완료!');
+        setImgPeek({ isLoading: false, image: compressedFileURLs[0] });
+      }, 1000);
+    } catch (err) {
+      console.error('파일 업로드 오류:', err);
+      setImgPeek({ image: '', isLoading: false });
+    }
   };
 
   return (
@@ -153,11 +163,15 @@ export default function ChatRoom() {
       <div className={`fixed bottom-0 left-0 z-20 flex w-full ${imgPeek ? 'items-end' : 'items-center'} justify-start gap-4 bg-lightIvory p-3 dark:bg-darkNavy`}>
         <BsCameraFill size="40" className="grow cursor-pointer " onClick={() => imgRef?.current?.click()} />
         <input ref={imgRef} type="file" accept="image/*" onChange={handleChangeProfileImg} className="hidden" />
-        {imgPeek ? (
+        {imgPeek.image.length > 0 || imgPeek.isLoading === true ? (
           <div className="flex w-full grow rounded-[20px] bg-greyBeige px-4 py-2 dark:bg-lightNavy">
-            <img src={imgPeek} onClick={() => setIsPicPopUp({ open: true, pic: imgPeek })} className="h-[50vw] w-[50vw] shrink-0 cursor-pointer rounded-lg object-cover" />
+            {imgPeek.isLoading ? (
+              <div className="flex h-[50vw] w-[50vw] shrink-0 cursor-pointer items-center justify-center rounded-lg bg-lightIvory text-[16px] dark:bg-darkNavy">이미지 준비중...</div>
+            ) : (
+              <img src={imgPeek.image} onClick={() => setIsPicPopUp({ open: true, pic: imgPeek.image })} className="h-[50vw] w-[50vw] shrink-0 cursor-pointer rounded-lg object-cover" />
+            )}
             <div className="flex w-full flex-col items-end justify-end gap-2 text-[18px] font-semibold text-white">
-              <button onClick={() => setImgPeek('')} className="w-[50%] rounded-xl bg-darkIvory py-2 dark:bg-lightNavy">
+              <button onClick={() => setImgPeek({ isLoading: false, image: '' })} className="w-[50%] rounded-xl bg-darkIvory py-2 dark:bg-lightNavy">
                 취소
               </button>
               <button onClick={() => publish()} className="w-[50%] rounded-xl bg-darkIvory py-2 dark:bg-lightNavy">
@@ -178,5 +192,3 @@ export default function ChatRoom() {
     </section>
   );
 }
-
-const Hello = tw.div`fixed top-20 left-0 h-full w-full rounded-[20px] bg-midIvory dark:bg-midNavy`;

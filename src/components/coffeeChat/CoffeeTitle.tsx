@@ -12,12 +12,13 @@ interface CoffeeTitlePropsType {
 export default function CoffeeTitle({ setInputValue, inputValue }: CoffeeTitlePropsType) {
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const { data } = useChatroomStatusQuery();
+  const { isLoading, data } = useChatroomStatusQuery();
 
   const clearInputValue = () => {
     inputRef.current && (inputRef.current.value = '');
     setInputValue('');
   };
+
   return (
     <div className="flex w-full flex-col gap-4 text-[26px] font-bold">
       <Header type="category" title="커피챗" icon={<FcIcons8Cup />} />
@@ -33,7 +34,11 @@ export default function CoffeeTitle({ setInputValue, inputValue }: CoffeeTitlePr
         />
         {inputValue && <BsBackspace onClick={clearInputValue} className="absolute right-5 cursor-pointer" size={20} />}
       </div>
-      <div className="rounded-full bg-pointGreen py-3 text-center text-[16px] font-medium text-white dark:bg-sky">{`총 ${data?.numberOfChatRooms}개의 채팅방에서 ${data?.numberOfUsers}명이 대화중입니다.`}</div>
+      {isLoading ? (
+        <div className="h-[40px] rounded-full bg-pointGreen dark:bg-sky"></div>
+      ) : (
+        <div className="rounded-full bg-pointGreen py-3 text-center text-[16px] font-medium text-white dark:bg-sky">{`총 ${data?.numberOfChatRooms}개의 채팅방에서 ${data?.numberOfUsers}명이 대화중입니다.`}</div>
+      )}
     </div>
   );
 }

@@ -1,7 +1,8 @@
 import { FcPortraitMode } from 'react-icons/fc';
 import { useNavigate, useParams } from 'react-router-dom';
 import { timeForToday } from '../../store/commentDummy';
-import { useCommunityPostQuery, useFollowMutation } from '../../store/module/useCommunityQuery';
+import { useCommunityPostQuery } from '../../store/module/useCommunityQuery';
+import { useFollowMutation } from '../../store/module/useCommunityQuery';
 import DefaultProfileImage from '../../assets/DefaultProfileImage.webp';
 import { useInView } from 'react-intersection-observer';
 import { useEffect, useState } from 'react';
@@ -11,7 +12,6 @@ import LikeCommentScrap from './LikeCommentScrap';
 import ImagePeek from './ImagePeek';
 import PicModal from './PicModal';
 import { S3_URL } from '../../constant/union';
-import Loading from './Loading';
 
 interface IPostFormatPropsType {
   inputValue: string;
@@ -22,6 +22,8 @@ export default function PostFormat({ inputValue, sortAndOrder }: IPostFormatProp
   const { filter } = useParams();
   const { sort, order } = sortAndOrder;
   const navigate = useNavigate();
+
+  //리액트 쿼리
   const { isLoading, data, hasNextPage, isFetching, isFetchingNextPage, fetchNextPage } = useCommunityPostQuery(inputValue, sort, order);
   const [userId, setUserId] = useState(0);
   const { mutate } = useFollowMutation(Number(userId));
@@ -53,8 +55,14 @@ export default function PostFormat({ inputValue, sortAndOrder }: IPostFormatProp
     open: false,
     pic: '',
   });
+
   if (isLoading) {
-    return <Loading />;
+    return (
+      <>
+        <div className="mb-4 flex h-[48vh] w-full cursor-pointer flex-col items-center gap-4 rounded-[20px] bg-midIvory dark:bg-midNavy"></div>
+        <div className="mb-4 flex h-[48vh] w-full cursor-pointer flex-col items-center gap-4 rounded-[20px] bg-midIvory dark:bg-midNavy"></div>
+      </>
+    );
   }
 
   return (

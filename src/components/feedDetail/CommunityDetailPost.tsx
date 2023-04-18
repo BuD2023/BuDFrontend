@@ -31,6 +31,15 @@ export default function CommunityDetailPost() {
     pic: '',
   });
 
+  if (isLoading) {
+    return (
+      <>
+        <div className="mb-6 flex h-[40vh] w-full cursor-pointer flex-col items-center gap-4 rounded-[20px] bg-midIvory dark:bg-midNavy"></div>
+        <div className="mb-6 flex h-[40vh] w-full cursor-pointer flex-col items-center gap-4 rounded-[20px] bg-midIvory dark:bg-midNavy"></div>
+      </>
+    );
+  }
+
   return (
     <div className="mb-6 flex w-full cursor-pointer flex-col items-center gap-4 rounded-[20px] bg-midIvory dark:bg-midNavy">
       <div className="flex w-full flex-col gap-4 p-4 text-lightText dark:text-white">

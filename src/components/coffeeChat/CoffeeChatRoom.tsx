@@ -48,6 +48,16 @@ export default function CoffeeChatRoom({ inputValue }: CoffeeChatRoomPropsType) 
   let chatRoomsResult = inputValue.length > 0 ? (searchData?.pages.map((i) => i.content).flat() as ChatroomType[]) : (chatRooms?.pages.map((i) => i.content).flat() as ChatroomType[]);
   console.log(chatRoomsResult);
 
+  if (allLoading || searchLoading) {
+    return (
+      <>
+        <div className="mb-1.5 flex h-[29vh] w-full cursor-pointer flex-col items-center gap-4 rounded-[20px] bg-midIvory dark:bg-midNavy"></div>
+        <div className="mb-1.5 flex h-[29vh] w-full cursor-pointer flex-col items-center gap-4 rounded-[20px] bg-midIvory dark:bg-midNavy"></div>
+        <div className="mb-1.5 flex h-[29vh] w-full cursor-pointer flex-col items-center gap-4 rounded-[20px] bg-midIvory dark:bg-midNavy"></div>
+      </>
+    );
+  }
+
   return (
     <>
       {chatRoomsResult && chatRoomsResult.length > 0 ? (
