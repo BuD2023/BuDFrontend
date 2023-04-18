@@ -111,22 +111,33 @@ export default function ChatRoom() {
   const imgRef = useRef<HTMLInputElement>(null);
   const handleChangeProfileImg = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const fileArr = e.target.files as FileList;
-    const compressedFiles = await makeCompressedImg(fileArr);
-    console.log(compressedFiles);
-    const compressedFileURLs = await Promise.all(
-      compressedFiles
-        .map((compressed) => {
-          return new Promise<string>((resolve) => {
-            let reader = new FileReader();
-            reader.onload = () => {
-              resolve(reader.result as string);
-            };
-            reader.readAsDataURL(compressed as Blob);
-          });
-        })
-        .flat()
-    );
-    setImgPeek({ isLoading: false, image: compressedFileURLs[0] });
+    // 사진 파일이 있으면 로딩상태로 변경
+    if (fileArr) {
+      setImgPeek({ ...imgPeek, isLoading: true });
+    } else return;
+    try {
+      const compressedFiles = await makeCompressedImg(fileArr);
+      const compressedFileURLs = await Promise.all(
+        compressedFiles
+          .map((compressed) => {
+            return new Promise<string>((resolve) => {
+              let reader = new FileReader();
+              reader.onload = () => {
+                resolve(reader.result as string);
+              };
+              reader.readAsDataURL(compressed as Blob);
+            });
+          })
+          .flat()
+      );
+      setTimeout(() => {
+        console.log('파일 업로드 완료!');
+        setImgPeek({ isLoading: false, image: compressedFileURLs[0] });
+      }, 1000);
+    } catch (err) {
+      console.error('파일 업로드 오류:', err);
+      setImgPeek({ image: '', isLoading: false });
+    }
   };
   console.log(imgPeek);
   return (
@@ -148,7 +159,7 @@ export default function ChatRoom() {
         {imgPeek.image.length > 0 || imgPeek.isLoading === true ? (
           <div className="flex w-full grow rounded-[20px] bg-greyBeige px-4 py-2 dark:bg-lightNavy">
             {imgPeek.isLoading ? (
-              <div className="flex h-[50vw] w-[50vw] shrink-0 cursor-pointer items-center justify-center rounded-lg bg-lightIvory text-[18px] dark:bg-darkNavy">이미지 준비중...</div>
+              <div className="flex h-[50vw] w-[50vw] shrink-0 cursor-pointer items-center justify-center rounded-lg bg-lightIvory text-[16px] dark:bg-darkNavy">이미지 준비중...</div>
             ) : (
               <img src={imgPeek.image} onClick={() => setIsPicPopUp({ open: true, pic: imgPeek.image })} className="h-[50vw] w-[50vw] shrink-0 cursor-pointer rounded-lg object-cover" />
             )}
