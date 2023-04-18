@@ -9,6 +9,7 @@ import imageCompression from 'browser-image-compression';
 import { useParams } from 'react-router-dom';
 import { useCommunityDetailQuery } from '../store/module/useCommunityDetailQuery';
 import actionImgCompress from '../utils/imgCompress';
+import { usePreventLeave } from '../utils/usePreventLeave';
 
 export default function PostEdit() {
   const { id: postId } = useParams();
@@ -98,6 +99,9 @@ export default function PostEdit() {
     open: false,
     pic: '',
   });
+
+  const { enablePrevent } = usePreventLeave();
+  enablePrevent();
 
   return (
     <>

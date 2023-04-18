@@ -6,10 +6,14 @@ import { timeForToday } from '../../store/commentDummy';
 import { dummyData, IBlogData } from '../../store/dummy';
 import CommunityFeedCommentForm from '../feedDetail/CommunityFeedCommentForm';
 
-export default function CommunityQADetailAnswer() {
+interface CommunityQADetailAnswerProps {
+  isCommentOpen: boolean;
+  setIsCommentOpen: (x: boolean) => void;
+}
+
+export default function CommunityQADetailAnswer({ isCommentOpen, setIsCommentOpen }: CommunityQADetailAnswerProps) {
   const { id } = useParams();
   const data = dummyData.find((i) => i.id === Number(id)) as IBlogData;
-  const [isCommentOpen, setIsCommentOpen] = useState(false);
   const navigate = useNavigate();
   const [isMenu, setIsMenu] = useState<boolean>();
 

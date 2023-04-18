@@ -109,6 +109,7 @@ export default function ChatRoom() {
       publish();
     }
   };
+
   // 사진 popUp
   const [isPicPopUp, setIsPicPopUp] = useState({
     open: false,
