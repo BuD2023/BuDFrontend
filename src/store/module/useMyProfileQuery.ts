@@ -1,9 +1,8 @@
-import { useInfiniteQuery, useMutation, useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import getMyFollowerList from '../../apiFetcher/userInfo/getMyFollowerList';
 import getMyFollowList from '../../apiFetcher/userInfo/getMyFollowList';
 import getMyProfileInfo from '../../apiFetcher/userInfo/getMyProfile';
 import getMyScrapList from '../../apiFetcher/userInfo/getMyScrapList';
-import postUserFollow from '../../apiFetcher/userInfo/postUserFollow';
 import { accessToken } from '../../main';
 
 export function useMyProfileQuery() {
@@ -56,16 +55,5 @@ export function useMyScrapsQuery(sort: string) {
     retry: 0, // 실패시 재호출 몇번 할지
     staleTime: Infinity,
     cacheTime: Infinity,
-  });
-}
-
-export function useFollowMutation(id: number) {
-  return useMutation(() => postUserFollow(accessToken, id), {
-    onError: (err) => {
-      console.log(err);
-    },
-    onSuccess: () => {
-      console.log('팔로우 상태가 변경되었습니다.');
-    },
   });
 }

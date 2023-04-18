@@ -4,6 +4,7 @@ import getCommunityPostAxios from '../../apiFetcher/communityInfo/getCommunityPo
 import postCommunityLikeAxios from '../../apiFetcher/communityInfo/postCommunityLike';
 import postCommunityPostAxios, { CreateCommunityPostType } from '../../apiFetcher/communityInfo/postCommunityPost';
 import postCommunityScrapAxios from '../../apiFetcher/communityInfo/postCommunityScrap';
+import postUserFollow from '../../apiFetcher/communityInfo/postUserFollow';
 import updateCommunityPostAxios, { UpdateCommunityPostType } from '../../apiFetcher/communityInfo/updateCommunityPost';
 import { accessToken } from '../../main';
 import { useMyScrapsQuery } from './useMyProfileQuery';
@@ -80,6 +81,17 @@ export function useCommunityScrapMutation(postId: number) {
     onSuccess: () => {
       console.log('게시물 스크랩 상태 변경 반영됨');
       refetch();
+    },
+  });
+}
+
+export function useFollowMutation(id: number) {
+  return useMutation(() => postUserFollow(accessToken, id), {
+    onError: (err) => {
+      console.log(err);
+    },
+    onSuccess: () => {
+      console.log('팔로우 상태가 변경되었습니다.');
     },
   });
 }

@@ -4,6 +4,7 @@ import { FcApproval, FcLike, FcPortraitMode, FcSms } from 'react-icons/fc';
 import { useNavigate, useParams } from 'react-router-dom';
 import { timeForToday } from '../../store/commentDummy';
 import { dummyData, IBlogData } from '../../store/dummy';
+import { useFollowMutation } from '../../store/module/useCommunityQuery';
 import CommunityFeedCommentForm from '../feedDetail/CommunityFeedCommentForm';
 
 interface CommunityQADetailAnswerProps {
@@ -16,6 +17,15 @@ export default function CommunityQADetailAnswer({ isCommentOpen, setIsCommentOpe
   const data = dummyData.find((i) => i.id === Number(id)) as IBlogData;
   const navigate = useNavigate();
   const [isMenu, setIsMenu] = useState<boolean>();
+
+  const [userId, setUserId] = useState(0);
+  const { mutate } = useFollowMutation(Number(userId));
+
+  const handleClickFollow = (e: React.MouseEvent<HTMLElement>, memberId: number) => {
+    setUserId(memberId);
+    e.stopPropagation();
+    mutate();
+  };
 
   return (
     <div
@@ -67,7 +77,7 @@ export default function CommunityQADetailAnswer({ isCommentOpen, setIsCommentOpe
             </div>
           </div>
           <div className="text-end grow font-bold">
-            <div className="flex h-full items-center justify-end ">
+            <div onClick={(e) => handleClickFollow(e, Number(0))} className="flex h-full items-center justify-end ">
               <div className="flex cursor-pointer gap-3">
                 <FcPortraitMode />
                 <p>팔로우</p>

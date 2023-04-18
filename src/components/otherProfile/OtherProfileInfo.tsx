@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { useFollowMutation } from '../../store/module/useMyProfileQuery';
+import { useFollowMutation } from '../../store/module/useCommunityQuery';
 import UserListModal from '../common/UserListModal';
 
 interface OtherProfileInfoProps {
