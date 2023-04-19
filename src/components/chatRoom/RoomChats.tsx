@@ -7,10 +7,11 @@ import { useGithubQuery } from '../../store/module/useGithubQuery';
 import { useInView } from 'react-intersection-observer';
 import { S3_URL } from '../../constant/union';
 import ScrollToBottomBtn from '../common/ScrollToBottomBtn';
+import { ChatMessageType, InfoMessageType } from '../../pages/ChatRoom';
 
 interface IChatRoomPropsType {
   messageList: myChatroomListContentType[];
-  newChatMessages: any[];
+  newChatMessages: InfoMessageType[] | ChatMessageType[];
   hasNextPage: boolean | undefined;
   isFetching: boolean;
   isFetchingNextPage: boolean;
@@ -43,11 +44,11 @@ export default function RoomChats({ messageList, newChatMessages, hasNextPage, i
   }, [messageList]);
 
   // 백엔드에서 받은 유저 정보에서 받아서 사용할 것들!
-  const handleClickUserImg = (e: any) => {
+  const handleClickUserImg = (userName: string, userProfileUrl: string) => {
     // console.log(e.target.src, e.target.alt);
     setUserModal(true);
-    setUserName(e.target.alt);
-    setUserImg(e.target.src);
+    setUserName(userName);
+    setUserImg(userProfileUrl);
     setUserIntro('일단 예시로 둔 소개입니다 ^^.');
     setUserJob('프론트엔드');
   };
@@ -69,17 +70,17 @@ export default function RoomChats({ messageList, newChatMessages, hasNextPage, i
         <div ref={scrollToNew} className="w-full"></div>
         <>
           {newChatMessages &&
-            newChatMessages
-              .filter((i) => i.chatType !== 'ENTER')
+            (newChatMessages as Partial<ChatMessageType>[])
+              .filter((i: Partial<ChatMessageType>) => i.chatType === 'MESSAGE' || i.chatType === 'IMAGE')
               .reverse()
-              .map((chat) => {
+              .map((chat: Partial<ChatMessageType>) => {
                 return chat.userName !== data?.nickName ? (
                   <div key={chat.chatId} className="mb-3 flex gap-4">
                     <img
                       src={chat.userProfileUrl ? chat.userProfileUrl : defaultImage}
                       alt={chat.userName}
                       className="h-[50px] w-[50px] cursor-pointer rounded-full object-cover"
-                      onClick={(e) => handleClickUserImg(e)}
+                      onClick={() => handleClickUserImg(chat.userName as string, (chat.userProfileUrl ? chat.userProfileUrl : defaultImage) as string)}
                     />
                     <div className="flex flex-col gap-2">
                       <p className="mt-2 text-base font-semibold">{chat.userName}</p>
@@ -137,7 +138,7 @@ export default function RoomChats({ messageList, newChatMessages, hasNextPage, i
                     src={chat.userProfileUrl ? chat.userProfileUrl : defaultImage}
                     alt={chat.userName}
                     className="h-[50px] w-[50px] cursor-pointer rounded-full object-cover"
-                    onClick={(e) => handleClickUserImg(e)}
+                    onClick={() => handleClickUserImg(chat.userName as string, (chat.userProfileUrl ? chat.userProfileUrl : defaultImage) as string)}
                   />
                   <div className="flex flex-col gap-2">
                     <p className="mt-2 text-base font-semibold">{chat.userName}</p>

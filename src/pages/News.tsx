@@ -7,7 +7,6 @@ import { useEffect, useRef, useState } from 'react';
 import NewsKeywordFilter from '../components/news/NewsKeywordFilter';
 import { useNewsQuery } from '../store/module/useNewsQuery';
 import { useInView } from 'react-intersection-observer';
-import { BsBackspace } from 'react-icons/bs';
 import ScrollToTopBtn from '../components/common/ScrollToTopBtn';
 import NotFound from './NotFound';
 import SearchBar from '../components/common/SearchBar';
@@ -23,11 +22,6 @@ export default function News() {
 
   const { data, isLoading, error, isFetching, isFetchingNextPage, fetchNextPage, hasNextPage } = useNewsQuery(inputValue, sort, order, filterKeywords);
 
-  const handleInputEnter = (e: any) => {
-    setInputValue(e.currentTarget.value);
-    setFilterKeywords('');
-  };
-
   if (error) {
     return <NotFound />;
   }
@@ -37,11 +31,6 @@ export default function News() {
   useEffect(() => {
     if (inView && hasNextPage && !isFetching && !isFetchingNextPage) fetchNextPage();
   }, [inView]);
-
-  const clearInputValue = () => {
-    inputRef.current && (inputRef.current.value = '');
-    setInputValue('');
-  };
 
   return (
     <>

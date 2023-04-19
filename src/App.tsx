@@ -27,6 +27,8 @@ import QAAnswerEdit from './pages/QAAnswerEdit';
 import QAAnswerCreate from './pages/QAAnswerCreate';
 import { useNotificationTokenMutation } from './store/module/useNotificationQuery';
 import sendFCMTokenFunc, { requestPermission } from './utils/fcm';
+import { NotificationPayload, onMessage } from 'firebase/messaging';
+import { messaging } from '../firebase';
 
 function App() {
   const $html = document.querySelector('html');
@@ -51,6 +53,16 @@ function App() {
       }
     };
     setNotification();
+    // 푸시 알림 처리
+    onMessage(messaging, (payload) => {
+      console.log('푸시 알림 도착:', payload);
+      // 타입 정의
+      const title = payload.notification?.title as string;
+      const body = payload.notification?.body as string;
+      // 콘솔에 알림 내용 출력
+      console.log('푸시 알림 제목:', title);
+      console.log('푸시 알림 내용:', body);
+    });
   }, []);
 
   return (

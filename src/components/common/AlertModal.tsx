@@ -7,9 +7,10 @@ interface ConfirmModalPropsType {
   setAlertModal: (x: boolean) => void;
   title: string;
   des: string;
+  action?: () => void;
 }
 
-export default function AlertModal({ alertModal, setAlertModal, title, des }: ConfirmModalPropsType) {
+export default function AlertModal({ alertModal, setAlertModal, title, des, action }: ConfirmModalPropsType) {
   // const [open, setOpen] = useState(true)
   const cancelButtonRef = useRef(null);
 
@@ -53,6 +54,11 @@ export default function AlertModal({ alertModal, setAlertModal, title, des }: Co
                     className="mt-3 inline-flex w-full justify-center rounded-full bg-[#dc2626] px-3 py-2 text-sm font-semibold text-white shadow-sm outline-none ring-1 ring-inset ring-[#fae1e3] hover:bg-[#ef4444] sm:mt-0 sm:w-auto"
                     onClick={() => {
                       setAlertModal(false);
+                      action && action();
+                    }}
+                    onFocus={() => {
+                      setAlertModal(false);
+                      action && action();
                     }}
                     ref={cancelButtonRef}
                   >

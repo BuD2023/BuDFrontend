@@ -6,6 +6,7 @@ export type pageType = 'QNA' | 'FEED' | 'OTHER_PROFILE';
 
 interface NotificationListContentType {
   senderNickName: string;
+  senderId: string;
   notificationId: string;
   notificationType: notificationType;
   pageType: pageType;

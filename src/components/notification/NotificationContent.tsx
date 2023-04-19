@@ -108,7 +108,7 @@ export default function NotificationContent() {
                       className="flex grow cursor-pointer items-center gap-3 bg-lightIvory dark:bg-darkNavy"
                     >
                       <img
-                        onClick={(event: React.MouseEvent<HTMLImageElement>) => handleImgClick(noti.senderNickName, event)}
+                        onClick={(event: React.MouseEvent<HTMLImageElement>) => handleImgClick(noti.senderId, event)}
                         src={`https://picsum.photos/105/105`}
                         alt={noti.senderNickName}
                         className="h-[65px] w-[65px] rounded-full"

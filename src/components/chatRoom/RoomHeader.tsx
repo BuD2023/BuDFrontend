@@ -2,12 +2,19 @@ import { BsChevronLeft, BsFillPersonFill } from 'react-icons/bs';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useState } from 'react';
 import { useChatroomDetailQuery } from '../../store/module/useChatroomQuery';
+import { ChatMessageType, InfoMessageType } from '../../pages/ChatRoom';
 
-export default function RoomHeader() {
+interface RoomHeaderPropsType {
+  newChatMessages: InfoMessageType[] | ChatMessageType[];
+}
+
+export default function RoomHeader({ newChatMessages }: RoomHeaderPropsType) {
   const navigate = useNavigate();
   const { id } = useParams();
 
   const { data: chatRoomInfo } = useChatroomDetailQuery(Number(id));
+
+  const numberOfMember = (newChatMessages.slice().reverse() as ChatMessageType[] | InfoMessageType[]).find((i) => i.chatType !== 'MESSAGE' && i.chatType !== 'IMAGE')?.numberOfMembers;
 
   // userList popUp
   const [isUserList, setIsUserList] = useState({
@@ -31,7 +38,7 @@ export default function RoomHeader() {
           className="flex items-center gap-1 font-normal opacity-70"
         >
           <BsFillPersonFill className="shrink-0" />
-          <p className="text-sm ">{chatRoomInfo?.numberOfMembers}</p>
+          <p className="text-sm ">{numberOfMember && numberOfMember > 0 ? numberOfMember : chatRoomInfo?.numberOfMembers}</p>
         </div>
       </div>
     </>
