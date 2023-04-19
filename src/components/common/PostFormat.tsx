@@ -23,7 +23,6 @@ export default function PostFormat({ inputValue, sortAndOrder }: IPostFormatProp
   const { filter } = useParams();
   const { sort, order } = sortAndOrder;
   const navigate = useNavigate();
-  const userNickname = 'JHni2';
 
   //리액트 쿼리
   const { isLoading, isError, data, hasNextPage, isFetching, isFetchingNextPage, fetchNextPage } = useCommunityPostQuery(inputValue, sort, order);
@@ -31,10 +30,6 @@ export default function PostFormat({ inputValue, sortAndOrder }: IPostFormatProp
   const { mutate } = useFollowMutation(Number(userId));
 
   const handleClickFollow = (e: React.MouseEvent<HTMLElement>, memberId: number, userName: string) => {
-    if (userName === userNickname) {
-      e.stopPropagation();
-      return;
-    }
     setUserId(memberId);
     e.stopPropagation();
     mutate();

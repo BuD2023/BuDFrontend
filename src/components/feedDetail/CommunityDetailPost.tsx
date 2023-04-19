@@ -2,7 +2,7 @@ import { BsDot, BsFillHandThumbsUpFill } from 'react-icons/bs';
 import { FcLike, FcPortraitMode, FcSms, FcVoicePresentation } from 'react-icons/fc';
 import { useNavigate, useParams } from 'react-router-dom';
 import { timeForToday } from '../../store/commentDummy';
-import { useCommunityDetailQuery } from '../../store/module/useCommunityDetailQuery';
+import { useCommunityAnswerQuery, useCommunityDetailQuery } from '../../store/module/useCommunityDetailQuery';
 import DefaultProfileImage from '../../assets/DefaultProfileImage.webp';
 import LikeCommentScrap from '../common/LikeCommentScrap';
 import { PostTypeType } from '../../apiFetcher/communityInfo/getCommunityPost';
@@ -13,15 +13,15 @@ import { useFollowMutation } from '../../store/module/useCommunityQuery';
 import NotFound from '../../pages/NotFound';
 
 export default function CommunityDetailPost() {
-  const { id } = useParams();
+  const { id: questionId } = useParams();
   const navigate = useNavigate();
-  const { isLoading, isError, data } = useCommunityDetailQuery(Number(id));
-  const userNickname = 'JHni2';
+  const { data: questionData, isLoading: questionIsLoading, error: questionError } = useCommunityDetailQuery(Number(questionId));
 
+  const userNickname = 'JHni2';
   const [userId, setUserId] = useState(0);
   const { mutate } = useFollowMutation(Number(userId));
 
-  const handleClickFollow = (e: React.MouseEvent<HTMLElement>, memberId: number, memberNickname: string) => {
+  const handleClickFollow = (e: React.MouseEvent<HTMLElement>, memberId: number, memberNickname?: string) => {
     if (memberNickname === userNickname) return;
     setUserId(memberId);
     e.stopPropagation();
@@ -33,11 +33,11 @@ export default function CommunityDetailPost() {
     open: false,
     pic: '',
   });
-  if (isError) {
+  if (questionError) {
     return <NotFound />;
   }
 
-  if (isLoading) {
+  if (questionIsLoading) {
     return <div className="mb-6 flex h-[298px] w-full cursor-pointer flex-col items-center gap-4 rounded-[20px] bg-midIvory dark:bg-midNavy"></div>;
   }
 
@@ -49,42 +49,49 @@ export default function CommunityDetailPost() {
             <img
               onClick={(e) => {
                 e.stopPropagation();
-                navigate(`/otherProfile/${data?.member.id}`);
+                navigate(`/otherProfile/${questionData?.member.id}`);
               }}
               src={DefaultProfileImage}
-              alt={data?.member.nickname}
+              alt={questionData?.member.nickname}
               className="w-[58px] rounded-full"
             />
             <div className="pl-3">
               <p
                 onClick={(e) => {
                   e.stopPropagation();
-                  navigate(`/otherProfile/${data?.member.id}`);
+                  navigate(`/otherProfile/${questionData?.member.id}`);
                 }}
                 className="text-xl font-bold"
               >
-                {data?.member.nickname}
+                {questionData?.member.nickname}
               </p>
-              <p className="text-[17px] opacity-50">{timeForToday(data?.createdAt as string)}</p>
+              <p className="text-[17px] opacity-50">{timeForToday(questionData?.createdAt as string)}</p>
             </div>
           </div>
           <div className="text-end grow font-bold">
-            <div onClick={(e) => handleClickFollow(e, Number(data?.member.id), data?.member.nickname)} className="flex h-full items-center justify-end gap-3">
+            <div onClick={(e) => handleClickFollow(e, Number(questionData?.member.id), questionData?.member.nickname)} className="flex h-full items-center justify-end gap-3">
               <FcPortraitMode />
               <p>팔로우</p>
             </div>
           </div>
         </div>
         <div className="flex text-[16px] font-semibold">
-          <div className="rounded-[30px] bg-greyBeige px-3 py-2 text-[14px] dark:bg-sky">{`${data?.postType === 'FEED' ? '개발 피드' : 'Q & A 피드'}`}</div>
+          <div className="rounded-[30px] bg-greyBeige px-3 py-2 text-[14px] dark:bg-sky">{`${questionData?.postType === 'FEED' ? '개발 피드' : 'Q & A 피드'}`}</div>
         </div>
         <div className="w-full">
-          <h1 className="mb-6 text-lg font-bold">{data?.title}</h1>
-          <p className="text-base">{data?.content}</p>
+          <h1 className="mb-6 text-lg font-bold">{questionData?.title}</h1>
+          <p className="text-base">{questionData?.content}</p>
         </div>
       </div>
-      {data !== undefined && data.imageUrls.length > 0 && data.imageUrls[0] !== null && <ImagePeek setIsPicPopUp={setIsPicPopUp} imgPeek={data.imageUrls.map((imgeUrl) => S3_URL + imgeUrl)} />}
-      <LikeCommentScrap postType={data?.postType as PostTypeType} likeCount={data?.likeCount as number} commentCount={data?.commentCount as number} postId={data?.id as number} />
+      {questionData !== undefined && questionData.imageUrls.length > 0 && questionData.imageUrls[0] !== null && (
+        <ImagePeek setIsPicPopUp={setIsPicPopUp} imgPeek={questionData.imageUrls.map((imgeUrl) => S3_URL + imgeUrl)} />
+      )}
+      <LikeCommentScrap
+        postType={questionData?.postType as PostTypeType}
+        likeCount={questionData?.likeCount as number}
+        commentCount={questionData?.commentCount as number}
+        postId={questionData?.id as number}
+      />
     </div>
   );
 }

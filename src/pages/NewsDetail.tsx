@@ -89,7 +89,10 @@ export default function NewsDetail() {
                   </div>
                   <div>{data.journalistOriginalNames}</div>
                 </div>
-                <div className="absolute top-[calc(100%-1.5rem)] min-h-[70vh] w-full rounded-[40px] bg-lightIvory p-6 text-[15px] font-medium leading-7 dark:bg-darkNavy ">
+                <div
+                  onClick={(e) => e.stopPropagation()}
+                  className="absolute top-[calc(100%-1.5rem)] min-h-[70vh] w-full cursor-default rounded-[40px] bg-lightIvory p-6 text-[15px] font-medium leading-7 dark:bg-darkNavy "
+                >
                   <div dangerouslySetInnerHTML={{ __html: data.content }}></div>
                 </div>
               </div>

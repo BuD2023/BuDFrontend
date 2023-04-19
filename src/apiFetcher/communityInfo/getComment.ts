@@ -18,7 +18,7 @@ export const getFeedCommentAxios = async (token: string, page: number = 0, postI
 export const getQnACommentAxios = async (token: string, page: number = 0, postId: number): Promise<CommunityCommentType> => {
   return await customAxios({
     method: 'get',
-    url: `/posts/qna-answers/${(postId = 9)}/qna-comments?page=${page}`,
+    url: `/posts/qna-answers/${postId}/qna-comments?page=${page}`,
     headers: {
       Authorization: `Bearer ${token}`,
       'Content-Type': 'application/json',

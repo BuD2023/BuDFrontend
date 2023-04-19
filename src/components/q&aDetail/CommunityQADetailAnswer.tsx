@@ -1,12 +1,12 @@
 import { useState } from 'react';
-import { BsDot, BsThreeDots } from 'react-icons/bs';
+import { BsThreeDots } from 'react-icons/bs';
 import { FcApproval, FcLike, FcPortraitMode, FcSms } from 'react-icons/fc';
 import { useNavigate, useParams } from 'react-router-dom';
 import { timeForToday } from '../../store/commentDummy';
-import { dummyData, IBlogData } from '../../store/dummy';
-import { useQnACommentQuery } from '../../store/module/useCommunityDetailQuery';
+import { useCommunityAnswerQuery } from '../../store/module/useCommunityDetailQuery';
 import { useFollowMutation } from '../../store/module/useCommunityQuery';
 import CommunityCommentForm from '../feedDetail/CommunityCommentForm';
+import profile1 from '../../assets/profile1.jpg';
 
 interface CommunityQADetailAnswerProps {
   isCommentOpen: boolean;
@@ -14,8 +14,7 @@ interface CommunityQADetailAnswerProps {
 }
 
 export default function CommunityQADetailAnswer({ isCommentOpen, setIsCommentOpen }: CommunityQADetailAnswerProps) {
-  const { id } = useParams();
-  const dummyDatas = dummyData.find((i) => i.id === Number(id)) as IBlogData;
+  const { id: questionId } = useParams();
   const navigate = useNavigate();
   const [isMenu, setIsMenu] = useState<boolean>();
 
@@ -28,91 +27,90 @@ export default function CommunityQADetailAnswer({ isCommentOpen, setIsCommentOpe
     mutate();
   };
 
-  const { data, isLoading, error } = useQnACommentQuery(Number(id));
+  const { data: answerData, isLoading: answerIsLoading, error: answerError } = useCommunityAnswerQuery(Number(questionId));
+  // answerData?.content.map((answer) => console.log(item));
 
   return (
-    <div
-      className="flex w-full flex-col items-center overflow-hidden rounded-[20px] border-[3px] border-pointGreen  dark:border-sky "
-      onClick={(e) => {
-        e.stopPropagation();
-        setIsMenu(false);
-      }}
-    >
-      <div className="relative flex h-[55px] w-full items-center justify-between border-b border-b-darkIvory border-opacity-30 bg-midIvory p-5 text-[20px] font-bold dark:border-b-lightNavy dark:border-opacity-30 dark:bg-midNavy">
-        <div className="flex items-center gap-2">
-          <FcApproval size={24} />
-          <span>답변 1</span>
-        </div>
-        <BsThreeDots
-          className="cursor-pointer text-[24px]"
-          onClick={(e) => {
-            e.stopPropagation();
-            setIsMenu(!isMenu);
-          }}
-        />
-        {isMenu && (
-          <div className="absolute right-4 top-[45px] flex flex-col gap-3 rounded-xl bg-greyBeige p-3 text-[16px] font-medium">
-            <div onClick={() => navigate(`/answerEdit/${id}/1`)} className="cursor-pointer">
-              수정하기
+    <>
+      {answerData?.content.map((answer: any, idx: number) => {
+        return (
+          <div key={answer.id} className="w-full">
+            <div className="relative flex h-[55px] w-full items-center justify-between rounded-t-[20px] border-b border-b-darkIvory border-opacity-30 bg-midIvory p-5 text-[20px] font-bold dark:border-b-lightNavy dark:border-opacity-30 dark:bg-midNavy">
+              <div className="flex items-center gap-2">
+                {answer.qnaAnswerPin && <FcApproval size={24} />}
+                <span>답변 {idx + 1}</span>
+              </div>
+              <BsThreeDots
+                className="cursor-pointer text-[24px]"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setIsMenu(!isMenu);
+                }}
+              />
+              {isMenu && (
+                <div className="absolute right-4 top-[45px] flex flex-col gap-3 rounded-xl bg-greyBeige p-3 text-[16px] font-medium">
+                  <div onClick={() => navigate(`/answerEdit/${questionId}/1`)} className="cursor-pointer">
+                    수정하기
+                  </div>
+                  <div className="cursor-pointer">삭제하기</div>
+                </div>
+              )}
             </div>
-            <div className="cursor-pointer">삭제하기</div>
-          </div>
-        )}
-      </div>
-      <div className="flex w-full flex-col gap-4 bg-midIvory p-4 py-8 dark:bg-midNavy">
-        <div className="flex w-full">
-          <div className="flex gap-1">
-            <img
+            <div className="flex w-full flex-col gap-4 bg-midIvory p-4 py-8 dark:bg-midNavy">
+              <div className="flex w-full">
+                <div className="flex gap-1">
+                  <img
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      navigate(`/otherProfile/${answer.member.nickname}`);
+                    }}
+                    className="w-[58px] cursor-pointer rounded-full"
+                    src={answer.member.profileImg ?? profile1}
+                  />
+                  <div className="pl-3">
+                    <div className="flex flex-col gap-1">
+                      <p className="text-xl font-bold">{answer.member.nickname}</p>
+                      <p className="text-[17px] opacity-50">{timeForToday(answer.createdAt)}</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="text-end grow font-bold">
+                  <div onClick={(e) => handleClickFollow(e, answer.member.id)} className="flex h-full items-center justify-end ">
+                    <div className="flex cursor-pointer gap-3">
+                      <FcPortraitMode />
+                      <p>팔로우</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="w-full">
+                <p className="text-base">{answer.content}</p>
+              </div>
+            </div>
+            <div
               onClick={(e) => {
                 e.stopPropagation();
-                navigate(`/otherProfile/${dummyDatas?.userName}`);
+                setIsCommentOpen(!isCommentOpen);
               }}
-              className="w-[58px] cursor-pointer rounded-full"
-              src={dummyDatas?.img}
-            />
-            <div className="pl-3">
-              <div className="flex items-center gap-1">
-                <p className="text-xl font-bold">{dummyDatas?.userName}</p>
-                <BsDot />
-                <p className="text-[17px] opacity-50">{timeForToday(dummyDatas?.createdAt)}</p>
+              className="flex h-[54px] w-full items-center gap-8 rounded-b-[20px] bg-[#a49c7c] p-4 text-base text-white dark:bg-[#383030] dark:dark:bg-[#2c2e34]"
+            >
+              <div className="flex cursor-pointer items-center gap-2">
+                <FcLike size={'20px'} />
+                {answer.likeCount}
               </div>
-              <div className="mt-1 text-[16px] opacity-50">프론트엔드 개발자</div>
-            </div>
-          </div>
-          <div className="text-end grow font-bold">
-            <div onClick={(e) => handleClickFollow(e, Number(0))} className="flex h-full items-center justify-end ">
-              <div className="flex cursor-pointer gap-3">
-                <FcPortraitMode />
-                <p>팔로우</p>
+              <div className="flex cursor-pointer items-center gap-2">
+                <FcSms size={'20px'} />
+                {answer.commentCount}
               </div>
             </div>
+            {isCommentOpen && (
+              <div className="mt-4 w-full">
+                <CommunityCommentForm type="QNA" answerId={answer.id} />
+              </div>
+            )}
           </div>
-        </div>
-        <div className="w-full">
-          <p className="text-base">{dummyDatas?.detail}</p>
-        </div>
-      </div>
-      <div
-        onClick={(e) => {
-          e.stopPropagation();
-          setIsCommentOpen(!isCommentOpen);
-        }}
-        className="flex h-[54px] w-full items-center gap-8 bg-[#a49c7c] p-4 text-base text-white dark:bg-[#383030] dark:dark:bg-[#2c2e34]"
-      >
-        <div className="flex cursor-pointer items-center gap-2">
-          <FcLike size={'20px'} />
-          {dummyDatas?.likeCount}
-        </div>
-        <div className="flex cursor-pointer items-center gap-2">
-          <FcSms size={'20px'} />
-          {dummyDatas?.commentCount}
-        </div>
-      </div>
-      {isCommentOpen && (
-        <div className="mt-4 w-full">
-          <CommunityCommentForm type="QNA" />
-        </div>
-      )}
-    </div>
+        );
+      })}
+    </>
   );
 }

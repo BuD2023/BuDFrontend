@@ -133,6 +133,7 @@ export default function MainBtn({ onSubmit, content, size }: IMainBtn) {
               })
             );
             console.log('Create Answer : No Image');
+            console.log(onSubmit.postId);
           }
           // image 없는 QNA 답변
         } else {
