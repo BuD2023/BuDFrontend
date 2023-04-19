@@ -1,7 +1,7 @@
-export const BASE_URL = 'http://34.64.224.24:8080/';
-export const S3_URL = 'https://budproject.s3.ap-northeast-2.amazonaws.com/';
-export const SOCKET_URL = 'ws://34.64.224.24:8083/ws/websocket';
-export const VAPID_KEY = 'BGBMikI1-QuF8fwFB9tz7qzursPE8XiBUxxq2CGqK04L1nnZPl40IG3nV61d3bNyhfHyEVrf2DLiHmIA2y2-a98';
+export const BASE_URL = import.meta.env.VITE_BUDS_BASE_URL;
+export const S3_URL = import.meta.env.VITE_BUDS_S3_URL;
+export const SOCKET_URL = import.meta.env.VITE_BUDS_SOCKET_URL;
+export const VAPID_KEY = import.meta.env.VITE_FIREBASE_VAPID_KEY;
 export const NEWS_KEYWORDS = [
   '자바',
   '자바스크립트',

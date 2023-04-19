@@ -4,7 +4,7 @@ import { notificationDummy } from '../../store/notificationDummy';
 import { SwipeableList, SwipeableListItem } from '@sandstreamdev/react-swipeable-list';
 import '@sandstreamdev/react-swipeable-list/dist/styles.css';
 import { BsFillTrashFill } from 'react-icons/bs';
-import { useNotificationListQuery } from '../../store/module/useNotificationQuery';
+import { useNotificationdeleteMutation, useNotificationListQuery, useNotificationStatusMutation } from '../../store/module/useNotificationQuery';
 import { notificationDetailType, pageType } from '../../apiFetcher/notificationInfo/getNotificationList';
 import { timeForToday } from '../../store/commentDummy';
 
@@ -15,9 +15,13 @@ interface INotiContent {
 export default function NotificationContent() {
   const navigate = useNavigate();
 
+  //리액트 쿼리
   const { data: notificationData } = useNotificationListQuery();
+  const { mutate: deleteNotiMutation } = useNotificationdeleteMutation();
+  const { mutate: changeNotiStatMutation } = useNotificationStatusMutation();
 
-  const handleNotiClick = (pageType: pageType, pageId: number) => {
+  const handleNotiClick = (pageType: pageType, pageId: number, notiId: string) => {
+    changeNotiStatMutation(notiId);
     if (pageType === 'OTHER_PROFILE') {
       navigate(`/otherProfile/${pageId}`);
     } else if (pageType === 'FEED') {
@@ -28,7 +32,8 @@ export default function NotificationContent() {
   };
 
   const handleImgClick = (senderId: string, event: any) => {
-    navigate(`/otherProfile/${senderId}`);
+    console.log(senderId);
+    navigate(`/otherProfile/${String(senderId)}`);
     event.stopPropagation();
   };
 
@@ -91,10 +96,17 @@ export default function NotificationContent() {
                           </span>
                         </div>
                       ),
-                      action: () => console.log('Deleting item:', noti.notificationId),
+                      action: () => {
+                        deleteNotiMutation(noti.notificationId);
+                        console.log('Deleting item:', noti.notificationId);
+                      },
                     }}
                   >
-                    <li onClick={() => handleNotiClick(noti.pageType, noti.pageId)} key={noti.notificationId} className="flex grow cursor-pointer items-center gap-3 bg-lightIvory dark:bg-darkNavy">
+                    <li
+                      onClick={() => handleNotiClick(noti.pageType, noti.pageId, noti.notificationId)}
+                      key={noti.notificationId}
+                      className="flex grow cursor-pointer items-center gap-3 bg-lightIvory dark:bg-darkNavy"
+                    >
                       <img
                         onClick={(event: React.MouseEvent<HTMLImageElement>) => handleImgClick(noti.senderNickName, event)}
                         src={`https://picsum.photos/105/105`}

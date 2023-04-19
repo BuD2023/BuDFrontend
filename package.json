@@ -19,6 +19,7 @@
     "@heroicons/react": "^2.0.16",
     "@sandstreamdev/react-swipeable-list": "^1.0.2",
     "@stomp/stompjs": "^7.0.0",
+    "@types/dom-speech-recognition": "^0.0.1",
     "@types/lodash": "^4.14.192",
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",

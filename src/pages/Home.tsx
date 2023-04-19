@@ -3,20 +3,11 @@ import HomeTitle from '../components/home/HomeTitle';
 import HomeLevelSection from '../components/home/HomeLevelSection';
 import HomeCommitSection from '../components/home/HomeCommitSection';
 import HomeCommitCalendar from '../components/home/HomeCommitCalendar';
-import { useNavigate } from 'react-router-dom';
 import { useGithubQuery } from '../store/module/useGithubQuery';
-import { useEffect } from 'react';
-import sendFCMTokenFunc, { requestPermission } from '../utils/fcm';
 import NotFound from './NotFound';
 
 export default function Home() {
-  const navigate = useNavigate();
   const { data, isLoading, error } = useGithubQuery();
-
-  useEffect(() => {
-    requestPermission();
-    sendFCMTokenFunc();
-  }, []);
 
   if (error) {
     return <NotFound />;

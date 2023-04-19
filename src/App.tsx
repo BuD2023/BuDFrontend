@@ -14,7 +14,7 @@ import ProfileEdit from './pages/MyProfileEdit';
 import Setting from './pages/Setting';
 import UserInfo from './pages/UserInfo';
 import Notification from './pages/Notification';
-import { useLayoutEffect } from 'react';
+import { useEffect, useLayoutEffect, useState } from 'react';
 import RoomCreate from './pages/RoomCreate';
 import PostCreate from './pages/PostCreate';
 import LogInPage from './pages/LogInPage';
@@ -25,6 +25,8 @@ import Test3 from './pages/Test3';
 import PostEdit from './pages/PostEdit';
 import QAAnswerEdit from './pages/QAAnswerEdit';
 import QAAnswerCreate from './pages/QAAnswerCreate';
+import { useNotificationTokenMutation } from './store/module/useNotificationQuery';
+import sendFCMTokenFunc, { requestPermission } from './utils/fcm';
 
 function App() {
   const $html = document.querySelector('html');
@@ -33,6 +35,22 @@ function App() {
     if (localStorage.getItem('theme') === 'dark') {
       $html?.classList.add('dark');
     }
+  }, []);
+
+  const { mutate: postFcmTokenMutation } = useNotificationTokenMutation();
+
+  useEffect(() => {
+    const setNotification = async () => {
+      try {
+        requestPermission();
+        const fcmToken = await sendFCMTokenFunc();
+        postFcmTokenMutation({ fcmToken: fcmToken as string });
+      } catch (error) {
+        alert('브라우저에서 알림이 차단되어있습니다. 알림 받기를 원하시면, 브라우저 웹 살장에서 알림을 허용해주세요!');
+        console.log(error);
+      }
+    };
+    setNotification();
   }, []);
 
   return (
