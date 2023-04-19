@@ -112,7 +112,7 @@ export default function UserListModal({ isUserList, setIsUserList, type, follows
                           <div
                             onClick={(e) => {
                               if (user.nickName === userNickname) {
-                                navigate('/myProfile');
+                                navigate('/myProfile/feed');
                                 e.stopPropagation;
                                 return;
                               }

@@ -27,10 +27,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     <QueryClientProvider client={queryClient}>
       <RecoilRoot>
         <ScrollToTop />
-        <Suspense fallback={<div>Loading...</div>}>
-          <App />
-        </Suspense>
-        {/* <ReactQueryDevtools /> */}
+        <App />
       </RecoilRoot>
     </QueryClientProvider>
   </BrowserRouter>

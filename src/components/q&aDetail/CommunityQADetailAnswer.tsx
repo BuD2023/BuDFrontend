@@ -17,6 +17,8 @@ export default function CommunityQADetailAnswer({ isCommentOpen, setIsCommentOpe
   const { id: questionId } = useParams();
   const navigate = useNavigate();
   const [isMenu, setIsMenu] = useState<boolean>();
+  const [activeComment, setActiveComment] = useState<Number[]>([]);
+  const [activeAnswerMenu, setActiveAnswerMenu] = useState<Number[]>([]);
 
   const [userId, setUserId] = useState(0);
   const { mutate } = useFollowMutation(Number(userId));
@@ -41,13 +43,22 @@ export default function CommunityQADetailAnswer({ isCommentOpen, setIsCommentOpe
                 <span>답변 {idx + 1}</span>
               </div>
               <BsThreeDots
+                id={answer.id}
                 className="cursor-pointer text-[24px]"
                 onClick={(e) => {
                   e.stopPropagation();
-                  setIsMenu(!isMenu);
+                  if (Number(e.currentTarget.id) === answer.id) {
+                    // answer 활성 메뉴 선택
+                    if (activeAnswerMenu.includes(answer.id)) {
+                      setActiveAnswerMenu(activeAnswerMenu.filter((id) => id !== answer.id));
+                    } else {
+                      setActiveAnswerMenu([...activeAnswerMenu, answer.id]);
+                    }
+                    setIsMenu(true);
+                  }
                 }}
               />
-              {isMenu && (
+              {isMenu && activeAnswerMenu.includes(answer.id) && (
                 <div className="absolute right-4 top-[45px] flex flex-col gap-3 rounded-xl bg-greyBeige p-3 text-[16px] font-medium">
                   <div onClick={() => navigate(`/answerEdit/${questionId}/1`)} className="cursor-pointer">
                     수정하기
@@ -62,7 +73,7 @@ export default function CommunityQADetailAnswer({ isCommentOpen, setIsCommentOpe
                   <img
                     onClick={(e) => {
                       e.stopPropagation();
-                      navigate(`/otherProfile/${answer.member.nickname}`);
+                      navigate(`/otherProfile/${answer.member.id}`);
                     }}
                     className="w-[58px] cursor-pointer rounded-full"
                     src={answer.member.profileImg ?? profile1}
@@ -87,23 +98,33 @@ export default function CommunityQADetailAnswer({ isCommentOpen, setIsCommentOpe
                 <p className="text-base">{answer.content}</p>
               </div>
             </div>
-            <div
-              onClick={(e) => {
-                e.stopPropagation();
-                setIsCommentOpen(!isCommentOpen);
-              }}
-              className="flex h-[54px] w-full items-center gap-8 rounded-b-[20px] bg-[#a49c7c] p-4 text-base text-white dark:bg-[#383030] dark:dark:bg-[#2c2e34]"
-            >
+            <div className="flex h-[54px] w-full items-center gap-8 rounded-b-[20px] bg-[#a49c7c] p-4 text-base text-white dark:bg-[#383030] dark:dark:bg-[#2c2e34]">
               <div className="flex cursor-pointer items-center gap-2">
                 <FcLike size={'20px'} />
                 {answer.likeCount}
               </div>
-              <div className="flex cursor-pointer items-center gap-2">
+              <div
+                id={answer.id}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  console.log(e.currentTarget.id, answer.id);
+                  if (Number(e.currentTarget.id) === answer.id) {
+                    // answer 활성 댓글 선택
+                    if (activeComment.includes(answer.id)) {
+                      setActiveComment(activeComment.filter((id) => id !== answer.id));
+                    } else {
+                      setActiveComment([...activeComment, answer.id]);
+                    }
+                    setIsCommentOpen(true);
+                  }
+                }}
+                className="flex cursor-pointer items-center gap-2"
+              >
                 <FcSms size={'20px'} />
                 {answer.commentCount}
               </div>
             </div>
-            {isCommentOpen && (
+            {isCommentOpen && activeComment.includes(answer.id) && (
               <div className="mt-4 w-full">
                 <CommunityCommentForm type="QNA" answerId={answer.id} />
               </div>
