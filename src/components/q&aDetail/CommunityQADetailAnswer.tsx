@@ -4,8 +4,9 @@ import { FcApproval, FcLike, FcPortraitMode, FcSms } from 'react-icons/fc';
 import { useNavigate, useParams } from 'react-router-dom';
 import { timeForToday } from '../../store/commentDummy';
 import { dummyData, IBlogData } from '../../store/dummy';
+import { useQnACommentQuery } from '../../store/module/useCommunityDetailQuery';
 import { useFollowMutation } from '../../store/module/useCommunityQuery';
-import CommunityFeedCommentForm from '../feedDetail/CommunityFeedCommentForm';
+import CommunityCommentForm from '../feedDetail/CommunityCommentForm';
 
 interface CommunityQADetailAnswerProps {
   isCommentOpen: boolean;
@@ -14,7 +15,7 @@ interface CommunityQADetailAnswerProps {
 
 export default function CommunityQADetailAnswer({ isCommentOpen, setIsCommentOpen }: CommunityQADetailAnswerProps) {
   const { id } = useParams();
-  const data = dummyData.find((i) => i.id === Number(id)) as IBlogData;
+  const dummyDatas = dummyData.find((i) => i.id === Number(id)) as IBlogData;
   const navigate = useNavigate();
   const [isMenu, setIsMenu] = useState<boolean>();
 
@@ -27,6 +28,8 @@ export default function CommunityQADetailAnswer({ isCommentOpen, setIsCommentOpe
     mutate();
   };
 
+  const { data, isLoading, error } = useQnACommentQuery(Number(id));
+
   return (
     <div
       className="flex w-full flex-col items-center overflow-hidden rounded-[20px] border-[3px] border-pointGreen  dark:border-sky "
@@ -35,7 +38,7 @@ export default function CommunityQADetailAnswer({ isCommentOpen, setIsCommentOpe
         setIsMenu(false);
       }}
     >
-      <div className="relative flex h-[55px] w-full items-center justify-between border-b-[0.5px] border-b-darkIvory  bg-midIvory p-5  text-[20px]  font-bold dark:border-b-lightNavy dark:bg-midNavy">
+      <div className="relative flex h-[55px] w-full items-center justify-between border-b border-b-darkIvory border-opacity-30 bg-midIvory p-5 text-[20px] font-bold dark:border-b-lightNavy dark:border-opacity-30 dark:bg-midNavy">
         <div className="flex items-center gap-2">
           <FcApproval size={24} />
           <span>답변 1</span>
@@ -62,16 +65,16 @@ export default function CommunityQADetailAnswer({ isCommentOpen, setIsCommentOpe
             <img
               onClick={(e) => {
                 e.stopPropagation();
-                navigate(`/otherProfile/${data?.userName}`);
+                navigate(`/otherProfile/${dummyDatas?.userName}`);
               }}
               className="w-[58px] cursor-pointer rounded-full"
-              src={data?.img}
+              src={dummyDatas?.img}
             />
             <div className="pl-3">
               <div className="flex items-center gap-1">
-                <p className="text-xl font-bold">{data?.userName}</p>
+                <p className="text-xl font-bold">{dummyDatas?.userName}</p>
                 <BsDot />
-                <p className="text-[17px] opacity-50">{timeForToday(data?.createdAt)}</p>
+                <p className="text-[17px] opacity-50">{timeForToday(dummyDatas?.createdAt)}</p>
               </div>
               <div className="mt-1 text-[16px] opacity-50">프론트엔드 개발자</div>
             </div>
@@ -86,7 +89,7 @@ export default function CommunityQADetailAnswer({ isCommentOpen, setIsCommentOpe
           </div>
         </div>
         <div className="w-full">
-          <p className="text-base">{data?.detail}</p>
+          <p className="text-base">{dummyDatas?.detail}</p>
         </div>
       </div>
       <div
@@ -98,16 +101,16 @@ export default function CommunityQADetailAnswer({ isCommentOpen, setIsCommentOpe
       >
         <div className="flex cursor-pointer items-center gap-2">
           <FcLike size={'20px'} />
-          {data?.likeCount}
+          {dummyDatas?.likeCount}
         </div>
         <div className="flex cursor-pointer items-center gap-2">
           <FcSms size={'20px'} />
-          {data?.commentCount}
+          {dummyDatas?.commentCount}
         </div>
       </div>
       {isCommentOpen && (
         <div className="mt-4 w-full">
-          <CommunityFeedCommentForm />
+          <CommunityCommentForm type="QNA" />
         </div>
       )}
     </div>

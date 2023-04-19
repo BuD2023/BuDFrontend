@@ -28,6 +28,7 @@ export default function UserListModal({ isUserList, setIsUserList, type, follows
   const cancelButtonRef = useRef(null);
   const { id } = useParams();
   const navigate = useNavigate();
+  const userNickname = 'JHni2';
 
   const { data: MyFollowersData, isLoading: followersIsLoading, error: followersError, refetch: followersRefetch } = useMyFollowersQuery();
   const { data: MyFollowsData, isLoading: followsIsLading, error: followsError, refetch: followsRefetch } = useMyFollowsQuery();
@@ -110,7 +111,7 @@ export default function UserListModal({ isUserList, setIsUserList, type, follows
                         <div key={user.id} className="flex items-center justify-between">
                           <div
                             onClick={(e) => {
-                              if (user.nickName === 'JHni2') {
+                              if (user.nickName === userNickname) {
                                 navigate('/myProfile');
                                 e.stopPropagation;
                                 return;

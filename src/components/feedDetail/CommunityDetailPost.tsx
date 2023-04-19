@@ -16,11 +16,13 @@ export default function CommunityDetailPost() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { isLoading, isError, data } = useCommunityDetailQuery(Number(id));
+  const userNickname = 'JHni2';
 
   const [userId, setUserId] = useState(0);
   const { mutate } = useFollowMutation(Number(userId));
 
-  const handleClickFollow = (e: React.MouseEvent<HTMLElement>, memberId: number) => {
+  const handleClickFollow = (e: React.MouseEvent<HTMLElement>, memberId: number, memberNickname: string) => {
+    if (memberNickname === userNickname) return;
     setUserId(memberId);
     e.stopPropagation();
     mutate();
@@ -36,12 +38,7 @@ export default function CommunityDetailPost() {
   }
 
   if (isLoading) {
-    return (
-      <>
-        <div className="mb-6 flex h-[40vh] w-full cursor-pointer flex-col items-center gap-4 rounded-[20px] bg-midIvory dark:bg-midNavy"></div>
-        <div className="mb-6 flex h-[40vh] w-full cursor-pointer flex-col items-center gap-4 rounded-[20px] bg-midIvory dark:bg-midNavy"></div>
-      </>
-    );
+    return <div className="mb-6 flex h-[298px] w-full cursor-pointer flex-col items-center gap-4 rounded-[20px] bg-midIvory dark:bg-midNavy"></div>;
   }
 
   return (
@@ -72,7 +69,7 @@ export default function CommunityDetailPost() {
             </div>
           </div>
           <div className="text-end grow font-bold">
-            <div onClick={(e) => handleClickFollow(e, Number(data?.member.id))} className="flex h-full items-center justify-end gap-3">
+            <div onClick={(e) => handleClickFollow(e, Number(data?.member.id), data?.member.nickname)} className="flex h-full items-center justify-end gap-3">
               <FcPortraitMode />
               <p>팔로우</p>
             </div>

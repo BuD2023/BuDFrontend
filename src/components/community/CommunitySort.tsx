@@ -8,7 +8,7 @@ interface ICommunitySortPropsType {
 
 export default function CommunitySort({ setSortAndOrder, sortAndOrder }: ICommunitySortPropsType) {
   const sort = ['DATE', 'HIT', 'LIKE'] as SortType[];
-  const order = ['ASC', 'DESC'] as OrderType[];
+  const order = ['DESC', 'ASC'] as OrderType[];
 
   const handleText = (text: OrderType | SortType) => {
     if (text === 'DATE') return '최신순';

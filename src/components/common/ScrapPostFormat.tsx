@@ -35,9 +35,9 @@ export default function ScrapPostFormat({ resultData }: ScrapPostFormatProps) {
               onClick={(e) => {
                 e.preventDefault();
                 if (data.post.postType === 'QNA') {
-                  navigate(`/communityQADetail/${data.id}`);
+                  navigate(`/communityQADetail/${data.post.id}`);
                 } else {
-                  navigate(`/communityFeedDetail/${data.id}`);
+                  navigate(`/communityFeedDetail/${data.post.id}`);
                 }
               }}
               key={idx}

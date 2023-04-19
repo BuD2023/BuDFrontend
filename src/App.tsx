@@ -58,7 +58,7 @@ function App() {
       <Route path="/chatRoom/:id" element={<ChatRoom />} />
       <Route path="/roomCreate" element={<RoomCreate />} />
 
-      <Route path="/myProfile" element={<MyProfile />} />
+      <Route path="/myProfile/:filter" element={<MyProfile />} />
       <Route path="/otherProfile/:id" element={<OtherProfile />} />
       <Route path="/myProfileEdit" element={<ProfileEdit />} />
       <Route path="/setting" element={<Setting />} />

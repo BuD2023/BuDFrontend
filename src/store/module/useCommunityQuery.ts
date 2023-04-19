@@ -11,7 +11,7 @@ import { useMyFollowersQuery, useMyFollowsQuery, useMyProfileQuery, useMyScrapsQ
 import { useUserProfileQuery } from './useUserProfileQuery';
 
 export type SortType = 'HIT' | 'LIKE' | 'DATE';
-export type OrderType = 'ASC' | 'DESC';
+export type OrderType = 'DESC' | 'ASC';
 
 export function useCommunityPostQuery(word?: string, sort?: SortType, order?: OrderType, size?: number) {
   return useInfiniteQuery(['Community', word, sort, order], ({ pageParam = 0 }) => getCommunityPostAxios(accessToken, word, sort, order, pageParam, size), {

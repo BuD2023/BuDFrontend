@@ -23,13 +23,18 @@ export default function PostFormat({ inputValue, sortAndOrder }: IPostFormatProp
   const { filter } = useParams();
   const { sort, order } = sortAndOrder;
   const navigate = useNavigate();
+  const userNickname = 'JHni2';
 
   //리액트 쿼리
   const { isLoading, isError, data, hasNextPage, isFetching, isFetchingNextPage, fetchNextPage } = useCommunityPostQuery(inputValue, sort, order);
   const [userId, setUserId] = useState(0);
   const { mutate } = useFollowMutation(Number(userId));
 
-  const handleClickFollow = (e: React.MouseEvent<HTMLElement>, memberId: number) => {
+  const handleClickFollow = (e: React.MouseEvent<HTMLElement>, memberId: number, userName: string) => {
+    if (userName === userNickname) {
+      e.stopPropagation();
+      return;
+    }
     setUserId(memberId);
     e.stopPropagation();
     mutate();
@@ -120,7 +125,7 @@ export default function PostFormat({ inputValue, sortAndOrder }: IPostFormatProp
                     </div>
                   </div>
                   <div className="text-end grow font-bold">
-                    <div onClick={(e) => handleClickFollow(e, data.member.id)} className="flex h-full items-center justify-end gap-3">
+                    <div onClick={(e) => handleClickFollow(e, data.member.id, data.member.username)} className="flex h-full items-center justify-end gap-3">
                       <FcPortraitMode />
                       <p>팔로우</p>
                     </div>

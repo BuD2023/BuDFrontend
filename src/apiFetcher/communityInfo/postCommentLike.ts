@@ -1,6 +1,6 @@
 import customAxios from '../customAxios';
 
-const getCommentAxios = async (token: string, postId: number) => {
+export const getFeedCommentLikeAxios = async (token: string, postId: number) => {
   return await customAxios({
     method: 'post',
     url: `/posts/comments/${postId}/like`,
@@ -12,4 +12,14 @@ const getCommentAxios = async (token: string, postId: number) => {
   });
 };
 
-export default getCommentAxios;
+export const postQnACommentLikeAxios = async (token: string, postId: number) => {
+  return await customAxios({
+    method: 'post',
+    url: `/posts/qna-answers/qna-comments/${postId}/like`,
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'multipart/form-data',
+      charset: 'utf-8',
+    },
+  });
+};

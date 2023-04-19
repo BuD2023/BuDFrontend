@@ -26,7 +26,7 @@ export default function FooterMenu() {
           <FcIcons8Cup className="text-[32px]" />
           <span className="mt-2">커피챗</span>
         </div>
-        <div onClick={() => navigate('/myProfile')} className={'flex cursor-pointer flex-col items-center ' + (activeBar === 'myProfile' ? 'font-semibold' : 'opacity-40')}>
+        <div onClick={() => navigate('/myProfile/feed')} className={'flex cursor-pointer flex-col items-center ' + (activeBar === 'myProfile' ? 'font-semibold' : 'opacity-40')}>
           <FcReadingEbook className="text-[32px]" />
           <span className="mt-2">마이</span>
         </div>

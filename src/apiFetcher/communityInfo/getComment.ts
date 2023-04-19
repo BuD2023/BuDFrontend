@@ -1,9 +1,11 @@
+import { CommunityCommentType } from '../../components/community/_Community.interface';
 import customAxios from '../customAxios';
 
-const getCommentAxios = async (token: string, page: number = 0, postId: number) => {
+// 개발 피드 댓글
+export const getFeedCommentAxios = async (token: string, page: number = 0, postId: number): Promise<CommunityCommentType> => {
   return await customAxios({
     method: 'get',
-    url: `/posts/${1}/comments?page=${page}`,
+    url: `/posts/${postId}/comments?page=${page}`,
     headers: {
       Authorization: `Bearer ${token}`,
       'Content-Type': 'application/json',
@@ -12,4 +14,15 @@ const getCommentAxios = async (token: string, page: number = 0, postId: number) 
   });
 };
 
-export default getCommentAxios;
+// QnA 피드 댓글
+export const getQnACommentAxios = async (token: string, page: number = 0, postId: number): Promise<CommunityCommentType> => {
+  return await customAxios({
+    method: 'get',
+    url: `/posts/qna-answers/${(postId = 9)}/qna-comments?page=${page}`,
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+      charset: 'utf-8',
+    },
+  });
+};

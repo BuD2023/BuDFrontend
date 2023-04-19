@@ -9,6 +9,7 @@ export interface githubProps {
   remainCommitCountNextLevel: number;
   thisWeekCommitCount: number;
   todayCommitCount: number;
+  imagePath: string;
 }
 
 export interface HomeTitleProps {
@@ -20,6 +21,7 @@ export interface HomeLevelSectionProps {
   levelCode?: string;
   remainCommitCountNextLevel?: number;
   isLoading?: boolean;
+  levelImg?: string;
 }
 
 export interface HomeCommitSectionProps {

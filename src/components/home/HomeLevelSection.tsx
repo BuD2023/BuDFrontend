@@ -1,8 +1,9 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { HomeLevelSectionProps } from './_Home.interface';
+import { S3_URL } from '../../constant/union';
 
-export default function HomeLevelSection({ levelCode, remainCommitCountNextLevel, isLoading }: HomeLevelSectionProps) {
+export default function HomeLevelSection({ levelCode, remainCommitCountNextLevel, isLoading, levelImg }: HomeLevelSectionProps) {
   const navigate = useNavigate();
 
   if (isLoading) {
@@ -18,7 +19,9 @@ export default function HomeLevelSection({ levelCode, remainCommitCountNextLevel
               <div className="text-[26px] font-bold">{levelCode?.replace('_', ' ')}</div>
               <div className="mt-5 text-[20px]">{levelCode?.slice(-2)}</div>
             </div>
-            <div className="text-[100px]">🌱</div>
+            <div className="h-[100px] w-[100px]">
+              <img className="scale-[1.2]" src={S3_URL + 'levels/lv1.png'} alt={levelCode} />
+            </div>
           </div>
         </div>
         <div className="my-2 flex justify-center text-[17px] font-bold leading-6">
