@@ -1,37 +1,44 @@
 import { SwipeableList, SwipeableListItem } from '@sandstreamdev/react-swipeable-list';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { BsDot, BsFillPinAngleFill, BsFillTrashFill, BsHeartFill } from 'react-icons/bs';
 import { useNavigate, useParams } from 'react-router-dom';
 import NotFound from '../../pages/NotFound';
 import profile2 from '../../assets/profile2.jpeg';
 import {
   useDeleteFeedCommentMutation,
+  useDeleteFeedCommentPinMutation,
   useDeleteQnACommentMutation,
+  useDeleteQnACommentPinMutation,
   useFeedCommentLikeMutation,
   useFeedCommentPinMutation,
   useFeedCommentQuery,
   useQnACommentLikeMutation,
+  useQnACommentPinMutation,
   useQnACommentQuery,
 } from '../../store/module/useCommunityDetailQuery';
 import { CommunityCommentType } from '../community/_Community.interface';
 
 interface CommunityFeedCommentFormProps {
   type: string;
+  answerId?: number;
 }
 
-export default function CommunityCommentForm({ type }: CommunityFeedCommentFormProps) {
+export default function CommunityCommentForm({ type, answerId }: CommunityFeedCommentFormProps) {
   const { id: postId } = useParams();
   const [commentId, setCommentId] = useState(0);
   const navigate = useNavigate();
   const userNickname = 'JHni2';
 
-  const { data: feedData, isLoading: feedIsLoading, error: feedError } = useFeedCommentQuery(Number(postId));
-  const { data: QnAData, isLoading: QnAIsLoading, error: QnAError } = useQnACommentQuery(Number(postId));
-  const { mutate: deleteFeedCommentMutate } = useDeleteFeedCommentMutation(Number(commentId));
-  const { mutate: deleteQnACommentMutate } = useDeleteQnACommentMutation(Number(commentId));
-  const { mutate: feedCommentPinMutate } = useFeedCommentPinMutation(Number(commentId));
+  const { data: feedData, isLoading: feedIsLoading, error: feedError, refetch: feedRefetch } = useFeedCommentQuery(Number(postId));
+  const { data: QnAData, isLoading: QnAIsLoading, error: QnAError, refetch: qnaRefetch } = useQnACommentQuery(Number(answerId));
+  const { mutate: deleteFeedCommentMutate } = useDeleteFeedCommentMutation(commentId);
+  const { mutate: deleteQnaCommentMutate } = useDeleteQnACommentMutation(commentId);
+  const { mutate: deleteFeedCommentPinMutate } = useDeleteFeedCommentPinMutation(Number(postId));
+  const { mutate: deleteQnaCommentPinMutate } = useDeleteQnACommentPinMutation(Number(postId));
+  const { mutate: feedCommentPinMutate } = useFeedCommentPinMutation(commentId, Number(postId));
+  const { mutate: qnaCommentPinMutate } = useQnACommentPinMutation(commentId);
   const { mutate: feedCommentLikeMutate } = useFeedCommentLikeMutation(commentId, Number(postId));
-  const { mutate: qnaCommentLikeMutate } = useQnACommentLikeMutation(commentId);
+  const { mutate: qnaCommentLikeMutate } = useQnACommentLikeMutation(commentId, Number(answerId));
   const [message, setMessage] = useState<string>('');
 
   const data = type === 'FEED' ? feedData : QnAData;
@@ -45,7 +52,6 @@ export default function CommunityCommentForm({ type }: CommunityFeedCommentFormP
   };
 
   const handleClickLike = (commentId: number, memberName: string) => {
-    if (memberName === userNickname) return;
     setCommentId(commentId);
 
     if (type === 'FEED') {
@@ -55,27 +61,42 @@ export default function CommunityCommentForm({ type }: CommunityFeedCommentFormP
     }
   };
 
-  if (feedIsLoading || QnAIsLoading) {
-    return (
-      <div className="flex min-h-[170px] w-full flex-col items-center gap-4 rounded-[20px] bg-midIvory dark:bg-midNavy">
-        <div className="flex h-[55px] w-full items-center border-b border-b-darkIvory border-opacity-30 p-5 text-[20px] font-bold dark:border-darkNavy dark:border-b-lightNavy dark:border-opacity-30"></div>
-        <div className="h-[108px] w-full"></div>
-        <div className="fixed bottom-0 left-0 z-20 flex w-full items-center justify-start gap-4 bg-lightIvory p-3 dark:bg-darkNavy">
-          <input
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-            onKeyDown={pressEnterKey}
-            type="text"
-            className="mb-0.5 h-[40px] w-full grow rounded-[20px] bg-greyBeige px-4 py-2 focus:outline-none dark:bg-lightNavy"
-          />
-        </div>
-      </div>
-    );
-  }
+  // data?.pages.flatMap((comment: CommunityCommentType) =>
+  //   comment.content.map((content) => {
+  //     console.log(content);
+  //   })
+  // );
+
+  // if (feedIsLoading) {
+  //   return (
+  //     <div className="flex min-h-[170px] w-full flex-col items-center gap-4 rounded-[20px] bg-midIvory dark:bg-midNavy">
+  //       <div className="flex h-[55px] w-full items-center border-b border-b-darkIvory border-opacity-30 p-5 text-[20px] font-bold dark:border-darkNavy dark:border-b-lightNavy dark:border-opacity-30"></div>
+  //       <div className="h-[108px] w-full"></div>
+  //       <div className="fixed bottom-0 left-0 z-20 flex w-full items-center justify-start gap-4 bg-lightIvory p-3 dark:bg-darkNavy">
+  //         <input
+  //           value={message}
+  //           onChange={(e) => setMessage(e.target.value)}
+  //           onKeyDown={pressEnterKey}
+  //           type="text"
+  //           className="mb-0.5 h-[40px] w-full grow rounded-[20px] bg-greyBeige px-4 py-2 focus:outline-none dark:bg-lightNavy"
+  //         />
+  //       </div>
+  //     </div>
+  //   );
+  // }
 
   if (feedError || QnAError) {
     return <NotFound />;
   }
+
+  useEffect(() => {
+    if (type === 'FEED') {
+      feedRefetch();
+      return;
+    } else {
+      qnaRefetch();
+    }
+  }, []);
 
   return (
     <div className="flex min-h-[170px] w-full flex-col items-center gap-4 rounded-[20px] bg-midIvory dark:bg-midNavy">
@@ -106,7 +127,7 @@ export default function CommunityCommentForm({ type }: CommunityFeedCommentFormP
                         if (type === 'FEED') {
                           deleteFeedCommentMutate();
                         } else {
-                          deleteQnACommentMutate();
+                          deleteQnaCommentMutate();
                         }
                       },
                     }}
@@ -122,7 +143,19 @@ export default function CommunityCommentForm({ type }: CommunityFeedCommentFormP
                       action: () => {
                         console.log('Pin item:', content.commentId);
                         setCommentId(content.commentId);
-                        feedCommentPinMutate();
+                        if (content.isPinned) {
+                          if (type === 'FEED') {
+                            deleteFeedCommentPinMutate();
+                            return;
+                          } else {
+                            deleteQnaCommentPinMutate();
+                          }
+                        }
+                        if (type === 'FEED') {
+                          feedCommentPinMutate();
+                        } else {
+                          qnaCommentPinMutate();
+                        }
                       },
                     }}
                   >
