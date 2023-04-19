@@ -32,7 +32,7 @@ export default function CommunityQADetailAnswer({ isCommentOpen, setIsCommentOpe
 
   return (
     <>
-      {answerData?.content.map((answer, idx: number) => {
+      {answerData?.content.map((answer: any, idx: number) => {
         return (
           <div key={answer.id} className="w-full">
             <div className="relative flex h-[55px] w-full items-center justify-between rounded-t-[20px] border-b border-b-darkIvory border-opacity-30 bg-midIvory p-5 text-[20px] font-bold dark:border-b-lightNavy dark:border-opacity-30 dark:bg-midNavy">
