@@ -5,12 +5,14 @@ import { useCreateRoomMutation } from '../../store/module/useCoffeeChatQuery';
 import { useCreateAnswerMutation } from '../../store/module/useCommunityDetailQuery';
 import { usePostCommunityMutation, useUpdateCommunityMutation } from '../../store/module/useCommunityQuery';
 
+type postTypeInfoType = 'ROOM_CREATE' | 'POST_UPDATE' | 'POST_CREATE' | 'ANSWER_CREATE' | 'ANSWER_UPDATE';
 interface IOnSubmitType {
+  postTypeInfo: postTypeInfoType;
   title: string;
   description: string;
   hashTag: string[];
 
-  postId: string;
+  postId: string | number;
   content: string;
   postType: string;
   pic?: (string | ArrayBuffer | null)[];
@@ -38,7 +40,7 @@ export default function MainBtn({ onSubmit, content, size }: IMainBtn) {
 
   function toFormData(obj: Partial<IOnSubmitType>) {
     const formData = new FormData();
-    const { images, ...rest } = obj;
+    const { images, postTypeInfo, ...rest } = obj;
     const blob = new Blob([JSON.stringify(rest)], { type: 'application/json' });
     formData.append('createPostRequest', blob);
     if (images) {
@@ -71,98 +73,127 @@ export default function MainBtn({ onSubmit, content, size }: IMainBtn) {
   }
 
   const handleSubitData = () => {
-    // 채팅방관련인지 VS 커뮤니티관련인지(게시글 or QNA답변)
-    if (onSubmit?.content) {
-      // 게시글인지 VS QNA 답변인지
-      if (onSubmit.postType) {
-        // 커뮤니티 게시글 create VS update
-        if (onSubmit.postId) {
-          // 게시글 업데이트 이미지 유 VS 무
-          if (onSubmit.images === null) {
-            mutateUpdatePost(
-              toFormData({
-                title: onSubmit.title as string,
-                content: onSubmit.content as string,
-                postType: onSubmit.postType as string,
-              })
-            );
-            console.log('Post Update : No Image');
-            // 게시글 업데이트 이미지 유
-          } else {
-            mutateUpdatePost(toFormData(onSubmit));
-            console.log('Post Update : Image contained');
-          }
-          console.log(onSubmit);
-          // 게시글 create
+    console.log(onSubmit);
+    switch (onSubmit?.postTypeInfo) {
+      case 'ROOM_CREATE':
+        // 해쉬태그가 있다면
+        if (onSubmit.hashTag && onSubmit?.hashTag.join('').length > 0) {
+          mutateCreateRoom({
+            title: onSubmit.title as string,
+            description: onSubmit.description as string,
+            hashTag: onSubmit.hashTag as string[],
+          });
+          console.log('Chatroom : Hashtag Contained');
+        }
+        // 해쉬태그가 없다면
+        else {
+          mutateCreateRoom({
+            title: onSubmit.title as string,
+            description: onSubmit.description as string,
+          });
+          console.log('Chatroom : No Hashtag');
+        }
+        navigate('/coffeeChat');
+        break;
+      case 'POST_UPDATE':
+        // 게시글 업데이트 이미지 없음
+        if (onSubmit.images === null) {
+          mutateUpdatePost(
+            toFormData({
+              title: onSubmit.title as string,
+              content: onSubmit.content as string,
+              postType: onSubmit.postType as string,
+            })
+          );
+          console.log('Post Update : No Image');
+          // 게시글 업데이트 이미지 있음
         } else {
-          // 게시글 생성 이미지 유 VS 무
-          if (onSubmit.images === null) {
-            mutateCreatePost(
-              toFormData({
-                title: onSubmit.title as string,
-                content: onSubmit.content as string,
-                postType: onSubmit.postType as string,
-              })
-            );
-            console.log('Post Create : No Image');
-            // 게시글 생성 이미지 유
-          } else {
-            mutateCreatePost(toFormData(onSubmit));
-            console.log('Post Create : Image contained');
-          }
+          mutateUpdatePost(
+            toFormData({
+              title: onSubmit.title as string,
+              content: onSubmit.content as string,
+              postType: onSubmit.postType as string,
+              images: onSubmit.images,
+            })
+          );
+          console.log('Post Update : Image contained');
         }
         navigate('/community/all');
-        // QNA 답변
-      } else {
-        // image 있는지 없는지
-        if (onSubmit.images && onSubmit.images.length === 0) {
-          // QNA 답변 Update
-          if (onSubmit.qnaAnswerId) {
-            mutateCreateQnaAnswer(
-              toFormData({
-                content: onSubmit.content as string,
-                qnaAnswerId: onSubmit.qnaAnswerId as number,
-              })
-            );
-            console.log('Update Answer : No Image');
-            // QNA 답변 Create
-          } else {
-            mutateCreateQnaAnswer(
-              toFormData({
-                content: onSubmit.content as string,
-              })
-            );
-            console.log('Create Answer : No Image');
-            console.log(onSubmit.postId);
-          }
-          // image 없는 QNA 답변
+        break;
+      case 'POST_CREATE':
+        // 게시글 생성 이미지 없음
+        if (onSubmit.images === null) {
+          mutateCreatePost(
+            toFormData({
+              title: onSubmit.title as string,
+              content: onSubmit.content as string,
+              postType: onSubmit.postType as string,
+            })
+          );
+          console.log('Post Create : No Image');
+          // 게시글 생성 이미지 있음
         } else {
-          mutateCreateQnaAnswer(toFormData(onSubmit));
-          if (onSubmit.qnaAnswerId) {
-            console.log('Update Answer : Image Contained');
-          } else {
-            console.log('Create Answer : Image Contained');
-          }
+          mutateCreatePost(
+            toFormData({
+              title: onSubmit.title as string,
+              content: onSubmit.content as string,
+              postType: onSubmit.postType as string,
+              images: onSubmit.images,
+            })
+          );
+          console.log('Post Create : Image contained');
+        }
+        navigate('/community/all');
+        break;
+      case 'ANSWER_CREATE':
+        // 답변생성 이미지 없음
+        if (onSubmit.images && onSubmit.images.length === 0) {
+          mutateCreateQnaAnswer(
+            toFormData({
+              postId: Number(onSubmit.postId) as number,
+              content: onSubmit.content as string,
+            })
+          );
+          console.log('Create Answer : No Image');
+          // 답변생성 이미지 있음
+        } else {
+          mutateCreateQnaAnswer(
+            toFormData({
+              postId: Number(onSubmit.postId) as number,
+              content: onSubmit.content as string,
+              images: onSubmit.images,
+            })
+          );
+          console.log('Create Answer : Image Contained');
         }
         navigate(`/communityQADetail/${onSubmit.postId}`);
-      }
-    }
-    // 채팅방 생성
-    if (onSubmit?.description) {
-      // 해쉬태그가 있다면
-      if (onSubmit.hashTag && onSubmit?.hashTag.join('').length > 0) {
-        mutateCreateRoom(onSubmit as postChatroomData);
-        console.log('Chatroom : Hashtag Contained');
-      }
-      // 해쉬태그가 없다면
-      else {
-        mutateCreateRoom({
-          title: onSubmit.title as string,
-          description: onSubmit.description as string,
-        });
-        console.log('Chatroom : No Hashtag');
-      }
-      navigate('/coffeeChat');
+        break;
+      case 'ANSWER_UPDATE':
+        // 답변 업데이트 이미지 없음
+        if (onSubmit.images && onSubmit.images.length === 0) {
+          mutateCreateQnaAnswer(
+            toFormData({
+              content: onSubmit.content as string,
+              qnaAnswerId: onSubmit.qnaAnswerId as number,
+            })
+          );
+          console.log('Update Answer : No Image');
+          // 답변 업데이트 이미지 있음
+        } else {
+          mutateCreateQnaAnswer(
+            toFormData({
+              content: onSubmit.content as string,
+              qnaAnswerId: onSubmit.qnaAnswerId as number,
+              images: onSubmit.images,
+            })
+          );
+          console.log('Update Answer : Image Contained');
+        }
+        navigate(`/communityQADetail/${onSubmit.postId}`);
+        break;
+      default:
+        console.log(onSubmit);
+        break;
     }
   };
 

@@ -15,7 +15,7 @@ export default function PostCreate() {
   //게시글 타입
   const postTypes = ['개발 피드', 'Q & A 피드'];
   const [isClick, setIsClick] = useState(true);
-  const initialValue = { title: '', content: '', postType: 'FEED' as PostTypeType, images: null as null | Blob[] };
+  const initialValue = { postTypeInfo: 'POST_CREATE', title: '', content: '', postType: 'FEED' as PostTypeType, images: null as null | Blob[] };
 
   // 게시글 전체 정보
   const [postInfo, setPostInfo] = useState(initialValue);

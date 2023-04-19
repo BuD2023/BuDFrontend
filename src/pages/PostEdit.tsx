@@ -21,6 +21,7 @@ export default function PostEdit() {
   // 게시글 전체 정보
   const { data, isLoading, error } = useCommunityDetailQuery(Number(postId));
   const [postInfo, setPostInfo] = useState({
+    postTypeInfo: 'POST_UPDATE',
     title: data?.title,
     content: data?.content,
     postType: data?.postType,
@@ -29,10 +30,7 @@ export default function PostEdit() {
   });
 
   useEffect(() => {
-    // if(!isLoading || !data) {
-    //   return
-    // }
-    setPostInfo({ title: data?.title, content: data?.content, postType: data?.postType, images: data?.imageUrls as null[] | Blob[], postId: postId });
+    setPostInfo({ postTypeInfo: 'POST_EDIT', title: data?.title, content: data?.content, postType: data?.postType, images: data?.imageUrls as null[] | Blob[], postId: postId });
   }, [data]);
 
   // 사진 미리보기
