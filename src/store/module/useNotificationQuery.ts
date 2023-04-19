@@ -1,7 +1,9 @@
 import { useInfiniteQuery, useMutation } from '@tanstack/react-query';
 import getNotificationListAxios from '../../apiFetcher/notificationInfo/getNotificationList';
 import putNotificationStatusAxios from '../../apiFetcher/notificationInfo/putNotificationStatus';
+import deleteNotificationAxios from '../../apiFetcher/notificationInfo/deleteNotification';
 import { accessToken } from '../../main';
+import postNotificationTokenAxios, { notificationDataType } from '../../apiFetcher/notificationInfo/postNotificationToken';
 
 export function useNotificationListQuery() {
   return useInfiniteQuery(['NotificationList'], ({ pageParam = 0 }) => getNotificationListAxios(accessToken, pageParam), {
@@ -26,6 +28,28 @@ export function useNotificationStatusMutation() {
     },
     onSuccess: () => {
       console.log('읽음처리가 완료되었습니다.');
+    },
+  });
+}
+
+export function useNotificationdeleteMutation() {
+  return useMutation((notiId: string) => deleteNotificationAxios(accessToken, notiId), {
+    onError: (err) => {
+      console.log(err);
+    },
+    onSuccess: () => {
+      console.log('알림 삭제가 완료되었습니다.');
+    },
+  });
+}
+
+export function useNotificationTokenMutation() {
+  return useMutation((notificationData: notificationDataType) => postNotificationTokenAxios(accessToken, notificationData), {
+    onError: (err) => {
+      console.log(err);
+    },
+    onSuccess: () => {
+      console.log('알림토큰전송이 완료되었습니다.');
     },
   });
 }

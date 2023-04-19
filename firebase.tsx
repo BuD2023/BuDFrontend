@@ -4,13 +4,13 @@ import { getAnalytics } from 'firebase/analytics';
 import { getMessaging } from 'firebase/messaging';
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyAM_TR8SQwJGMU3vPc3UcGRddtyychQa84',
-  authDomain: 'budproject-da24e.firebaseapp.com',
-  projectId: 'budproject-da24e',
-  storageBucket: 'budproject-da24e.appspot.com',
-  messagingSenderId: '553292178134',
-  appId: '1:553292178134:web:9c2d682ce5dc68c16e1f77',
-  measurementId: 'G-PCYWPF0345',
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
 };
 
 // Initialize Firebase

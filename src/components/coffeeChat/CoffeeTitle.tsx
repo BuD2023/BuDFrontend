@@ -4,6 +4,7 @@ import { FcIcons8Cup } from 'react-icons/fc';
 import NotFound from '../../pages/NotFound';
 import { useChatroomStatusQuery } from '../../store/module/useChatroomQuery';
 import Header from '../common/Header';
+import SearchBar from '../common/SearchBar';
 
 interface CoffeeTitlePropsType {
   inputValue: string;
@@ -15,10 +16,6 @@ export default function CoffeeTitle({ setInputValue, inputValue }: CoffeeTitlePr
 
   const { isLoading, data, isError } = useChatroomStatusQuery();
 
-  const clearInputValue = () => {
-    inputRef.current && (inputRef.current.value = '');
-    setInputValue('');
-  };
   if (isError) {
     return <NotFound />;
   }
@@ -26,18 +23,7 @@ export default function CoffeeTitle({ setInputValue, inputValue }: CoffeeTitlePr
   return (
     <div className="flex w-full flex-col gap-4 text-[26px] font-bold">
       <Header type="category" title="커피챗" icon={<FcIcons8Cup />} />
-      <div className="relative flex w-full items-center">
-        <input
-          ref={inputRef}
-          onKeyPress={(e) => {
-            if (e.key === 'Enter') setInputValue(e.currentTarget.value);
-          }}
-          type="text"
-          placeholder="키워드로 검색"
-          className="searchInput h-[60px] w-full rounded-xl bg-white p-4 text-xl font-bold text-[#514848] placeholder:text-[#7B6D6D] dark:bg-[#E4E4E4]"
-        />
-        {inputValue && <BsBackspace onClick={clearInputValue} className="absolute right-5 cursor-pointer" size={20} />}
-      </div>
+      <SearchBar inputValue={inputValue} setInputValue={setInputValue} />
       {isLoading ? (
         <div className="h-[40px] rounded-full bg-pointGreen dark:bg-sky"></div>
       ) : (
