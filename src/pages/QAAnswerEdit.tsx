@@ -10,7 +10,7 @@ import { useCommunityDetailQuery } from '../store/module/useCommunityDetailQuery
 import QuestionModal from '../components/common/QuestionModal';
 
 export default function QAAnswerEdit() {
-  const { postId } = useParams();
+  const { postId, answerId } = useParams();
   const [alertModal, setAlertModal] = useState(false);
 
   console.log(postId);
@@ -20,6 +20,8 @@ export default function QAAnswerEdit() {
 
   // 보낼 게시글 전체 정보
   const [postInfo, setPostInfo] = useState({
+    postTypeInfo: 'ANSWER_UPDATE',
+    qnaAnswerId: Number(answerId),
     content: '',
     images: [] as Blob[],
   });

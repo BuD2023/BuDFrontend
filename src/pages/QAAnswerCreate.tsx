@@ -8,6 +8,7 @@ import imageCompression from 'browser-image-compression';
 import { useCommunityDetailQuery } from '../store/module/useCommunityDetailQuery';
 import QuestionModal from '../components/common/QuestionModal';
 import { useParams } from 'react-router-dom';
+import { makeCompressedImg } from '../utils/makeCompressedImg';
 
 export default function QAAnswerCreate() {
   const { postId } = useParams();
@@ -19,6 +20,8 @@ export default function QAAnswerCreate() {
 
   // 보낼 게시글 전체 정보
   const [postInfo, setPostInfo] = useState({
+    postTypeInfo: 'ANSWER_CREATE',
+    postId: Number(postId),
     content: '',
     images: [] as Blob[],
   });
@@ -26,47 +29,8 @@ export default function QAAnswerCreate() {
   // 사진 미리보기
   const [imgPeek, setImgPeek] = useState<string[] | ArrayBuffer[] | null[]>([]);
 
-  //이미지 압축
-  const actionImgCompress = async (fileSrc: File) => {
-    const options = {
-      maxSizeMb: 0.1,
-      maxWidthOrHeight: 1200,
-      useWebWorker: true,
-    };
-    try {
-      const compressedFile = await imageCompression(fileSrc, options);
-      return compressedFile;
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   // 사진 업로드
   const imgRef = useRef<HTMLInputElement>(null);
-
-  //사진 압축
-  const makeCompressedImg = async (fileArr: FileList) => {
-    let filesLength = fileArr.length > 10 ? 10 : fileArr.length;
-    console.log(fileArr);
-
-    const compressedFiles = await Promise.all(
-      Array.from(fileArr)
-        .slice(0, filesLength)
-        .map(async (file) => {
-          return await actionImgCompress(file);
-        })
-    );
-    return compressedFiles;
-  };
-
-  //multipart form data로 저장
-  // const makeMultipartForm = (compressedFiles: Blob[] | FileList) => {
-  //   const formData = new FormData();
-  //   for (let i = 0; i < compressedFiles.length; i++) {
-  //     formData.append(`photos`, compressedFiles[i]);
-  //   }
-  //   return formData;
-  // };
 
   const handleChangeProfileImg = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const fileArr = e.target.files as FileList;
@@ -86,21 +50,11 @@ export default function QAAnswerCreate() {
     );
     setImgPeek(compressedFileURLs);
 
-    // const MultipartData = makeMultipartForm(compressedFiles as Blob[]);
     setPostInfo({
       ...postInfo,
       images: compressedFiles as Blob[],
     });
   };
-  // form data 확인
-  // if (postInfo.images !== null) {
-  //   for (let key of (postInfo.images as FormData).keys()) {
-  //     console.log(key);
-  //   }
-  //   for (let value of (postInfo.images as FormData).values()) {
-  //     console.log(value);
-  //   }
-  // }
 
   // 사진 popUp
   const [isPicPopUp, setIsPicPopUp] = useState({

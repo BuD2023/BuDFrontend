@@ -5,6 +5,7 @@ import axios from 'axios';
 
 export default function RoomCreate() {
   const [roomInfo, setRoomInfo] = useState({
+    postTypeInfo: 'ROOM_CREATE',
     title: '',
     description: '',
     hashTag: ['', '', ''] as string[],
