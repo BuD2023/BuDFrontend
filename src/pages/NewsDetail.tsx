@@ -52,7 +52,6 @@ export default function NewsDetail() {
 
   if (error) {
     navigate('/NotFound');
-    return;
   }
 
   return (

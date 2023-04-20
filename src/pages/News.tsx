@@ -25,7 +25,6 @@ export default function News() {
 
   if (error) {
     navigate('/NotFound');
-    return;
   }
 
   // 인피니티 스크롤

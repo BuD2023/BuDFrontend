@@ -16,7 +16,6 @@ export default function OtherProfile() {
 
   if (error) {
     navigate('/NotFound');
-    return;
   }
 
   useEffect(() => {
