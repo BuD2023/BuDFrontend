@@ -1,5 +1,5 @@
+import { postType } from '../../components/community/_Community.interface';
 import customAxios from '../customAxios';
-import { PostTypeType } from './getCommunityPost';
 
 type postStatusType = 'INACTIVE' | 'ACTIVE';
 
@@ -45,7 +45,7 @@ interface getCommunityDetailType {
   scrapCount: number;
   hitCount: number;
   postStatus: postStatusType;
-  postType: PostTypeType;
+  postType: postType;
   createdAt: string;
   updatedAt: string;
 }

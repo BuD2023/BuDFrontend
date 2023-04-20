@@ -1,5 +1,4 @@
 import { RefObject, useEffect, useRef, useState } from 'react';
-import { myChatroomListContentType } from '../../apiFetcher/coffeeChatInfo/getMyChatroomList';
 import PicModal from '../common/PicModal';
 import UserModal from '../common/UserModal';
 import defaultImage from '../../assets/DefaultProfileImage.webp';
@@ -8,6 +7,7 @@ import { useInView } from 'react-intersection-observer';
 import { S3_URL } from '../../constant/union';
 import ScrollToBottomBtn from '../common/ScrollToBottomBtn';
 import { ChatMessageType, InfoMessageType } from '../../pages/ChatRoom';
+import { myChatroomListContentType } from './_ChatRoom.interface';
 
 interface IChatRoomPropsType {
   messageList: myChatroomListContentType[];

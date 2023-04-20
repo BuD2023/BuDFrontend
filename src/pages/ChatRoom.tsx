@@ -6,21 +6,19 @@ import React, { useEffect, useRef, useState } from 'react';
 import * as StompJs from '@stomp/stompjs';
 import { accessToken } from '../main';
 import { SOCKET_URL } from '../constant/union';
-import { chatType, myChatroomListContentType, myChatroomListType } from '../apiFetcher/coffeeChatInfo/getMyChatroomList';
 import { useMyChatroomListQuery } from '../store/module/useChatroomQuery';
 import { makeCompressedImg } from '../utils/makeCompressedImg';
 import PicModal from '../components/common/PicModal';
 import AlertModal from '../components/common/AlertModal';
+import { chatType, myChatroomListContentType, myChatroomListType } from '../components/chatRoom/_ChatRoom.interface';
 export interface MessageType {
   senderId: number;
   chatroomId: number;
   message: string;
 }
-
-export type ChatType = 'ENTER' | 'EXIT' | 'EXPIRE' | 'MESSAGE' | 'IMAGE';
 export interface InfoMessageType {
   chatroomId: number;
-  chatType: ChatType;
+  chatType: chatType;
   numberOfMembers: number;
 }
 export interface ChatMessageType {

@@ -1,15 +1,14 @@
-import { BsDot, BsFillHandThumbsUpFill } from 'react-icons/bs';
-import { FcLike, FcPortraitMode, FcSms, FcVoicePresentation } from 'react-icons/fc';
+import { FcPortraitMode } from 'react-icons/fc';
 import { useNavigate, useParams } from 'react-router-dom';
 import { timeForToday } from '../../store/commentDummy';
-import { useCommunityAnswerQuery, useCommunityDetailQuery } from '../../store/module/useCommunityDetailQuery';
+import { useCommunityDetailQuery } from '../../store/module/useCommunityDetailQuery';
 import DefaultProfileImage from '../../assets/DefaultProfileImage.webp';
 import LikeCommentScrap from '../common/LikeCommentScrap';
-import { PostTypeType } from '../../apiFetcher/communityInfo/getCommunityPost';
 import ImagePeek from '../common/ImagePeek';
 import { useState } from 'react';
 import { S3_URL } from '../../constant/union';
 import { useFollowMutation } from '../../store/module/useCommunityQuery';
+import { postType } from '../community/_Community.interface';
 
 export default function CommunityDetailPost() {
   const { id: questionId } = useParams();
@@ -88,7 +87,7 @@ export default function CommunityDetailPost() {
         <ImagePeek setIsPicPopUp={setIsPicPopUp} imgPeek={questionData.imageUrls.map((imgeUrl) => S3_URL + imgeUrl)} />
       )}
       <LikeCommentScrap
-        postType={questionData?.postType as PostTypeType}
+        postType={questionData?.postType as postType}
         likeCount={questionData?.likeCount as number}
         commentCount={questionData?.commentCount as number}
         postId={questionData?.id as number}

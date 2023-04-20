@@ -1,11 +1,11 @@
 import { useEffect } from 'react';
 import { BsFillPersonFill } from 'react-icons/bs';
 import { useNavigate } from 'react-router-dom';
-import { ChatroomType } from '../../apiFetcher/coffeeChatInfo/getAllChatroomList';
 import DefaultImage from '../../assets/Monica.webp';
 import { timeForToday } from '../../store/commentDummy';
 import { useAllChatroomQuery, useSearchChatroomQuery } from '../../store/module/useCoffeeChatQuery';
 import { useInView } from 'react-intersection-observer';
+import { ChatroomListContentType } from './_CoffeeChat.interface';
 
 interface CoffeeChatRoomPropsType {
   inputValue: string;
@@ -47,7 +47,8 @@ export default function CoffeeChatRoom({ inputValue }: CoffeeChatRoomPropsType) 
   }, [inView]);
 
   //뿌리는 데이터
-  let chatRoomsResult = inputValue.length > 0 ? (searchData?.pages.map((i) => i.content).flat() as ChatroomType[]) : (chatRooms?.pages.map((i) => i.content).flat() as ChatroomType[]);
+  let chatRoomsResult =
+    inputValue.length > 0 ? (searchData?.pages.map((i) => i.content).flat() as ChatroomListContentType[]) : (chatRooms?.pages.map((i) => i.content).flat() as ChatroomListContentType[]);
 
   if (allLoading || searchLoading) {
     return (

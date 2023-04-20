@@ -14,7 +14,7 @@ export default function RoomHeader({ newChatMessages }: RoomHeaderPropsType) {
 
   const { data: chatRoomInfo } = useChatroomDetailQuery(Number(id));
 
-  const numberOfMember = (newChatMessages.slice().reverse() as ChatMessageType[] | InfoMessageType[]).find((i) => i.chatType !== 'MESSAGE' && i.chatType !== 'IMAGE')?.numberOfMembers;
+  const numberOfMember = (newChatMessages.slice().reverse() as Partial<ChatMessageType[]>).find((i) => i?.chatType !== 'MESSAGE' && i?.chatType !== 'IMAGE')?.numberOfMembers;
 
   // userList popUp
   const [isUserList, setIsUserList] = useState({
