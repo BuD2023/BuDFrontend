@@ -4,12 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import { useNotificationTokenMutation } from '../../store/module/useNotificationQuery';
 import sendFCMTokenFunc, { requestPermission } from '../../utils/fcm';
 import CheckBoxModal from '../common/CheckBoxModal';
-import { SetNotificationType } from '../common/_Common.interface';
 import ChangeJob from '../myProfileEdit/ChangeJob';
-<<<<<<< HEAD
-=======
 import { SetNotificationType } from './_SignUp.interface';
->>>>>>> 5c1ee3b91d0e9abd8c31162324e0f934b507680c
 
 export default function SetJob() {
   const [selectedJob, setSelectedJob] = useState('');
