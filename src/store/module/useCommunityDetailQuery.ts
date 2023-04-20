@@ -9,7 +9,6 @@ import { getFeedCommentPinAxios, getQnACommentPinAxios } from '../../apiFetcher/
 import { postQnaAnswerAxios } from '../../apiFetcher/communityInfo/postQnaAnswer';
 import getQnaAnswerPinAxios from '../../apiFetcher/communityInfo/postQnaAnswerPin';
 import { accessToken } from '../../main';
-import { useNavigate } from 'react-router-dom';
 
 export function useCommunityDetailQuery(id: number) {
   return useQuery(['CommunityDetail', id], () => getCommunityDetailAxios(accessToken, id), {
@@ -77,10 +76,10 @@ export function useDeletePinAnswerMutation() {
 // 개발 피드 댓글 조회
 export function useFeedCommentQuery(id: number) {
   return useInfiniteQuery(['CommunityComment', id], ({ pageParam = 0 }) => getFeedCommentAxios(accessToken, pageParam, id), {
-    getNextPageParam: (prevData: any, allPages) => {
-      const maxPages = prevData.totalPages;
-      const nextPage = allPages.length + 1;
-      return nextPage < maxPages ? nextPage : undefined;
+    getNextPageParam: (prevData, allPages) => {
+      const maxPages = prevData.last;
+      const nextPage = allPages.length;
+      return maxPages ? undefined : nextPage;
     },
     enabled: false,
     refetchOnMount: false,
@@ -149,10 +148,10 @@ export function useDeleteFeedCommentMutation(id: number) {
 // QnA 피드 댓글 조회
 export function useQnACommentQuery(id: number) {
   return useInfiniteQuery(['CommunityComment', id], ({ pageParam = 0 }) => getQnACommentAxios(accessToken, pageParam, id), {
-    getNextPageParam: (prevData: any, allPages) => {
-      const maxPages = prevData.totalPages;
-      const nextPage = allPages.length + 1;
-      return nextPage < maxPages ? nextPage : undefined;
+    getNextPageParam: (prevData, allPages) => {
+      const maxPages = prevData.last;
+      const nextPage = allPages.length;
+      return maxPages ? undefined : nextPage;
     },
     enabled: false,
     refetchOnMount: false,

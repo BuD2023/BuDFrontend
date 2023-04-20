@@ -10,13 +10,9 @@ import LikeCommentScrap from './LikeCommentScrap';
 import ImagePeek from './ImagePeek';
 import PicModal from './PicModal';
 import { S3_URL } from '../../constant/union';
-import { ScrapPostPropsType } from '../myProfile/_MyProfile.interface';
+import { ScrapPostFormatPropsType } from './_Common.interface';
 
-interface ScrapPostFormatProps {
-  resultData: ScrapPostPropsType[];
-}
-
-export default function ScrapPostFormat({ resultData }: ScrapPostFormatProps) {
+export default function ScrapPostFormat({ resultData }: ScrapPostFormatPropsType) {
   const navigate = useNavigate();
 
   //사진 팝업모달

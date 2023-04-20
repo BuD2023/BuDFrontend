@@ -45,3 +45,14 @@ export interface postChatroomData {
   description: string;
   hashTag?: string[];
 }
+
+/** CoffeeChatRoom 컴포넌트 props 타입 */
+export interface CoffeeChatRoomPropsType {
+  inputValue: string;
+}
+
+/** CoffeeTitle 컴포넌트 props 타입 */
+export interface CoffeeTitlePropsType {
+  inputValue: string;
+  setInputValue: (x: string) => void;
+}

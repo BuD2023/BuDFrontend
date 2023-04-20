@@ -1,11 +1,6 @@
-import { OrderType, SortAndOrderType, SortType } from './_Community.interface';
+import { CommunitySortPropsType, OrderType, SortType } from './_Community.interface';
 
-interface ICommunitySortPropsType {
-  sortAndOrder: SortAndOrderType;
-  setSortAndOrder: ({}: SortAndOrderType) => void;
-}
-
-export default function CommunitySort({ setSortAndOrder, sortAndOrder }: ICommunitySortPropsType) {
+export default function CommunitySort({ setSortAndOrder, sortAndOrder }: CommunitySortPropsType) {
   const sort = ['DATE', 'HIT', 'LIKE'] as SortType[];
   const order = ['DESC', 'ASC'] as OrderType[];
 

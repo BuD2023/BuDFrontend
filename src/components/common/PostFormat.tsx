@@ -10,7 +10,6 @@ import LikeCommentScrap from './LikeCommentScrap';
 import ImagePeek from './ImagePeek';
 import PicModal from './PicModal';
 import { S3_URL } from '../../constant/union';
-import NotFound from '../../pages/NotFound';
 import { PostFormatPropsType } from './_Common.interface';
 import { CommunityPostListContentType } from '../community/_Community.interface';
 

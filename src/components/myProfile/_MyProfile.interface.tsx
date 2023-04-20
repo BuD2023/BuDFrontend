@@ -1,3 +1,15 @@
+import { PostStatusType, postType } from '../community/_Community.interface';
+
+/** 일반적인 userList 타입 */
+export interface CommonUserListType {
+  id: number;
+  description: string;
+  isFollowing: boolean;
+  nickName: string;
+  userId: string;
+  profileUrl: string;
+}
+
 /** getMyFollowList - 나의 팔로우 리스트 가져올 때 사용하는 response 타입 */
 export interface MyFollowListType {
   description: string | null;
@@ -7,6 +19,8 @@ export interface MyFollowListType {
   profileUrl: string | null;
   userId: string;
 }
+
+/** getMyFollowerList - 나의 팔로우 리스트 가져올 때 사용하는 response 타입 */
 
 /** getMyProfileInfo - 나의 프로필 정보 가져올 때 사용하는 response 타입 */
 export interface MyProfileType {
@@ -22,10 +36,6 @@ export interface MyProfileType {
   isFollowing: boolean;
   isReader: boolean;
 }
-
-/** getMyScrapList - ScrapPostProps의 postStatus, postType 타입 */
-export type PostStatusType = 'ACTIVE' | 'INACTIVE';
-export type PostTypeType = 'FEED' | 'QNA';
 
 /** getMyScrapList - ScrapPostProps의 member 타입 */
 export interface memberType {
@@ -75,7 +85,7 @@ export interface ScrapPostPropsType {
     scrapCount: number;
     hitCount: number;
     postStatus: PostStatusType;
-    postType: PostTypeType;
+    postType: postType;
     createdAt: string;
     updatedAt: string;
   };

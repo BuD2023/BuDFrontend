@@ -7,8 +7,7 @@ import { useCommunityAnswerQuery, usePinAnswerMutation } from '../../store/modul
 import { useFollowMutation } from '../../store/module/useCommunityQuery';
 import CommunityCommentForm from '../feedDetail/CommunityCommentForm';
 import profile1 from '../../assets/profile1.jpg';
-import { qnaAnswerContentType } from '../../apiFetcher/communityInfo/getQnaAnswer';
-import { CommunityQADetailAnswerProps } from './_Q&ADetail.interface';
+import { CommunityQADetailAnswerProps, QnaAnswerContentType } from './_Q&ADetail.interface';
 
 export default function CommunityQADetailAnswer({ isCommentOpen, setIsCommentOpen, answerPin, setAnswerPin }: CommunityQADetailAnswerProps) {
   const { id: postId } = useParams();
@@ -37,7 +36,7 @@ export default function CommunityQADetailAnswer({ isCommentOpen, setIsCommentOpe
   // answerData?.content.map((answer) => console.log(item));
 
   useEffect(() => {
-    if (answerData?.content.some((answer: any) => answer.qnaAnswerPin)) {
+    if (answerData?.content.some((answer: QnaAnswerContentType) => answer.qnaAnswerPin)) {
       setAnswerPin(true);
     } else {
       setAnswerPin(false);
@@ -46,7 +45,7 @@ export default function CommunityQADetailAnswer({ isCommentOpen, setIsCommentOpe
 
   return (
     <>
-      {answerData?.content.map((answer: qnaAnswerContentType, idx: number) => {
+      {answerData?.content.map((answer: QnaAnswerContentType, idx: number) => {
         return (
           <div key={answer.id} className={'w-full overflow-hidden rounded-[20px] ' + (answer.qnaAnswerPin ? 'border-4 border-pointGreen dark:border-sky ' : '')}>
             <div className="relative flex h-[55px] w-full items-center justify-between rounded-t-[20px] border-b border-b-darkIvory border-opacity-30 bg-midIvory p-5 text-[20px] font-bold dark:border-b-lightNavy dark:border-opacity-30 dark:bg-midNavy">

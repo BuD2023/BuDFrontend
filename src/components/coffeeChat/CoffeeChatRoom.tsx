@@ -5,11 +5,7 @@ import DefaultImage from '../../assets/Monica.webp';
 import { timeForToday } from '../../store/commentDummy';
 import { useAllChatroomQuery, useSearchChatroomQuery } from '../../store/module/useCoffeeChatQuery';
 import { useInView } from 'react-intersection-observer';
-import { ChatroomListContentType } from './_CoffeeChat.interface';
-
-interface CoffeeChatRoomPropsType {
-  inputValue: string;
-}
+import { ChatroomListContentType, CoffeeChatRoomPropsType } from './_CoffeeChat.interface';
 
 export default function CoffeeChatRoom({ inputValue }: CoffeeChatRoomPropsType) {
   //리액트 쿼리 - useQuery

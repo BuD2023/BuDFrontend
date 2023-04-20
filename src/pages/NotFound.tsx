@@ -1,7 +1,5 @@
 import { useNavigate } from 'react-router-dom';
 import notFound from '../assets/notFound.jpg';
-// import tw from "tailwind-styled-components";
-// import tw, { styled, css, theme } from 'twin.macro'
 
 export default function NotFound() {
   const navigate = useNavigate();
@@ -26,7 +24,3 @@ export default function NotFound() {
     </section>
   );
 }
-
-// const Container = tw.section`
-// relative inset-0 flex flex-col gap-4 p-4 text-lightText dark:text-white
-// `

@@ -1,12 +1,10 @@
 import { throttle } from 'lodash';
-import { RefObject, useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { BiArrowToTop } from 'react-icons/bi';
 import { ScrollToBottomBtnPropsType } from './_Common.interface';
 
 export default function ScrollToBottomBtn({ scrollToNew }: ScrollToBottomBtnPropsType) {
   const [showBtn, setShowBtn] = useState(false);
-  const beforeScrollY = useRef(0);
-
   const handleShowButton = useMemo(
     () =>
       throttle(() => {

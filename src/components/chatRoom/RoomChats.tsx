@@ -6,19 +6,9 @@ import { useGithubQuery } from '../../store/module/useGithubQuery';
 import { useInView } from 'react-intersection-observer';
 import { S3_URL } from '../../constant/union';
 import ScrollToBottomBtn from '../common/ScrollToBottomBtn';
-import { ChatMessageType, InfoMessageType } from '../../pages/ChatRoom';
-import { myChatroomListContentType } from './_ChatRoom.interface';
+import { ChatMessageType, RoomChatsPropsType } from './_ChatRoom.interface';
 
-interface IChatRoomPropsType {
-  messageList: myChatroomListContentType[];
-  newChatMessages: InfoMessageType[] | ChatMessageType[];
-  hasNextPage: boolean | undefined;
-  isFetching: boolean;
-  isFetchingNextPage: boolean;
-  fetchNextPage: () => void;
-}
-
-export default function RoomChats({ messageList, newChatMessages, hasNextPage, isFetching, isFetchingNextPage, fetchNextPage }: IChatRoomPropsType) {
+export default function RoomChats({ messageList, newChatMessages, hasNextPage, isFetching, isFetchingNextPage, fetchNextPage }: RoomChatsPropsType) {
   const { data } = useGithubQuery();
 
   const [userModal, setUserModal] = useState(false);
