@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import FooterMenu from '../components/common/FooterMenu';
-import PostFormat from '../components/common/PostFormat';
 import OtherProfileHeader from '../components/otherProfile/OtherProfileHeader';
 import OtherProfileInfo from '../components/otherProfile/OtherProfileInfo';
 import OtherProfileMenu from '../components/otherProfile/OtherProfileMenu';

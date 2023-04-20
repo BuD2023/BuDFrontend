@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { useState, useEffect } from 'react';
 import CoffeeChatRoom from '../components/coffeeChat/CoffeeChatRoom';
 import CoffeeTitle from '../components/coffeeChat/CoffeeTitle';
@@ -8,10 +7,6 @@ import ScrollToTopBtn from '../components/common/ScrollToTopBtn';
 
 export default function CoffeeChat() {
   const [inputValue, setInputValue] = useState('');
-  const [titleInfo, setTitleInfo] = useState({
-    numberOfElements: 0,
-    numberOfUsers: 0,
-  });
 
   return (
     <section>

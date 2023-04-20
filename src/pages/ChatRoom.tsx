@@ -10,28 +10,7 @@ import { useMyChatroomListQuery } from '../store/module/useChatroomQuery';
 import { makeCompressedImg } from '../utils/makeCompressedImg';
 import PicModal from '../components/common/PicModal';
 import AlertModal from '../components/common/AlertModal';
-import { chatType, myChatroomListContentType, myChatroomListType } from '../components/chatRoom/_ChatRoom.interface';
-export interface MessageType {
-  senderId: number;
-  chatroomId: number;
-  message: string;
-}
-export interface InfoMessageType {
-  chatroomId: number;
-  chatType: chatType;
-  numberOfMembers: number;
-}
-export interface ChatMessageType {
-  chatId: number;
-  chatType: chatType;
-  chatroomId: number;
-  createdAt: string;
-  message: string;
-  userProfileUrl?: string;
-  numberOfMembers: number;
-  userId: number;
-  userName: string;
-}
+import { ChatMessageType, chatType, InfoMessageType, myChatroomListContentType, myChatroomListType } from '../components/chatRoom/_ChatRoom.interface';
 
 export default function ChatRoom() {
   const navigate = useNavigate();

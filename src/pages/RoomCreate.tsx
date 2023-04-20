@@ -1,7 +1,6 @@
 import Header from '../components/common/Header';
 import { BsChevronLeft } from 'react-icons/bs';
 import { useState } from 'react';
-import axios from 'axios';
 
 export default function RoomCreate() {
   const [roomInfo, setRoomInfo] = useState({

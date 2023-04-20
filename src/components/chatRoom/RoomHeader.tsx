@@ -2,7 +2,7 @@ import { BsChevronLeft, BsFillPersonFill } from 'react-icons/bs';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useState } from 'react';
 import { useChatroomDetailQuery } from '../../store/module/useChatroomQuery';
-import { ChatMessageType, InfoMessageType } from '../../pages/ChatRoom';
+import { ChatMessageType, InfoMessageType } from './_ChatRoom.interface';
 
 interface RoomHeaderPropsType {
   newChatMessages: InfoMessageType[] | ChatMessageType[];

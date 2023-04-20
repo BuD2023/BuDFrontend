@@ -13,7 +13,6 @@ import { useMyFollowersQuery, useMyFollowsQuery, useMyProfileQuery, useMyScrapsQ
 import { useUserProfileQuery } from './useUserProfileQuery';
 
 let refetchNew = '';
-
 export function useCommunityPostQuery(word?: string, sort?: SortType, order?: OrderType, size?: number) {
   return useInfiniteQuery(['Community', word, sort, order, refetchNew], ({ pageParam = 0 }) => getCommunityPostAxios(accessToken, word, sort, order, pageParam, size), {
     getNextPageParam: (prevData, allPages) => {

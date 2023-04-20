@@ -9,7 +9,6 @@ import { getFeedCommentPinAxios, getQnACommentPinAxios } from '../../apiFetcher/
 import { postQnaAnswerAxios } from '../../apiFetcher/communityInfo/postQnaAnswer';
 import getQnaAnswerPinAxios from '../../apiFetcher/communityInfo/postQnaAnswerPin';
 import { accessToken } from '../../main';
-import { useNavigate } from 'react-router-dom';
 
 export function useCommunityDetailQuery(id: number) {
   return useQuery(['CommunityDetail', id], () => getCommunityDetailAxios(accessToken, id), {
