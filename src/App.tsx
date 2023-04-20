@@ -89,7 +89,7 @@ function App() {
       <Route path="/roomCreate" element={<RoomCreate />} />
 
       <Route path="/myProfile/:filter" element={<MyProfile />} />
-      <Route path="/otherProfile/:id" element={<OtherProfile />} />
+      <Route path="/otherProfile/:id/:filter" element={<OtherProfile />} />
       <Route path="/myProfileEdit" element={<ProfileEdit />} />
       <Route path="/setting" element={<Setting />} />
       <Route path="/userInfo" element={<UserInfo />} />

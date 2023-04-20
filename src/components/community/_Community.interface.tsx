@@ -40,7 +40,7 @@ export interface MemberLevelType {
 export interface CommunityPostPageableType {
   sort: PostSortType;
   offset: number;
-  pageNumber: Number;
+  pageNumber: number;
   pageSize: number;
   paged: boolean;
   unpaged: boolean;
@@ -76,7 +76,7 @@ export interface CommunityPostListContentType {
   id: number;
   member: CommunityPostListContentMemberType;
   title: string;
-  imageUrls: any[];
+  imageUrls: string[];
   content: string;
   commentCount: number;
   likeCount: number;
@@ -190,4 +190,10 @@ export interface CommunityCommentType {
   pageable: Partial<CommunityPostPageableType>;
   size: number;
   sort: PostSortType;
+}
+
+/** CommunitySort - 커뮤니티 정렬할 때 사용하는 props 타입 */
+export interface CommunitySortPropsType {
+  sortAndOrder: SortAndOrderType;
+  setSortAndOrder: ({}: SortAndOrderType) => void;
 }

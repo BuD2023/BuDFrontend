@@ -1,5 +1,5 @@
-/** getUserFollowerList - 타인 팔로워 리스트 가져올 때 사용하는 response 타입 */
-export interface UserFollowerListType {
+/** getUserFollowList / getUserFollowerList - 타인 팔로우 / 팔로워 리스트 가져올 때 사용하는 response 타입 */
+export interface UserFollowListType {
   description: string | null;
   id: number;
   isFollowing: boolean;
@@ -45,6 +45,7 @@ export interface OtherProfileInfoPropsType {
 
 /** OtherProfileMenu - 타인 프로필 메뉴에 사용하는 props 타입 */
 export interface OtherProfileMenuPropsType {
-  postView: boolean;
-  setPostView: (x: boolean) => void;
+  postView: string;
+  setPostView: (x: string) => void;
+  id: string | undefined;
 }

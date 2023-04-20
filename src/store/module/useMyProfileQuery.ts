@@ -43,7 +43,7 @@ export function useMyFollowsQuery() {
 
 export function useMyScrapsQuery(sort: string) {
   return useInfiniteQuery(['myScarps', sort], ({ pageParam = 0 }) => getMyScrapList(accessToken, pageParam, sort), {
-    getNextPageParam: (prevData, allPages) => {
+    getNextPageParam: (prevData: any, allPages) => {
       const lastPage = prevData.last;
       const nextPage = allPages.length;
       return lastPage ? undefined : nextPage;

@@ -13,8 +13,8 @@ export default function CommunityQADetailAnswer({ isCommentOpen, setIsCommentOpe
   const { id: postId } = useParams();
   const navigate = useNavigate();
   const [isMenu, setIsMenu] = useState<boolean>();
-  const [activeComment, setActiveComment] = useState<Number[]>([]);
-  const [activeAnswerMenu, setActiveAnswerMenu] = useState<Number[]>([]);
+  const [activeComment, setActiveComment] = useState<number[]>([]);
+  const [activeAnswerMenu, setActiveAnswerMenu] = useState<number[]>([]);
 
   const [userId, setUserId] = useState<number>();
   const [answerId, setAnswerId] = useState<number>();
@@ -37,7 +37,7 @@ export default function CommunityQADetailAnswer({ isCommentOpen, setIsCommentOpe
   };
 
   useEffect(() => {
-    if (answerData?.content.some((answer: any) => answer.qnaAnswerPin)) {
+    if (answerData?.content.some((answer: QnaAnswerContentType) => answer.qnaAnswerPin)) {
       setAnswerPin(true);
     } else {
       setAnswerPin(false);
@@ -92,7 +92,7 @@ export default function CommunityQADetailAnswer({ isCommentOpen, setIsCommentOpe
                   <img
                     onClick={(e) => {
                       e.stopPropagation();
-                      navigate(`/otherProfile/${answer.member.id}`);
+                      navigate(`/otherProfile/${answer.member.id}/feed`);
                     }}
                     className="w-[58px] cursor-pointer rounded-full"
                     src={answer.member.profileImg ?? profile1}

@@ -43,7 +43,7 @@ export default function UserModal({ userModal, setUserModal, userName, userImg, 
                       </div>
                       <p className="text-sm text-black">{userIntro}</p>
                     </div>
-                    <p onClick={() => navigate(`/otherProfile/${userName}`)} className="h-[18px] cursor-pointer items-center gap-1 text-sm opacity-60">
+                    <p onClick={() => navigate(`/otherProfile/${userName}/feed`)} className="h-[18px] cursor-pointer items-center gap-1 text-sm opacity-60">
                       <BsInfoCircle size={18} />
                     </p>
                   </div>

@@ -82,7 +82,7 @@ export default function PostFormat({ inputValue, sortAndOrder, filter: postTypeF
                     <img
                       onClick={(e) => {
                         e.stopPropagation();
-                        navigate(`/otherProfile/${data.member.id}`);
+                        navigate(`/otherProfile/${data.member.id}/feed`);
                       }}
                       src={data.member.profileImg ? data.member.profileImg : DefaultProfileImage}
                       alt={data.title}
@@ -92,7 +92,7 @@ export default function PostFormat({ inputValue, sortAndOrder, filter: postTypeF
                       <p
                         onClick={(e) => {
                           e.stopPropagation();
-                          navigate(`/otherProfile/${data.member.id}`);
+                          navigate(`/otherProfile/${data.member.id}/feed`);
                         }}
                         className="text-xl font-bold"
                       >
@@ -116,7 +116,7 @@ export default function PostFormat({ inputValue, sortAndOrder, filter: postTypeF
                   <p className="text-base">{data.content}</p>
                 </div>
               </div>
-              {data.imageUrls && data.imageUrls.length > 0 && data.imageUrls[0] !== 'https://budproject.s3.ap-northeast-2.amazonaws.com/null' && data.imageUrls[0] !== false && (
+              {data.imageUrls && data.imageUrls.length > 0 && data.imageUrls[0] !== 'https://budproject.s3.ap-northeast-2.amazonaws.com/null' && (
                 <ImagePeek setIsPicPopUp={setIsPicPopUp} imgPeek={data.imageUrls as string[]} />
               )}
               <LikeCommentScrap postType={data.postType} likeCount={data.likeCount} commentCount={data.commentCount} postId={data.id} refetch={refetch} />

@@ -5,31 +5,53 @@ import { useNavigate, useParams } from 'react-router-dom';
 import FooterMenu from '../components/common/FooterMenu';
 import ScrapPostFormat from '../components/common/ScrapPostFormat';
 import ScrollToTopBtn from '../components/common/ScrollToTopBtn';
+import FeedPostFormat from '../components/myProfile/FeedPostFormat';
 import MyProfileHeader from '../components/myProfile/MyProfileHeader';
 import MyProfileInfo from '../components/myProfile/MyProfileInfo';
 import MyProfileMenu from '../components/myProfile/MyProfileMenu';
 import { useMyProfileQuery, useMyScrapsQuery } from '../store/module/useMyProfileQuery';
+import { useProfilePostQuery } from '../store/module/useProfilePostQuery';
 
 export default function MyProfile() {
   const initialPostView = useParams();
   const [postView, setPostView] = useState(initialPostView.filter ?? 'feed');
   const navigate = useNavigate();
+  const userId = 4;
 
   const { data: myProfileData, isLoading: myProfileIsLoading, error: myProfileError } = useMyProfileQuery();
-  const { data: myScrapsData, isLoading: myScrapsIsLoading, error: myScrapsError, isFetching, isFetchingNextPage, fetchNextPage, hasNextPage } = useMyScrapsQuery('postId,DESC');
+  const {
+    data: myScrapsData,
+    isLoading: myScrapsIsLoading,
+    error: myScrapsError,
+    isFetching: myScrapsIsFetching,
+    isFetchingNextPage: myScrapsIsFetchingNextPage,
+    fetchNextPage: myScrapsFetchNextPage,
+    hasNextPage: myScrapsHasNextPage,
+  } = useMyScrapsQuery('postId,DESC');
+  const {
+    data: profilePostData,
+    isLoading: profilePostIsLoading,
+    error: profilePostError,
+    isFetching: profilePostIsFetching,
+    isFetchingNextPage: profilePostIsFetchingNextPage,
+    fetchNextPage: profilePostFetchNextPage,
+    hasNextPage: profilePostHasNextPage,
+  } = useProfilePostQuery(Number(userId), postView);
 
   // 인피니티 스크롤
   const { ref, inView } = useInView();
 
   useEffect(() => {
-    if (inView && hasNextPage && !isFetching && !isFetchingNextPage) fetchNextPage();
+    if (postView === 'scrap' && inView && myScrapsHasNextPage && !myScrapsIsFetching && !myScrapsIsFetchingNextPage) myScrapsFetchNextPage();
+    if (postView === 'feed' && inView && profilePostHasNextPage && !profilePostIsFetching && !profilePostIsFetchingNextPage) profilePostFetchNextPage();
   }, [inView]);
 
   useEffect(() => {
-    if (postView === 'scrap') fetchNextPage();
+    if (postView === 'scrap') myScrapsFetchNextPage();
+    if (postView === 'feed') profilePostFetchNextPage();
   }, [postView]);
 
-  if (myProfileError || myScrapsError) {
+  if (myProfileError || myScrapsError || profilePostError) {
     navigate('/NotFound');
   }
 
@@ -53,6 +75,7 @@ export default function MyProfile() {
         />
         <MyProfileMenu postView={postView} setPostView={setPostView} />
         {myScrapsData && postView === 'scrap' && <ScrapPostFormat resultData={myScrapsData.pages.flatMap((page) => page.content)} />}
+        {profilePostData && postView !== 'scrap' && <FeedPostFormat resultData={profilePostData.pages.flatMap((page) => page.content)} />}
       </div>
       <div ref={ref} />
       <FooterMenu />

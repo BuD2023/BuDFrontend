@@ -47,7 +47,7 @@ export default function CommunityDetailPost() {
             <img
               onClick={(e) => {
                 e.stopPropagation();
-                navigate(`/otherProfile/${questionData?.member.id}`);
+                navigate(`/otherProfile/${questionData?.member.id}/feed`);
               }}
               src={DefaultProfileImage}
               alt={questionData?.member.nickname}
@@ -57,7 +57,7 @@ export default function CommunityDetailPost() {
               <p
                 onClick={(e) => {
                   e.stopPropagation();
-                  navigate(`/otherProfile/${questionData?.member.id}`);
+                  navigate(`/otherProfile/${questionData?.member.id}/feed`);
                 }}
                 className="text-xl font-bold"
               >

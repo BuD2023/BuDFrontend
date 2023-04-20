@@ -10,7 +10,7 @@ export interface CommonUserListType {
   profileUrl: string;
 }
 
-/** getMyFollowList - 나의 팔로우 리스트 가져올 때 사용하는 response 타입 */
+/** getMyFollowList / getMyFollowerList - 나의 팔로우 / 팔로워 리스트 가져올 때 사용하는 response 타입 */
 export interface MyFollowListType {
   description: string | null;
   id: number;
@@ -68,17 +68,17 @@ export interface ScrapPostPropsType {
   id: number;
   post: {
     id: number;
+    commentCount: number;
+    content: string;
+    createdAt: string;
     member: memberType;
     title: string;
     imageUrls: null[] | string[];
-    content: string;
-    commentCount: number;
     likeCount: number;
     scrapCount: number;
     hitCount: number;
     postStatus: PostStatusType;
     postType: postType;
-    createdAt: string;
     updatedAt: string;
   };
 }
@@ -118,4 +118,58 @@ export interface MyProfileInfoPropsType {
 export interface MyProfileMenuPropsType {
   postView: string;
   setPostView: React.Dispatch<React.SetStateAction<string>>;
+}
+
+/** getProfilePostList - 작성한 게시글 리스트 가져올 때 사용하는 response 타입 */
+export interface FeedPostType {
+  content: FeedPostContentPropsType[];
+  empty: boolean;
+  first: boolean;
+  last: boolean;
+  number: number;
+  numberOfElements: number;
+  pageable: {
+    offset: number;
+    pageNumber: number;
+    pageSize: number;
+    paged: boolean;
+    sort: {
+      empty: boolean;
+      sorted: boolean;
+      unsorted: boolean;
+    };
+    unpaged: boolean;
+  };
+  size: number;
+  sort: {
+    empty: boolean;
+    sorted: boolean;
+    unsorted: boolean;
+  };
+  totalElements: number;
+  totalPages: number;
+}
+
+/** getProfilePostList - FeedPostType의 content 타입 */
+export interface FeedPostContentPropsType {
+  commentCount: number;
+  content: string;
+  createdAt: string;
+  follow: boolean;
+  hitCount: number;
+  postId: number;
+  imageUrls: null[] | string[];
+  like: boolean;
+  likeCount: number;
+  postStatus: PostStatusType;
+  postType: postType;
+  scrap: boolean;
+  scrapCount: number;
+  title: string;
+  updatedAt: string;
+}
+
+/** FeedPostFormat - FeedPostFormat에 사용하는 props 타입 */
+export interface FeedPostFormatProps {
+  resultData: FeedPostContentPropsType[];
 }
