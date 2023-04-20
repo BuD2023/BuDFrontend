@@ -192,8 +192,3 @@ export interface CommunityCommentType {
   size: number;
   sort: PostSortType;
 }
-
-export interface CommunitySortPropsType {
-  sortAndOrder: SortAndOrderType;
-  setSortAndOrder: ({}: SortAndOrderType) => void;
-}
