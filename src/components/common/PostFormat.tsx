@@ -6,13 +6,13 @@ import { useFollowMutation } from '../../store/module/useCommunityQuery';
 import DefaultProfileImage from '../../assets/DefaultProfileImage.webp';
 import { useInView } from 'react-intersection-observer';
 import { useEffect, useState } from 'react';
-import { CommunityPostListContentType } from '../../apiFetcher/communityInfo/getCommunityPost';
 import LikeCommentScrap from './LikeCommentScrap';
 import ImagePeek from './ImagePeek';
 import PicModal from './PicModal';
 import { S3_URL } from '../../constant/union';
 import NotFound from '../../pages/NotFound';
 import { PostFormatPropsType } from './_Common.interface';
+import { CommunityPostListContentType } from '../community/_Community.interface';
 
 export default function PostFormat({ inputValue, sortAndOrder }: PostFormatPropsType) {
   const { filter } = useParams();
@@ -68,7 +68,7 @@ export default function PostFormat({ inputValue, sortAndOrder }: PostFormatProps
   }
 
   if (isError) {
-    return <NotFound />;
+    navigate('/NotFound');
   }
 
   return (

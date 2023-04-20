@@ -1,9 +1,6 @@
-interface IChangeIntroductionPropsType {
-  introduction: string;
-  setIntroduction: (x: string) => void;
-}
+import { ChangeIntroductionPropsType } from './_MyProfileEdit.interface';
 
-export default function ChangeIntroduction({ introduction, setIntroduction }: IChangeIntroductionPropsType) {
+export default function ChangeIntroduction({ introduction, setIntroduction }: ChangeIntroductionPropsType) {
   return (
     <textarea
       onChange={(e) => setIntroduction(e.target.value)}

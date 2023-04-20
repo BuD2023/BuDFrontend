@@ -1,16 +1,12 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { notificationDummy } from '../../store/notificationDummy';
 import { SwipeableList, SwipeableListItem } from '@sandstreamdev/react-swipeable-list';
 import '@sandstreamdev/react-swipeable-list/dist/styles.css';
 import { BsFillTrashFill } from 'react-icons/bs';
 import { useNotificationdeleteMutation, useNotificationListQuery, useNotificationStatusMutation } from '../../store/module/useNotificationQuery';
-import { notificationDetailType, pageType } from '../../apiFetcher/notificationInfo/getNotificationList';
+import { notificationDetailType, pageType } from './_Notification.interface';
 import { timeForToday } from '../../store/commentDummy';
-
-interface INotiContent {
-  [key: string]: (senderId: string) => JSX.Element;
-}
+import { NotiContent } from './_Notification.interface';
 
 export default function NotificationContent() {
   const navigate = useNavigate();
@@ -31,13 +27,13 @@ export default function NotificationContent() {
     }
   };
 
-  const handleImgClick = (senderId: string, event: any) => {
+  const handleImgClick = (senderId: string, event: React.MouseEvent<HTMLImageElement>) => {
     console.log(senderId);
     navigate(`/otherProfile/${String(senderId)}`);
     event.stopPropagation();
   };
 
-  const notiContent: INotiContent = {
+  const notiContent: NotiContent = {
     FOLLOWED: (senderId: string) => (
       <p>
         <span className="font-bold">{senderId}</span>님이 회원님을 팔로우했습니다.
@@ -107,12 +103,7 @@ export default function NotificationContent() {
                       key={noti.notificationId}
                       className="flex grow cursor-pointer items-center gap-3 bg-lightIvory dark:bg-darkNavy"
                     >
-                      <img
-                        onClick={(event: React.MouseEvent<HTMLImageElement>) => handleImgClick(noti.senderId, event)}
-                        src={`https://picsum.photos/105/105`}
-                        alt={noti.senderNickName}
-                        className="h-[65px] w-[65px] rounded-full"
-                      />
+                      <img onClick={(event) => handleImgClick(noti.senderId, event)} src={`https://picsum.photos/105/105`} alt={noti.senderNickName} className="h-[65px] w-[65px] rounded-full" />
                       <div className="flex flex-col gap-0.5 text-lg">
                         {handleContent(noti.notificationDetailType, noti.senderNickName)}
                         <p className="text-sm opacity-50">{timeForToday(noti.notifiedAt)}</p>

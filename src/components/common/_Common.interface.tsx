@@ -57,6 +57,7 @@ export interface CommonHeaderType {
   onSubmit?: object;
   postId?: string;
   copyUrl?: string;
+  answerPin?: boolean;
 }
 
 /** ImagePeek - 이미지 미리보기 컴포넌트에 들어가는 props 타입 */

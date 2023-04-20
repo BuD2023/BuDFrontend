@@ -2,7 +2,6 @@ import { SwipeableList, SwipeableListItem } from '@sandstreamdev/react-swipeable
 import { useEffect, useState } from 'react';
 import { BsDot, BsFillPinAngleFill, BsFillTrashFill, BsHeartFill } from 'react-icons/bs';
 import { useNavigate, useParams } from 'react-router-dom';
-import NotFound from '../../pages/NotFound';
 import profile2 from '../../assets/profile2.jpeg';
 import {
   useDeleteFeedCommentMutation,
@@ -17,13 +16,9 @@ import {
   useQnACommentQuery,
 } from '../../store/module/useCommunityDetailQuery';
 import { CommunityCommentType } from '../community/_Community.interface';
+import { CommunityFeedCommentFormPropsType } from './_FeedDetail.interface';
 
-interface CommunityFeedCommentFormProps {
-  type: string;
-  answerId?: number;
-}
-
-export default function CommunityCommentForm({ type, answerId }: CommunityFeedCommentFormProps) {
+export default function CommunityCommentForm({ type, answerId }: CommunityFeedCommentFormPropsType) {
   const { id: postId } = useParams();
   const [commentId, setCommentId] = useState(0);
   const navigate = useNavigate();
@@ -86,7 +81,7 @@ export default function CommunityCommentForm({ type, answerId }: CommunityFeedCo
   // }
 
   if (feedError || QnAError) {
-    return <NotFound />;
+    navigate('/NotFound');
   }
 
   useEffect(() => {

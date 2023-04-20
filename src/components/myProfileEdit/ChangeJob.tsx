@@ -1,13 +1,9 @@
 import { useState } from 'react';
 import { RxTriangleDown } from 'react-icons/rx';
 import { jobList } from '../../store/dummy';
+import { ChangeJobPropsType } from './_MyProfileEdit.interface';
 
-interface IChangeJobPropsType {
-  selectedJob: string;
-  setSelectedJob: (x: string) => void;
-}
-
-export default function ChangeJob({ selectedJob, setSelectedJob }: IChangeJobPropsType) {
+export default function ChangeJob({ selectedJob, setSelectedJob }: ChangeJobPropsType) {
   const [isClick, setIsClick] = useState(false);
 
   return (

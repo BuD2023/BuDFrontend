@@ -1,16 +1,9 @@
 import { AiFillGithub } from 'react-icons/ai';
 import { FcReadingEbook } from 'react-icons/fc';
 import profile1 from '../../assets/profile1.jpg';
+import { UserProfileHeaderPropsType } from './_OtherProfile.interface';
 
-interface MyProfileHeaderPropsType {
-  userId: string;
-  nickName: string;
-  description: string;
-  profileUrl: string;
-  isLoading: boolean;
-}
-
-export default function OtherProfileHeader({ userId, nickName, description, profileUrl, isLoading }: MyProfileHeaderPropsType) {
+export default function OtherProfileHeader({ userId, nickName, description, profileUrl, isLoading }: UserProfileHeaderPropsType) {
   if (isLoading) {
     return (
       <div className="h-[120px] w-full">

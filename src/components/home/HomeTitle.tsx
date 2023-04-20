@@ -1,9 +1,9 @@
 import { FcHome } from 'react-icons/fc';
 import { AiFillGithub } from 'react-icons/ai';
 import Header from '../common/Header';
-import { HomeTitleProps } from './_Home.interface';
+import { HomeTitlePropsType } from './_Home.interface';
 
-export default function HomeTitle({ nickName, isLoading }: HomeTitleProps) {
+export default function HomeTitle({ nickName, isLoading }: HomeTitlePropsType) {
   if (isLoading) {
     return <div className="mb-6 h-[60px]"></div>;
   }

@@ -2,4 +2,6 @@
 export interface CommunityQADetailAnswerProps {
   isCommentOpen: boolean;
   setIsCommentOpen: (x: boolean) => void;
+  answerPin: boolean;
+  setAnswerPin: (x: boolean) => void;
 }

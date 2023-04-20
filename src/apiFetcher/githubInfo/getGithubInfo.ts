@@ -1,7 +1,7 @@
-import { githubProps } from '../../components/home/_Home.interface';
+import { githubInfoType } from '../../components/home/_Home.interface';
 import customAxios from '../customAxios';
 
-const getGithubInfoAxios = async (token: string): Promise<githubProps> => {
+const getGithubInfoAxios = async (token: string): Promise<githubInfoType> => {
   return await customAxios({
     method: 'get',
     url: '/github',

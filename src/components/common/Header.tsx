@@ -11,7 +11,7 @@ import { useGithubMutation } from '../../store/module/useGithubQuery';
 import ConfirmModal from './ConfirmModal';
 import { CommonHeaderType } from './_Common.interface';
 
-export default function Header({ type, title, restart, icon, onSubmit, postId, copyUrl }: CommonHeaderType) {
+export default function Header({ type, title, restart, icon, onSubmit, postId, copyUrl, answerPin }: CommonHeaderType) {
   const [visible, setVisible] = useState(true);
   const beforeScrollY = useRef(0);
   const navigate = useNavigate();
@@ -69,7 +69,7 @@ export default function Header({ type, title, restart, icon, onSubmit, postId, c
       </div>
       {type === 'category' && <NotiBtn />}
       {type === 'news' && <AiFillCopy size={26} className="cursor-pointer" onClick={() => navigator.clipboard.writeText((copyUrl ??= ''))} />}
-      {type === 'community' && <BsThreeDots size={26} onClick={() => setIsMenu(!isMenu)} className="cursor-pointer" />}
+      {type === 'community' && (!answerPin ?? true) && <BsThreeDots size={26} onClick={() => setIsMenu(!isMenu)} className="cursor-pointer" />}
       {isMenu && <EditDeleteBtn postId={String(postId)} setIsMenu={setIsMenu} />}
       {type === 'withMainBtn' && <MainBtn onSubmit={onSubmit} content={'완료'} size={20} />}
       {type === 'withMainBtn' && (
