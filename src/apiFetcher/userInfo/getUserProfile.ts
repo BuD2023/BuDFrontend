@@ -1,4 +1,4 @@
-import { UserProfileType } from '../../components/myProfile/_MyProfile.interface';
+import { UserProfileType } from '../../components/otherProfile/_OtherProfile.interface';
 import customAxios from '../customAxios';
 
 const getUserProfileInfo = async (token: string, id: number): Promise<UserProfileType> => {

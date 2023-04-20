@@ -1,7 +1,7 @@
-import { MyFollowListType } from '../../components/myProfile/_MyProfile.interface';
+import { UserFollowerListType } from '../../components/otherProfile/_OtherProfile.interface';
 import customAxios from '../customAxios';
 
-const getUserFollowerList = async (token: string, id: number): Promise<MyFollowListType[]> => {
+const getUserFollowerList = async (token: string, id: number): Promise<UserFollowerListType[]> => {
   return await customAxios({
     method: 'get',
     url: `/users/${id}/followers`,

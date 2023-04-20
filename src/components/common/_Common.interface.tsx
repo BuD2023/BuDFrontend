@@ -1,6 +1,7 @@
 import { IconType } from 'react-icons/lib';
 import { ReactElement, RefObject } from 'react';
 import { postingInfoType, postType, SortAndOrderType } from '../community/_Community.interface';
+import { SetNotificationType } from '../SignUp/_SignUp.interface';
 
 /** AddBtn - 컴포넌트 props 타입 */
 export interface AddBtnPropsType {
@@ -23,12 +24,6 @@ export interface CheckModalPropsType {
   setCheckModal: (x: boolean) => void;
   getModalAnswer: (x: SetNotificationType) => void;
   action?: () => void;
-}
-
-/** 포스트, 팔로우 알림설정 타입 */
-export interface SetNotificationType {
-  post: boolean;
-  follow: boolean;
 }
 
 /** ConfirmModal 컴포넌트 props 타입 */

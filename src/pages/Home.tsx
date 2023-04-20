@@ -12,7 +12,6 @@ export default function Home() {
 
   if (error) {
     navigate('/NotFound');
-    return;
   }
 
   return (

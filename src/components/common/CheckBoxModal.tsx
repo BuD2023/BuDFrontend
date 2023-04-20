@@ -3,7 +3,8 @@ import { Dialog, Transition } from '@headlessui/react';
 import { ExclamationTriangleIcon } from '@heroicons/react/24/outline';
 import { RiUserFollowFill } from 'react-icons/ri';
 import { TfiWrite } from 'react-icons/tfi';
-import { CheckModalPropsType, SetNotificationType } from './_Common.interface';
+import { CheckModalPropsType } from './_Common.interface';
+import { SetNotificationType } from '../SignUp/_SignUp.interface';
 
 export default function CheckBoxModal({ checkModal, setCheckModal, getModalAnswer, action }: CheckModalPropsType) {
   // const [open, setOpen] = useState(true)

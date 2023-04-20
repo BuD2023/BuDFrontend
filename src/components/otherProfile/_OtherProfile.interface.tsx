@@ -1,5 +1,5 @@
 /** getUserFollowerList - 타인 팔로워 리스트 가져올 때 사용하는 response 타입 */
-export interface MyFollowListType {
+export interface UserFollowerListType {
   description: string | null;
   id: number;
   isFollowing: boolean;

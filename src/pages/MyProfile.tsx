@@ -2,7 +2,6 @@ import { InfiniteData } from '@tanstack/react-query';
 import { useEffect, useRef, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { useNavigate, useParams } from 'react-router-dom';
-import { ScrpListType } from '../apiFetcher/userInfo/getMyScrapList';
 import FooterMenu from '../components/common/FooterMenu';
 import ScrapPostFormat from '../components/common/ScrapPostFormat';
 import ScrollToTopBtn from '../components/common/ScrollToTopBtn';
