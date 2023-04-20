@@ -1,6 +1,6 @@
-import { HomeCommitCalendarProps } from './_Home.interface';
+import { HomeCommitCalendarPropsType } from './_Home.interface';
 
-export default function HomeCommitCalendar({ commits, isLoading }: HomeCommitCalendarProps) {
+export default function HomeCommitCalendar({ commits, isLoading }: HomeCommitCalendarPropsType) {
   const dateFormat = (today: Date) =>
     `${today.getFullYear()}-${today.getMonth() + 1 < 9 ? `0${today.getMonth() + 1}` : today.getMonth() + 1}-${today.getDate() < 10 ? `0${today.getDate()}` : today.getDate()}`;
 

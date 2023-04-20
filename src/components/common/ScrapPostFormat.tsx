@@ -10,10 +10,10 @@ import LikeCommentScrap from './LikeCommentScrap';
 import ImagePeek from './ImagePeek';
 import PicModal from './PicModal';
 import { S3_URL } from '../../constant/union';
-import { ScrapPostProps } from '../../apiFetcher/userInfo/getMyScrapList';
+import { ScrapPostPropsType } from '../myProfile/_MyProfile.interface';
 
 interface ScrapPostFormatProps {
-  resultData: ScrapPostProps[];
+  resultData: ScrapPostPropsType[];
 }
 
 export default function ScrapPostFormat({ resultData }: ScrapPostFormatProps) {

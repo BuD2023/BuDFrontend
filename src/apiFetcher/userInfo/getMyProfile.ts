@@ -1,20 +1,7 @@
+import { MyProfileType } from '../../components/myProfile/_MyProfile.interface';
 import customAxios from '../customAxios';
 
-interface UserProfileType {
-  id: number;
-  userId: string;
-  nickName: string;
-  description: string;
-  level: number;
-  numberOfFollowers: number;
-  numberOfFollows: number;
-  numberOfPosts: number;
-  profileUrl: string;
-  isFollowing: boolean;
-  isReader: boolean;
-}
-
-const getMyProfileInfo = async (token: string): Promise<UserProfileType> => {
+const getMyProfileInfo = async (token: string): Promise<MyProfileType> => {
   return await customAxios({
     method: 'get',
     url: `/users`,
@@ -25,7 +12,3 @@ const getMyProfileInfo = async (token: string): Promise<UserProfileType> => {
 };
 
 export default getMyProfileInfo;
-
-// const { data: asdf, isLoading, error } = useMyFollowersQuery();
-
-// const { data:asdfasdf, isLoading, error } = useMyFollowsQuery();

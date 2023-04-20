@@ -1,5 +1,5 @@
 import { atom } from 'recoil';
-import { githubProps } from '../../components/home/_Home.interface';
+import { githubInfoType } from '../../components/home/_Home.interface';
 
 export const userInitialValue = '';
 

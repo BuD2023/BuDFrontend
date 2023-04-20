@@ -3,7 +3,7 @@ import { Dialog, Transition } from '@headlessui/react';
 import { ExclamationTriangleIcon } from '@heroicons/react/24/outline';
 import { RiUserFollowFill } from 'react-icons/ri';
 import { TfiWrite } from 'react-icons/tfi';
-import { SetNotificationType } from '../SignUp/SetJob';
+import { SetNotificationType } from '../SignUp/_SignUp.interface';
 
 interface ConfirmModalPropsType {
   checkModal: boolean;

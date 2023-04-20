@@ -1,7 +1,7 @@
 import { FcApproval, FcCalendar, FcCloseUpMode } from 'react-icons/fc';
-import { HomeCommitSectionProps } from './_Home.interface';
+import { HomeCommitSectionPropsType } from './_Home.interface';
 
-export default function HomeCommitSection({ todayCommitCount, thisWeekCommitCount, consecutiveCommitDays, isLoading }: HomeCommitSectionProps) {
+export default function HomeCommitSection({ todayCommitCount, thisWeekCommitCount, consecutiveCommitDays, isLoading }: HomeCommitSectionPropsType) {
   if (isLoading) {
     return <div className="relative min-h-[260px] w-full rounded-[50px] bg-midIvory dark:bg-midNavy"></div>;
   }

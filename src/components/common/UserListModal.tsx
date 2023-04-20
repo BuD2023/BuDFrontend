@@ -18,7 +18,7 @@ interface ConfirmModalPropsType {
 interface UserListProps {
   id: number;
   description: string;
-  isFollow: boolean;
+  isFollowing?: boolean;
   nickName: string;
   userId: string;
   profileUrl: string;
@@ -130,7 +130,7 @@ export default function UserListModal({ isUserList, setIsUserList, type, follows
                             className={`mr-4 flex cursor-pointer items-center gap-1 text-[14px] font-semibold ` + (user.nickName === 'JHni2' ? 'hidden' : '')}
                           >
                             <RiUserFollowFill className="text-[16px]" />
-                            <span>팔로우 {user.isFollow}</span>
+                            <span>팔로우 {user.isFollowing}</span>
                           </div>
                         </div>
                       ))}

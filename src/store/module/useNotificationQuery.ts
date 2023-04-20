@@ -3,13 +3,14 @@ import getNotificationListAxios from '../../apiFetcher/notificationInfo/getNotif
 import putNotificationStatusAxios from '../../apiFetcher/notificationInfo/putNotificationStatus';
 import deleteNotificationAxios from '../../apiFetcher/notificationInfo/deleteNotification';
 import { accessToken } from '../../main';
-import postNotificationTokenAxios, { notificationDataType } from '../../apiFetcher/notificationInfo/postNotificationToken';
+import postNotificationTokenAxios from '../../apiFetcher/notificationInfo/postNotificationToken';
+import { notificationDataType } from '../../components/notification/_Notification.interface';
 
 export function useNotificationListQuery() {
   return useInfiniteQuery(['NotificationList'], ({ pageParam = 0 }) => getNotificationListAxios(accessToken, pageParam), {
     getNextPageParam: (prevData, allPages) => {
-      const lastPage = prevData.last;
-      const nextPage = allPages.length;
+      const lastPage: boolean = prevData.last;
+      const nextPage: number = allPages.length;
       return lastPage ? undefined : nextPage;
     },
     refetchOnMount: true,

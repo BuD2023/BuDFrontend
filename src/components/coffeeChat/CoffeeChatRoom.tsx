@@ -6,7 +6,6 @@ import DefaultImage from '../../assets/Monica.webp';
 import { timeForToday } from '../../store/commentDummy';
 import { useAllChatroomQuery, useSearchChatroomQuery } from '../../store/module/useCoffeeChatQuery';
 import { useInView } from 'react-intersection-observer';
-import NotFound from '../../pages/NotFound';
 
 interface CoffeeChatRoomPropsType {
   inputValue: string;
@@ -60,7 +59,7 @@ export default function CoffeeChatRoom({ inputValue }: CoffeeChatRoomPropsType) 
     );
   }
   if (allError || searchError) {
-    return <NotFound />;
+    navigate('/NotFound');
   }
 
   return (

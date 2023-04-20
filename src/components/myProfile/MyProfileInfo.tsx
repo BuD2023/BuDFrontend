@@ -1,16 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useMyScrapsQuery } from '../../store/module/useMyProfileQuery';
-
 import UserListModal from '../common/UserListModal';
-
-interface MyProfileInfoPropsType {
-  level: number;
-  followers: number;
-  follows: number;
-  posts: number;
-  isLoading: boolean;
-}
+import { MyProfileInfoPropsType } from './_MyProfile.interface';
 
 export default function MyProfileInfo({ level, followers, follows, posts, isLoading }: MyProfileInfoPropsType) {
   const navigate = useNavigate();
@@ -40,11 +31,11 @@ export default function MyProfileInfo({ level, followers, follows, posts, isLoad
             <div>{posts}</div>
             <div className="mt-2 text-[18px] font-medium">게시물</div>
           </div>
-          <div onClick={followers > 0 ? handleClickFollower : undefined} className="flex cursor-pointer flex-col items-center justify-around text-[22px] font-bold">
+          <div onClick={followers > 0 ? handleClickFollower : undefined} className={'flex flex-col items-center justify-around text-[22px] font-bold ' + +(followers > 0 ? 'cursor-pointer' : '')}>
             <div>{followers}</div>
             <div className="mt-2 text-[18px] font-medium">팔로워</div>
           </div>
-          <div onClick={follows > 0 ? handleClickFollow : undefined} className="flex cursor-pointer flex-col items-center justify-around text-[22px] font-bold">
+          <div onClick={follows > 0 ? handleClickFollow : undefined} className={'flex flex-col items-center justify-around text-[22px] font-bold ' + (follows > 0 ? 'cursor-pointer' : '')}>
             <div>{follows}</div>
             <div className="mt-2 text-[18px] font-medium">팔로우</div>
           </div>

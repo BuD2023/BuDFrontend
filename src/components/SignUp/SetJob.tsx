@@ -1,15 +1,11 @@
 import { motion } from 'framer-motion';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useNotificationTokenMutation } from '../../store/module/useNotificationQuery';
 import sendFCMTokenFunc, { requestPermission } from '../../utils/fcm';
 import CheckBoxModal from '../common/CheckBoxModal';
 import ChangeJob from '../myProfileEdit/ChangeJob';
-
-export interface SetNotificationType {
-  post: boolean;
-  follow: boolean;
-}
+import { SetNotificationType } from './_SignUp.interface';
 
 export default function SetJob() {
   const [selectedJob, setSelectedJob] = useState('');

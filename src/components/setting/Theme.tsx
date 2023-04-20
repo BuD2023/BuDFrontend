@@ -7,7 +7,7 @@ export default function Theme() {
   const themeLight = 'light';
   const themeDark = 'dark';
 
-  const handleTheme = (e: any) => {
+  const handleTheme = (e: React.MouseEvent<HTMLLabelElement>) => {
     if (localStorage.getItem('theme') !== e.currentTarget.htmlFor) {
       localStorage.setItem('theme', e.currentTarget.htmlFor);
     }

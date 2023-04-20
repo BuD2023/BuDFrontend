@@ -1,8 +1,7 @@
 import { InfiniteData } from '@tanstack/react-query';
 import { useEffect, useRef, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
-import { useParams } from 'react-router-dom';
-import { ScrpListType } from '../apiFetcher/userInfo/getMyScrapList';
+import { useNavigate, useParams } from 'react-router-dom';
 import FooterMenu from '../components/common/FooterMenu';
 import ScrapPostFormat from '../components/common/ScrapPostFormat';
 import ScrollToTopBtn from '../components/common/ScrollToTopBtn';
@@ -10,11 +9,11 @@ import MyProfileHeader from '../components/myProfile/MyProfileHeader';
 import MyProfileInfo from '../components/myProfile/MyProfileInfo';
 import MyProfileMenu from '../components/myProfile/MyProfileMenu';
 import { useMyProfileQuery, useMyScrapsQuery } from '../store/module/useMyProfileQuery';
-import NotFound from './NotFound';
 
 export default function MyProfile() {
   const initialPostView = useParams();
   const [postView, setPostView] = useState(initialPostView.filter ?? 'feed');
+  const navigate = useNavigate();
 
   const { data: myProfileData, isLoading: myProfileIsLoading, error: myProfileError } = useMyProfileQuery();
   const { data: myScrapsData, isLoading: myScrapsIsLoading, error: myScrapsError, isFetching, isFetchingNextPage, fetchNextPage, hasNextPage } = useMyScrapsQuery('postId,DESC');
@@ -31,7 +30,7 @@ export default function MyProfile() {
   }, [postView]);
 
   if (myProfileError || myScrapsError) {
-    return <NotFound />;
+    navigate('/NotFound');
   }
 
   return (

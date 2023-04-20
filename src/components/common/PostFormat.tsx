@@ -12,7 +12,6 @@ import LikeCommentScrap from './LikeCommentScrap';
 import ImagePeek from './ImagePeek';
 import PicModal from './PicModal';
 import { S3_URL } from '../../constant/union';
-import NotFound from '../../pages/NotFound';
 
 interface IPostFormatPropsType {
   inputValue: string;
@@ -73,7 +72,7 @@ export default function PostFormat({ inputValue, sortAndOrder }: IPostFormatProp
   }
 
   if (isError) {
-    return <NotFound />;
+    navigate('/NotFound');
   }
 
   return (

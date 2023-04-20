@@ -1,11 +1,7 @@
 import { useNavigate } from 'react-router-dom';
+import { MyProfileMenuPropsType } from './_MyProfile.interface';
 
-interface IMyProfileMenuPropsType {
-  postView: string;
-  setPostView: React.Dispatch<React.SetStateAction<string>>;
-}
-
-export default function MyProfileMenu({ postView, setPostView }: IMyProfileMenuPropsType) {
+export default function MyProfileMenu({ postView, setPostView }: MyProfileMenuPropsType) {
   const navigate = useNavigate();
   return (
     <div className="flex w-full items-center justify-around border border-lightIvory border-b-darkIvory border-opacity-20 font-semibold dark:border-darkNavy dark:border-b-lightNavy ">
