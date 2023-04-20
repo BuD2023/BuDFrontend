@@ -9,13 +9,15 @@ import { getFeedCommentPinAxios, getQnACommentPinAxios } from '../../apiFetcher/
 import { postQnaAnswerAxios } from '../../apiFetcher/communityInfo/postQnaAnswer';
 import getQnaAnswerPinAxios from '../../apiFetcher/communityInfo/postQnaAnswerPin';
 import { accessToken } from '../../main';
+import postQnaAnswerLikeAxios from '../../apiFetcher/communityInfo/postQnaAnswerLike';
+import deleteQnaAnswerAxios from '../../apiFetcher/communityInfo/deleteQnaAnswer';
 
 export function useCommunityDetailQuery(id: number) {
-  return useQuery(['CommunityDetail', id], () => getCommunityDetailAxios(accessToken, id), {
-    // enabled: true,
-    refetchOnMount: false,
-    refetchOnReconnect: false,
-    refetchOnWindowFocus: false, // react-query는 사용자가 사용하는 윈도우가 다른 곳을 갔다가 다시 화면으로 돌아오면 이 함수를 재실행합니다. 그 재실행 여부 옵션 입니다.
+  return useQuery(['CommunityDetail', id, fetchNew], () => getCommunityDetailAxios(accessToken, id), {
+    enabled: true,
+    // refetchOnMount: false,
+    // refetchOnReconnect: false,
+    // refetchOnWindowFocus: false, // react-query는 사용자가 사용하는 윈도우가 다른 곳을 갔다가 다시 화면으로 돌아오면 이 함수를 재실행합니다. 그 재실행 여부 옵션 입니다.
     retry: 0, // 실패시 재호출 몇번 할지
     staleTime: 1000 * 60 * 5,
     cacheTime: 1000 * 60 * 5,
@@ -31,7 +33,7 @@ export function useCommunityAnswerQuery(id: number) {
     refetchOnReconnect: false,
     refetchOnWindowFocus: false, // react-query는 사용자가 사용하는 윈도우가 다른 곳을 갔다가 다시 화면으로 돌아오면 이 함수를 재실행합니다. 그 재실행 여부 옵션 입니다.
     retry: 0, // 실패시 재호출 몇번 할지
-    staleTime: 1000 * 60 * 5,
+    staleTime: 1000 * 60,
     cacheTime: 1000 * 60 * 5,
   });
 }
@@ -150,7 +152,7 @@ export function useQnACommentQuery(id: number) {
   return useInfiniteQuery(['CommunityComment', id], ({ pageParam = 0 }) => getQnACommentAxios(accessToken, pageParam, id), {
     getNextPageParam: (prevData: any, allPages) => {
       const maxPages = prevData.totalPages;
-      const nextPage = allPages.length + 1;
+      const nextPage = (allPages.length + 1) as number;
       return nextPage < maxPages ? nextPage : undefined;
     },
     enabled: false,
@@ -211,6 +213,33 @@ export function useDeleteQnACommentMutation(id: number) {
     },
     onSuccess: () => {
       console.log('댓글이 삭제되었습니다.');
+    },
+  });
+}
+
+// QNA 답변 좋아요 상태 변경
+export function usePostQnaAnswerLikeMutation(postId: number) {
+  const { refetch } = useCommunityAnswerQuery(postId);
+  return useMutation((id: number) => postQnaAnswerLikeAxios(accessToken, id), {
+    onError: (err) => {
+      console.log(err);
+    },
+    onSuccess: async () => {
+      console.log('QNA 답변 좋아요 상태가 변경되었습니다.');
+      // fetchNew = `qnaLike${Date.now()}` => 이렇게 하면 깜빡이네.....
+      refetch();
+    },
+  });
+}
+
+// QnA 답변 삭제
+export function useDeleteQnaAnswerMutation(answerId: number) {
+  return useMutation(() => deleteQnaAnswerAxios(accessToken, answerId), {
+    onError: (err) => {
+      console.log(err);
+    },
+    onSuccess: () => {
+      console.log('답변이 삭제되었습니다.');
     },
   });
 }

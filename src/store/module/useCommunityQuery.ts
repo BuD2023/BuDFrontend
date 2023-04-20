@@ -7,26 +7,21 @@ import postCommunityPostAxios from '../../apiFetcher/communityInfo/postCommunity
 import postCommunityScrapAxios from '../../apiFetcher/communityInfo/postCommunityScrap';
 import postUserFollow from '../../apiFetcher/communityInfo/postUserFollow';
 import updateCommunityPostAxios from '../../apiFetcher/communityInfo/updateCommunityPost';
-import { OrderType, SortType } from '../../components/community/_Community.interface';
+import { OrderType, postType, SortType } from '../../components/community/_Community.interface';
 import { accessToken } from '../../main';
+import { useCommunityDetailQuery } from './useCommunityDetailQuery';
 import { useMyFollowersQuery, useMyFollowsQuery, useMyProfileQuery, useMyScrapsQuery } from './useMyProfileQuery';
 import { useUserProfileQuery } from './useUserProfileQuery';
 
 let refetchNew = '';
-export function useCommunityPostQuery(word?: string, sort?: SortType, order?: OrderType, size?: number) {
-  return useInfiniteQuery(['Community', word, sort, order, refetchNew], ({ pageParam = 0 }) => getCommunityPostAxios(accessToken, word, sort, order, pageParam, size), {
+export function useCommunityPostQuery(word?: string, sort?: SortType, order?: OrderType, size?: number, postType?: postType | 'ALL') {
+  return useInfiniteQuery(['Community', word, sort, order, postType, refetchNew], ({ pageParam = 0 }) => getCommunityPostAxios(accessToken, word, sort, order, pageParam, size, postType), {
     getNextPageParam: (prevData, allPages) => {
       const lastPage = prevData.last;
       const nextPage = allPages.length + 1;
       return lastPage ? undefined : nextPage;
     },
-    // enabled: true,
-    refetchOnMount: true,
-    refetchOnReconnect: true,
-    refetchOnWindowFocus: true, // react-query는 사용자가 사용하는 윈도우가 다른 곳을 갔다가 다시 화면으로 돌아오면 이 함수를 재실행합니다. 그 재실행 여부 옵션 입니다.
-    retry: 0, // 실패시 재호출 몇번 할지
-    staleTime: 1000 * 60,
-    cacheTime: 1000 * 60 * 5,
+    staleTime: 30000,
   });
 }
 
@@ -79,15 +74,20 @@ export function useDeleteCommunityMutation(id: number) {
 }
 
 export function useCommunityLikeMutation(postId: number) {
+  const { refetch: detailRefetch } = useCommunityDetailQuery(postId);
+  // const { refetch: allListRefetch } = useCommunityPostQuery();
+
   return useMutation(() => postCommunityLikeAxios(accessToken, postId), {
     onError: (err) => {
       console.log(err);
     },
-    onSuccess: () => {
+    onSuccess: async () => {
+      detailRefetch();
       console.log('좋아요 상태 변경 반영됨');
     },
   });
 }
+
 export function useCommunityScrapMutation(postId: number) {
   const { refetch } = useMyScrapsQuery('postId,DESC');
   return useMutation(() => postCommunityScrapAxios(accessToken, postId), {

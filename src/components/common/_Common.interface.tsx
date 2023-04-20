@@ -68,6 +68,7 @@ export interface LikeCommentScrapPropsType {
   likeCount: number;
   commentCount: number;
   postId: number;
+  refetch?: () => void;
 }
 
 /** ScrapPostFormat 캄포넌트 props 타입 */
@@ -111,6 +112,7 @@ export interface PictureModalPropsType {
 export interface PostFormatPropsType {
   inputValue: string;
   sortAndOrder: SortAndOrderType;
+  filter: postType | 'ALL';
 }
 
 /** QuestionModal 컴포넌트 props 타입 */

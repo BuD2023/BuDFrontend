@@ -8,7 +8,7 @@ import SearchBar from '../components/common/SearchBar';
 import Header from '../components/common/Header';
 import { FcGlobe } from 'react-icons/fc';
 import ScrollToTopBtn from '../components/common/ScrollToTopBtn';
-import { SortAndOrderType } from '../components/community/_Community.interface';
+import { postType, SortAndOrderType } from '../components/community/_Community.interface';
 
 export default function Community() {
   // 커뮤니티 글 검색
@@ -20,6 +20,9 @@ export default function Community() {
     order: 'DESC',
   });
 
+  // 커뮤니티
+  const [filter, setFilter] = useState<postType | 'ALL'>('FEED');
+
   return (
     <section>
       <ScrollToTopBtn />
@@ -27,9 +30,9 @@ export default function Community() {
         <Header type="category" title="커뮤니티" icon={<FcGlobe />} />
         <AddBtn url="/postCreate" text="글쓰기" />
         <SearchBar inputValue={inputValue} setInputValue={setInputValue} />
-        <CommunityFilter />
+        <CommunityFilter setFilter={setFilter} />
         <CommunitySort setSortAndOrder={setSortAndOrder} sortAndOrder={sortAndOrder} />
-        <PostFormat inputValue={inputValue} sortAndOrder={sortAndOrder} />
+        <PostFormat inputValue={inputValue} sortAndOrder={sortAndOrder} filter={filter} />
       </div>
       <FooterMenu />
     </section>

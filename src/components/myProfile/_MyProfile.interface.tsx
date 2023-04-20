@@ -1,4 +1,4 @@
-import { PostStatusType, postType } from '../community/_Community.interface';
+import { CommunityPostPageableType, MemberLevelType, PostSortType, PostStatusType, postType } from '../community/_Community.interface';
 
 /** 일반적인 userList 타입 */
 export interface CommonUserListType {
@@ -51,15 +51,7 @@ export interface memberType {
   id: number;
   introduceMessage: null | string;
   job: null | string;
-  level: {
-    createdAt: string;
-    updatedAt: string;
-    id: number;
-    levelNumber: number;
-    levelCode: string;
-    levelStartCommitCount: number;
-    nextLevelStartCommitCount: number;
-  };
+  level: Partial<MemberLevelType>;
   nickName: string;
   oauthAccessToken: string;
   password: null | string;
@@ -99,24 +91,9 @@ export interface ScrpListType {
   last: boolean;
   number: number;
   numberOfElements: number;
-  pageable: {
-    offset: number;
-    pageNumber: number;
-    pageSize: number;
-    paged: boolean;
-    sort: {
-      empty: boolean;
-      sorted: boolean;
-      unsorted: boolean;
-    };
-    unpaged: boolean;
-  };
+  pageable: Partial<CommunityPostPageableType>;
   size: number;
-  sort: {
-    empty: boolean;
-    sorted: boolean;
-    unsorted: boolean;
-  };
+  sort: PostSortType;
 }
 
 /** MyProfileHeader - 나의 프로필 헤더에 사용하는 props 타입 */

@@ -13,13 +13,14 @@ import { S3_URL } from '../../constant/union';
 import { PostFormatPropsType } from './_Common.interface';
 import { CommunityPostListContentType } from '../community/_Community.interface';
 
-export default function PostFormat({ inputValue, sortAndOrder }: PostFormatPropsType) {
+export default function PostFormat({ inputValue, sortAndOrder, filter: postTypeFilter }: PostFormatPropsType) {
   const { filter } = useParams();
   const { sort, order } = sortAndOrder;
   const navigate = useNavigate();
+  const POSTLIST_SIZE = 10;
 
   //리액트 쿼리
-  const { isLoading, isError, data, hasNextPage, isFetching, isFetchingNextPage, fetchNextPage } = useCommunityPostQuery(inputValue, sort, order);
+  const { isLoading, isError, data, hasNextPage, isFetching, isFetchingNextPage, fetchNextPage, refetch } = useCommunityPostQuery(inputValue, sort, order, POSTLIST_SIZE, postTypeFilter);
   const [userId, setUserId] = useState(0);
   const { mutate } = useFollowMutation(Number(userId));
 
@@ -30,19 +31,6 @@ export default function PostFormat({ inputValue, sortAndOrder }: PostFormatProps
   };
 
   let resultData = data?.pages.map((i) => i.content.map((j) => ({ ...j, imageUrls: j.imageUrls.map((j) => j !== null && S3_URL + j) }))).flat() as CommunityPostListContentType[];
-
-  if (filter !== 'all') {
-    if (filter === 'FEED')
-      resultData = data?.pages
-        .map((i) => i.content.map((j) => ({ ...j, imageUrls: j.imageUrls.map((j) => j !== null && S3_URL + j) })))
-        .flat()
-        .filter((i) => i.postType === 'FEED') as CommunityPostListContentType[];
-    if (filter === 'QNA')
-      resultData = data?.pages
-        .map((i) => i.content.map((j) => ({ ...j, imageUrls: j.imageUrls.map((j) => j !== null && S3_URL + j) })))
-        .flat()
-        .filter((i) => i.postType === 'QNA') as CommunityPostListContentType[];
-  }
 
   // 인피니티 스크롤
   const { ref, inView } = useInView({ threshold: 0.1 });
@@ -131,7 +119,7 @@ export default function PostFormat({ inputValue, sortAndOrder }: PostFormatProps
               {data.imageUrls && data.imageUrls.length > 0 && data.imageUrls[0] !== 'https://budproject.s3.ap-northeast-2.amazonaws.com/null' && data.imageUrls[0] !== false && (
                 <ImagePeek setIsPicPopUp={setIsPicPopUp} imgPeek={data.imageUrls as string[]} />
               )}
-              <LikeCommentScrap postType={data.postType} likeCount={data.likeCount} commentCount={data.commentCount} postId={data.id} />
+              <LikeCommentScrap postType={data.postType} likeCount={data.likeCount} commentCount={data.commentCount} postId={data.id} refetch={refetch} />
             </li>
           ))
         ) : (

@@ -3,7 +3,7 @@ import { BsThreeDots } from 'react-icons/bs';
 import { FcApproval, FcLike, FcPortraitMode, FcSms } from 'react-icons/fc';
 import { useNavigate, useParams } from 'react-router-dom';
 import { timeForToday } from '../../store/commentDummy';
-import { useCommunityAnswerQuery, usePinAnswerMutation } from '../../store/module/useCommunityDetailQuery';
+import { useCommunityAnswerQuery, usePinAnswerMutation, usePostQnaAnswerLikeMutation } from '../../store/module/useCommunityDetailQuery';
 import { useFollowMutation } from '../../store/module/useCommunityQuery';
 import CommunityCommentForm from '../feedDetail/CommunityCommentForm';
 import profile1 from '../../assets/profile1.jpg';
@@ -18,8 +18,12 @@ export default function CommunityQADetailAnswer({ isCommentOpen, setIsCommentOpe
 
   const [userId, setUserId] = useState<number>();
   const [answerId, setAnswerId] = useState<number>();
+
+  //리액트 쿼리
+  const { data: answerData, isLoading: answerIsLoading, error: answerError } = useCommunityAnswerQuery(Number(postId));
   const { mutate: followMutate } = useFollowMutation(Number(userId));
   const { mutate: pinAnswerMutate } = usePinAnswerMutation(Number(answerId));
+  const { mutate: likeAnswerMutate } = usePostQnaAnswerLikeMutation(Number(postId));
 
   const handleClickFollow = (e: React.MouseEvent<HTMLElement>, memberId: number) => {
     setUserId(memberId);
@@ -31,9 +35,6 @@ export default function CommunityQADetailAnswer({ isCommentOpen, setIsCommentOpe
     setAnswerId(answerId);
     pinAnswerMutate();
   };
-
-  const { data: answerData, isLoading: answerIsLoading, error: answerError } = useCommunityAnswerQuery(Number(postId));
-  // answerData?.content.map((answer) => console.log(item));
 
   useEffect(() => {
     if (answerData?.content.some((answer: any) => answer.qnaAnswerPin)) {
@@ -98,7 +99,7 @@ export default function CommunityQADetailAnswer({ isCommentOpen, setIsCommentOpe
                   />
                   <div className="pl-3">
                     <div className="flex flex-col gap-1">
-                      <p className="text-xl font-bold">{answer.member.nickName}</p>
+                      <p className="text-xl font-bold">{answer.member.nickname}</p>
                       <p className="text-[17px] opacity-50">{timeForToday(answer.createdAt)}</p>
                     </div>
                   </div>
@@ -122,7 +123,7 @@ export default function CommunityQADetailAnswer({ isCommentOpen, setIsCommentOpe
                 (answer.qnaAnswerPin ? '!rounded-none' : '')
               }
             >
-              <div className="flex cursor-pointer items-center gap-2">
+              <div onClick={() => likeAnswerMutate(answer.id)} className="flex cursor-pointer items-center gap-2">
                 <FcLike size={'20px'} />
                 {answer.likeCount}
               </div>

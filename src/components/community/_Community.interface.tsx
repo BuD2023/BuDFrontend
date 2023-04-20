@@ -5,7 +5,6 @@ export type postType = 'FEED' | 'QNA';
 export type PostStatusType = 'ACTIVE' | 'INACTIVE';
 
 /** 게시물 형식 및 종류 */
-
 export type postingInfoType = 'ROOM_CREATE' | 'POST_UPDATE' | 'POST_CREATE' | 'ANSWER_CREATE' | 'ANSWER_UPDATE';
 
 /** 인기순 좋아요순 최신순 정렬 타입 */
