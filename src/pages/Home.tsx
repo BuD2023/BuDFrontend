@@ -4,13 +4,15 @@ import HomeLevelSection from '../components/home/HomeLevelSection';
 import HomeCommitSection from '../components/home/HomeCommitSection';
 import HomeCommitCalendar from '../components/home/HomeCommitCalendar';
 import { useGithubQuery } from '../store/module/useGithubQuery';
-import NotFound from './NotFound';
+import { useNavigate } from 'react-router-dom';
 
 export default function Home() {
   const { data, isLoading, error } = useGithubQuery();
+  const navigate = useNavigate();
 
   if (error) {
-    return <NotFound />;
+    navigate('/NotFound');
+    return;
   }
 
   return (

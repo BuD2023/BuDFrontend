@@ -6,12 +6,13 @@ import { useNewsDetailQuery } from '../store/module/useNewsQuery';
 import { timeForToday } from '../store/commentDummy';
 import PicModal from '../components/common/PicModal';
 import newsDefaultImg from '../assets/newsDefaultImg.webp';
-import NotFound from './NotFound';
+import { useNavigate } from 'react-router-dom';
 
 export default function NewsDetail() {
   const [isScroll, setIsScroll] = useState(false);
   const id = Number(location.pathname.replace('/newsDetail/', ''));
   const { data, isLoading, error } = useNewsDetailQuery(id);
+  const navigate = useNavigate();
 
   // 사진 popUp
   const [isPicPopUp, setIsPicPopUp] = useState({
@@ -50,7 +51,8 @@ export default function NewsDetail() {
   }
 
   if (error) {
-    return <NotFound />;
+    navigate('/NotFound');
+    return;
   }
 
   return (

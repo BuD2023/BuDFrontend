@@ -10,14 +10,15 @@ import CommunityQADetailAnswer from '../components/q&aDetail/CommunityQADetailAn
 export default function () {
   const { id } = useParams();
   const [isCommentOpen, setIsCommentOpen] = useState(false);
+  const [answerPin, setAnswerPin] = useState<boolean>(false);
 
   return (
     <section>
       <div className="mb-[80px] mt-9 flex h-full min-h-[calc(100vh-160px)] w-full flex-col items-center gap-4 p-4 text-lightText dark:text-white">
-        <AddBtn url={`/answerCreate/${Number(id)}`} text="답변달기" />
-        <Header type="community" title="Q	&#38; A 피드" icon={<BsChevronLeft />} postId={id} />
+        {!answerPin && <AddBtn url={`/answerCreate/${Number(id)}`} text="답변달기" />}
+        <Header type="community" title="Q	&#38; A 피드" icon={<BsChevronLeft />} answerPin={answerPin} postId={id} />
         <CommunityDetailPost />
-        <CommunityQADetailAnswer isCommentOpen={isCommentOpen} setIsCommentOpen={setIsCommentOpen} />
+        <CommunityQADetailAnswer answerPin={answerPin} setAnswerPin={setAnswerPin} isCommentOpen={isCommentOpen} setIsCommentOpen={setIsCommentOpen} />
       </div>
       {!isCommentOpen && <FooterMenu />}
     </section>

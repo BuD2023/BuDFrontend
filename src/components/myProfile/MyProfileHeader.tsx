@@ -2,14 +2,7 @@ import { AiFillGithub, AiFillSetting } from 'react-icons/ai';
 import { FcReadingEbook } from 'react-icons/fc';
 import { useNavigate } from 'react-router-dom';
 import profile1 from '../../assets/profile1.jpg';
-
-interface MyProfileHeaderPropsType {
-  userId: string;
-  nickName: string;
-  description: string;
-  profileUrl: string;
-  isLoading: boolean;
-}
+import { MyProfileHeaderPropsType } from './_MyProfile.interface';
 
 export default function MyProfileHeader({ userId, nickName, description, profileUrl, isLoading }: MyProfileHeaderPropsType) {
   const navigate = useNavigate();

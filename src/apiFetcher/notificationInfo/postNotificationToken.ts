@@ -1,10 +1,5 @@
+import { notificationDataType } from '../../components/notification/_Notification.interface';
 import customAxios from '../customAxios';
-
-export interface notificationDataType {
-  fcmToken: string;
-  isPostPushAvailable?: boolean;
-  isFollowPushAvailable?: boolean;
-}
 
 const postNotificationTokenAxios = async (token: string, notificationData: notificationDataType) => {
   return await customAxios({

@@ -2,19 +2,11 @@ import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useFollowMutation } from '../../store/module/useCommunityQuery';
 import UserListModal from '../common/UserListModal';
+import { OtherProfileInfoPropsType } from './_OtherProfile.interface';
 
-interface OtherProfileInfoProps {
-  numberOfPosts: number;
-  numberOfFollowers: number;
-  numberOfFollows: number;
-  level: number;
-  isFollowing: boolean;
-  isLoading: boolean;
-}
-
-export default function OtherProfileInfo({ numberOfPosts, numberOfFollowers, numberOfFollows, level, isFollowing, isLoading }: OtherProfileInfoProps) {
+export default function OtherProfileInfo({ numberOfPosts, numberOfFollowers, numberOfFollows, level, isFollowing, isLoading }: OtherProfileInfoPropsType) {
   const { id } = useParams();
-  const [type, setType] = useState('');
+  const [type, setType] = useState<string>('');
   const [isUserList, setIsUserList] = useState<boolean>(false);
 
   const handleClickFollower = () => {
@@ -45,11 +37,17 @@ export default function OtherProfileInfo({ numberOfPosts, numberOfFollowers, num
             <div>{numberOfPosts}</div>
             <div className="mt-2 text-[18px] font-medium">게시물</div>
           </div>
-          <div onClick={numberOfFollowers > 0 ? handleClickFollower : undefined} className="flex cursor-pointer flex-col items-center justify-around text-[22px] font-bold">
+          <div
+            onClick={numberOfFollowers > 0 ? handleClickFollower : undefined}
+            className={'flex flex-col items-center justify-around text-[22px] font-bold ' + (numberOfFollowers > 0 ? 'cursor-pointer' : '')}
+          >
             <div>{numberOfFollowers}</div>
             <div className="mt-2 text-[18px] font-medium">팔로워</div>
           </div>
-          <div onClick={numberOfFollows > 0 ? handleClickFollow : undefined} className="flex cursor-pointer flex-col items-center justify-around text-[22px] font-bold">
+          <div
+            onClick={numberOfFollows > 0 ? handleClickFollow : undefined}
+            className={'flex flex-col items-center justify-around text-[22px] font-bold ' + (numberOfFollows > 0 ? 'cursor-pointer' : '')}
+          >
             <div>{numberOfFollows}</div>
             <div className="mt-2 text-[18px] font-medium">팔로우</div>
           </div>

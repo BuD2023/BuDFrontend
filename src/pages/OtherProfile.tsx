@@ -1,21 +1,22 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import FooterMenu from '../components/common/FooterMenu';
 import PostFormat from '../components/common/PostFormat';
 import OtherProfileHeader from '../components/otherProfile/OtherProfileHeader';
 import OtherProfileInfo from '../components/otherProfile/OtherProfileInfo';
 import OtherProfileMenu from '../components/otherProfile/OtherProfileMenu';
 import { useUserProfileQuery } from '../store/module/useUserProfileQuery';
-import NotFound from './NotFound';
 
 export default function OtherProfile() {
   const [postView, setPostView] = useState(true);
   const { id } = useParams();
+  const navigate = useNavigate();
 
   const { data, isLoading, error, refetch } = useUserProfileQuery(Number(id));
 
   if (error) {
-    return <NotFound />;
+    navigate('/NotFound');
+    return;
   }
 
   useEffect(() => {

@@ -1,15 +1,9 @@
 import { useEffect, useState } from 'react';
 import { BsBellFill } from 'react-icons/bs';
 import Toggle from '../common/Toggle';
+import { NotificationType } from './_Setting.interface';
 
 export default function Notification() {
-  type NotificationType = {
-    [key: string]: boolean;
-    all: boolean;
-    chat: boolean;
-    comment: boolean;
-  };
-
   const notificationString = localStorage.getItem('notification');
   const initialNotification = notificationString
     ? JSON.parse(notificationString)
@@ -37,7 +31,7 @@ export default function Notification() {
     }
   };
 
-  const handleToggle = (e: any) => {
+  const handleToggle = (e: React.MouseEvent<HTMLElement>) => {
     const noti = e.currentTarget.id;
     if (noti === 'all') {
       setNoti('all');

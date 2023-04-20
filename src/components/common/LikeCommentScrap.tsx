@@ -39,7 +39,7 @@ export default function LikeCommentScrap({ postType, likeCount, commentCount, po
         ) : (
           <>
             <div
-              className="flex items-center gap-2"
+              className="flex cursor-pointer items-center gap-2"
               onClick={(e) => {
                 e.stopPropagation();
                 likeMutate();
@@ -48,7 +48,7 @@ export default function LikeCommentScrap({ postType, likeCount, commentCount, po
               <BsFillHandThumbsUpFill size="20px" className="text-[#fbceb1]" />
               {likeCount}
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex cursor-pointer items-center gap-2">
               <FcVoicePresentation size="30px" />
               {commentCount}
             </div>
@@ -56,7 +56,7 @@ export default function LikeCommentScrap({ postType, likeCount, commentCount, po
         )}
       </div>
       <div
-        className="flex items-center justify-end gap-2 "
+        className="flex cursor-pointer items-center justify-end gap-2"
         onClick={(e) => {
           e.stopPropagation();
           scrapMutate();

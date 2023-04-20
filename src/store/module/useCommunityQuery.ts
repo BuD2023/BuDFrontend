@@ -31,12 +31,14 @@ export function useCommunityPostQuery(word?: string, sort?: SortType, order?: Or
 }
 
 export function usePostCommunityMutation() {
+  // const { refetch } = useCommunityPostQuery();
   return useMutation((data: FormData) => postCommunityPostAxios(accessToken, data), {
     onError: (err) => {
       console.log(err);
     },
     onSuccess: () => {
       console.log('요청이 실행되었습니다.');
+      // refetch();
     },
   });
 }

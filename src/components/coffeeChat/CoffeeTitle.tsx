@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 import { BsBackspace } from 'react-icons/bs';
 import { FcIcons8Cup } from 'react-icons/fc';
-import NotFound from '../../pages/NotFound';
+import { useNavigate } from 'react-router-dom';
 import { useChatroomStatusQuery } from '../../store/module/useChatroomQuery';
 import Header from '../common/Header';
 import SearchBar from '../common/SearchBar';
@@ -13,11 +13,12 @@ interface CoffeeTitlePropsType {
 
 export default function CoffeeTitle({ setInputValue, inputValue }: CoffeeTitlePropsType) {
   const inputRef = useRef<HTMLInputElement>(null);
+  const navigate = useNavigate();
 
   const { isLoading, data, isError } = useChatroomStatusQuery();
 
   if (isError) {
-    return <NotFound />;
+    navigate('/NotFound');
   }
 
   return (

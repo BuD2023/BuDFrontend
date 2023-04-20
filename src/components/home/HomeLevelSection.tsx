@@ -1,9 +1,9 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { HomeLevelSectionProps } from './_Home.interface';
+import { HomeLevelSectionPropsType } from './_Home.interface';
 import { S3_URL } from '../../constant/union';
 
-export default function HomeLevelSection({ levelCode, remainCommitCountNextLevel, isLoading, levelImg }: HomeLevelSectionProps) {
+export default function HomeLevelSection({ levelCode, remainCommitCountNextLevel, isLoading, levelImg }: HomeLevelSectionPropsType) {
   const navigate = useNavigate();
 
   if (isLoading) {

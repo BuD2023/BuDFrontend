@@ -1,13 +1,10 @@
 import imageCompression from 'browser-image-compression';
 import { ChangeEvent, useRef } from 'react';
+import { ChangeProfilePicPropsType } from './_MyProfileEdit.interface';
 
 const defaultImg = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png';
-interface IChangeProfilePicPropsType {
-  profileImg: string | ArrayBuffer | null;
-  setProfileImg: (x: string | ArrayBuffer | null) => void;
-}
 
-export default function ChangeProfilePic({ profileImg, setProfileImg }: IChangeProfilePicPropsType) {
+export default function ChangeProfilePic({ profileImg, setProfileImg }: ChangeProfilePicPropsType) {
   const imgRef = useRef<HTMLInputElement>(null);
 
   const handleProfileImgClick = () => {

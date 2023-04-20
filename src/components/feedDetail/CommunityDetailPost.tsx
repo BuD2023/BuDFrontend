@@ -10,7 +10,6 @@ import ImagePeek from '../common/ImagePeek';
 import { useState } from 'react';
 import { S3_URL } from '../../constant/union';
 import { useFollowMutation } from '../../store/module/useCommunityQuery';
-import NotFound from '../../pages/NotFound';
 
 export default function CommunityDetailPost() {
   const { id: questionId } = useParams();
@@ -34,7 +33,7 @@ export default function CommunityDetailPost() {
     pic: '',
   });
   if (questionError) {
-    return <NotFound />;
+    navigate('/NotFound');
   }
 
   if (questionIsLoading) {
@@ -42,7 +41,7 @@ export default function CommunityDetailPost() {
   }
 
   return (
-    <div className="mb-6 flex w-full cursor-pointer flex-col items-center gap-4 rounded-[20px] bg-midIvory dark:bg-midNavy">
+    <div className="mb-6 flex w-full flex-col items-center gap-4 rounded-[20px] bg-midIvory dark:bg-midNavy">
       <div className="flex w-full flex-col gap-4 p-4 text-lightText dark:text-white">
         <div className="flex w-full">
           <div className="flex gap-1">
@@ -53,7 +52,7 @@ export default function CommunityDetailPost() {
               }}
               src={DefaultProfileImage}
               alt={questionData?.member.nickname}
-              className="w-[58px] rounded-full"
+              className="w-[58px] cursor-pointer rounded-full"
             />
             <div className="pl-3">
               <p
@@ -69,9 +68,11 @@ export default function CommunityDetailPost() {
             </div>
           </div>
           <div className="text-end grow font-bold">
-            <div onClick={(e) => handleClickFollow(e, Number(questionData?.member.id), questionData?.member.nickname)} className="flex h-full items-center justify-end gap-3">
-              <FcPortraitMode />
-              <p>팔로우</p>
+            <div className="flex h-full items-center justify-end">
+              <div onClick={(e) => handleClickFollow(e, Number(questionData?.member.id), questionData?.member.nickname)} className="flex h-full cursor-pointer items-center justify-end gap-3">
+                <FcPortraitMode />
+                <p>팔로우</p>
+              </div>
             </div>
           </div>
         </div>

@@ -1,9 +1,6 @@
-interface IOtherProfileMenuPropsType {
-  postView: boolean;
-  setPostView: (x: boolean) => void;
-}
+import { OtherProfileMenuPropsType } from './_OtherProfile.interface';
 
-export default function OtherProfileMenu({ postView, setPostView }: IOtherProfileMenuPropsType) {
+export default function OtherProfileMenu({ postView, setPostView }: OtherProfileMenuPropsType) {
   return (
     <div className="flex w-full items-center justify-around border border-lightIvory border-b-darkIvory border-opacity-20 font-semibold dark:border-darkNavy dark:border-b-lightNavy ">
       <div

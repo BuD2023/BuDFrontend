@@ -8,8 +8,8 @@ import NewsKeywordFilter from '../components/news/NewsKeywordFilter';
 import { useNewsQuery } from '../store/module/useNewsQuery';
 import { useInView } from 'react-intersection-observer';
 import ScrollToTopBtn from '../components/common/ScrollToTopBtn';
-import NotFound from './NotFound';
 import SearchBar from '../components/common/SearchBar';
+import { useNavigate } from 'react-router-dom';
 
 export default function News() {
   // 키워드 필터
@@ -19,11 +19,13 @@ export default function News() {
   const [sort, setSort] = useState(false);
   const [order, setOrder] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
+  const navigate = useNavigate();
 
   const { data, isLoading, error, isFetching, isFetchingNextPage, fetchNextPage, hasNextPage } = useNewsQuery(inputValue, sort, order, filterKeywords);
 
   if (error) {
-    return <NotFound />;
+    navigate('/NotFound');
+    return;
   }
 
   // 인피니티 스크롤
