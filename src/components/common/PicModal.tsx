@@ -1,12 +1,8 @@
 import { Fragment, useRef, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
+import { PictureModalPropsType } from './_Common.interface';
 
-interface ConfirmModalPropsType {
-  isPicPopUp: { open: boolean; pic: string };
-  setIsPicPopUp: ({}: { open: boolean; pic: string }) => void;
-}
-
-export default function PicModal({ isPicPopUp, setIsPicPopUp }: ConfirmModalPropsType) {
+export default function PicModal({ isPicPopUp, setIsPicPopUp }: PictureModalPropsType) {
   // const [open, setOpen] = useState(true)
   const cancelButtonRef = useRef(null);
 

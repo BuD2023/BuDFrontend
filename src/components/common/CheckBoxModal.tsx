@@ -3,16 +3,9 @@ import { Dialog, Transition } from '@headlessui/react';
 import { ExclamationTriangleIcon } from '@heroicons/react/24/outline';
 import { RiUserFollowFill } from 'react-icons/ri';
 import { TfiWrite } from 'react-icons/tfi';
-import { SetNotificationType } from '../SignUp/SetJob';
+import { CheckModalPropsType, SetNotificationType } from './_Common.interface';
 
-interface ConfirmModalPropsType {
-  checkModal: boolean;
-  setCheckModal: (x: boolean) => void;
-  getModalAnswer: (x: SetNotificationType) => void;
-  action?: () => void;
-}
-
-export default function CheckBoxModal({ checkModal, setCheckModal, getModalAnswer, action }: ConfirmModalPropsType) {
+export default function CheckBoxModal({ checkModal, setCheckModal, getModalAnswer, action }: CheckModalPropsType) {
   // const [open, setOpen] = useState(true)
   const cancelButtonRef = useRef(null);
   const [notification, setNotification] = useState<SetNotificationType>({

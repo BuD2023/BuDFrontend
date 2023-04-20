@@ -9,6 +9,7 @@ import { getFeedCommentPinAxios, getQnACommentPinAxios } from '../../apiFetcher/
 import { postQnaAnswerAxios } from '../../apiFetcher/communityInfo/postQnaAnswer';
 import getQnaAnswerPinAxios from '../../apiFetcher/communityInfo/postQnaAnswerPin';
 import { accessToken } from '../../main';
+import { useNavigate } from 'react-router-dom';
 
 export function useCommunityDetailQuery(id: number) {
   return useQuery(['CommunityDetail', id], () => getCommunityDetailAxios(accessToken, id), {
@@ -23,10 +24,11 @@ export function useCommunityDetailQuery(id: number) {
 }
 
 //QnA 답변 조회
+let fetchNew = '';
 export function useCommunityAnswerQuery(id: number) {
-  return useQuery(['CommunityAnswer', id], () => getQnaAnswerAxios(accessToken, id), {
+  return useQuery(['CommunityAnswer', id, fetchNew], () => getQnaAnswerAxios(accessToken, id), {
     // enabled: true,
-    refetchOnMount: false,
+    refetchOnMount: true,
     refetchOnReconnect: false,
     refetchOnWindowFocus: false, // react-query는 사용자가 사용하는 윈도우가 다른 곳을 갔다가 다시 화면으로 돌아오면 이 함수를 재실행합니다. 그 재실행 여부 옵션 입니다.
     retry: 0, // 실패시 재호출 몇번 할지
@@ -43,6 +45,7 @@ export function useCreateAnswerMutation() {
     },
     onSuccess: () => {
       console.log('QNA 답변이 게시되었습니다.');
+      fetchNew = `Qna${Date.now()}`;
     },
   });
 }

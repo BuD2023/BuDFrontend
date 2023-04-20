@@ -1,16 +1,5 @@
+import { chatroomInfoType } from '../../components/chatRoom/_ChatRoom.interface';
 import customAxios from '../customAxios';
-
-interface chatroomInfoType {
-  chatRoomId: number;
-  title: string;
-  numberOfMembers: number;
-  description: string;
-  hashTags: string[];
-  createdAt: string;
-  hostName: string;
-  hostProfileUrl: string;
-  hostId: number;
-}
 
 const getChatroomInfoAxios = async (token: string, page: number = 0): Promise<chatroomInfoType> => {
   const response = (await customAxios({

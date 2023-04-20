@@ -5,32 +5,32 @@ import { useRef, useState } from 'react';
 import { RxTriangleDown } from 'react-icons/rx';
 import { AiFillPicture } from 'react-icons/ai';
 import PicModal from '../components/common/PicModal';
-import imageCompression from 'browser-image-compression';
 import { useParams } from 'react-router-dom';
 import { useCommunityDetailQuery } from '../store/module/useCommunityDetailQuery';
-import actionImgCompress from '../utils/imgCompress';
 import { usePreventLeave } from '../utils/usePreventLeave';
+import { makeCompressedImg } from '../utils/makeCompressedImg';
+import { CommunityPostType } from '../components/community/_Community.interface';
 
 export default function PostEdit() {
   const { id: postId } = useParams();
 
   //게시글 타입
   const postTypes = ['개발 피드', 'Q & A 피드'];
-  const [isClick, setIsClick] = useState(true);
+  const [isClick, setIsClick] = useState<boolean>(true);
 
   // 게시글 전체 정보
   const { data, isLoading, error } = useCommunityDetailQuery(Number(postId));
-  const [postInfo, setPostInfo] = useState({
+  const [postInfo, setPostInfo] = useState<Partial<CommunityPostType>>({
     postTypeInfo: 'POST_UPDATE',
     title: data?.title,
     content: data?.content,
     postType: data?.postType,
-    images: data?.imageUrls as null[] | Blob[],
-    postId: postId,
-  });
+    images: data?.imageUrls,
+    postId: Number(postId),
+  } as Partial<CommunityPostType>);
 
   useEffect(() => {
-    setPostInfo({ postTypeInfo: 'POST_EDIT', title: data?.title, content: data?.content, postType: data?.postType, images: data?.imageUrls as null[] | Blob[], postId: postId });
+    setPostInfo({ postTypeInfo: 'POST_UPDATE', title: data?.title, content: data?.content, postType: data?.postType, images: data?.imageUrls, postId: Number(postId) } as Partial<CommunityPostType>);
   }, [data]);
 
   // 사진 미리보기
@@ -39,33 +39,8 @@ export default function PostEdit() {
   // 사진 업로드
   const imgRef = useRef<HTMLInputElement>(null);
 
-  //사진 압축
-  const makeCompressedImg = async (fileArr: FileList) => {
-    let filesLength = fileArr.length > 10 ? 10 : fileArr.length;
-    console.log(fileArr);
-
-    const compressedFiles = await Promise.all(
-      Array.from(fileArr)
-        .slice(0, filesLength)
-        .map(async (file) => {
-          return await actionImgCompress(file);
-        })
-    );
-    return compressedFiles;
-  };
-
-  //multipart form data로 저장
-  // const makeMultipartForm = (compressedFiles: Blob[] | FileList) => {
-  //   const formData = new FormData();
-  //   for (let i = 0; i < compressedFiles.length; i++) {
-  //     formData.append(`photos`, compressedFiles[i]);
-  //   }
-  //   return formData;
-  // };
-
   const handleChangeProfileImg = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const fileArr = e.target.files as FileList;
-
     const compressedFiles = await makeCompressedImg(fileArr);
     console.log(compressedFiles);
     const compressedFileURLs = await Promise.all(
@@ -80,25 +55,14 @@ export default function PostEdit() {
       })
     );
     setImgPeek(compressedFileURLs);
-
-    // const MultipartData = makeMultipartForm(compressedFiles as Blob[]);
     setPostInfo({
       ...postInfo,
       images: compressedFiles as Blob[],
     });
   };
-  // form data 확인
-  // if (postInfo.images !== null) {
-  //   for (let key of (postInfo.images as FormData).keys()) {
-  //     console.log(key);
-  //   }
-  //   for (let value of (postInfo.images as FormData).values()) {
-  //     console.log(value);
-  //   }
-  // }
 
   // 사진 popUp
-  const [isPicPopUp, setIsPicPopUp] = useState({
+  const [isPicPopUp, setIsPicPopUp] = useState<{ open: boolean; pic: string }>({
     open: false,
     pic: '',
   });

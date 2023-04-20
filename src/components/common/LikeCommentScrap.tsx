@@ -1,16 +1,7 @@
-import React from 'react';
 import { BsFillHandThumbsUpFill } from 'react-icons/bs';
 import { FcLike, FcSms, FcVoicePresentation } from 'react-icons/fc';
-import { useLocation } from 'react-router-dom';
-import { PostTypeType } from '../../apiFetcher/communityInfo/getCommunityPost';
 import { useCommunityLikeMutation, useCommunityScrapMutation } from '../../store/module/useCommunityQuery';
-
-interface LikeCommentScrapPropsType {
-  postType: PostTypeType;
-  likeCount: number;
-  commentCount: number;
-  postId: number;
-}
+import { LikeCommentScrapPropsType } from './_Common.interface';
 
 export default function LikeCommentScrap({ postType, likeCount, commentCount, postId }: LikeCommentScrapPropsType) {
   const { mutate: likeMutate } = useCommunityLikeMutation(postId);

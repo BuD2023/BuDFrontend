@@ -1,42 +1,5 @@
 import customAxios from '../customAxios';
-
-export interface ChatroomType {
-  chatRoomId: number;
-  createdAt: string;
-  description: string;
-  hashTags: string[];
-  hostId: number;
-  hostName: string;
-  hostProfileUrl: null | string;
-  numberOfMembers: number;
-  title: string;
-}
-export interface ChatroomListType {
-  content: ChatroomType[];
-  empty: boolean;
-  first: boolean;
-  last: boolean;
-  number: number;
-  numberOfElements: number;
-  pageable: {
-    offset: number;
-    pageNumber: number;
-    pageSize: number;
-    paged: boolean;
-    sort: {
-      empty: boolean;
-      sorted: boolean;
-      unsorted: boolean;
-    };
-    unpaged: boolean;
-  };
-  size: number;
-  sort: {
-    empty: boolean;
-    sorted: boolean;
-    unsorted: boolean;
-  };
-}
+import { ChatroomListType } from '../../components/coffeeChat/_CoffeeChat.interface';
 
 const getAllChatroomListAxios = async (token: string, page: number = 0): Promise<ChatroomListType> => {
   const response = (await customAxios({

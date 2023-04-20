@@ -5,17 +5,15 @@ import { useRef, useState } from 'react';
 import { RxTriangleDown } from 'react-icons/rx';
 import { AiFillPicture } from 'react-icons/ai';
 import PicModal from '../components/common/PicModal';
-import imageCompression from 'browser-image-compression';
-import { PostTypeType } from '../apiFetcher/communityInfo/getCommunityPost';
-import actionImgCompress from '../utils/imgCompress';
 import ImagePeek from '../components/common/ImagePeek';
 import { makeCompressedImg } from '../utils/makeCompressedImg';
+import { CommunityPostType } from '../components/community/_Community.interface';
 
 export default function PostCreate() {
   //게시글 타입
   const postTypes = ['개발 피드', 'Q & A 피드'];
   const [isClick, setIsClick] = useState(true);
-  const initialValue = { postTypeInfo: 'POST_CREATE', title: '', content: '', postType: 'FEED' as PostTypeType, images: null as null | Blob[] };
+  const initialValue: Partial<CommunityPostType> = { postTypeInfo: 'POST_CREATE', title: '', content: '', postType: 'FEED', images: null };
 
   // 게시글 전체 정보
   const [postInfo, setPostInfo] = useState(initialValue);

@@ -1,15 +1,8 @@
 import { Fragment, useRef, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
-import { ExclamationTriangleIcon } from '@heroicons/react/24/outline';
+import { QuestionModalPropsType } from './_Common.interface';
 
-interface ConfirmModalPropsType {
-  alertModal: boolean;
-  setAlertModal: (x: boolean) => void;
-  title: string;
-  des: string;
-}
-
-export default function QuestionModal({ alertModal, setAlertModal, title, des }: ConfirmModalPropsType) {
+export default function QuestionModal({ alertModal, setAlertModal, title, des }: QuestionModalPropsType) {
   // const [open, setOpen] = useState(true)
   const cancelButtonRef = useRef(null);
 

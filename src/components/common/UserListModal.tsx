@@ -7,13 +7,7 @@ import { useMyFollowsQuery } from '../../store/module/useMyProfileQuery';
 import { useUserFollowersQuery, useUserFollowsQuery } from '../../store/module/useUserProfileQuery';
 import profile1 from '../../assets/profile1.jpg';
 import { useFollowMutation } from '../../store/module/useCommunityQuery';
-
-interface ConfirmModalPropsType {
-  isUserList: boolean;
-  setIsUserList: (x: boolean) => void;
-  type: string;
-  follows?: number;
-}
+import { UserListModalPropsType } from './_Common.interface';
 
 interface UserListProps {
   id: number;
@@ -24,7 +18,7 @@ interface UserListProps {
   profileUrl: string;
 }
 
-export default function UserListModal({ isUserList, setIsUserList, type, follows }: ConfirmModalPropsType) {
+export default function UserListModal({ isUserList, setIsUserList, type, follows }: UserListModalPropsType) {
   const cancelButtonRef = useRef(null);
   const { id } = useParams();
   const navigate = useNavigate();

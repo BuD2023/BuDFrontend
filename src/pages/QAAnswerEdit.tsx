@@ -8,10 +8,11 @@ import imageCompression from 'browser-image-compression';
 import { useParams } from 'react-router-dom';
 import { useCommunityDetailQuery } from '../store/module/useCommunityDetailQuery';
 import QuestionModal from '../components/common/QuestionModal';
+import { QnaAnswerType } from '../components/community/_Community.interface';
 
 export default function QAAnswerEdit() {
   const { postId, answerId } = useParams();
-  const [alertModal, setAlertModal] = useState(false);
+  const [alertModal, setAlertModal] = useState<boolean>(false);
 
   console.log(postId);
 
@@ -19,11 +20,11 @@ export default function QAAnswerEdit() {
   const { isLoading, data } = useCommunityDetailQuery(Number(postId));
 
   // 보낼 게시글 전체 정보
-  const [postInfo, setPostInfo] = useState({
+  const [postInfo, setPostInfo] = useState<Partial<QnaAnswerType>>({
     postTypeInfo: 'ANSWER_UPDATE',
     qnaAnswerId: Number(answerId),
     content: '',
-    images: [] as Blob[],
+    images: [],
   });
 
   // 사진 미리보기
@@ -62,15 +63,6 @@ export default function QAAnswerEdit() {
     return compressedFiles;
   };
 
-  //multipart form data로 저장
-  // const makeMultipartForm = (compressedFiles: Blob[] | FileList) => {
-  //   const formData = new FormData();
-  //   for (let i = 0; i < compressedFiles.length; i++) {
-  //     formData.append(`photos`, compressedFiles[i]);
-  //   }
-  //   return formData;
-  // };
-
   const handleChangeProfileImg = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const fileArr = e.target.files as FileList;
 
@@ -89,21 +81,11 @@ export default function QAAnswerEdit() {
     );
     setImgPeek(compressedFileURLs);
 
-    // const MultipartData = makeMultipartForm(compressedFiles as Blob[]);
     setPostInfo({
       ...postInfo,
       images: compressedFiles as Blob[],
     });
   };
-  // form data 확인
-  // if (postInfo.images !== null) {
-  //   for (let key of (postInfo.images as FormData).keys()) {
-  //     console.log(key);
-  //   }
-  //   for (let value of (postInfo.images as FormData).values()) {
-  //     console.log(value);
-  //   }
-  // }
 
   // 사진 popUp
   const [isPicPopUp, setIsPicPopUp] = useState({

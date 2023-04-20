@@ -1,7 +1,6 @@
 import { throttle } from 'lodash';
-import { ReactElement, useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { BsThreeDots } from 'react-icons/bs';
-import { IconType } from 'react-icons/lib';
 import { useLocation, useNavigate } from 'react-router-dom';
 import NotiBtn from './NotiBtn';
 import MainBtn from '../common/MainBtn';
@@ -10,18 +9,9 @@ import { MdOutlineRestartAlt } from 'react-icons/md';
 import EditDeleteBtn from './EditDeleteBtn';
 import { useGithubMutation } from '../../store/module/useGithubQuery';
 import ConfirmModal from './ConfirmModal';
+import { CommonHeaderType } from './_Common.interface';
 
-interface IHeader {
-  type?: string;
-  title?: string;
-  restart?: boolean;
-  icon?: ReactElement<IconType>;
-  onSubmit?: object;
-  postId?: string;
-  copyUrl?: string;
-}
-
-export default function Header({ type, title, restart, icon, onSubmit, postId, copyUrl }: IHeader) {
+export default function Header({ type, title, restart, icon, onSubmit, postId, copyUrl }: CommonHeaderType) {
   const [visible, setVisible] = useState(true);
   const beforeScrollY = useRef(0);
   const navigate = useNavigate();

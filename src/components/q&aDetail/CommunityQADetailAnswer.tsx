@@ -7,14 +7,11 @@ import { useCommunityAnswerQuery } from '../../store/module/useCommunityDetailQu
 import { useFollowMutation } from '../../store/module/useCommunityQuery';
 import CommunityCommentForm from '../feedDetail/CommunityCommentForm';
 import profile1 from '../../assets/profile1.jpg';
-
-interface CommunityQADetailAnswerProps {
-  isCommentOpen: boolean;
-  setIsCommentOpen: (x: boolean) => void;
-}
+import { qnaAnswerContentType } from '../../apiFetcher/communityInfo/getQnaAnswer';
+import { CommunityQADetailAnswerProps } from './_Q&ADetail.interface';
 
 export default function CommunityQADetailAnswer({ isCommentOpen, setIsCommentOpen }: CommunityQADetailAnswerProps) {
-  const { id: questionId } = useParams();
+  const { id: postId } = useParams();
   const navigate = useNavigate();
   const [isMenu, setIsMenu] = useState<boolean>();
 
@@ -27,12 +24,12 @@ export default function CommunityQADetailAnswer({ isCommentOpen, setIsCommentOpe
     mutate();
   };
 
-  const { data: answerData, isLoading: answerIsLoading, error: answerError } = useCommunityAnswerQuery(Number(questionId));
+  const { data: answerData, isLoading: answerIsLoading, error: answerError } = useCommunityAnswerQuery(Number(postId));
   // answerData?.content.map((answer) => console.log(item));
 
   return (
     <>
-      {answerData?.content.map((answer: any, idx: number) => {
+      {answerData?.content.map((answer: qnaAnswerContentType, idx: number) => {
         return (
           <div key={answer.id} className="w-full">
             <div className="relative flex h-[55px] w-full items-center justify-between rounded-t-[20px] border-b border-b-darkIvory border-opacity-30 bg-midIvory p-5 text-[20px] font-bold dark:border-b-lightNavy dark:border-opacity-30 dark:bg-midNavy">
@@ -49,7 +46,7 @@ export default function CommunityQADetailAnswer({ isCommentOpen, setIsCommentOpe
               />
               {isMenu && (
                 <div className="absolute right-4 top-[45px] flex flex-col gap-3 rounded-xl bg-greyBeige p-3 text-[16px] font-medium">
-                  <div onClick={() => navigate(`/answerEdit/${questionId}/1`)} className="cursor-pointer">
+                  <div onClick={() => navigate(`/answerEdit/${postId}/${answer.id}`)} className="cursor-pointer">
                     수정하기
                   </div>
                   <div className="cursor-pointer">삭제하기</div>
@@ -62,14 +59,14 @@ export default function CommunityQADetailAnswer({ isCommentOpen, setIsCommentOpe
                   <img
                     onClick={(e) => {
                       e.stopPropagation();
-                      navigate(`/otherProfile/${answer.member.nickname}`);
+                      navigate(`/otherProfile/${answer.member.nickName}`);
                     }}
                     className="w-[58px] cursor-pointer rounded-full"
                     src={answer.member.profileImg ?? profile1}
                   />
                   <div className="pl-3">
                     <div className="flex flex-col gap-1">
-                      <p className="text-xl font-bold">{answer.member.nickname}</p>
+                      <p className="text-xl font-bold">{answer.member.nickName}</p>
                       <p className="text-[17px] opacity-50">{timeForToday(answer.createdAt)}</p>
                     </div>
                   </div>

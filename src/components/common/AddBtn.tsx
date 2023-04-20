@@ -1,12 +1,8 @@
 import { IoMdAdd } from 'react-icons/io';
 import { useNavigate } from 'react-router-dom';
+import { AddBtnPropsType } from './_Common.interface';
 
-interface IAddBtnPropsType {
-  url: string;
-  text: string;
-}
-
-export default function AddBtn({ url, text }: IAddBtnPropsType) {
+export default function AddBtn({ url, text }: AddBtnPropsType) {
   const navigate = useNavigate();
 
   return (

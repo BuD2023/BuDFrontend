@@ -1,4 +1,5 @@
 import { useInfiniteQuery, useMutation } from '@tanstack/react-query';
+import { useNavigate } from 'react-router-dom';
 import { deleteCommunityPostAxios } from '../../apiFetcher/communityInfo/deleteCommunityPost';
 import getCommunityPostAxios from '../../apiFetcher/communityInfo/getCommunityPost';
 import postCommunityLikeAxios from '../../apiFetcher/communityInfo/postCommunityLike';
@@ -6,15 +7,15 @@ import postCommunityPostAxios from '../../apiFetcher/communityInfo/postCommunity
 import postCommunityScrapAxios from '../../apiFetcher/communityInfo/postCommunityScrap';
 import postUserFollow from '../../apiFetcher/communityInfo/postUserFollow';
 import updateCommunityPostAxios from '../../apiFetcher/communityInfo/updateCommunityPost';
+import { OrderType, SortType } from '../../components/community/_Community.interface';
 import { accessToken } from '../../main';
 import { useMyFollowersQuery, useMyFollowsQuery, useMyProfileQuery, useMyScrapsQuery } from './useMyProfileQuery';
 import { useUserProfileQuery } from './useUserProfileQuery';
 
-export type SortType = 'HIT' | 'LIKE' | 'DATE';
-export type OrderType = 'DESC' | 'ASC';
+let refetchNew = '';
 
 export function useCommunityPostQuery(word?: string, sort?: SortType, order?: OrderType, size?: number) {
-  return useInfiniteQuery(['Community', word, sort, order], ({ pageParam = 0 }) => getCommunityPostAxios(accessToken, word, sort, order, pageParam, size), {
+  return useInfiniteQuery(['Community', word, sort, order, refetchNew], ({ pageParam = 0 }) => getCommunityPostAxios(accessToken, word, sort, order, pageParam, size), {
     getNextPageParam: (prevData, allPages) => {
       const lastPage = prevData.last;
       const nextPage = allPages.length + 1;
@@ -22,43 +23,58 @@ export function useCommunityPostQuery(word?: string, sort?: SortType, order?: Or
     },
     // enabled: true,
     refetchOnMount: true,
-    refetchOnReconnect: false,
-    refetchOnWindowFocus: false, // react-query는 사용자가 사용하는 윈도우가 다른 곳을 갔다가 다시 화면으로 돌아오면 이 함수를 재실행합니다. 그 재실행 여부 옵션 입니다.
+    refetchOnReconnect: true,
+    refetchOnWindowFocus: true, // react-query는 사용자가 사용하는 윈도우가 다른 곳을 갔다가 다시 화면으로 돌아오면 이 함수를 재실행합니다. 그 재실행 여부 옵션 입니다.
     retry: 0, // 실패시 재호출 몇번 할지
-    staleTime: Infinity,
-    cacheTime: Infinity,
+    staleTime: 1000 * 60,
+    cacheTime: 1000 * 60 * 5,
   });
 }
 
 export function usePostCommunityMutation() {
+  const { refetch } = useCommunityPostQuery();
+  const navigate = useNavigate();
   return useMutation((data: FormData) => postCommunityPostAxios(accessToken, data), {
     onError: (err) => {
       console.log(err);
     },
-    onSuccess: () => {
-      console.log('요청이 실행되었습니다.');
+    onSuccess: async () => {
+      console.log('게시글이 등록되었습니다.');
+      refetchNew = `newPost${Date.now()}`;
+      await refetch();
+      navigate('/community/all');
     },
   });
 }
 
 export function useUpdateCommunityMutation() {
+  const { refetch } = useCommunityPostQuery();
+  const navigate = useNavigate();
   return useMutation((data: FormData) => updateCommunityPostAxios(accessToken, data), {
     onError: (err) => {
       console.log(err);
     },
-    onSuccess: () => {
-      console.log('요청이 실행되었습니다.');
+    onSuccess: async () => {
+      console.log('게시글이 수정되었습니다.');
+      refetchNew = `updatePost${Date.now()}`;
+      await refetch();
+      navigate('/community/all');
     },
   });
 }
 
 export function useDeleteCommunityMutation(id: number) {
+  const { refetch } = useCommunityPostQuery();
+  const navigate = useNavigate();
   return useMutation(() => deleteCommunityPostAxios(accessToken, id), {
     onError: (err) => {
       console.log(err);
     },
-    onSuccess: () => {
+    onSuccess: async () => {
       console.log('게시글 삭제 요청이 실행되었습니다.');
+      refetchNew = `deletePost${Date.now()}`;
+      await refetch();
+      navigate('/community/all');
     },
   });
 }

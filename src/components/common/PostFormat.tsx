@@ -7,19 +7,14 @@ import DefaultProfileImage from '../../assets/DefaultProfileImage.webp';
 import { useInView } from 'react-intersection-observer';
 import { useEffect, useState } from 'react';
 import { CommunityPostListContentType } from '../../apiFetcher/communityInfo/getCommunityPost';
-import { SortAndOrderType } from '../../pages/Community';
 import LikeCommentScrap from './LikeCommentScrap';
 import ImagePeek from './ImagePeek';
 import PicModal from './PicModal';
 import { S3_URL } from '../../constant/union';
 import NotFound from '../../pages/NotFound';
+import { PostFormatPropsType } from './_Common.interface';
 
-interface IPostFormatPropsType {
-  inputValue: string;
-  sortAndOrder: SortAndOrderType;
-}
-
-export default function PostFormat({ inputValue, sortAndOrder }: IPostFormatPropsType) {
+export default function PostFormat({ inputValue, sortAndOrder }: PostFormatPropsType) {
   const { filter } = useParams();
   const { sort, order } = sortAndOrder;
   const navigate = useNavigate();

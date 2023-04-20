@@ -4,11 +4,11 @@ import { BsChevronLeft } from 'react-icons/bs';
 import { useRef, useState } from 'react';
 import { AiFillPicture } from 'react-icons/ai';
 import PicModal from '../components/common/PicModal';
-import imageCompression from 'browser-image-compression';
 import { useCommunityDetailQuery } from '../store/module/useCommunityDetailQuery';
 import QuestionModal from '../components/common/QuestionModal';
 import { useParams } from 'react-router-dom';
 import { makeCompressedImg } from '../utils/makeCompressedImg';
+import { QnaAnswerType } from '../components/community/_Community.interface';
 
 export default function QAAnswerCreate() {
   const { postId } = useParams();
@@ -19,11 +19,11 @@ export default function QAAnswerCreate() {
   const { isLoading, data } = useCommunityDetailQuery(Number(postId));
 
   // 보낼 게시글 전체 정보
-  const [postInfo, setPostInfo] = useState({
+  const [postInfo, setPostInfo] = useState<Partial<QnaAnswerType>>({
     postTypeInfo: 'ANSWER_CREATE',
     postId: Number(postId),
     content: '',
-    images: [] as Blob[],
+    images: [],
   });
 
   // 사진 미리보기

@@ -1,9 +1,4 @@
-import React from 'react';
-
-interface ImagePeekPropsType {
-  imgPeek: string[] | ArrayBuffer[] | null[];
-  setIsPicPopUp: (x: { open: boolean; pic: string }) => void;
-}
+import { ImagePeekPropsType } from './_Common.interface';
 
 export default function ImagePeek({ imgPeek, setIsPicPopUp }: ImagePeekPropsType) {
   return (

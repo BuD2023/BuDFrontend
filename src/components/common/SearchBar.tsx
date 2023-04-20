@@ -1,13 +1,8 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import { BsBackspace } from 'react-icons/bs';
 import { MdKeyboardVoice } from 'react-icons/md';
 import useSpeechRecognition from '../../utils/useSpeechRecognition';
-
-interface ISearchBarPropsType {
-  inputValue: string;
-  setInputValue: (x: string) => void;
-  filterKeywords?: string;
-}
+import { ISearchBarPropsType } from './_Common.interface';
 
 export default function SearchBar({ inputValue, setInputValue, filterKeywords }: ISearchBarPropsType) {
   const inputRef = useRef<HTMLInputElement>(null);

@@ -1,7 +1,5 @@
+import { PostStatusType, postType } from '../../components/community/_Community.interface';
 import customAxios from '../customAxios';
-
-export type PostStatusType = 'ACTIVE' | 'INACTIVE';
-export type PostTypeType = 'FEED' | 'QNA';
 
 export interface memberType {
   accountNonExpired: boolean;
@@ -49,7 +47,7 @@ export interface ScrapPostProps {
     scrapCount: number;
     hitCount: number;
     postStatus: PostStatusType;
-    postType: PostTypeType;
+    postType: postType;
     createdAt: string;
     updatedAt: string;
   };

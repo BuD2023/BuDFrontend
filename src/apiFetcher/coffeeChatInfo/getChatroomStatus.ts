@@ -1,9 +1,5 @@
+import { chatroomsStatusType } from '../../components/chatRoom/_ChatRoom.interface';
 import customAxios from '../customAxios';
-
-interface chatroomsStatusType {
-  numberOfChatRooms: number;
-  numberOfUsers: number;
-}
 
 const getChatroomStatusAxios = async (token: string): Promise<chatroomsStatusType> => {
   const response = (await customAxios({

@@ -1,7 +1,9 @@
 import { useInfiniteQuery, useMutation, useQuery } from '@tanstack/react-query';
+import { useNavigate } from 'react-router-dom';
 import getAllChatroomListAxios from '../../apiFetcher/coffeeChatInfo/getAllChatroomList';
 import getSearchChatroomListAxios from '../../apiFetcher/coffeeChatInfo/getSearchChatroomList';
-import postChatroomAxios, { postChatroomData } from '../../apiFetcher/coffeeChatInfo/postChatroom';
+import postChatroomAxios from '../../apiFetcher/coffeeChatInfo/postChatroom';
+import { postChatroomData } from '../../components/coffeeChat/_CoffeeChat.interface';
 import { accessToken } from '../../main';
 
 export function useAllChatroomQuery() {
@@ -19,9 +21,9 @@ export function useAllChatroomQuery() {
     cacheTime: Infinity,
   });
 }
-
-export function useSearchChatroomQuery(keyword: string, size?: number) {
-  return useInfiniteQuery(['coffeeChatList', 'search', keyword], ({ pageParam = 0 }) => getSearchChatroomListAxios(accessToken, keyword, pageParam, size), {
+let fetchNew = '';
+export function useSearchChatroomQuery(keyword?: string, size?: number) {
+  return useInfiniteQuery(['coffeeChatList', 'search', keyword, fetchNew], ({ pageParam = 0 }) => getSearchChatroomListAxios(accessToken, keyword, pageParam, size), {
     getNextPageParam: (prevData, allPages) => {
       const lastPage = prevData.last;
       const nextPage = allPages.length + 1;
@@ -38,12 +40,17 @@ export function useSearchChatroomQuery(keyword: string, size?: number) {
 }
 
 export function useCreateRoomMutation() {
+  const { refetch } = useSearchChatroomQuery();
+  const navigate = useNavigate();
   return useMutation((data: postChatroomData) => postChatroomAxios(accessToken, data), {
     onError: (err) => {
       console.log(err);
     },
-    onSettled: () => {
-      console.log('요청이 실행되었습니다.');
+    onSuccess: async () => {
+      fetchNew = `newChatroom${Date.now()}`;
+      await refetch();
+      navigate('/coffeeChat');
+      console.log('채팅방이 생성되었습니다.');
     },
   });
 }

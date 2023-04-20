@@ -1,12 +1,9 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDeleteCommunityMutation } from '../../store/module/useCommunityQuery';
+import { EditDeleteBtnPropsType } from './_Common.interface';
 
-interface IEditDeleteBtnPropsType {
-  postId: string;
-  setIsMenu: (x: boolean) => void;
-}
-export default function EditDeleteBtn({ postId, setIsMenu }: IEditDeleteBtnPropsType) {
+export default function EditDeleteBtn({ postId, setIsMenu }: EditDeleteBtnPropsType) {
   const navigate = useNavigate();
 
   const { mutate: deletePostMutate } = useDeleteCommunityMutation(Number(postId));

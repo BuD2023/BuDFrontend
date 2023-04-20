@@ -7,13 +7,8 @@ import CommunitySort from '../components/community/CommunitySort';
 import SearchBar from '../components/common/SearchBar';
 import Header from '../components/common/Header';
 import { FcGlobe } from 'react-icons/fc';
-import { OrderType, SortType } from '../store/module/useCommunityQuery';
 import ScrollToTopBtn from '../components/common/ScrollToTopBtn';
-
-export interface SortAndOrderType {
-  sort: SortType;
-  order: OrderType;
-}
+import { SortAndOrderType } from '../components/community/_Community.interface';
 
 export default function Community() {
   // 커뮤니티 글 검색

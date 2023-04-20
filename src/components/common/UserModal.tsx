@@ -2,17 +2,9 @@ import { Fragment, useRef } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { useNavigate } from 'react-router-dom';
 import { BsInfoCircle } from 'react-icons/bs';
+import { UserModalPropsType } from './_Common.interface';
 
-interface ConfirmModalPropsType {
-  userModal: boolean;
-  setUserModal: (x: boolean) => void;
-  userName: string;
-  userImg: string;
-  userIntro: string;
-  userJob: string;
-}
-
-export default function UserModal({ userModal, setUserModal, userName, userImg, userIntro, userJob }: ConfirmModalPropsType) {
+export default function UserModal({ userModal, setUserModal, userName, userImg, userIntro, userJob }: UserModalPropsType) {
   // const [open, setOpen] = useState(true)
   const cancelButtonRef = useRef(null);
   const navigate = useNavigate();

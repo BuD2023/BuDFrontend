@@ -1,16 +1,7 @@
 import { Fragment, useRef } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { ExclamationTriangleIcon } from '@heroicons/react/24/outline';
-
-interface ConfirmModalPropsType {
-  confirmModal: boolean;
-  setConfirmModal: (x: boolean) => void;
-  getModalAnswer: (x: boolean) => void;
-  title: string;
-  des: string;
-  confirmBtn: string;
-  action?: () => void;
-}
+import { ConfirmModalPropsType } from './_Common.interface';
 
 export default function ConfirmModal({ confirmModal, setConfirmModal, getModalAnswer, title, des, confirmBtn, action }: ConfirmModalPropsType) {
   // const [open, setOpen] = useState(true)

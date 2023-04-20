@@ -1,8 +1,6 @@
-interface IToggle {
-  isOn: boolean;
-}
+import { TogglePropsType } from './_Common.interface';
 
-export default function Toggle({ isOn }: IToggle) {
+export default function Toggle({ isOn }: TogglePropsType) {
   return (
     <div className="relative cursor-pointer">
       <div className={'h-[24px] w-[50px] rounded-full bg-[#d9d9d9] ' + (isOn ? '!bg-pointGreen transition-all' : '')}></div>

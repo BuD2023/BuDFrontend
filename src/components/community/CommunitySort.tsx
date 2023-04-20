@@ -1,5 +1,4 @@
-import { SortAndOrderType } from '../../pages/Community';
-import { OrderType, SortType } from '../../store/module/useCommunityQuery';
+import { OrderType, SortAndOrderType, SortType } from './_Community.interface';
 
 interface ICommunitySortPropsType {
   sortAndOrder: SortAndOrderType;

@@ -1,5 +1,5 @@
+import { ChatroomListType } from '../../components/coffeeChat/_CoffeeChat.interface';
 import customAxios from '../customAxios';
-import { ChatroomListType } from './getAllChatroomList';
 
 const getSearchChatroomListAxios = async (token: string, keyword: string = '', page: number = 0, size: number = 5): Promise<ChatroomListType> => {
   return await customAxios({
