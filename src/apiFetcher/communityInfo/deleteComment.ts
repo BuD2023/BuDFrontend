@@ -1,9 +1,9 @@
 import customAxios from '../customAxios';
 
-export const deleteFeedCommentAxios = async (token: string, postId: number) => {
+export const deleteFeedCommentAxios = async (token: string, commentId: number) => {
   return await customAxios({
     method: 'delete',
-    url: `/posts/comments/${postId}`,
+    url: `/posts/comments/${commentId}`,
     headers: {
       Authorization: `Bearer ${token}`,
       'Content-Type': 'application/json',
@@ -12,10 +12,10 @@ export const deleteFeedCommentAxios = async (token: string, postId: number) => {
   });
 };
 
-export const deleteQnACommentAxios = async (token: string, postId: number) => {
+export const deleteQnACommentAxios = async (token: string, commentId: number) => {
   return await customAxios({
     method: 'delete',
-    url: `/posts/qna-answers/qna-comments/${postId}`,
+    url: `/posts/qna-answers/qna-comments/${commentId}`,
     headers: {
       Authorization: `Bearer ${token}`,
       'Content-Type': 'application/json',

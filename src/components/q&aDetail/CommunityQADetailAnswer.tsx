@@ -13,8 +13,8 @@ export default function CommunityQADetailAnswer({ isCommentOpen, setIsCommentOpe
   const { id: postId } = useParams();
   const navigate = useNavigate();
   const [isMenu, setIsMenu] = useState<boolean>();
-  const [activeComment, setActiveComment] = useState<Number[]>([]);
-  const [activeAnswerMenu, setActiveAnswerMenu] = useState<Number[]>([]);
+  const [activeComment, setActiveComment] = useState<number[]>([]);
+  const [activeAnswerMenu, setActiveAnswerMenu] = useState<number[]>([]);
 
   const [userId, setUserId] = useState<number>();
   const [answerId, setAnswerId] = useState<number>();
@@ -91,14 +91,14 @@ export default function CommunityQADetailAnswer({ isCommentOpen, setIsCommentOpe
                   <img
                     onClick={(e) => {
                       e.stopPropagation();
-                      navigate(`/otherProfile/${answer.member.id}`);
+                      navigate(`/otherProfile/${answer.member.id}/feed`);
                     }}
                     className="w-[58px] cursor-pointer rounded-full"
                     src={answer.member.profileImg ?? profile1}
                   />
                   <div className="pl-3">
                     <div className="flex flex-col gap-1">
-                      <p className="text-xl font-bold">{answer.member.nickName}</p>
+                      <p className="text-xl font-bold">{answer.member.nickname}</p>
                       <p className="text-[17px] opacity-50">{timeForToday(answer.createdAt)}</p>
                     </div>
                   </div>

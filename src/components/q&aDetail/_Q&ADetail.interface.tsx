@@ -15,7 +15,7 @@ interface QnaAnswerContentMemberType {
   id: number;
   userId: string;
   level: MemberLevelType;
-  nickName: string;
+  nickname: string;
   profileImg: null | string;
   job: null | string;
   status: string;

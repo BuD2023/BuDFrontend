@@ -19,7 +19,7 @@ export default function NotificationContent() {
   const handleNotiClick = (pageType: pageType, pageId: number, notiId: string) => {
     changeNotiStatMutation(notiId);
     if (pageType === 'OTHER_PROFILE') {
-      navigate(`/otherProfile/${pageId}`);
+      navigate(`/otherProfile/${pageId}/feed`);
     } else if (pageType === 'FEED') {
       navigate(`/communityFeedDetail/${pageId}`);
     } else {
@@ -29,7 +29,7 @@ export default function NotificationContent() {
 
   const handleImgClick = (senderId: string, event: React.MouseEvent<HTMLImageElement>) => {
     console.log(senderId);
-    navigate(`/otherProfile/${String(senderId)}`);
+    navigate(`/otherProfile/${String(senderId)}/feed`);
     event.stopPropagation();
   };
 

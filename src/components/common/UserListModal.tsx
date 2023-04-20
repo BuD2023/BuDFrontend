@@ -102,7 +102,7 @@ export default function UserListModal({ isUserList, setIsUserList, type, follows
                                 e.stopPropagation;
                                 return;
                               }
-                              navigate(`/otherProfile/${user.id}`);
+                              navigate(`/otherProfile/${user.id}/feed`);
                               setIsUserList(false);
                               e.stopPropagation();
                             }}

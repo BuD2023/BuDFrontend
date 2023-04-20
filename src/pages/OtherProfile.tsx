@@ -1,17 +1,28 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import FooterMenu from '../components/common/FooterMenu';
+import FeedPostFormat from '../components/myProfile/FeedPostFormat';
 import OtherProfileHeader from '../components/otherProfile/OtherProfileHeader';
 import OtherProfileInfo from '../components/otherProfile/OtherProfileInfo';
 import OtherProfileMenu from '../components/otherProfile/OtherProfileMenu';
+import { useProfilePostQuery } from '../store/module/useProfilePostQuery';
 import { useUserProfileQuery } from '../store/module/useUserProfileQuery';
 
 export default function OtherProfile() {
-  const [postView, setPostView] = useState(true);
+  const [postView, setPostView] = useState<string>('feed');
   const { id } = useParams();
   const navigate = useNavigate();
 
   const { data, isLoading, error, refetch } = useUserProfileQuery(Number(id));
+  const {
+    data: profilePostData,
+    isLoading: profilePostIsLoading,
+    error: profilePostError,
+    isFetching: profilePostIsFetching,
+    isFetchingNextPage: profilePostIsFetchingNextPage,
+    fetchNextPage: profilePostFetchNextPage,
+    hasNextPage: profilePostHasNextPage,
+  } = useProfilePostQuery(Number(id), postView);
 
   if (error) {
     navigate('/NotFound');
@@ -39,8 +50,8 @@ export default function OtherProfile() {
           isFollowing={data?.isFollowing as boolean}
           isLoading={isLoading}
         />
-        <OtherProfileMenu postView={postView} setPostView={setPostView} />
-        {/* <PostFormat resultData={resultData} /> */}
+        <OtherProfileMenu id={id} postView={postView} setPostView={setPostView} />
+        {profilePostData && <FeedPostFormat resultData={profilePostData.pages.flatMap((page) => page.content)} />}
       </div>
       <FooterMenu />
     </section>

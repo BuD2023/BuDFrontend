@@ -31,7 +31,7 @@ export default function MyProfileInfo({ level, followers, follows, posts, isLoad
             <div>{posts}</div>
             <div className="mt-2 text-[18px] font-medium">게시물</div>
           </div>
-          <div onClick={followers > 0 ? handleClickFollower : undefined} className={'flex flex-col items-center justify-around text-[22px] font-bold ' + +(followers > 0 ? 'cursor-pointer' : '')}>
+          <div onClick={followers > 0 ? handleClickFollower : undefined} className={'flex flex-col items-center justify-around text-[22px] font-bold ' + (followers > 0 ? 'cursor-pointer' : '')}>
             <div>{followers}</div>
             <div className="mt-2 text-[18px] font-medium">팔로워</div>
           </div>

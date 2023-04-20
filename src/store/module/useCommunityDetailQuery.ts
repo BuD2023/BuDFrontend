@@ -134,13 +134,15 @@ export function useDeleteFeedCommentPinMutation(id: number) {
 }
 
 // 개발 피드 댓글 삭제
-export function useDeleteFeedCommentMutation(id: number) {
-  return useMutation(() => deleteFeedCommentAxios(accessToken, id), {
+export function useDeleteFeedCommentMutation(commentId: number, postId: number) {
+  const { refetch } = useFeedCommentQuery(postId);
+  return useMutation(() => deleteFeedCommentAxios(accessToken, commentId), {
     onError: (err) => {
       console.log(err);
     },
     onSuccess: () => {
       console.log('댓글이 삭제되었습니다.');
+      refetch();
     },
   });
 }
@@ -191,26 +193,26 @@ export function useQnACommentPinMutation(id: number) {
 
 // QnA 피드 댓글 핀 취소
 export function useDeleteQnACommentPinMutation(id: number) {
-  const { refetch } = useFeedCommentQuery(id);
   return useMutation(() => deleteQnACommentPinAxios(accessToken, id), {
     onError: (err) => {
       console.log(err);
     },
     onSuccess: () => {
       console.log('핀이 취소되었습니다.');
-      refetch();
     },
   });
 }
 
 // QnA 피드 댓글 삭제
-export function useDeleteQnACommentMutation(id: number) {
-  return useMutation(() => deleteQnACommentAxios(accessToken, id), {
+export function useDeleteQnACommentMutation(commentId: number, AnswerId: number) {
+  const { refetch } = useQnACommentQuery(AnswerId);
+  return useMutation(() => deleteQnACommentAxios(accessToken, commentId), {
     onError: (err) => {
       console.log(err);
     },
     onSuccess: () => {
       console.log('댓글이 삭제되었습니다.');
+      refetch();
     },
   });
 }
