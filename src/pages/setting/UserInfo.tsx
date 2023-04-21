@@ -1,8 +1,8 @@
 import { BsChevronLeft, BsFillTrophyFill, BsFire, BsGithub, BsQuote } from 'react-icons/bs';
 import { RiLeafFill } from 'react-icons/ri';
-import Header from '../components/common/Header';
-import LevelImgList from '../components/setting/LevelImgList';
-import { userInfos } from '../store/dummy';
+import Header from '../../components/common/Header';
+import LevelImgList from '../../components/setting/LevelImgList';
+import { userInfos } from '../../store/dummy';
 
 export default function UserInfo() {
   return (

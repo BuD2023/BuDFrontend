@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import ChangeNickName from '../components/myProfileEdit/ChangeNickName';
+import ChangeNickName from '../../components/myProfileEdit/ChangeNickName';
 
 export default function SignUp() {
   const [nickName, setNickName] = useState('');

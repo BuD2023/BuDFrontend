@@ -1,9 +1,17 @@
-import { atom } from 'recoil';
-import { githubInfoType } from '../../components/home/_Home.interface';
+import { selector } from 'recoil';
+import { BASE_URL } from '../../constant/union';
 
-export const userInitialValue = '';
+const getGithubInfoUrl = BASE_URL + 'api/github';
 
-export const user = atom<string>({
-  key: 'userInfo',
-  default: userInitialValue,
+export const getGithubInfo = selector({
+  key: 'githubInfo',
+  get: async () => {
+    try {
+      const response = await fetch(getGithubInfoUrl);
+      return (await response.json()) || {};
+    } catch (error) {
+      console.log(`Error: \n${error}`);
+      return {};
+    }
+  },
 });

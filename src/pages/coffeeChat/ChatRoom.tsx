@@ -1,16 +1,16 @@
 import { BsCameraFill } from 'react-icons/bs';
 import { useNavigate, useParams } from 'react-router-dom';
-import RoomChats from '../components/chatRoom/RoomChats';
-import RoomHeader from '../components/chatRoom/RoomHeader';
+import RoomChats from '../../components/chatRoom/RoomChats';
+import RoomHeader from '../../components/chatRoom/RoomHeader';
 import React, { useEffect, useRef, useState } from 'react';
 import * as StompJs from '@stomp/stompjs';
-import { accessToken } from '../main';
-import { SOCKET_URL } from '../constant/union';
-import { useMyChatroomListQuery } from '../store/module/useChatroomQuery';
-import { makeCompressedImg } from '../utils/makeCompressedImg';
-import PicModal from '../components/common/PicModal';
-import AlertModal from '../components/common/AlertModal';
-import { ChatMessageType, chatType, InfoMessageType, myChatroomListContentType, myChatroomListType } from '../components/chatRoom/_ChatRoom.interface';
+import { accessToken } from '../../main';
+import { SOCKET_URL } from '../../constant/union';
+import { useMyChatroomListQuery } from '../../store/module/useChatroomQuery';
+import { makeCompressedImg } from '../../utils/makeCompressedImg';
+import PicModal from '../../components/common/PicModal';
+import AlertModal from '../../components/common/AlertModal';
+import { ChatMessageType, chatType, InfoMessageType, myChatroomListContentType, myChatroomListType } from '../../components/chatRoom/_ChatRoom.interface';
 
 export default function ChatRoom() {
   const navigate = useNavigate();

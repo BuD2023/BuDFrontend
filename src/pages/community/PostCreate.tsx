@@ -1,52 +1,33 @@
-import { useEffect } from 'react';
-import Header from '../components/common/Header';
 import { BsChevronLeft } from 'react-icons/bs';
 import { useRef, useState } from 'react';
 import { RxTriangleDown } from 'react-icons/rx';
 import { AiFillPicture } from 'react-icons/ai';
-import PicModal from '../components/common/PicModal';
-import { useParams } from 'react-router-dom';
-import { useCommunityDetailQuery } from '../store/module/useCommunityDetailQuery';
-import { usePreventLeave } from '../utils/usePreventLeave';
-import { CommunityPostType } from '../components/community/_Community.interface';
-import { handleChangeProfileImg } from '../utils/handleChangeImgFile';
+import { CommunityPostType } from '../../components/community/_Community.interface';
+import PicModal from '../../components/common/PicModal';
+import Header from '../../components/common/Header';
+import ImagePeek from '../../components/common/ImagePeek';
+import { handleChangeProfileImg } from '../../utils/handleChangeImgFile';
 
-export default function PostEdit() {
-  const { id: postId } = useParams();
-
+export default function PostCreate() {
   //게시글 타입
   const postTypes = ['개발 피드', 'Q & A 피드'];
-  const [isClick, setIsClick] = useState<boolean>(true);
+  const [isClick, setIsClick] = useState(true);
+  const initialValue: Partial<CommunityPostType> = { postTypeInfo: 'POST_CREATE', title: '', content: '', postType: 'FEED', images: null };
 
   // 게시글 전체 정보
-  const { data, isLoading, error } = useCommunityDetailQuery(Number(postId));
-  const [postInfo, setPostInfo] = useState<Partial<CommunityPostType>>({
-    postTypeInfo: 'POST_UPDATE',
-    title: data?.title,
-    content: data?.content,
-    postType: data?.postType,
-    images: data?.imageUrls,
-    postId: Number(postId),
-  } as Partial<CommunityPostType>);
+  const [postInfo, setPostInfo] = useState(initialValue);
 
-  useEffect(() => {
-    setPostInfo({ postTypeInfo: 'POST_UPDATE', title: data?.title, content: data?.content, postType: data?.postType, images: data?.imageUrls, postId: Number(postId) } as Partial<CommunityPostType>);
-  }, [data]);
+  // 사진 미리보기
+  const [imgPeek, setImgPeek] = useState<string[]>([]);
 
   // 사진 업로드
   const imgRef = useRef<HTMLInputElement>(null);
 
-  // 사진 미리보기
-  const [imgPeek, setImgPeek] = useState<string[] | ArrayBuffer[] | null[]>([]);
-
   // 사진 popUp
-  const [isPicPopUp, setIsPicPopUp] = useState<{ open: boolean; pic: string }>({
+  const [isPicPopUp, setIsPicPopUp] = useState({
     open: false,
     pic: '',
   });
-
-  const { enablePrevent } = usePreventLeave();
-  enablePrevent();
 
   return (
     <>
@@ -62,23 +43,23 @@ export default function PostEdit() {
                 type="button"
                 className="text-start mb-2 flex h-[54px] w-full items-center rounded-[20px] bg-midIvory p-2 px-4 text-[21px] dark:bg-lightNavy"
               >
-                <span className="grow text-[18px] font-semibold">{postInfo.postType === 'QNA' ? 'Q & A 피드' : '개발 피드'}</span>
+                <span className="grow text-[18px] font-semibold">{postInfo.postType === 'FEED' ? '개발 피드' : 'Q & A'}</span>
                 <RxTriangleDown className="text-[40px] opacity-50" />
               </button>
               <ul className={`w-full overflow-hidden rounded-[20px] bg-midIvory px-4 transition-all dark:bg-lightNavy ${isClick ? 'h-0' : 'h-[124px] py-2'}`}>
                 <div className="scroll max-h-[45vh] overflow-auto">
-                  {postTypes.map((postType) => (
-                    <li key={postType} className="my-3">
+                  {postTypes.map((job) => (
+                    <li key={job} className="my-3">
                       <button
                         onClick={(e) => {
                           e.preventDefault();
-                          setPostInfo({ ...postInfo, postType: e.currentTarget.innerHTML === '개발 피드' ? 'FEED' : 'QNA' });
+                          setPostInfo({ ...postInfo, postType: e.currentTarget.innerText === '개발 피드' ? 'FEED' : 'QNA' });
                           setIsClick(true);
                         }}
                         type="button"
                         className="text-start w-full p-1 px-4 hover:rounded-[20px] hover:bg-greyBeige hover:bg-opacity-50 dark:hover:bg-[#506779] dark:hover:bg-opacity-50"
                       >
-                        {postType}
+                        {job}
                       </button>
                     </li>
                   ))}
@@ -93,7 +74,7 @@ export default function PostEdit() {
                     title: e.target.value,
                   })
                 }
-                defaultValue={postInfo.title}
+                value={postInfo.title}
                 type="text"
                 placeholder="제목을 입력해주세요(필수)"
                 className="h-[54px] w-full rounded-[20px] bg-midIvory p-2 px-4 text-[16px] placeholder:font-semibold  placeholder:text-[#7b6d6d] placeholder:opacity-80 focus:outline-none dark:bg-lightNavy dark:placeholder:text-white"
@@ -104,23 +85,7 @@ export default function PostEdit() {
               </div>
             </div>
             <div className={`${!isClick ? 'h-[calc(100vh-470px)]' : 'h-[calc(100vh-346px)]'} flex w-full flex-col gap-2 transition-all`}>
-              {imgPeek.length > 0 && (
-                <div className="flex w-full shrink-0 items-center gap-2 overflow-auto rounded-[20px] bg-midIvory p-2">
-                  {imgPeek.map((img, idx) => (
-                    <img
-                      onClick={(e) => {
-                        setIsPicPopUp({
-                          open: true,
-                          pic: img as string,
-                        });
-                      }}
-                      key={idx}
-                      src={img as string}
-                      className="pre-img h-[120px] w-[120px] cursor-pointer rounded-[20px] object-cover"
-                    />
-                  ))}
-                </div>
-              )}
+              <ImagePeek setIsPicPopUp={setIsPicPopUp} imgPeek={imgPeek as string[]} />
               <textarea
                 onChange={(e) =>
                   setPostInfo({

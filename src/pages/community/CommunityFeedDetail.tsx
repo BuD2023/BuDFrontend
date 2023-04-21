@@ -1,8 +1,8 @@
 import { BsChevronLeft } from 'react-icons/bs';
 import { useParams } from 'react-router-dom';
-import Header from '../components/common/Header';
-import CommunityCommentForm from '../components/feedDetail/CommunityCommentForm';
-import CommunityDetailPost from '../components/feedDetail/CommunityDetailPost';
+import Header from '../../components/common/Header';
+import CommunityCommentForm from '../../components/feedDetail/CommunityCommentForm';
+import CommunityDetailPost from '../../components/feedDetail/CommunityDetailPost';
 
 export default function CommunityFeedDetail() {
   const { id } = useParams();

@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import _ from 'lodash';
-import Header from '../components/common/Header';
+import Header from '../../components/common/Header';
 import { BsChevronLeft } from 'react-icons/bs';
-import { useNewsDetailQuery } from '../store/module/useNewsQuery';
-import PicModal from '../components/common/PicModal';
-import newsDefaultImg from '../assets/newsDefaultImg.webp';
+import { useNewsDetailQuery } from '../../store/module/useNewsQuery';
+import PicModal from '../../components/common/PicModal';
+import newsDefaultImg from '../../assets/newsDefaultImg.webp';
 import { useNavigate } from 'react-router-dom';
-import { timeForToday } from '../utils/timeForToday';
+import { timeForToday } from '../../utils/timeForToday';
 
 export default function NewsDetail() {
   const [isScroll, setIsScroll] = useState(false);

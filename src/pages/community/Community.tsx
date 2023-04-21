@@ -1,14 +1,15 @@
 import { useState } from 'react';
-import FooterMenu from '../components/common/FooterMenu';
-import PostFormat from '../components/common/PostFormat';
-import AddBtn from '../components/common/AddBtn';
-import CommunityFilter from '../components/community/CommunityFilter';
-import CommunitySort from '../components/community/CommunitySort';
-import SearchBar from '../components/common/SearchBar';
-import Header from '../components/common/Header';
+
 import { FcGlobe } from 'react-icons/fc';
-import ScrollToTopBtn from '../components/common/ScrollToTopBtn';
-import { postType, SortAndOrderType } from '../components/community/_Community.interface';
+import AddBtn from '../../components/common/AddBtn';
+import FooterMenu from '../../components/common/FooterMenu';
+import Header from '../../components/common/Header';
+import PostFormat from '../../components/common/PostFormat';
+import ScrollToTopBtn from '../../components/common/ScrollToTopBtn';
+import SearchBar from '../../components/common/SearchBar';
+import CommunityFilter from '../../components/community/CommunityFilter';
+import CommunitySort from '../../components/community/CommunitySort';
+import { postType, SortAndOrderType } from '../../components/community/_Community.interface';
 
 export default function Community() {
   // 커뮤니티 글 검색

@@ -1,6 +1,6 @@
 import { BsChevronLeft } from 'react-icons/bs';
-import Header from '../components/common/Header';
-import NotificationContent from '../components/notification/NotificationContent';
+import Header from '../../components/common/Header';
+import NotificationContent from '../../components/notification/NotificationContent';
 
 export default function Notification() {
   return (

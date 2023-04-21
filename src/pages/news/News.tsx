@@ -1,15 +1,15 @@
-import FooterMenu from '../components/common/FooterMenu';
-import NewsFilter from '../components/news/NewsFilter';
-import NewsPosts from '../components/news/NewsPosts';
-import Header from '../components/common/Header';
 import { FcNews } from 'react-icons/fc';
 import { useEffect, useRef, useState } from 'react';
-import NewsKeywordFilter from '../components/news/NewsKeywordFilter';
-import { useNewsQuery } from '../store/module/useNewsQuery';
 import { useInView } from 'react-intersection-observer';
-import ScrollToTopBtn from '../components/common/ScrollToTopBtn';
-import SearchBar from '../components/common/SearchBar';
 import { useNavigate } from 'react-router-dom';
+import { useNewsQuery } from '../../store/module/useNewsQuery';
+import ScrollToTopBtn from '../../components/common/ScrollToTopBtn';
+import NewsKeywordFilter from '../../components/news/NewsKeywordFilter';
+import Header from '../../components/common/Header';
+import SearchBar from '../../components/common/SearchBar';
+import NewsFilter from '../../components/news/NewsFilter';
+import NewsPosts from '../../components/news/NewsPosts';
+import FooterMenu from '../../components/common/FooterMenu';
 
 export default function News() {
   // 키워드 필터

@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { BsChevronLeft } from 'react-icons/bs';
-import Header from '../components/common/Header';
-import { myInfo } from '../components/myProfile/_MyProfile.interface';
-import ChangeIntroduction from '../components/myProfileEdit/ChangeIntroduction';
-import ChangeJob from '../components/myProfileEdit/ChangeJob';
-import ChangeNickName from '../components/myProfileEdit/ChangeNickName';
-import ChangeProfilePic from '../components/myProfileEdit/ChangeProfilePic';
+import Header from '../../components/common/Header';
+import { myInfo } from '../../components/myProfile/_MyProfile.interface';
+import ChangeIntroduction from '../../components/myProfileEdit/ChangeIntroduction';
+import ChangeJob from '../../components/myProfileEdit/ChangeJob';
+import ChangeNickName from '../../components/myProfileEdit/ChangeNickName';
+import ChangeProfilePic from '../../components/myProfileEdit/ChangeProfilePic';
 
 export default function MyProfileEdit() {
   const [selectedJob, setSelectedJob] = useState('프론트엔드 개발');

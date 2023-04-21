@@ -1,8 +1,8 @@
-import Account from '../components/setting/Account';
-import Theme from '../components/setting/Theme';
-import Notification from '../components/setting/Notification';
-import Header from '../components/common/Header';
 import { BsChevronLeft } from 'react-icons/bs';
+import Header from '../../components/common/Header';
+import Account from '../../components/setting/Account';
+import Notification from '../../components/setting/Notification';
+import Theme from '../../components/setting/Theme';
 
 export default function Setting() {
   return (

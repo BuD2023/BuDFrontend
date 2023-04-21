@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
-import CoffeeChatRoom from '../components/coffeeChat/CoffeeChatRoom';
-import CoffeeTitle from '../components/coffeeChat/CoffeeTitle';
-import AddBtn from '../components/common/AddBtn';
-import FooterMenu from '../components/common/FooterMenu';
-import ScrollToTopBtn from '../components/common/ScrollToTopBtn';
+import CoffeeChatRoom from '../../components/coffeeChat/CoffeeChatRoom';
+import CoffeeTitle from '../../components/coffeeChat/CoffeeTitle';
+import AddBtn from '../../components/common/AddBtn';
+import FooterMenu from '../../components/common/FooterMenu';
+import ScrollToTopBtn from '../../components/common/ScrollToTopBtn';
 
 export default function CoffeeChat() {
   const [inputValue, setInputValue] = useState('');

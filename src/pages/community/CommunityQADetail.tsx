@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { BsChevronLeft } from 'react-icons/bs';
 import { useParams } from 'react-router-dom';
-import AddBtn from '../components/common/AddBtn';
-import FooterMenu from '../components/common/FooterMenu';
-import Header from '../components/common/Header';
-import CommunityDetailPost from '../components/feedDetail/CommunityDetailPost';
-import CommunityQADetailAnswer from '../components/q&aDetail/CommunityQADetailAnswer';
+import AddBtn from '../../components/common/AddBtn';
+import FooterMenu from '../../components/common/FooterMenu';
+import Header from '../../components/common/Header';
+import CommunityDetailPost from '../../components/feedDetail/CommunityDetailPost';
+import CommunityQADetailAnswer from '../../components/q&aDetail/CommunityQADetailAnswer';
 
 export default function () {
   const { id } = useParams();

@@ -1,13 +1,13 @@
-import Header from '../components/common/Header';
 import { BsChevronLeft } from 'react-icons/bs';
 import { useRef, useState } from 'react';
 import { AiFillPicture } from 'react-icons/ai';
-import PicModal from '../components/common/PicModal';
 import { useParams } from 'react-router-dom';
-import { useCommunityDetailQuery } from '../store/module/useCommunityDetailQuery';
-import QuestionModal from '../components/common/QuestionModal';
-import { QnaAnswerType } from '../components/community/_Community.interface';
-import { handleChangeProfileImg } from '../utils/handleChangeImgFile';
+import { useCommunityDetailQuery } from '../../store/module/useCommunityDetailQuery';
+import { QnaAnswerType } from '../../components/community/_Community.interface';
+import PicModal from '../../components/common/PicModal';
+import QuestionModal from '../../components/common/QuestionModal';
+import Header from '../../components/common/Header';
+import { handleChangeProfileImg } from '../../utils/handleChangeImgFile';
 
 export default function QAAnswerEdit() {
   const { postId, answerId } = useParams();

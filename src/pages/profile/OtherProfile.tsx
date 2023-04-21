@@ -1,12 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import FooterMenu from '../components/common/FooterMenu';
-import FeedPostFormat from '../components/myProfile/FeedPostFormat';
-import OtherProfileHeader from '../components/otherProfile/OtherProfileHeader';
-import OtherProfileInfo from '../components/otherProfile/OtherProfileInfo';
-import OtherProfileMenu from '../components/otherProfile/OtherProfileMenu';
-import { useProfilePostQuery } from '../store/module/useProfilePostQuery';
-import { useUserProfileQuery } from '../store/module/useUserProfileQuery';
+import FooterMenu from '../../components/common/FooterMenu';
+import OtherProfileHeader from '../../components/otherProfile/OtherProfileHeader';
+import OtherProfileInfo from '../../components/otherProfile/OtherProfileInfo';
+import OtherProfileMenu from '../../components/otherProfile/OtherProfileMenu';
+import { useProfilePostQuery } from '../../store/module/useProfilePostQuery';
+import { useUserProfileQuery } from '../../store/module/useUserProfileQuery';
 
 export default function OtherProfile() {
   const [postView, setPostView] = useState<string>('feed');

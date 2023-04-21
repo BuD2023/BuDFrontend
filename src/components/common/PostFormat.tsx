@@ -1,8 +1,7 @@
 import { FcPortraitMode } from 'react-icons/fc';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useCommunityPostQuery } from '../../store/module/useCommunityQuery';
 import { useFollowMutation } from '../../store/module/useCommunityQuery';
-import DefaultProfileImage from '../../assets/DefaultProfileImage.webp';
 import { useInView } from 'react-intersection-observer';
 import { useEffect, useState } from 'react';
 import LikeCommentScrap from './LikeCommentScrap';
@@ -13,9 +12,15 @@ import { PostFormatPropsType } from './_Common.interface';
 import { CommunityPostListContentType } from '../community/_Community.interface';
 import { myInfo } from '../myProfile/_MyProfile.interface';
 import { timeForToday } from '../../utils/timeForToday';
+import { useRecoilValueLoadable } from 'recoil';
+import { getGithubInfo } from '../../store/recoil/user';
+import { githubInfoType } from '../home/_Home.interface';
 
 export default function PostFormat({ inputValue, sortAndOrder, filter: postTypeFilter }: PostFormatPropsType) {
-  const { filter } = useParams();
+  const githubLoadable = useRecoilValueLoadable(getGithubInfo);
+  let githubInfo: githubInfoType = 'hasValue' === githubLoadable.state ? githubLoadable.contents : {};
+  console.log(githubInfo);
+
   const { sort, order } = sortAndOrder;
   const navigate = useNavigate();
   const POSTLIST_SIZE = 10;

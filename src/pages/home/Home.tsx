@@ -1,10 +1,10 @@
-import FooterMenu from '../components/common/FooterMenu';
-import HomeTitle from '../components/home/HomeTitle';
-import HomeLevelSection from '../components/home/HomeLevelSection';
-import HomeCommitSection from '../components/home/HomeCommitSection';
-import HomeCommitCalendar from '../components/home/HomeCommitCalendar';
-import { useGithubQuery } from '../store/module/useGithubQuery';
 import { useNavigate } from 'react-router-dom';
+import FooterMenu from '../../components/common/FooterMenu';
+import HomeCommitCalendar from '../../components/home/HomeCommitCalendar';
+import HomeCommitSection from '../../components/home/HomeCommitSection';
+import HomeLevelSection from '../../components/home/HomeLevelSection';
+import HomeTitle from '../../components/home/HomeTitle';
+import { useGithubQuery } from '../../store/module/useGithubQuery';
 
 export default function Home() {
   const { data, isLoading, error } = useGithubQuery();

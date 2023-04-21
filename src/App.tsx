@@ -1,31 +1,31 @@
 import { Route, Routes } from 'react-router-dom';
 import './firebase-messaging-sw.js';
-import Community from './pages/Community';
-import News from './pages/News';
-import CoffeeChat from './pages/CoffeeChat';
-import Home from './pages/Home';
-import MyProfile from './pages/MyProfile';
-import CommunityQADetail from './pages/CommunityQADetail';
-import OtherProfile from './pages/OtherProfile';
-import ChatRoom from './pages/ChatRoom';
-import CommunityFeedDetail from './pages/CommunityFeedDetail';
+import CoffeeChat from './pages/coffeeChat/CoffeeChat';
+import MyProfile from './pages/profile/MyProfile';
+import ChatRoom from './pages/coffeeChat/ChatRoom';
 import NotFound from './pages/NotFound';
-import NewsDetail from './pages/NewsDetail';
-import ProfileEdit from './pages/MyProfileEdit';
-import Setting from './pages/Setting';
-import UserInfo from './pages/UserInfo';
-import Notification from './pages/Notification';
+import NewsDetail from './pages/news/NewsDetail';
+import Notification from './pages/notification/Notification';
 import { useLayoutEffect } from 'react';
-import RoomCreate from './pages/RoomCreate';
-import PostCreate from './pages/PostCreate';
-import LogInPage from './pages/LogInPage';
-import SignUp from './pages/SignUp';
+import LogInPage from './pages/SignUp/LogInPage';
 import SetPicture from './components/SignUp/SetPicture';
 import SetJob from './components/SignUp/SetJob';
 import Test3 from './pages/Test3';
-import PostEdit from './pages/PostEdit';
-import QAAnswerEdit from './pages/QAAnswerEdit';
-import QAAnswerCreate from './pages/QAAnswerCreate';
+import Home from './pages/home/Home.js';
+import SignUp from './pages/SignUp/SignUp.js';
+import News from './pages/news/News.js';
+import Community from './pages/community/Community.js';
+import CommunityQADetail from './pages/community/CommunityQADetail.js';
+import CommunityFeedDetail from './pages/community/CommunityFeedDetail.js';
+import PostCreate from './pages/community/PostCreate.js';
+import PostEdit from './pages/community/PostEdit.js';
+import QAAnswerEdit from './pages/community/QAAnswerEdit.js';
+import QAAnswerCreate from './pages/community/QAAnswerCreate.js';
+import RoomCreate from './pages/coffeeChat/RoomCreate.js';
+import OtherProfile from './pages/profile/OtherProfile.js';
+import MyProfileEdit from './pages/profile/MyProfileEdit.js';
+import Setting from './pages/setting/Setting.js';
+import UserInfo from './pages/setting/UserInfo.js';
 
 function App() {
   const $html = document.querySelector('html');
@@ -73,7 +73,7 @@ function App() {
 
       <Route path="/myProfile/:filter" element={<MyProfile />} />
       <Route path="/otherProfile/:id/:filter" element={<OtherProfile />} />
-      <Route path="/myProfileEdit" element={<ProfileEdit />} />
+      <Route path="/myProfileEdit" element={<MyProfileEdit />} />
       <Route path="/setting" element={<Setting />} />
       <Route path="/userInfo" element={<UserInfo />} />
 
