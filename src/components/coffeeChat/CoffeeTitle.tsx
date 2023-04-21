@@ -1,4 +1,3 @@
-import { useRef } from 'react';
 import { FcIcons8Cup } from 'react-icons/fc';
 import { useNavigate } from 'react-router-dom';
 import { useChatroomStatusQuery } from '../../store/module/useChatroomQuery';
@@ -7,7 +6,6 @@ import SearchBar from '../common/SearchBar';
 import { CoffeeTitlePropsType } from './_CoffeeChat.interface';
 
 export default function CoffeeTitle({ setInputValue, inputValue }: CoffeeTitlePropsType) {
-  const inputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
 
   const { isLoading, data, isError } = useChatroomStatusQuery();

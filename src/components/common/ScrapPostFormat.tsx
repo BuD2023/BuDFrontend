@@ -1,6 +1,5 @@
 import { FcPortraitMode } from 'react-icons/fc';
 import { useNavigate } from 'react-router-dom';
-import { timeForToday } from '../../store/commentDummy';
 
 import DefaultProfileImage from '../../assets/DefaultProfileImage.webp';
 
@@ -11,6 +10,7 @@ import ImagePeek from './ImagePeek';
 import PicModal from './PicModal';
 import { S3_URL } from '../../constant/union';
 import { ScrapPostFormatPropsType } from './_Common.interface';
+import { timeForToday } from '../../utils/timeForToday';
 
 export default function ScrapPostFormat({ resultData }: ScrapPostFormatPropsType) {
   const navigate = useNavigate();
@@ -24,8 +24,8 @@ export default function ScrapPostFormat({ resultData }: ScrapPostFormatPropsType
   return (
     <>
       <PicModal isPicPopUp={isPicPopUp} setIsPicPopUp={setIsPicPopUp} />
-      <ul className="w-full">
-        {/* {resultData.length > 0 ? (
+      {/* <ul className="w-full">
+        {resultData.length > 0 ? (
           resultData.map((data, idx) => (
             <li
               onClick={(e) => {
@@ -87,8 +87,8 @@ export default function ScrapPostFormat({ resultData }: ScrapPostFormatPropsType
           <div className="mb-6 flex h-[298px] flex-col items-center justify-center gap-4 rounded-[20px] bg-midIvory dark:bg-midNavy">
             <div className="flex h-[200px] w-full items-center justify-center p-4 text-base font-semibold text-lightText dark:text-white">스크랩된 게시글이 없습니다.</div>
           </div>
-        )} */}
-      </ul>
+        )}
+      </ul> */}
     </>
   );
 }

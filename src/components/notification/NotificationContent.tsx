@@ -5,9 +5,9 @@ import '@sandstreamdev/react-swipeable-list/dist/styles.css';
 import { BsFillTrashFill } from 'react-icons/bs';
 import { useNotificationdeleteMutation, useNotificationListQuery, useNotificationStatusMutation } from '../../store/module/useNotificationQuery';
 import { notificationDetailType, pageType } from './_Notification.interface';
-import { timeForToday } from '../../store/commentDummy';
 import { NotiContent } from './_Notification.interface';
 import { useInView } from 'react-intersection-observer';
+import { timeForToday } from '../../utils/timeForToday';
 
 export default function NotificationContent() {
   const navigate = useNavigate();

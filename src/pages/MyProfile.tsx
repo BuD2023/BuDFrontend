@@ -9,6 +9,7 @@ import FeedPostFormat from '../components/myProfile/FeedPostFormat';
 import MyProfileHeader from '../components/myProfile/MyProfileHeader';
 import MyProfileInfo from '../components/myProfile/MyProfileInfo';
 import MyProfileMenu from '../components/myProfile/MyProfileMenu';
+import { S3_URL } from '../constant/union';
 import { useMyProfileQuery, useMyScrapsQuery } from '../store/module/useMyProfileQuery';
 import { useProfilePostQuery } from '../store/module/useProfilePostQuery';
 
@@ -66,7 +67,7 @@ export default function MyProfile() {
           userId={myProfileData?.userId as string}
           job={myProfileData?.job as string}
           nickName={myProfileData?.nickName as string}
-          profileUrl={myProfileData?.profileUrl as string}
+          profileUrl={(S3_URL + myProfileData?.profileUrl) as string}
           description={myProfileData?.description as string}
           isLoading={myProfileIsLoading}
         />
