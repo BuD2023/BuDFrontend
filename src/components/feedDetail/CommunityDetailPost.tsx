@@ -7,8 +7,9 @@ import { useEffect, useState } from 'react';
 import { S3_URL } from '../../constant/union';
 import { useFollowMutation } from '../../store/module/useCommunityQuery';
 import { postType } from '../community/_Community.interface';
-import { myInfo } from '../myProfile/_MyProfile.interface';
 import { timeForToday } from '../../utils/timeForToday';
+import { useRecoilValueLoadable } from 'recoil';
+import { userGithubInfo } from '../../store/recoil/user';
 
 interface CommunityDetailPostProps {
   setQuestionUserId?: any;
@@ -19,6 +20,10 @@ export default function CommunityDetailPost(props: CommunityDetailPostProps) {
   const navigate = useNavigate();
   const { data: questionData, isLoading: questionIsLoading, error: questionError } = useCommunityDetailQuery(Number(questionId));
 
+  // 사용자 정보
+  const githubInfoLoadable = useRecoilValueLoadable(userGithubInfo);
+  const githubInfo: any = 'hasValue' === githubInfoLoadable.state ? githubInfoLoadable.contents : {};
+
   const [userId, setUserId] = useState<number>();
   const { mutate } = useFollowMutation(Number(userId));
 
@@ -27,7 +32,7 @@ export default function CommunityDetailPost(props: CommunityDetailPostProps) {
   }, [questionData?.member.id]);
 
   const handleClickFollow = (e: React.MouseEvent<HTMLElement>, memberId: number, memberNickname?: string) => {
-    if (memberNickname === myInfo.nickname) return;
+    if (memberNickname === githubInfo.nickName) return;
     setUserId(memberId);
     e.stopPropagation();
     mutate();
@@ -54,7 +59,7 @@ export default function CommunityDetailPost(props: CommunityDetailPostProps) {
             <img
               onClick={(e) => {
                 e.stopPropagation();
-                if (questionData?.member.id === myInfo.id) {
+                if (questionData?.member.nickname === githubInfo.nickName) {
                   navigate(`/myProfile/feed`);
                 } else {
                   navigate(`/otherProfile/${questionData?.member.id}/feed`);

@@ -9,6 +9,8 @@ import { CommunityQADetailAnswerProps, QnaAnswerContentType } from './_Q&ADetail
 import { myInfo } from '../myProfile/_MyProfile.interface';
 import { S3_URL } from '../../constant/union';
 import { timeForToday } from '../../utils/timeForToday';
+import { useRecoilValueLoadable } from 'recoil';
+import { userGithubInfo } from '../../store/recoil/user';
 
 export default function CommunityQADetailAnswer({ isCommentOpen, setIsCommentOpen, answerPin, setAnswerPin, questionUserId }: CommunityQADetailAnswerProps) {
   const { id: postId } = useParams();
@@ -16,6 +18,10 @@ export default function CommunityQADetailAnswer({ isCommentOpen, setIsCommentOpe
   const [isMenu, setIsMenu] = useState<boolean>();
   const [activeComment, setActiveComment] = useState<number[]>([]);
   const [activeAnswerMenu, setActiveAnswerMenu] = useState<number[]>([]);
+
+  // 사용자 정보
+  const githubInfoLoadable = useRecoilValueLoadable(userGithubInfo);
+  const githubInfo: any = 'hasValue' === githubInfoLoadable.state ? githubInfoLoadable.contents : {};
 
   const [userId, setUserId] = useState<number>();
   const [answerId, setAnswerId] = useState<number>();
@@ -86,7 +92,7 @@ export default function CommunityQADetailAnswer({ isCommentOpen, setIsCommentOpe
                   />
                 </div>
               )}
-              {isMenu && activeAnswerMenu.includes(answer.id) && myInfo.id === answer.member.id && (
+              {isMenu && activeAnswerMenu.includes(answer.id) && githubInfo.nickName === answer.member.nickname && (
                 <div className="absolute right-4 top-[45px] flex flex-col gap-3 rounded-xl bg-greyBeige p-3 text-[16px] font-medium">
                   <div onClick={() => navigate(`/answerEdit/${postId}/${answer.id}`)} className="cursor-pointer">
                     수정하기

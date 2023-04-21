@@ -1,17 +1,17 @@
 import { selector } from 'recoil';
-import { BASE_URL } from '../../constant/union';
+import getGithubInfoAxios from '../../apiFetcher/githubInfo/getGithubInfo';
+import { accessToken } from '../../main';
 
-const getGithubInfoUrl = BASE_URL + 'api/github';
-
-export const getGithubInfo = selector({
+export const userGithubInfo = selector({
   key: 'githubInfo',
   get: async () => {
     try {
-      const response = await fetch(getGithubInfoUrl);
-      return (await response.json()) || {};
+      const token = accessToken;
+      const response = await getGithubInfoAxios(token);
+      return response || [];
     } catch (error) {
       console.log(`Error: \n${error}`);
-      return {};
+      return [];
     }
   },
 });

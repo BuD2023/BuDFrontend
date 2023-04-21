@@ -1,8 +1,6 @@
 import { AiFillEdit, AiFillGithub, AiFillSetting } from 'react-icons/ai';
 import { FcReadingEbook } from 'react-icons/fc';
 import { useNavigate } from 'react-router-dom';
-import profile1 from '../../assets/profile1.jpg';
-import { S3_URL } from '../../constant/union';
 import { MyProfileHeaderPropsType } from './_MyProfile.interface';
 
 export default function MyProfileHeader({ userId, nickName, description, profileUrl, isLoading, job }: MyProfileHeaderPropsType) {
@@ -49,7 +47,7 @@ export default function MyProfileHeader({ userId, nickName, description, profile
         </div>
       </div>
       <div className="h-[120px] w-[120px] shrink-0">
-        <img src={S3_URL + profileUrl} className="h-[120px] w-[120px] rounded-full object-cover" />
+        <img src={profileUrl} className="h-[120px] w-[120px] rounded-full object-cover" />
       </div>
     </div>
   );
