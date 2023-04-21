@@ -50,7 +50,6 @@ async function requestPermission() {
       body: 'Background Message body.',
       icon: '/firebase-logo.png',
     };
-
     self.registration.showNotification(notificationTitle, notificationOptions);
   });
 }

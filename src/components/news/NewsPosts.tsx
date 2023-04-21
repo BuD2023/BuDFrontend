@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { NewsPostsProps } from './_News.interface';
-import { timeForToday } from '../../store/commentDummy';
 import newsDefaultImg from '../../assets/newsDefaultImg.webp';
+import { timeForToday } from '../../utils/timeForToday';
 
 export default function NewsPosts({ newsData, isLoading }: NewsPostsProps) {
   const navigate = useNavigate();

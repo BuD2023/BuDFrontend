@@ -1,13 +1,12 @@
 import { FcPortraitMode } from 'react-icons/fc';
 import { useNavigate } from 'react-router-dom';
-import { timeForToday } from '../../store/commentDummy';
 import DefaultProfileImage from '../../assets/DefaultProfileImage.webp';
 import { useState } from 'react';
 import LikeCommentScrap from '../common/LikeCommentScrap';
 import ImagePeek from '../common/ImagePeek';
 import PicModal from '../common/PicModal';
 import { S3_URL } from '../../constant/union';
-import { FeedPostContentPropsType, FeedPostFormatProps } from './_MyProfile.interface';
+import { timeForToday } from '../../utils/timeForToday';
 
 export default function FeedPostFormat({ resultData, type }: any) {
   const navigate = useNavigate();

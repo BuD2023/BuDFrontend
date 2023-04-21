@@ -67,7 +67,7 @@ export default function RoomChats({ messageList, newChatMessages, hasNextPage, i
                 return chat.userName !== data?.nickName ? (
                   <div key={chat.chatId} className="mb-3 flex gap-4">
                     <img
-                      src={chat.userProfileUrl ? chat.userProfileUrl : defaultImage}
+                      src={chat.userProfileUrl ? S3_URL + chat.userProfileUrl : defaultImage}
                       alt={chat.userName}
                       className="h-[50px] w-[50px] cursor-pointer rounded-full object-cover"
                       onClick={() => handleClickUserImg(chat.userName as string, (chat.userProfileUrl ? chat.userProfileUrl : defaultImage) as string)}
@@ -125,7 +125,7 @@ export default function RoomChats({ messageList, newChatMessages, hasNextPage, i
               return chat.userName !== data?.nickName ? (
                 <div key={chat.chatId} className="mb-3 flex gap-4">
                   <img
-                    src={chat.userProfileUrl ? chat.userProfileUrl : defaultImage}
+                    src={chat.userProfileUrl ? S3_URL + chat.userProfileUrl : defaultImage}
                     alt={chat.userName}
                     className="h-[50px] w-[50px] cursor-pointer rounded-full object-cover"
                     onClick={() => handleClickUserImg(chat.userName as string, (chat.userProfileUrl ? chat.userProfileUrl : defaultImage) as string)}

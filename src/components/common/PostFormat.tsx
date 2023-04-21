@@ -1,6 +1,5 @@
 import { FcPortraitMode } from 'react-icons/fc';
 import { useNavigate, useParams } from 'react-router-dom';
-import { timeForToday } from '../../store/commentDummy';
 import { useCommunityPostQuery } from '../../store/module/useCommunityQuery';
 import { useFollowMutation } from '../../store/module/useCommunityQuery';
 import DefaultProfileImage from '../../assets/DefaultProfileImage.webp';
@@ -13,6 +12,7 @@ import { S3_URL } from '../../constant/union';
 import { PostFormatPropsType } from './_Common.interface';
 import { CommunityPostListContentType } from '../community/_Community.interface';
 import { myInfo } from '../myProfile/_MyProfile.interface';
+import { timeForToday } from '../../utils/timeForToday';
 
 export default function PostFormat({ inputValue, sortAndOrder, filter: postTypeFilter }: PostFormatPropsType) {
   const { filter } = useParams();
@@ -89,7 +89,7 @@ export default function PostFormat({ inputValue, sortAndOrder, filter: postTypeF
                           navigate(`/otherProfile/${data.member.id}/feed`);
                         }
                       }}
-                      src={data.member.profileImg ? data.member.profileImg : DefaultProfileImage}
+                      src={data.member.profileImg ? S3_URL + data.member.profileImg : DefaultProfileImage}
                       alt={data.title}
                       className="w-[58px] rounded-full"
                     />

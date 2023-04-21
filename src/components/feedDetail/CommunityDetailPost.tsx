@@ -1,6 +1,5 @@
 import { FcPortraitMode } from 'react-icons/fc';
 import { useNavigate, useParams } from 'react-router-dom';
-import { timeForToday } from '../../store/commentDummy';
 import { useCommunityDetailQuery } from '../../store/module/useCommunityDetailQuery';
 import DefaultProfileImage from '../../assets/DefaultProfileImage.webp';
 import LikeCommentScrap from '../common/LikeCommentScrap';
@@ -10,6 +9,7 @@ import { S3_URL } from '../../constant/union';
 import { useFollowMutation } from '../../store/module/useCommunityQuery';
 import { postType } from '../community/_Community.interface';
 import { myInfo } from '../myProfile/_MyProfile.interface';
+import { timeForToday } from '../../utils/timeForToday';
 
 interface CommunityDetailPostProps {
   setQuestionUserId?: any;

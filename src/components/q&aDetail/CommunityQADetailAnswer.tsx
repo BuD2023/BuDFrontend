@@ -2,13 +2,13 @@ import { useEffect, useState } from 'react';
 import { BsThreeDots } from 'react-icons/bs';
 import { FcApproval, FcLike, FcPortraitMode, FcSms } from 'react-icons/fc';
 import { useNavigate, useParams } from 'react-router-dom';
-import { timeForToday } from '../../store/commentDummy';
 import { useCommunityAnswerQuery, useDeleteQnaAnswerMutation, usePinAnswerMutation, usePostQnaAnswerLikeMutation } from '../../store/module/useCommunityDetailQuery';
 import { useFollowMutation } from '../../store/module/useCommunityQuery';
 import CommunityCommentForm from '../feedDetail/CommunityCommentForm';
 import profile1 from '../../assets/profile1.jpg';
 import { CommunityQADetailAnswerProps, QnaAnswerContentType } from './_Q&ADetail.interface';
 import { myInfo } from '../myProfile/_MyProfile.interface';
+import { timeForToday } from '../../utils/timeForToday';
 
 export default function CommunityQADetailAnswer({ isCommentOpen, setIsCommentOpen, answerPin, setAnswerPin, questionUserId }: CommunityQADetailAnswerProps) {
   const { id: postId } = useParams();
