@@ -10,10 +10,15 @@ import PicModal from './PicModal';
 import { S3_URL } from '../../constant/union';
 import { PostFormatPropsType } from './_Common.interface';
 import { CommunityPostListContentType } from '../community/_Community.interface';
-import { myInfo } from '../myProfile/_MyProfile.interface';
 import { timeForToday } from '../../utils/timeForToday';
+import { useRecoilValueLoadable } from 'recoil';
+import { userGithubInfo } from '../../store/recoil/user';
 
 export default function PostFormat({ inputValue, sortAndOrder, filter: postTypeFilter }: PostFormatPropsType) {
+  // 사용자 정보
+  const githubInfoLoadable = useRecoilValueLoadable(userGithubInfo);
+  const githubInfo: any = 'hasValue' === githubInfoLoadable.state ? githubInfoLoadable.contents : {};
+
   const { sort, order } = sortAndOrder;
   const navigate = useNavigate();
   const POSTLIST_SIZE = 10;
@@ -81,7 +86,7 @@ export default function PostFormat({ inputValue, sortAndOrder, filter: postTypeF
                     <img
                       onClick={(e) => {
                         e.stopPropagation();
-                        if (data.member.id === myInfo.id) {
+                        if (data.member.username === githubInfo.nickName) {
                           navigate(`/myProfile/feed`);
                         } else {
                           navigate(`/otherProfile/${data.member.id}/feed`);

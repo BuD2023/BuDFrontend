@@ -1,15 +1,20 @@
 import { useState } from 'react';
 import { BsChevronLeft } from 'react-icons/bs';
+import { useRecoilValueLoadable } from 'recoil';
 import Header from '../../components/common/Header';
-import { myInfo } from '../../components/myProfile/_MyProfile.interface';
 import ChangeIntroduction from '../../components/myProfileEdit/ChangeIntroduction';
 import ChangeJob from '../../components/myProfileEdit/ChangeJob';
 import ChangeNickName from '../../components/myProfileEdit/ChangeNickName';
 import ChangeProfilePic from '../../components/myProfileEdit/ChangeProfilePic';
+import { userGithubInfo } from '../../store/recoil/user';
 
 export default function MyProfileEdit() {
+  // 사용자 정보
+  const githubInfoLoadable = useRecoilValueLoadable(userGithubInfo);
+  const githubInfo: any = 'hasValue' === githubInfoLoadable.state ? githubInfoLoadable.contents : {};
+
   const [selectedJob, setSelectedJob] = useState('프론트엔드 개발');
-  const [nickName, setNickName] = useState(myInfo.nickname);
+  const [nickName, setNickName] = useState(githubInfo.nickName);
   const [introduction, setIntroduction] = useState('안녕하세요!');
   const defaultImg = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png';
   const [profileImg, setProfileImg] = useState<string | ArrayBuffer | null>(defaultImg);

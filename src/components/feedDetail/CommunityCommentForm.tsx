@@ -2,6 +2,7 @@ import { SwipeableList, SwipeableListItem } from '@sandstreamdev/react-swipeable
 import { useEffect, useState } from 'react';
 import { BsDot, BsFillPinAngleFill, BsFillTrashFill, BsHeartFill } from 'react-icons/bs';
 import { useNavigate, useParams } from 'react-router-dom';
+import { useRecoilValueLoadable } from 'recoil';
 import { S3_URL } from '../../constant/union';
 import {
   useDeleteFeedCommentMutation,
@@ -15,14 +16,18 @@ import {
   useQnACommentPinMutation,
   useQnACommentQuery,
 } from '../../store/module/useCommunityDetailQuery';
+import { userGithubInfo } from '../../store/recoil/user';
 import { CommunityCommentType } from '../community/_Community.interface';
-import { myInfo } from '../myProfile/_MyProfile.interface';
 import { CommunityFeedCommentFormPropsType } from './_FeedDetail.interface';
 
 export default function CommunityCommentForm({ type, answerId }: CommunityFeedCommentFormPropsType) {
   const { id: postId } = useParams();
   const [commentId, setCommentId] = useState(0);
   const navigate = useNavigate();
+
+  // 사용자 정보
+  const githubInfoLoadable = useRecoilValueLoadable(userGithubInfo);
+  const githubInfo: any = 'hasValue' === githubInfoLoadable.state ? githubInfoLoadable.contents : {};
 
   const { data: feedData, isLoading: feedIsLoading, error: feedError, refetch: feedRefetch } = useFeedCommentQuery(Number(postId));
   const { data: QnAData, isLoading: QnAIsLoading, error: QnAError, refetch: qnaRefetch } = useQnACommentQuery(Number(answerId));
@@ -158,7 +163,7 @@ export default function CommunityCommentForm({ type, answerId }: CommunityFeedCo
                     <li key={content.commentId} className="flex min-h-[60px] w-full gap-2 bg-midIvory px-4 dark:bg-midNavy">
                       {/* {comment.isRef && <BsArrowReturnRight className="ml-4 text-[20px]" />} */}
                       <img
-                        onClick={() => (content.memberName === myInfo.nickname ? navigate(`/myProfile`) : navigate(`/otherProfile/${content.memberId}/feed`))}
+                        onClick={() => (content.memberName === githubInfo.nickname ? navigate(`/myProfile/feed`) : navigate(`/otherProfile/${content.memberId}/feed`))}
                         src={S3_URL + content.memberProfileUrl}
                         className="h-[50px] w-[50px] shrink-0 cursor-pointer rounded-full object-cover"
                       />

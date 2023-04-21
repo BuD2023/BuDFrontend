@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
 import FooterMenu from '../../components/common/FooterMenu';
 import HomeCommitCalendar from '../../components/home/HomeCommitCalendar';
 import HomeCommitSection from '../../components/home/HomeCommitSection';
