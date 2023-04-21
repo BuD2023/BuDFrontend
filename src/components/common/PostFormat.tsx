@@ -12,15 +12,8 @@ import { PostFormatPropsType } from './_Common.interface';
 import { CommunityPostListContentType } from '../community/_Community.interface';
 import { myInfo } from '../myProfile/_MyProfile.interface';
 import { timeForToday } from '../../utils/timeForToday';
-import { useRecoilValueLoadable } from 'recoil';
-import { getGithubInfo } from '../../store/recoil/user';
-import { githubInfoType } from '../home/_Home.interface';
 
 export default function PostFormat({ inputValue, sortAndOrder, filter: postTypeFilter }: PostFormatPropsType) {
-  const githubLoadable = useRecoilValueLoadable(getGithubInfo);
-  let githubInfo: githubInfoType = 'hasValue' === githubLoadable.state ? githubLoadable.contents : {};
-  console.log(githubInfo);
-
   const { sort, order } = sortAndOrder;
   const navigate = useNavigate();
   const POSTLIST_SIZE = 10;

@@ -10,7 +10,7 @@ import { useMyChatroomListQuery } from '../../store/module/useChatroomQuery';
 import { makeCompressedImg } from '../../utils/makeCompressedImg';
 import PicModal from '../../components/common/PicModal';
 import AlertModal from '../../components/common/AlertModal';
-import { ChatMessageType, chatType, InfoMessageType, myChatroomListContentType, myChatroomListType } from '../../components/chatRoom/_ChatRoom.interface';
+import { ChatMessageType, InfoMessageType, myChatroomListContentType, myChatroomListType } from '../../components/chatRoom/_ChatRoom.interface';
 
 export default function ChatRoom() {
   const navigate = useNavigate();

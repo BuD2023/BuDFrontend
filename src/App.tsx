@@ -30,6 +30,13 @@ import UserInfo from './pages/setting/UserInfo.js';
 function App() {
   const $html = document.querySelector('html');
 
+  //테마 변경
+  useLayoutEffect(() => {
+    if (localStorage.getItem('theme') === 'dark') {
+      $html?.classList.add('dark');
+    }
+  }, []);
+
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker
       .register('/firebase-messaging-sw.js')
@@ -40,13 +47,6 @@ function App() {
         console.error('Service Worker registration failed:', error);
       });
   }
-
-  //테마 변경
-  useLayoutEffect(() => {
-    if (localStorage.getItem('theme') === 'dark') {
-      $html?.classList.add('dark');
-    }
-  }, []);
 
   return (
     <Routes>

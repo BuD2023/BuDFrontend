@@ -2,14 +2,17 @@ import { RefObject, useEffect, useRef, useState } from 'react';
 import PicModal from '../common/PicModal';
 import UserModal from '../common/UserModal';
 import defaultImage from '../../assets/DefaultProfileImage.webp';
-import { useGithubQuery } from '../../store/module/useGithubQuery';
 import { useInView } from 'react-intersection-observer';
 import { S3_URL } from '../../constant/union';
 import ScrollToBottomBtn from '../common/ScrollToBottomBtn';
 import { ChatMessageType, RoomChatsPropsType } from './_ChatRoom.interface';
+import { accessToken } from '../../main';
+import { githubUserInfoAtom } from '../../store/recoil/userAtomFamily';
+import { useRecoilValue } from 'recoil';
 
 export default function RoomChats({ messageList, newChatMessages, hasNextPage, isFetching, isFetchingNextPage, fetchNextPage }: RoomChatsPropsType) {
-  const { data } = useGithubQuery();
+  // 리코일
+  const githubUser = useRecoilValue(githubUserInfoAtom(accessToken));
 
   const [userModal, setUserModal] = useState(false);
 
@@ -64,7 +67,7 @@ export default function RoomChats({ messageList, newChatMessages, hasNextPage, i
               .filter((i: Partial<ChatMessageType>) => i.chatType === 'MESSAGE' || i.chatType === 'IMAGE')
               .reverse()
               .map((chat: Partial<ChatMessageType>) => {
-                return chat.userName !== data?.nickName ? (
+                return chat.userName !== githubUser?.nickName ? (
                   <div key={chat.chatId} className="mb-3 flex gap-4">
                     <img
                       src={chat.userProfileUrl ? S3_URL + chat.userProfileUrl : defaultImage}
@@ -122,7 +125,7 @@ export default function RoomChats({ messageList, newChatMessages, hasNextPage, i
         <>
           {messageList &&
             messageList.map((chat) => {
-              return chat.userName !== data?.nickName ? (
+              return chat.userName !== githubUser?.nickName ? (
                 <div key={chat.chatId} className="mb-3 flex gap-4">
                   <img
                     src={chat.userProfileUrl ? S3_URL + chat.userProfileUrl : defaultImage}
