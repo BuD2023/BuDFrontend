@@ -9,9 +9,9 @@ import PicModal from '../common/PicModal';
 import { S3_URL } from '../../constant/union';
 import { FeedPostContentPropsType, FeedPostFormatProps } from './_MyProfile.interface';
 
-export default function FeedPostFormat({ resultData }: FeedPostFormatProps) {
+export default function FeedPostFormat({ resultData, type }: any) {
   const navigate = useNavigate();
-  const userId = 4;
+  // const userId = 4;
 
   //사진 팝업모달
   const [isPicPopUp, setIsPicPopUp] = useState({
@@ -24,7 +24,7 @@ export default function FeedPostFormat({ resultData }: FeedPostFormatProps) {
       <PicModal isPicPopUp={isPicPopUp} setIsPicPopUp={setIsPicPopUp} />
       <ul className="w-full">
         {resultData.length > 0 ? (
-          resultData.map((data: FeedPostContentPropsType) => (
+          resultData.map((data: any) => (
             <li
               onClick={(e) => {
                 e.preventDefault();
@@ -43,21 +43,21 @@ export default function FeedPostFormat({ resultData }: FeedPostFormatProps) {
                     <img
                       onClick={(e) => {
                         e.stopPropagation();
-                        navigate(`/otherProfile/${userId}/feed`);
+                        navigate(`/otherProfile/${data.member.nickname}/feed`);
                       }}
-                      src={DefaultProfileImage}
-                      alt={data.title}
+                      src={data.member?.profileImg ?? DefaultProfileImage}
+                      alt={data.member?.nickname}
                       className="w-[58px] rounded-full"
                     />
                     <div className="pl-3">
                       <p
                         onClick={(e) => {
                           e.stopPropagation();
-                          navigate(`/otherProfile/${userId}/feed`);
+                          navigate(`/otherProfile/${data.member.id}/feed`);
                         }}
                         className="text-xl font-bold"
                       >
-                        JHni2
+                        {data.member?.nickname}
                       </p>
                       <p className="text-[17px] opacity-50">{timeForToday(data.createdAt)}</p>
                     </div>

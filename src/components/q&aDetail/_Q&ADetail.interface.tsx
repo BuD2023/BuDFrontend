@@ -6,6 +6,7 @@ export interface CommunityQADetailAnswerProps {
   setIsCommentOpen: (x: boolean) => void;
   answerPin: boolean;
   setAnswerPin: (x: boolean) => void;
+  questionUserId: number;
 }
 
 /** getQnaAnswerAxios */

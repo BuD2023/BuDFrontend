@@ -12,6 +12,7 @@ import PicModal from './PicModal';
 import { S3_URL } from '../../constant/union';
 import { PostFormatPropsType } from './_Common.interface';
 import { CommunityPostListContentType } from '../community/_Community.interface';
+import { myInfo } from '../myProfile/_MyProfile.interface';
 
 export default function PostFormat({ inputValue, sortAndOrder, filter: postTypeFilter }: PostFormatPropsType) {
   const { filter } = useParams();
@@ -82,22 +83,18 @@ export default function PostFormat({ inputValue, sortAndOrder, filter: postTypeF
                     <img
                       onClick={(e) => {
                         e.stopPropagation();
-                        navigate(`/otherProfile/${data.member.id}/feed`);
+                        if (data.member.id === myInfo.id) {
+                          navigate(`/myProfile/feed`);
+                        } else {
+                          navigate(`/otherProfile/${data.member.id}/feed`);
+                        }
                       }}
                       src={data.member.profileImg ? data.member.profileImg : DefaultProfileImage}
                       alt={data.title}
                       className="w-[58px] rounded-full"
                     />
                     <div className="pl-3">
-                      <p
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          navigate(`/otherProfile/${data.member.id}/feed`);
-                        }}
-                        className="text-xl font-bold"
-                      >
-                        {data.member.username}
-                      </p>
+                      <p className="text-xl font-bold">{data.member.username}</p>
                       <p className="text-[17px] opacity-50">{timeForToday(data.createdAt)}</p>
                     </div>
                   </div>

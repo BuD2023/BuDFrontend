@@ -3,13 +3,14 @@ import { BsThreeDots } from 'react-icons/bs';
 import { FcApproval, FcLike, FcPortraitMode, FcSms } from 'react-icons/fc';
 import { useNavigate, useParams } from 'react-router-dom';
 import { timeForToday } from '../../store/commentDummy';
-import { useCommunityAnswerQuery, usePinAnswerMutation, usePostQnaAnswerLikeMutation } from '../../store/module/useCommunityDetailQuery';
+import { useCommunityAnswerQuery, useDeleteQnaAnswerMutation, usePinAnswerMutation, usePostQnaAnswerLikeMutation } from '../../store/module/useCommunityDetailQuery';
 import { useFollowMutation } from '../../store/module/useCommunityQuery';
 import CommunityCommentForm from '../feedDetail/CommunityCommentForm';
 import profile1 from '../../assets/profile1.jpg';
 import { CommunityQADetailAnswerProps, QnaAnswerContentType } from './_Q&ADetail.interface';
+import { myInfo } from '../myProfile/_MyProfile.interface';
 
-export default function CommunityQADetailAnswer({ isCommentOpen, setIsCommentOpen, answerPin, setAnswerPin }: CommunityQADetailAnswerProps) {
+export default function CommunityQADetailAnswer({ isCommentOpen, setIsCommentOpen, answerPin, setAnswerPin, questionUserId }: CommunityQADetailAnswerProps) {
   const { id: postId } = useParams();
   const navigate = useNavigate();
   const [isMenu, setIsMenu] = useState<boolean>();
@@ -24,6 +25,7 @@ export default function CommunityQADetailAnswer({ isCommentOpen, setIsCommentOpe
   const { mutate: followMutate } = useFollowMutation(Number(userId));
   const { mutate: pinAnswerMutate } = usePinAnswerMutation(Number(answerId));
   const { mutate: likeAnswerMutate } = usePostQnaAnswerLikeMutation(Number(postId));
+  const { mutate: deleteAnswerMutate } = useDeleteQnaAnswerMutation(Number(answerId), Number(postId));
 
   const handleClickFollow = (e: React.MouseEvent<HTMLElement>, memberId: number) => {
     setUserId(memberId);
@@ -34,6 +36,11 @@ export default function CommunityQADetailAnswer({ isCommentOpen, setIsCommentOpe
   const handleClickPinAnswer = (answerId: number) => {
     setAnswerId(answerId);
     pinAnswerMutate();
+  };
+
+  const handleClickDeleteAnswer = (answerId: number) => {
+    setAnswerId(answerId);
+    deleteAnswerMutate();
   };
 
   useEffect(() => {
@@ -56,9 +63,11 @@ export default function CommunityQADetailAnswer({ isCommentOpen, setIsCommentOpe
               </div>
               {!answerPin && (
                 <div className="flex items-center gap-4">
-                  <span onClick={() => handleClickPinAnswer(answer.id)} className="cursor-pointer rounded-lg bg-pointGreen py-2 px-2.5 text-base text-white dark:bg-sky">
-                    채택하기
-                  </span>
+                  {myInfo.id === questionUserId && (
+                    <span onClick={() => handleClickPinAnswer(answer.id)} className="cursor-pointer rounded-lg bg-pointGreen py-2 px-2.5 text-base text-white dark:bg-sky">
+                      채택하기
+                    </span>
+                  )}
                   <BsThreeDots
                     id={String(answer.id)}
                     className="cursor-pointer text-[24px]"
@@ -77,12 +86,14 @@ export default function CommunityQADetailAnswer({ isCommentOpen, setIsCommentOpe
                   />
                 </div>
               )}
-              {isMenu && activeAnswerMenu.includes(answer.id) && (
+              {isMenu && activeAnswerMenu.includes(answer.id) && myInfo.id === answer.member.id && (
                 <div className="absolute right-4 top-[45px] flex flex-col gap-3 rounded-xl bg-greyBeige p-3 text-[16px] font-medium">
                   <div onClick={() => navigate(`/answerEdit/${postId}/${answer.id}`)} className="cursor-pointer">
                     수정하기
                   </div>
-                  <div className="cursor-pointer">삭제하기</div>
+                  <div onClick={() => handleClickDeleteAnswer(answer.id)} className="cursor-pointer">
+                    삭제하기
+                  </div>
                 </div>
               )}
             </div>

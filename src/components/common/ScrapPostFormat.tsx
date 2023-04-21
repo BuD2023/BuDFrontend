@@ -25,7 +25,7 @@ export default function ScrapPostFormat({ resultData }: ScrapPostFormatPropsType
     <>
       <PicModal isPicPopUp={isPicPopUp} setIsPicPopUp={setIsPicPopUp} />
       <ul className="w-full">
-        {resultData.length > 0 ? (
+        {/* {resultData.length > 0 ? (
           resultData.map((data, idx) => (
             <li
               onClick={(e) => {
@@ -87,7 +87,7 @@ export default function ScrapPostFormat({ resultData }: ScrapPostFormatPropsType
           <div className="mb-6 flex h-[298px] flex-col items-center justify-center gap-4 rounded-[20px] bg-midIvory dark:bg-midNavy">
             <div className="flex h-[200px] w-full items-center justify-center p-4 text-base font-semibold text-lightText dark:text-white">스크랩된 게시글이 없습니다.</div>
           </div>
-        )}
+        )} */}
       </ul>
     </>
   );

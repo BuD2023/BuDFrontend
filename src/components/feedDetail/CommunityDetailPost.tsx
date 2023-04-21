@@ -5,22 +5,30 @@ import { useCommunityDetailQuery } from '../../store/module/useCommunityDetailQu
 import DefaultProfileImage from '../../assets/DefaultProfileImage.webp';
 import LikeCommentScrap from '../common/LikeCommentScrap';
 import ImagePeek from '../common/ImagePeek';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { S3_URL } from '../../constant/union';
 import { useFollowMutation } from '../../store/module/useCommunityQuery';
 import { postType } from '../community/_Community.interface';
+import { myInfo } from '../myProfile/_MyProfile.interface';
 
-export default function CommunityDetailPost() {
+interface CommunityDetailPostProps {
+  setQuestionUserId?: any;
+}
+
+export default function CommunityDetailPost(props: CommunityDetailPostProps) {
   const { id: questionId } = useParams();
   const navigate = useNavigate();
   const { data: questionData, isLoading: questionIsLoading, error: questionError } = useCommunityDetailQuery(Number(questionId));
 
-  const userNickname = 'JHni2';
-  const [userId, setUserId] = useState(0);
+  const [userId, setUserId] = useState<number>();
   const { mutate } = useFollowMutation(Number(userId));
 
+  useEffect(() => {
+    props.setQuestionUserId && props.setQuestionUserId(questionData?.member.id);
+  }, [questionData?.member.id]);
+
   const handleClickFollow = (e: React.MouseEvent<HTMLElement>, memberId: number, memberNickname?: string) => {
-    if (memberNickname === userNickname) return;
+    if (memberNickname === myInfo.nickname) return;
     setUserId(memberId);
     e.stopPropagation();
     mutate();
@@ -47,22 +55,18 @@ export default function CommunityDetailPost() {
             <img
               onClick={(e) => {
                 e.stopPropagation();
-                navigate(`/otherProfile/${questionData?.member.id}/feed`);
+                if (questionData?.member.id === myInfo.id) {
+                  navigate(`/myProfile/feed`);
+                } else {
+                  navigate(`/otherProfile/${questionData?.member.id}/feed`);
+                }
               }}
               src={DefaultProfileImage}
               alt={questionData?.member.nickname}
               className="w-[58px] cursor-pointer rounded-full"
             />
             <div className="pl-3">
-              <p
-                onClick={(e) => {
-                  e.stopPropagation();
-                  navigate(`/otherProfile/${questionData?.member.id}/feed`);
-                }}
-                className="text-xl font-bold"
-              >
-                {questionData?.member.nickname}
-              </p>
+              <p className="text-xl font-bold">{questionData?.member.nickname}</p>
               <p className="text-[17px] opacity-50">{timeForToday(questionData?.createdAt as string)}</p>
             </div>
           </div>

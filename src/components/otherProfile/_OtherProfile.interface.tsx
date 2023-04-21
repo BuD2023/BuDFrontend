@@ -12,6 +12,7 @@ export interface UserFollowListType {
 /** getUserProfileInfo - 타인 프로필 정보 가져올 때 사용하는 response 타입 */
 export interface UserProfileType {
   id: number;
+  job: string;
   userId: string;
   nickName: string;
   description: string;
@@ -27,6 +28,7 @@ export interface UserProfileType {
 /** OtherProfileHeader - 타인 프로필 헤더에 사용하는 props 타입 */
 export interface UserProfileHeaderPropsType {
   userId: string;
+  job: string;
   nickName: string;
   description: string;
   profileUrl: string;

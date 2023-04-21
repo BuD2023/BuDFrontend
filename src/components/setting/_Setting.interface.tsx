@@ -2,6 +2,6 @@
 export interface NotificationType {
   [key: string]: boolean;
   all: boolean;
-  chat: boolean;
-  comment: boolean;
+  follow: boolean;
+  post: boolean;
 }

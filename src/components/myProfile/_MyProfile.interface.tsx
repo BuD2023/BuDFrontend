@@ -25,6 +25,7 @@ export interface MyFollowListType {
 /** getMyProfileInfo - 나의 프로필 정보 가져올 때 사용하는 response 타입 */
 export interface MyProfileType {
   id: number;
+  job: string;
   userId: string;
   nickName: string;
   description: string;
@@ -103,6 +104,7 @@ export interface MyProfileHeaderPropsType {
   description: string;
   profileUrl: string;
   isLoading: boolean;
+  job: string;
 }
 
 /** MyProfileInfo - 나의 프로필 정보에 사용하는 props 타입 */
@@ -172,4 +174,14 @@ export interface FeedPostContentPropsType {
 /** FeedPostFormat - FeedPostFormat에 사용하는 props 타입 */
 export interface FeedPostFormatProps {
   resultData: FeedPostContentPropsType[];
+  type: string;
 }
+
+export const myInfo = {
+  id: 4,
+  level: 1,
+  nickname: 'JHni2',
+  prfileImg: 'null',
+  userId: 'JHni2',
+  username: 'JHni2',
+};

@@ -1,6 +1,6 @@
 import customAxios from '../customAxios';
 
-export const getFeedCommentPinAxios = async (token: string, postId: number) => {
+export const postFeedCommentPinAxios = async (token: string, postId: number) => {
   return await customAxios({
     method: 'post',
     url: `/posts/comments/${postId}/pin`,
@@ -12,10 +12,10 @@ export const getFeedCommentPinAxios = async (token: string, postId: number) => {
   });
 };
 
-export const getQnACommentPinAxios = async (token: string, postId: number) => {
+export const postQnACommentPinAxios = async (token: string, commentId: number) => {
   return await customAxios({
     method: 'post',
-    url: `/posts/qna-answers/qna-comments/${postId}/pin`,
+    url: `/posts/qna-answers/qna-comments/${commentId}/pin`,
     headers: {
       Authorization: `Bearer ${token}`,
       'Content-Type': 'application/json',

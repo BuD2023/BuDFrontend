@@ -14,7 +14,7 @@ import { useProfilePostQuery } from '../store/module/useProfilePostQuery';
 
 export default function MyProfile() {
   const initialPostView = useParams();
-  const [postView, setPostView] = useState(initialPostView.filter ?? 'feed');
+  const [postView, setPostView] = useState(initialPostView.filter ?? 'FEED');
   const navigate = useNavigate();
   const userId = 4;
 
@@ -27,7 +27,7 @@ export default function MyProfile() {
     isFetchingNextPage: myScrapsIsFetchingNextPage,
     fetchNextPage: myScrapsFetchNextPage,
     hasNextPage: myScrapsHasNextPage,
-  } = useMyScrapsQuery('postId,DESC');
+  } = useMyScrapsQuery('POST_DATE,DESC');
   const {
     data: profilePostData,
     isLoading: profilePostIsLoading,
@@ -36,7 +36,7 @@ export default function MyProfile() {
     isFetchingNextPage: profilePostIsFetchingNextPage,
     fetchNextPage: profilePostFetchNextPage,
     hasNextPage: profilePostHasNextPage,
-  } = useProfilePostQuery(Number(userId), postView);
+  } = useProfilePostQuery(Number(userId), postView === 'scrap' ? 'FEED' : postView.toUpperCase());
 
   // 인피니티 스크롤
   const { ref, inView } = useInView();
@@ -55,12 +55,16 @@ export default function MyProfile() {
     navigate('/NotFound');
   }
 
+  // console.log(myScrapsData);
+  // console.log(profilePostData);
+
   return (
     <section>
       <ScrollToTopBtn />
       <div className="relative flex min-h-[calc(100vh-160px)] w-full flex-col items-center gap-4 bg-lightIvory p-4 pt-0 text-lightText dark:bg-darkNavy dark:text-white">
         <MyProfileHeader
           userId={myProfileData?.userId as string}
+          job={myProfileData?.job as string}
           nickName={myProfileData?.nickName as string}
           profileUrl={myProfileData?.profileUrl as string}
           description={myProfileData?.description as string}
@@ -74,8 +78,8 @@ export default function MyProfile() {
           isLoading={myProfileIsLoading}
         />
         <MyProfileMenu postView={postView} setPostView={setPostView} />
-        {myScrapsData && postView === 'scrap' && <ScrapPostFormat resultData={myScrapsData.pages.flatMap((page) => page.content)} />}
-        {profilePostData && postView !== 'scrap' && <FeedPostFormat resultData={profilePostData.pages.flatMap((page) => page.content)} />}
+        {/* {myScrapsData && postView === 'scrap' && <ScrapPostFormat resultData={myScrapsData.pages.flatMap((page) => page.content)} />} */}
+        {/* {profilePostData && postView !== 'scrap' && <FeedPostFormat type="feed" resultData={profilePostData.pages.flatMap((page) => page.content)} />} */}
       </div>
       <div ref={ref} />
       <FooterMenu />

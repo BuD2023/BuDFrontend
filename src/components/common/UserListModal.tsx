@@ -8,13 +8,12 @@ import { useUserFollowersQuery, useUserFollowsQuery } from '../../store/module/u
 import profile1 from '../../assets/profile1.jpg';
 import { useFollowMutation } from '../../store/module/useCommunityQuery';
 import { UserListModalPropsType } from './_Common.interface';
-import { CommonUserListType } from '../myProfile/_MyProfile.interface';
+import { CommonUserListType, myInfo } from '../myProfile/_MyProfile.interface';
 
 export default function UserListModal({ isUserList, setIsUserList, type, follows }: UserListModalPropsType) {
   const cancelButtonRef = useRef(null);
   const { id } = useParams();
   const navigate = useNavigate();
-  const userNickname = 'JHni2';
 
   const { data: MyFollowersData, isLoading: followersIsLoading, error: followersError, refetch: followersRefetch } = useMyFollowersQuery();
   const { data: MyFollowsData, isLoading: followsIsLading, error: followsError, refetch: followsRefetch } = useMyFollowsQuery();
@@ -97,7 +96,7 @@ export default function UserListModal({ isUserList, setIsUserList, type, follows
                         <div key={user.id} className="flex items-center justify-between">
                           <div
                             onClick={(e) => {
-                              if (user.nickName === userNickname) {
+                              if (user.nickName === myInfo.nickname) {
                                 navigate('/myProfile/feed');
                                 e.stopPropagation;
                                 return;
@@ -113,7 +112,7 @@ export default function UserListModal({ isUserList, setIsUserList, type, follows
                           </div>
                           <div
                             onClick={() => handleClickFollow(user.id)}
-                            className={`mr-4 flex cursor-pointer items-center gap-1 text-[14px] font-semibold ` + (user.nickName === 'JHni2' ? 'hidden' : '')}
+                            className={`mr-4 flex cursor-pointer items-center gap-1 text-[14px] font-semibold ` + (user.nickName === myInfo.nickname ? 'hidden' : '')}
                           >
                             <RiUserFollowFill className="text-[16px]" />
                             <span>팔로우 {user.isFollowing}</span>

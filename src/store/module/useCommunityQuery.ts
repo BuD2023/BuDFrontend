@@ -21,6 +21,10 @@ export function useCommunityPostQuery(word?: string, sort?: SortType, order?: Or
       const nextPage = allPages.length + 1;
       return lastPage ? undefined : nextPage;
     },
+    // refetchInterval: 10000,
+    refetchOnMount: true,
+    refetchOnReconnect: true,
+    refetchOnWindowFocus: true,
     staleTime: 30000,
   });
 }
@@ -89,7 +93,7 @@ export function useCommunityLikeMutation(postId: number) {
 }
 
 export function useCommunityScrapMutation(postId: number) {
-  const { refetch } = useMyScrapsQuery('postId,DESC');
+  const { refetch } = useMyScrapsQuery('POST_DATE,DESC');
   return useMutation(() => postCommunityScrapAxios(accessToken, postId), {
     onError: (err) => {
       console.log(err);

@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { BsBellFill } from 'react-icons/bs';
+import { usePutNotificationInfoMutation } from '../../store/module/useSettingQuery';
 import Toggle from '../common/Toggle';
+import { myInfo } from '../myProfile/_MyProfile.interface';
 import { NotificationType } from './_Setting.interface';
 
 export default function Notification() {
@@ -9,8 +11,8 @@ export default function Notification() {
     ? JSON.parse(notificationString)
     : {
         all: false,
-        chat: false,
-        comment: false,
+        follow: false,
+        post: false,
       };
 
   const [notification, setNotification] = useState<NotificationType>(initialNotification);
@@ -18,7 +20,7 @@ export default function Notification() {
   const setNoti = (noti: keyof NotificationType) => {
     if (noti === 'all') {
       setNotification((notification) => {
-        return { [noti]: !notification[noti], chat: notification[noti], comment: notification[noti] };
+        return { [noti]: !notification[noti], follow: notification[noti], post: notification[noti] };
       });
     } else {
       if (notification.all === true) {
@@ -35,15 +37,19 @@ export default function Notification() {
     const noti = e.currentTarget.id;
     if (noti === 'all') {
       setNoti('all');
-    } else if (noti === 'chat') {
-      setNoti('chat');
+    } else if (noti === 'follow') {
+      setNoti('follow');
     } else {
-      setNoti('comment');
+      setNoti('post');
     }
   };
 
+  const body = { isPostPushAvailable: notification.post, isFollowPushAvailable: notification.follow };
+  const { mutate } = usePutNotificationInfoMutation(myInfo.id, body);
+
   useEffect(() => {
     localStorage.setItem('notification', JSON.stringify(notification));
+    mutate();
   }, [notification]);
 
   return (
@@ -63,19 +69,19 @@ export default function Notification() {
         </div>
         <div
           onClick={(e) => handleToggle(e)}
-          id="chat"
+          id="follow"
           className="flex cursor-pointer items-center justify-between p-2 hover:rounded-lg hover:bg-greyBeige hover:bg-opacity-50 dark:hover:bg-sky dark:hover:bg-opacity-50"
         >
           <p className="grow">팔로우 알림</p>
-          <Toggle isOn={notification.chat} />
+          <Toggle isOn={notification.follow} />
         </div>
         <div
           onClick={(e) => handleToggle(e)}
-          id="comment"
+          id="post"
           className="flex cursor-pointer items-center justify-between p-2 hover:rounded-lg hover:bg-greyBeige hover:bg-opacity-50 dark:hover:bg-sky dark:hover:bg-opacity-50"
         >
           <p className="grow">게시글 알림</p>
-          <Toggle isOn={notification.comment} />
+          <Toggle isOn={notification.post} />
         </div>
       </div>
     </div>

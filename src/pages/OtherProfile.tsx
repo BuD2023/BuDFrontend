@@ -22,7 +22,7 @@ export default function OtherProfile() {
     isFetchingNextPage: profilePostIsFetchingNextPage,
     fetchNextPage: profilePostFetchNextPage,
     hasNextPage: profilePostHasNextPage,
-  } = useProfilePostQuery(Number(id), postView);
+  } = useProfilePostQuery(Number(id), postView.toLocaleUpperCase());
 
   if (error) {
     navigate('/NotFound');
@@ -38,6 +38,7 @@ export default function OtherProfile() {
         <OtherProfileHeader
           isLoading={isLoading}
           userId={data?.userId as string}
+          job={data?.job as string}
           nickName={data?.nickName as string}
           profileUrl={data?.profileUrl as string}
           description={data?.description as string}
@@ -51,7 +52,7 @@ export default function OtherProfile() {
           isLoading={isLoading}
         />
         <OtherProfileMenu id={id} postView={postView} setPostView={setPostView} />
-        {profilePostData && <FeedPostFormat resultData={profilePostData.pages.flatMap((page) => page.content)} />}
+        {/* {profilePostData && <FeedPostFormat type="other" resultData={profilePostData.pages.flatMap((page) => page.content)} />} */}
       </div>
       <FooterMenu />
     </section>

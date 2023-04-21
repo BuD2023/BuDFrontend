@@ -5,9 +5,9 @@ import { getFeedCommentAxios, getQnACommentAxios } from '../../apiFetcher/commun
 import { getQnaAnswerAxios } from '../../apiFetcher/communityInfo/getQnaAnswer';
 import { getCommunityDetailAxios } from '../../apiFetcher/communityInfo/getCommunityDetail';
 import { getFeedCommentLikeAxios, postQnACommentLikeAxios } from '../../apiFetcher/communityInfo/postCommentLike';
-import { getFeedCommentPinAxios, getQnACommentPinAxios } from '../../apiFetcher/communityInfo/postCommentPin';
+import { postFeedCommentPinAxios, postQnACommentPinAxios } from '../../apiFetcher/communityInfo/postCommentPin';
 import { postQnaAnswerAxios } from '../../apiFetcher/communityInfo/postQnaAnswer';
-import getQnaAnswerPinAxios from '../../apiFetcher/communityInfo/postQnaAnswerPin';
+import postQnaAnswerPinAxios from '../../apiFetcher/communityInfo/postQnaAnswerPin';
 import { accessToken } from '../../main';
 import postQnaAnswerLikeAxios from '../../apiFetcher/communityInfo/postQnaAnswerLike';
 import deleteQnaAnswerAxios from '../../apiFetcher/communityInfo/deleteQnaAnswer';
@@ -15,9 +15,9 @@ import deleteQnaAnswerAxios from '../../apiFetcher/communityInfo/deleteQnaAnswer
 export function useCommunityDetailQuery(id: number) {
   return useQuery(['CommunityDetail', id, fetchNew], () => getCommunityDetailAxios(accessToken, id), {
     enabled: true,
-    // refetchOnMount: false,
-    // refetchOnReconnect: false,
-    // refetchOnWindowFocus: false, // react-query는 사용자가 사용하는 윈도우가 다른 곳을 갔다가 다시 화면으로 돌아오면 이 함수를 재실행합니다. 그 재실행 여부 옵션 입니다.
+    refetchOnMount: false,
+    refetchOnReconnect: false,
+    refetchOnWindowFocus: false, // react-query는 사용자가 사용하는 윈도우가 다른 곳을 갔다가 다시 화면으로 돌아오면 이 함수를 재실행합니다. 그 재실행 여부 옵션 입니다.
     retry: 0, // 실패시 재호출 몇번 할지
     staleTime: 1000 * 60 * 5,
     cacheTime: 1000 * 60 * 5,
@@ -53,7 +53,7 @@ export function useCreateAnswerMutation() {
 
 //QnA 답변 핀
 export function usePinAnswerMutation(id: number) {
-  return useMutation(() => getQnaAnswerPinAxios(accessToken, id), {
+  return useMutation(() => postQnaAnswerPinAxios(accessToken, id), {
     onError: (err) => {
       console.log(err);
     },
@@ -110,7 +110,7 @@ export function useFeedCommentLikeMutation(id: number, postId: number) {
 // 개발 피드 댓글 핀 / 핀 변경
 export function useFeedCommentPinMutation(id: number, postId: number) {
   const { refetch } = useFeedCommentQuery(postId);
-  return useMutation(() => getFeedCommentPinAxios(accessToken, id), {
+  return useMutation(() => postFeedCommentPinAxios(accessToken, id), {
     onError: (err) => {
       console.log(err);
     },
@@ -154,7 +154,7 @@ export function useQnACommentQuery(id: number) {
   return useInfiniteQuery(['CommunityComment', id], ({ pageParam = 0 }) => getQnACommentAxios(accessToken, pageParam, id), {
     getNextPageParam: (prevData, allPages) => {
       const maxPages = prevData.last;
-      const nextPage = allPages.length;
+      const nextPage: any = allPages.length;
       return maxPages ? undefined : nextPage;
     },
     enabled: false,
@@ -182,25 +182,29 @@ export function useQnACommentLikeMutation(id: number, answerId: number) {
 }
 
 // QnA 피드 댓글 핀 / 핀 변경
-export function useQnACommentPinMutation(id: number) {
-  return useMutation(() => getQnACommentPinAxios(accessToken, id), {
+export function useQnACommentPinMutation(commentId: number, answerId: number) {
+  const { refetch } = useQnACommentQuery(answerId);
+  return useMutation(() => postQnACommentPinAxios(accessToken, commentId), {
     onError: (err) => {
       console.log(err);
     },
     onSuccess: () => {
       console.log('핀 상태 변경 반영되었습니다.');
+      refetch();
     },
   });
 }
 
 // QnA 피드 댓글 핀 취소
-export function useDeleteQnACommentPinMutation(id: number) {
-  return useMutation(() => deleteQnACommentPinAxios(accessToken, id), {
+export function useDeleteQnACommentPinMutation(answerId: number) {
+  const { refetch } = useQnACommentQuery(answerId);
+  return useMutation(() => deleteQnACommentPinAxios(accessToken, answerId), {
     onError: (err) => {
       console.log(err);
     },
     onSuccess: () => {
       console.log('핀이 취소되었습니다.');
+      refetch();
     },
   });
 }
@@ -235,13 +239,15 @@ export function usePostQnaAnswerLikeMutation(postId: number) {
 }
 
 // QnA 답변 삭제
-export function useDeleteQnaAnswerMutation(answerId: number) {
+export function useDeleteQnaAnswerMutation(answerId: number, questionId: number) {
+  const { refetch } = useCommunityAnswerQuery(questionId);
   return useMutation(() => deleteQnaAnswerAxios(accessToken, answerId), {
     onError: (err) => {
       console.log(err);
     },
     onSuccess: () => {
       console.log('답변이 삭제되었습니다.');
+      refetch();
     },
   });
 }

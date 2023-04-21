@@ -21,7 +21,7 @@ export default function Community() {
   });
 
   // 커뮤니티
-  const [filter, setFilter] = useState<postType | 'ALL'>('FEED');
+  const [filter, setFilter] = useState<postType | 'ALL'>('ALL');
 
   return (
     <section>

@@ -16,22 +16,22 @@ import {
   useQnACommentQuery,
 } from '../../store/module/useCommunityDetailQuery';
 import { CommunityCommentType } from '../community/_Community.interface';
+import { myInfo } from '../myProfile/_MyProfile.interface';
 import { CommunityFeedCommentFormPropsType } from './_FeedDetail.interface';
 
 export default function CommunityCommentForm({ type, answerId }: CommunityFeedCommentFormPropsType) {
   const { id: postId } = useParams();
   const [commentId, setCommentId] = useState(0);
   const navigate = useNavigate();
-  const userNickname = 'JHni2';
 
   const { data: feedData, isLoading: feedIsLoading, error: feedError, refetch: feedRefetch } = useFeedCommentQuery(Number(postId));
   const { data: QnAData, isLoading: QnAIsLoading, error: QnAError, refetch: qnaRefetch } = useQnACommentQuery(Number(answerId));
   const { mutate: deleteFeedCommentMutate } = useDeleteFeedCommentMutation(commentId, Number(postId));
-  const { mutate: deleteQnaCommentMutate } = useDeleteQnACommentMutation(commentId, Number(postId));
+  const { mutate: deleteQnaCommentMutate } = useDeleteQnACommentMutation(commentId, Number(answerId));
   const { mutate: deleteFeedCommentPinMutate } = useDeleteFeedCommentPinMutation(Number(postId));
-  const { mutate: deleteQnaCommentPinMutate } = useDeleteQnACommentPinMutation(Number(postId));
+  const { mutate: deleteQnaCommentPinMutate } = useDeleteQnACommentPinMutation(Number(answerId));
   const { mutate: feedCommentPinMutate } = useFeedCommentPinMutation(commentId, Number(postId));
-  const { mutate: qnaCommentPinMutate } = useQnACommentPinMutation(commentId);
+  const { mutate: qnaCommentPinMutate } = useQnACommentPinMutation(commentId, Number(answerId));
   const { mutate: feedCommentLikeMutate } = useFeedCommentLikeMutation(commentId, Number(postId));
   const { mutate: qnaCommentLikeMutate } = useQnACommentLikeMutation(commentId, Number(answerId));
   const [message, setMessage] = useState<string>('');
@@ -144,6 +144,7 @@ export default function CommunityCommentForm({ type, answerId }: CommunityFeedCo
                             return;
                           } else {
                             deleteQnaCommentPinMutate();
+                            return;
                           }
                         }
                         if (type === 'FEED') {
@@ -157,7 +158,7 @@ export default function CommunityCommentForm({ type, answerId }: CommunityFeedCo
                     <li key={content.commentId} className="flex min-h-[60px] w-full gap-2 bg-midIvory px-4 dark:bg-midNavy">
                       {/* {comment.isRef && <BsArrowReturnRight className="ml-4 text-[20px]" />} */}
                       <img
-                        onClick={() => (content.memberName === userNickname ? navigate(`/myProfile`) : navigate(`/otherProfile/${content.memberId}/feed`))}
+                        onClick={() => (content.memberName === myInfo.nickname ? navigate(`/myProfile`) : navigate(`/otherProfile/${content.memberId}/feed`))}
                         src={content.memberProfileUrl ?? profile2}
                         className="h-[50px] w-[50px] shrink-0 cursor-pointer rounded-full object-cover"
                       />
@@ -177,8 +178,8 @@ export default function CommunityCommentForm({ type, answerId }: CommunityFeedCo
                         </div>
                         <div className="flex justify-between">
                           <div className="text-[15px]">{content.content}</div>
-                          <div onClick={() => handleClickLike(content.commentId, content.memberName)} className="flex items-center justify-center gap-1">
-                            {content.isReaderLiked ? <BsHeartFill className="cursor-pointer text-[#f44336]" /> : <BsHeartFill className="cursor-pointer text-white" />}
+                          <div onClick={() => handleClickLike(content.commentId, content.memberName)} className="flex cursor-pointer items-center justify-center gap-1">
+                            {content.isReaderLiked ? <BsHeartFill className="text-[#f44336]" /> : <BsHeartFill className="text-white" />}
                             <span className="text-[13px]">{content.numberOfLikes}</span>
                           </div>
                         </div>

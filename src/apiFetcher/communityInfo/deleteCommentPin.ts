@@ -12,10 +12,10 @@ export const deleteFeedCommentPinAxios = async (token: string, postId: number) =
   });
 };
 
-export const deleteQnACommentPinAxios = async (token: string, postId: number) => {
+export const deleteQnACommentPinAxios = async (token: string, answerId: number) => {
   return await customAxios({
     method: 'delete',
-    url: `/posts/qna-answers/${postId}/qna-comments/pin`,
+    url: `/posts/qna-answers/${answerId}/qna-comments/pin`,
     headers: {
       Authorization: `Bearer ${token}`,
       'Content-Type': 'application/json',

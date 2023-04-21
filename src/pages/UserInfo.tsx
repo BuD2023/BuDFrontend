@@ -1,6 +1,7 @@
 import { BsChevronLeft, BsFillTrophyFill, BsFire, BsGithub, BsQuote } from 'react-icons/bs';
 import { RiLeafFill } from 'react-icons/ri';
 import Header from '../components/common/Header';
+import LevelImgList from '../components/setting/LevelImgList';
 import { userInfos } from '../store/dummy';
 
 export default function UserInfo() {
@@ -31,7 +32,6 @@ export default function UserInfo() {
           </p>
           <p className="py-2 text-xl">{userInfos.currentCommitCount}</p>
         </li>
-
         <li className="b-4 flex flex-col gap-4 rounded-3xl bg-midIvory p-5 dark:bg-midNavy">
           <p className="flex gap-2 text-[22px] font-bold">
             <RiLeafFill />
@@ -39,12 +39,12 @@ export default function UserInfo() {
           </p>
           <p className="py-2 text-xl">{userInfos.growthLevel}</p>
         </li>
-        <li className="b-4 flex flex-col gap-4 rounded-3xl bg-midIvory p-5 dark:bg-midNavy">
+        <li className="b-4 flex flex-col gap-6 rounded-3xl bg-midIvory p-5 dark:bg-midNavy">
           <p className="flex gap-2 text-[22px] font-bold">
             <BsFillTrophyFill />
             성장 레벨 아이콘 컬렉션
           </p>
-          <div className="py-2"></div>
+          <LevelImgList />
         </li>
       </ul>
     </section>
