@@ -23,12 +23,14 @@ export function useNotificationListQuery() {
 }
 
 export function useNotificationStatusMutation() {
+  const { refetch } = useNotificationListQuery();
   return useMutation((notiId: string) => putNotificationStatusAxios(accessToken, notiId), {
     onError: (err) => {
       console.log(err);
     },
     onSuccess: () => {
       console.log('읽음처리가 완료되었습니다.');
+      refetch();
     },
   });
 }

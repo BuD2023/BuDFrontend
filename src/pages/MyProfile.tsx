@@ -14,7 +14,7 @@ import { useProfilePostQuery } from '../store/module/useProfilePostQuery';
 
 export default function MyProfile() {
   const initialPostView = useParams();
-  const [postView, setPostView] = useState(initialPostView.filter ?? 'feed');
+  const [postView, setPostView] = useState(initialPostView.filter ?? 'FEED');
   const navigate = useNavigate();
   const userId = 4;
 
@@ -36,7 +36,7 @@ export default function MyProfile() {
     isFetchingNextPage: profilePostIsFetchingNextPage,
     fetchNextPage: profilePostFetchNextPage,
     hasNextPage: profilePostHasNextPage,
-  } = useProfilePostQuery(Number(userId), postView);
+  } = useProfilePostQuery(Number(userId), postView.toUpperCase());
 
   // 인피니티 스크롤
   const { ref, inView } = useInView();

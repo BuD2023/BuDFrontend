@@ -1,4 +1,5 @@
 import { Route, Routes } from 'react-router-dom';
+import './firebase-messaging-sw.js';
 import Community from './pages/Community';
 import News from './pages/News';
 import CoffeeChat from './pages/CoffeeChat';
@@ -14,7 +15,7 @@ import ProfileEdit from './pages/MyProfileEdit';
 import Setting from './pages/Setting';
 import UserInfo from './pages/UserInfo';
 import Notification from './pages/Notification';
-import { useEffect, useLayoutEffect, useState } from 'react';
+import { useLayoutEffect } from 'react';
 import RoomCreate from './pages/RoomCreate';
 import PostCreate from './pages/PostCreate';
 import LogInPage from './pages/LogInPage';
@@ -25,44 +26,26 @@ import Test3 from './pages/Test3';
 import PostEdit from './pages/PostEdit';
 import QAAnswerEdit from './pages/QAAnswerEdit';
 import QAAnswerCreate from './pages/QAAnswerCreate';
-import { useNotificationTokenMutation } from './store/module/useNotificationQuery';
-import sendFCMTokenFunc, { requestPermission } from './utils/fcm';
-import { NotificationPayload, onMessage } from 'firebase/messaging';
-import { messaging } from '../firebase';
 
 function App() {
   const $html = document.querySelector('html');
 
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker
+      .register('/firebase-messaging-sw.js')
+      .then((registration) => {
+        console.log('Service Worker registered with scope:', registration.scope);
+      })
+      .catch((error) => {
+        console.error('Service Worker registration failed:', error);
+      });
+  }
+
+  //테마 변경
   useLayoutEffect(() => {
     if (localStorage.getItem('theme') === 'dark') {
       $html?.classList.add('dark');
     }
-  }, []);
-
-  const { mutate: postFcmTokenMutation } = useNotificationTokenMutation();
-
-  useEffect(() => {
-    const setNotification = async () => {
-      try {
-        requestPermission();
-        const fcmToken = await sendFCMTokenFunc();
-        postFcmTokenMutation({ fcmToken: fcmToken as string });
-      } catch (error) {
-        alert('브라우저에서 알림이 차단되어있습니다. 알림 받기를 원하시면, 브라우저 웹 살장에서 알림을 허용해주세요!');
-        console.log(error);
-      }
-    };
-    setNotification();
-    // 푸시 알림 처리
-    onMessage(messaging, (payload) => {
-      console.log('푸시 알림 도착:', payload);
-      // 타입 정의
-      const title = payload.notification?.title as string;
-      const body = payload.notification?.body as string;
-      // 콘솔에 알림 내용 출력
-      console.log('푸시 알림 제목:', title);
-      console.log('푸시 알림 내용:', body);
-    });
   }, []);
 
   return (

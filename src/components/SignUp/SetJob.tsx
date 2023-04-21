@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useNotificationTokenMutation } from '../../store/module/useNotificationQuery';
-import sendFCMTokenFunc, { requestPermission } from '../../utils/fcm';
+import { getFcmToken } from '../../utils/firebase';
 import CheckBoxModal from '../common/CheckBoxModal';
 import ChangeJob from '../myProfileEdit/ChangeJob';
 import { SetNotificationType } from './_SignUp.interface';
@@ -15,8 +15,7 @@ export default function SetJob() {
 
   const getNotificationToken = async () => {
     try {
-      requestPermission();
-      const fcmToken = await sendFCMTokenFunc();
+      const fcmToken = await getFcmToken();
       return fcmToken;
     } catch (error) {
       console.log(error);
@@ -24,7 +23,7 @@ export default function SetJob() {
   };
 
   // 리액트 쿼리
-  const { mutate } = useNotificationTokenMutation();
+  const { mutate, data } = useNotificationTokenMutation();
 
   const getModalAnswer = (obj: SetNotificationType) => {
     setNotification(obj);
@@ -38,6 +37,7 @@ export default function SetJob() {
     try {
       const fcmToken = await getNotificationToken();
       mutate({ fcmToken: fcmToken as string, isFollowPushAvailable: notification.follow, isPostPushAvailable: notification.post });
+      console.log(data);
       navigate('/');
     } catch (err) {
       console.log(err);

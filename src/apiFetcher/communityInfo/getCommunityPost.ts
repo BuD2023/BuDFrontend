@@ -9,7 +9,7 @@ const getCommunityPostAxios = async (
   page: number = 0,
   size: number = 5,
   // 수정 필요
-  postType: postType | 'ALL' = 'FEED'
+  postType: postType | 'ALL' = 'ALL'
 ): Promise<CommunityPostListType> => {
   return await customAxios({
     method: 'get',
