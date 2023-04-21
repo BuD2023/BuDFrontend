@@ -21,7 +21,7 @@ export function useCommunityPostQuery(word?: string, sort?: SortType, order?: Or
       const nextPage = allPages.length + 1;
       return lastPage ? undefined : nextPage;
     },
-    // refetchInterval: 10000,
+    refetchInterval: 1000 * 60,
     refetchOnMount: true,
     refetchOnReconnect: true,
     refetchOnWindowFocus: true,
@@ -45,10 +45,10 @@ export function usePostCommunityMutation() {
   });
 }
 
-export function useUpdateCommunityMutation() {
+export function useUpdateCommunityMutation(postId: number) {
   const { refetch } = useCommunityPostQuery();
   const navigate = useNavigate();
-  return useMutation((data: FormData) => updateCommunityPostAxios(accessToken, data), {
+  return useMutation((data: FormData) => updateCommunityPostAxios(accessToken, data, postId), {
     onError: (err) => {
       console.log(err);
     },

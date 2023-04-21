@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { SwipeableList, SwipeableListItem } from '@sandstreamdev/react-swipeable-list';
 import '@sandstreamdev/react-swipeable-list/dist/styles.css';
@@ -7,14 +7,31 @@ import { useNotificationdeleteMutation, useNotificationListQuery, useNotificatio
 import { notificationDetailType, pageType } from './_Notification.interface';
 import { timeForToday } from '../../store/commentDummy';
 import { NotiContent } from './_Notification.interface';
+import { useInView } from 'react-intersection-observer';
 
 export default function NotificationContent() {
   const navigate = useNavigate();
 
+  const [deleteSuccess, setDeleteSuccess] = useState(false);
   //리액트 쿼리
-  const { data: notificationData } = useNotificationListQuery();
-  const { mutate: deleteNotiMutation } = useNotificationdeleteMutation();
+  const { data: notificationData, refetch, hasNextPage, isFetching, isFetchingNextPage, fetchNextPage } = useNotificationListQuery();
+  const { mutate: deleteNotiMutation, isSuccess } = useNotificationdeleteMutation();
   const { mutate: changeNotiStatMutation } = useNotificationStatusMutation();
+
+  // 인피니티 스크롤
+  const { ref, inView } = useInView({ threshold: 0.5 });
+  useEffect(() => {
+    if (inView && hasNextPage && !isFetching && !isFetchingNextPage) fetchNextPage();
+  }, [inView]);
+
+  useEffect(() => {
+    if (deleteSuccess) {
+      console.log(isSuccess);
+      if (isSuccess) {
+        refetch();
+      }
+    }
+  }, [deleteSuccess, refetch, isSuccess]);
 
   const handleNotiClick = (pageType: pageType, pageId: number, notiId: string) => {
     changeNotiStatMutation(notiId);
@@ -74,45 +91,49 @@ export default function NotificationContent() {
   return (
     <SwipeableList>
       {() => (
-        <div className={'mt-9 flex h-full flex-col gap-7 p-4 px-2 text-lightText dark:text-white'}>
-          {notificationData &&
-            notificationData.pages
-              .map((i) => i.content)
-              .flat()
-              .map((noti) => {
-                return (
-                  <SwipeableListItem
-                    key={noti.notificationId}
-                    swipeLeft={{
-                      content: (
-                        <div className="flex h-full w-full items-center justify-end bg-[#ff5232] p-4 text-white dark:bg-[#a51b0b]">
-                          <span className="flex items-center gap-2 text-lg">
-                            삭제
-                            <BsFillTrashFill />
-                          </span>
-                        </div>
-                      ),
-                      action: () => {
-                        deleteNotiMutation(noti.notificationId);
-                        console.log('Deleting item:', noti.notificationId);
-                      },
-                    }}
-                  >
-                    <li
-                      onClick={() => handleNotiClick(noti.pageType, noti.pageId, noti.notificationId)}
-                      key={noti.notificationId}
-                      className="flex grow cursor-pointer items-center gap-3 bg-lightIvory dark:bg-darkNavy"
+        <>
+          <div className={'mt-9 flex h-full flex-col text-lightText dark:text-white'}>
+            {notificationData &&
+              notificationData.pages
+                .map((i) => i.content)
+                .flat()
+                .map((noti) => {
+                  return (
+                    <SwipeableListItem
+                      key={noti.notificationId + String(Date.now())}
+                      swipeLeft={{
+                        content: (
+                          <div className="flex h-full w-full items-center justify-end bg-[#ff5232] p-4 text-white dark:bg-[#a51b0b]">
+                            <span className="flex items-center gap-2 text-lg">
+                              삭제
+                              <BsFillTrashFill />
+                            </span>
+                          </div>
+                        ),
+                        action: () => {
+                          deleteNotiMutation(noti.notificationId);
+                          setDeleteSuccess(true);
+                          console.log('Deleting item:', noti.notificationId);
+                        },
+                      }}
                     >
-                      <img onClick={(event) => handleImgClick(noti.senderId, event)} src={`https://picsum.photos/105/105`} alt={noti.senderNickName} className="h-[65px] w-[65px] rounded-full" />
-                      <div className="flex flex-col gap-0.5 text-lg">
-                        {handleContent(noti.notificationDetailType, noti.senderNickName)}
-                        <p className="text-sm opacity-50">{timeForToday(noti.notifiedAt)}</p>
-                      </div>
-                    </li>
-                  </SwipeableListItem>
-                );
-              })}
-        </div>
+                      <li
+                        onClick={() => handleNotiClick(noti.pageType, noti.pageId, noti.notificationId)}
+                        key={noti.notificationId}
+                        className={`flex grow cursor-pointer items-center gap-3 bg-lightIvory px-8 pb-3 pt-6 ${noti.notificationStatus === 'UNREAD' ? '' : 'opacity-50'} dark:bg-darkNavy`}
+                      >
+                        <img onClick={(event) => handleImgClick(noti.senderId, event)} src={`https://picsum.photos/105/105`} alt={noti.senderNickName} className="h-[65px] w-[65px] rounded-full" />
+                        <div className="flex flex-col gap-0.5 text-lg">
+                          {handleContent(noti.notificationDetailType, noti.senderNickName)}
+                          <p className="text-sm opacity-50">{timeForToday(noti.notifiedAt)}</p>
+                        </div>
+                      </li>
+                    </SwipeableListItem>
+                  );
+                })}
+          </div>
+          <div ref={ref} />
+        </>
       )}
     </SwipeableList>
   );
