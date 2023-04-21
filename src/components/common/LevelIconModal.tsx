@@ -36,7 +36,7 @@ export default function LevelIconModal({ isPicPopUp, setIsPicPopUp, level }: any
                     <div className="flex flex-col gap-6 p-4 pt-3">
                       <div className="flex flex-col gap-2">
                         <span className="font-bold">달성 조건</span>
-                        <span>커밋 {testRequiredCommits[level - 1]}개</span>
+                        <span className="opacity-50">커밋 {testRequiredCommits[level - 1]}개</span>
                       </div>
                       <div className="flex flex-col leading-6">
                         <span>" {testText + testLevelName[level - 1]?.substr(-2, 2)}!</span>

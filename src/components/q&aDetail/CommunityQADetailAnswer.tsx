@@ -6,9 +6,9 @@ import { timeForToday } from '../../store/commentDummy';
 import { useCommunityAnswerQuery, useDeleteQnaAnswerMutation, usePinAnswerMutation, usePostQnaAnswerLikeMutation } from '../../store/module/useCommunityDetailQuery';
 import { useFollowMutation } from '../../store/module/useCommunityQuery';
 import CommunityCommentForm from '../feedDetail/CommunityCommentForm';
-import profile1 from '../../assets/profile1.jpg';
 import { CommunityQADetailAnswerProps, QnaAnswerContentType } from './_Q&ADetail.interface';
 import { myInfo } from '../myProfile/_MyProfile.interface';
+import { S3_URL } from '../../constant/union';
 
 export default function CommunityQADetailAnswer({ isCommentOpen, setIsCommentOpen, answerPin, setAnswerPin, questionUserId }: CommunityQADetailAnswerProps) {
   const { id: postId } = useParams();
@@ -106,7 +106,7 @@ export default function CommunityQADetailAnswer({ isCommentOpen, setIsCommentOpe
                       navigate(`/otherProfile/${answer.member.id}/feed`);
                     }}
                     className="w-[58px] cursor-pointer rounded-full"
-                    src={answer.member.profileImg ?? profile1}
+                    src={S3_URL + answer.member.profileImg}
                   />
                   <div className="pl-3">
                     <div className="flex flex-col gap-1">

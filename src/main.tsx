@@ -8,7 +8,7 @@ import { RecoilRoot } from 'recoil';
 import { lazy } from 'react'; // React.lazy와 Suspense를 import
 
 export var accessToken =
-  'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJHZ3l1bWFsYW5nIiwicm9sZSI6IltST0xFX1ZFUklGSUVEXSIsImlhdCI6MTY4MDg2NzE4MCwiZXhwIjoxNjgwODcwNzgwfQ.oXaVHcoEobBh4AaE8K4DtsnEngDHwSDeeSXa7BT6cANWxtT9ENHGx4QnoQrhxa6gWg0aJd7jR47GSJ6_RigkKg';
+  'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJKSG5pMiIsInJvbGUiOiJbUk9MRV9WRVJJRklFRF0iLCJpYXQiOjE2ODEyNjE5MjgsImV4cCI6MTY4MTI2NTUyOH0.rk_AIDCC6Cd3axsc8vWcbLn8J5wEL6BLUTB95TdTDR_70i4p-vXdxnLUqM84_6G9fVIFk3xdwpWx7vvOE6Q6bw';
 export const queryClient = new QueryClient({
   defaultOptions: {
     queries: {

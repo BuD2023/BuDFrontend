@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import Header from '../components/common/Header';
 import { BsChevronLeft } from 'react-icons/bs';
 import { useRef, useState } from 'react';
@@ -8,8 +8,8 @@ import PicModal from '../components/common/PicModal';
 import { useParams } from 'react-router-dom';
 import { useCommunityDetailQuery } from '../store/module/useCommunityDetailQuery';
 import { usePreventLeave } from '../utils/usePreventLeave';
-import { makeCompressedImg } from '../utils/makeCompressedImg';
 import { CommunityPostType } from '../components/community/_Community.interface';
+import { handleChangeProfileImg } from '../utils/handleChangeImgFile';
 
 export default function PostEdit() {
   const { id: postId } = useParams();
@@ -33,33 +33,11 @@ export default function PostEdit() {
     setPostInfo({ postTypeInfo: 'POST_UPDATE', title: data?.title, content: data?.content, postType: data?.postType, images: data?.imageUrls, postId: Number(postId) } as Partial<CommunityPostType>);
   }, [data]);
 
-  // 사진 미리보기
-  const [imgPeek, setImgPeek] = useState<string[] | ArrayBuffer[] | null[]>([]);
-
   // 사진 업로드
   const imgRef = useRef<HTMLInputElement>(null);
 
-  const handleChangeProfileImg = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const fileArr = e.target.files as FileList;
-    const compressedFiles = await makeCompressedImg(fileArr);
-    console.log(compressedFiles);
-    const compressedFileURLs = await Promise.all(
-      compressedFiles.map((compressed) => {
-        return new Promise<string>((resolve) => {
-          let reader = new FileReader();
-          reader.onload = () => {
-            resolve(reader.result as string);
-          };
-          reader.readAsDataURL(compressed as Blob);
-        });
-      })
-    );
-    setImgPeek(compressedFileURLs);
-    setPostInfo({
-      ...postInfo,
-      images: compressedFiles as Blob[],
-    });
-  };
+  // 사진 미리보기
+  const [imgPeek, setImgPeek] = useState<string[] | ArrayBuffer[] | null[]>([]);
 
   // 사진 popUp
   const [isPicPopUp, setIsPicPopUp] = useState<{ open: boolean; pic: string }>({
@@ -120,7 +98,7 @@ export default function PostEdit() {
                 placeholder="제목을 입력해주세요(필수)"
                 className="h-[54px] w-full rounded-[20px] bg-midIvory p-2 px-4 text-[16px] placeholder:font-semibold  placeholder:text-[#7b6d6d] placeholder:opacity-80 focus:outline-none dark:bg-lightNavy dark:placeholder:text-white"
               />
-              <input ref={imgRef} type="file" accept="image/*" multiple onChange={handleChangeProfileImg} className="hidden" />
+              <input ref={imgRef} type="file" accept="image/*" multiple onChange={(e) => handleChangeProfileImg(e, setImgPeek, postInfo, setPostInfo)} className="hidden" />
               <div onClick={() => imgRef?.current?.click()} className="flex h-[54px] w-[54px] shrink-0 cursor-pointer items-center justify-center rounded-full bg-midIvory dark:bg-lightNavy">
                 <AiFillPicture className="opacity-80" />
               </div>

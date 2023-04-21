@@ -9,6 +9,7 @@ import profile1 from '../../assets/profile1.jpg';
 import { useFollowMutation } from '../../store/module/useCommunityQuery';
 import { UserListModalPropsType } from './_Common.interface';
 import { CommonUserListType, myInfo } from '../myProfile/_MyProfile.interface';
+import { S3_URL } from '../../constant/union';
 
 export default function UserListModal({ isUserList, setIsUserList, type, follows }: UserListModalPropsType) {
   const cancelButtonRef = useRef(null);
@@ -107,7 +108,7 @@ export default function UserListModal({ isUserList, setIsUserList, type, follows
                             }}
                             className="my-2 flex cursor-pointer items-center gap-3 px-4"
                           >
-                            <img src={user.profileUrl ?? profile1} className="h-[50px] w-[50px] rounded-full object-cover" />
+                            <img src={S3_URL + user.profileUrl} className="h-[50px] w-[50px] rounded-full object-cover" />
                             <div className=" text-[16px] font-semibold">{user.nickName}</div>
                           </div>
                           <div

@@ -1,20 +1,17 @@
-import React from 'react';
 import Header from '../components/common/Header';
 import { BsChevronLeft } from 'react-icons/bs';
 import { useRef, useState } from 'react';
 import { AiFillPicture } from 'react-icons/ai';
 import PicModal from '../components/common/PicModal';
-import imageCompression from 'browser-image-compression';
 import { useParams } from 'react-router-dom';
 import { useCommunityDetailQuery } from '../store/module/useCommunityDetailQuery';
 import QuestionModal from '../components/common/QuestionModal';
 import { QnaAnswerType } from '../components/community/_Community.interface';
+import { handleChangeProfileImg } from '../utils/handleChangeImgFile';
 
 export default function QAAnswerEdit() {
   const { postId, answerId } = useParams();
   const [alertModal, setAlertModal] = useState<boolean>(false);
-
-  console.log(postId);
 
   // QNA 질문 글 정보
   const { isLoading, data } = useCommunityDetailQuery(Number(postId));
@@ -30,62 +27,8 @@ export default function QAAnswerEdit() {
   // 사진 미리보기
   const [imgPeek, setImgPeek] = useState<string[] | ArrayBuffer[] | null[]>([]);
 
-  //이미지 압축
-  const actionImgCompress = async (fileSrc: File) => {
-    const options = {
-      maxSizeMb: 0.1,
-      maxWidthOrHeight: 1200,
-      useWebWorker: true,
-    };
-    try {
-      const compressedFile = await imageCompression(fileSrc, options);
-      return compressedFile;
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   // 사진 업로드
   const imgRef = useRef<HTMLInputElement>(null);
-
-  //사진 압축
-  const makeCompressedImg = async (fileArr: FileList) => {
-    let filesLength = fileArr.length > 10 ? 10 : fileArr.length;
-    console.log(fileArr);
-
-    const compressedFiles = await Promise.all(
-      Array.from(fileArr)
-        .slice(0, filesLength)
-        .map(async (file) => {
-          return await actionImgCompress(file);
-        })
-    );
-    return compressedFiles;
-  };
-
-  const handleChangeProfileImg = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const fileArr = e.target.files as FileList;
-
-    const compressedFiles = await makeCompressedImg(fileArr);
-    console.log(compressedFiles);
-    const compressedFileURLs = await Promise.all(
-      compressedFiles.map((compressed) => {
-        return new Promise<string>((resolve) => {
-          let reader = new FileReader();
-          reader.onload = () => {
-            resolve(reader.result as string);
-          };
-          reader.readAsDataURL(compressed as Blob);
-        });
-      })
-    );
-    setImgPeek(compressedFileURLs);
-
-    setPostInfo({
-      ...postInfo,
-      images: compressedFiles as Blob[],
-    });
-  };
 
   // 사진 popUp
   const [isPicPopUp, setIsPicPopUp] = useState({
@@ -113,7 +56,7 @@ export default function QAAnswerEdit() {
                   <AiFillPicture className="opacity-80" />
                 </div>
               </div>
-              <input ref={imgRef} type="file" accept="image/*" multiple onChange={handleChangeProfileImg} className="hidden" />
+              <input ref={imgRef} type="file" accept="image/*" multiple onChange={(e) => handleChangeProfileImg(e, setImgPeek, postInfo, setPostInfo)} className="hidden" />
             </div>
             <div className={`flex h-[calc(100vh-286px)] w-full flex-col gap-2 transition-all`}>
               {imgPeek.length > 0 && (

@@ -2,7 +2,6 @@ import { FcPortraitMode } from 'react-icons/fc';
 import { useNavigate, useParams } from 'react-router-dom';
 import { timeForToday } from '../../store/commentDummy';
 import { useCommunityDetailQuery } from '../../store/module/useCommunityDetailQuery';
-import DefaultProfileImage from '../../assets/DefaultProfileImage.webp';
 import LikeCommentScrap from '../common/LikeCommentScrap';
 import ImagePeek from '../common/ImagePeek';
 import { useEffect, useState } from 'react';
@@ -61,7 +60,7 @@ export default function CommunityDetailPost(props: CommunityDetailPostProps) {
                   navigate(`/otherProfile/${questionData?.member.id}/feed`);
                 }
               }}
-              src={DefaultProfileImage}
+              src={S3_URL + questionData?.member.profileImg}
               alt={questionData?.member.nickname}
               className="w-[58px] cursor-pointer rounded-full"
             />

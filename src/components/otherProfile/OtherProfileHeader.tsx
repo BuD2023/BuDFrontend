@@ -1,6 +1,6 @@
 import { AiFillEdit, AiFillGithub } from 'react-icons/ai';
 import { FcReadingEbook } from 'react-icons/fc';
-import profile1 from '../../assets/profile1.jpg';
+import { S3_URL } from '../../constant/union';
 import { UserProfileHeaderPropsType } from './_OtherProfile.interface';
 
 export default function OtherProfileHeader({ userId, nickName, description, profileUrl, isLoading, job }: UserProfileHeaderPropsType) {
@@ -31,16 +31,18 @@ export default function OtherProfileHeader({ userId, nickName, description, prof
             <AiFillEdit />
             <span>{job ?? '프론트엔드 개발'}</span>
           </div>
-          <div onClick={() => window.open(`https://github.com/${userId}`)} className="flex cursor-pointer gap-2">
-            <AiFillGithub />
-            <span>{userId}</span>
+          <div className="flex gap-2">
+            <AiFillGithub onClick={() => window.open(`https://github.com/${userId}`)} className="cursor-pointer" />
+            <span onClick={() => window.open(`https://github.com/${userId}`)} className="cursor-pointer">
+              {userId}
+            </span>
           </div>
         </div>
         <div className="min-h-[40px] w-full rounded-2xl bg-white p-2.5 text-sm font-semibold leading-[1.2] opacity-70 dark:bg-midNavy dark:text-white dark:opacity-100">
           <div className="dark:font-normal">{description ?? `${nickName}님의 프로필입니다.`}</div>
         </div>
       </div>
-      <img src={profileUrl ?? profile1} className="h-[120px] w-[120px] shrink-0 rounded-full object-cover" />
+      <img src={S3_URL + profileUrl} className="h-[120px] w-[120px] shrink-0 rounded-full object-cover" />
     </div>
   );
 }

@@ -1,4 +1,3 @@
-import React from 'react';
 import Header from '../components/common/Header';
 import { BsChevronLeft } from 'react-icons/bs';
 import { useRef, useState } from 'react';
@@ -7,8 +6,8 @@ import PicModal from '../components/common/PicModal';
 import { useCommunityDetailQuery } from '../store/module/useCommunityDetailQuery';
 import QuestionModal from '../components/common/QuestionModal';
 import { useParams } from 'react-router-dom';
-import { makeCompressedImg } from '../utils/makeCompressedImg';
 import { QnaAnswerType } from '../components/community/_Community.interface';
+import { handleChangeProfileImg } from '../utils/handleChangeImgFile';
 
 export default function QAAnswerCreate() {
   const { postId } = useParams();
@@ -31,30 +30,6 @@ export default function QAAnswerCreate() {
 
   // 사진 업로드
   const imgRef = useRef<HTMLInputElement>(null);
-
-  const handleChangeProfileImg = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const fileArr = e.target.files as FileList;
-
-    const compressedFiles = await makeCompressedImg(fileArr);
-    console.log(compressedFiles);
-    const compressedFileURLs = await Promise.all(
-      compressedFiles.map((compressed) => {
-        return new Promise<string>((resolve) => {
-          let reader = new FileReader();
-          reader.onload = () => {
-            resolve(reader.result as string);
-          };
-          reader.readAsDataURL(compressed as Blob);
-        });
-      })
-    );
-    setImgPeek(compressedFileURLs);
-
-    setPostInfo({
-      ...postInfo,
-      images: compressedFiles as Blob[],
-    });
-  };
 
   // 사진 popUp
   const [isPicPopUp, setIsPicPopUp] = useState({
@@ -83,7 +58,7 @@ export default function QAAnswerCreate() {
                   <AiFillPicture className="opacity-80" />
                 </div>
               </div>
-              <input ref={imgRef} type="file" accept="image/*" multiple onChange={handleChangeProfileImg} className="hidden" />
+              <input ref={imgRef} type="file" accept="image/*" multiple onChange={(e) => handleChangeProfileImg(e, setImgPeek, postInfo, setPostInfo)} className="hidden" />
             </div>
             <div className={`flex h-[calc(100vh-286px)] w-full flex-col gap-2 transition-all`}>
               {imgPeek.length > 0 && (

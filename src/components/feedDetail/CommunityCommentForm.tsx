@@ -2,7 +2,7 @@ import { SwipeableList, SwipeableListItem } from '@sandstreamdev/react-swipeable
 import { useEffect, useState } from 'react';
 import { BsDot, BsFillPinAngleFill, BsFillTrashFill, BsHeartFill } from 'react-icons/bs';
 import { useNavigate, useParams } from 'react-router-dom';
-import profile2 from '../../assets/profile2.jpeg';
+import { S3_URL } from '../../constant/union';
 import {
   useDeleteFeedCommentMutation,
   useDeleteFeedCommentPinMutation,
@@ -159,7 +159,7 @@ export default function CommunityCommentForm({ type, answerId }: CommunityFeedCo
                       {/* {comment.isRef && <BsArrowReturnRight className="ml-4 text-[20px]" />} */}
                       <img
                         onClick={() => (content.memberName === myInfo.nickname ? navigate(`/myProfile`) : navigate(`/otherProfile/${content.memberId}/feed`))}
-                        src={content.memberProfileUrl ?? profile2}
+                        src={S3_URL + content.memberProfileUrl}
                         className="h-[50px] w-[50px] shrink-0 cursor-pointer rounded-full object-cover"
                       />
                       <div className="flex h-full w-full flex-col justify-between gap-1">

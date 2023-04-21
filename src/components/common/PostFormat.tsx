@@ -89,7 +89,7 @@ export default function PostFormat({ inputValue, sortAndOrder, filter: postTypeF
                           navigate(`/otherProfile/${data.member.id}/feed`);
                         }
                       }}
-                      src={data.member.profileImg ? data.member.profileImg : DefaultProfileImage}
+                      src={S3_URL + data.member.profileImg}
                       alt={data.title}
                       className="w-[58px] rounded-full"
                     />
