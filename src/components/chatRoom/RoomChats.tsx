@@ -8,11 +8,16 @@ import ScrollToBottomBtn from '../common/ScrollToBottomBtn';
 import { ChatMessageType, RoomChatsPropsType } from './_ChatRoom.interface';
 import { accessToken } from '../../main';
 import { githubUserInfoAtom } from '../../store/recoil/userAtomFamily';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useRecoilValueLoadable } from 'recoil';
+import { getMyPageInfo } from '../../store/recoil/user';
 
 export default function RoomChats({ hostInfo, messageList, newChatMessages, hasNextPage, isFetching, isFetchingNextPage, fetchNextPage }: RoomChatsPropsType) {
   // 리코일
   const githubUser = useRecoilValue(githubUserInfoAtom(accessToken));
+
+  // 사용자 정보
+  const getMyPageInfoLodable = useRecoilValueLoadable(getMyPageInfo);
+  const myPageInfo: any = 'hasValue' === getMyPageInfoLodable.state ? getMyPageInfoLodable.contents : {};
 
   const [userModal, setUserModal] = useState(false);
 
@@ -129,7 +134,7 @@ export default function RoomChats({ hostInfo, messageList, newChatMessages, hasN
         <>
           {messageList &&
             messageList.map((chat) => {
-              return chat.userName !== githubUser?.nickName ? (
+              return chat.userName !== myPageInfo?.nickName ? (
                 <div key={chat.chatId} className="mb-3 flex gap-4">
                   <img
                     src={chat.userProfileUrl ? S3_URL + chat.userProfileUrl : defaultImage}
