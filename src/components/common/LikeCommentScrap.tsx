@@ -24,7 +24,11 @@ export default function LikeCommentScrap({ postType, likeCount, commentCount, po
         // refetch();
       }
     }
+<<<<<<< HEAD
   }, [likeSuccess, likeIsSuccess, scrapSuccess, scrapIsSuccess]);
+=======
+  }, [likeSuccess, refetch, likeIsSuccess, scrapSuccess, scrapIsSuccess]);
+>>>>>>> afc58149c1087791e913b50f4161b507af339383
 
   return (
     <div className="flex h-[54px] w-full items-center justify-between rounded-b-[20px] bg-[#a49c7c] p-4 text-base text-white dark:bg-[#2c2e34]">

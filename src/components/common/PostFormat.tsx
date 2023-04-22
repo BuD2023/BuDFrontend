@@ -1,4 +1,4 @@
-import { FcPortraitMode } from 'react-icons/fc';
+import { FcCheckmark, FcPortraitMode } from 'react-icons/fc';
 import { useNavigate } from 'react-router-dom';
 import { useCommunityPostQuery } from '../../store/module/useCommunityQuery';
 import { useFollowMutation } from '../../store/module/useCommunityQuery';
@@ -101,12 +101,23 @@ export default function PostFormat({ inputValue, sortAndOrder, filter: postTypeF
                       <p className="text-[17px] opacity-50">{timeForToday(data.createdAt)}</p>
                     </div>
                   </div>
-                  <div className="text-end grow font-bold">
-                    <div onClick={(e) => handleClickFollow(e, data.member.id, data.member.username)} className="flex h-full items-center justify-end gap-3">
-                      <FcPortraitMode />
-                      <p>팔로우</p>
+                  {data.member.username !== myPageInfo.nickName && (
+                    <div className="text-end grow font-bold">
+                      <div className="flex h-full items-center justify-end gap-3">
+                        {data.follow ? (
+                          <>
+                            <FcCheckmark size={21} />
+                            <p>팔로잉</p>
+                          </>
+                        ) : (
+                          <>
+                            <FcPortraitMode />
+                            <p>팔로우</p>
+                          </>
+                        )}
+                      </div>
                     </div>
-                  </div>
+                  )}
                 </div>
                 <div className="flex text-[16px] font-semibold">
                   <div className="rounded-[30px] bg-greyBeige px-3 py-2 text-[14px] dark:bg-sky">{`${data.postType === 'FEED' ? '개발 피드' : 'Q & A 피드'}`}</div>
