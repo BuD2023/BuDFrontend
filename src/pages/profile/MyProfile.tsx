@@ -1,8 +1,9 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { useNavigate, useParams } from 'react-router-dom';
 import FooterMenu from '../../components/common/FooterMenu';
 import ScrollToTopBtn from '../../components/common/ScrollToTopBtn';
+import FeedPostFormat from '../../components/myProfile/FeedPostFormat';
 import MyProfileHeader from '../../components/myProfile/MyProfileHeader';
 import MyProfileInfo from '../../components/myProfile/MyProfileInfo';
 import MyProfileMenu from '../../components/myProfile/MyProfileMenu';
