@@ -26,6 +26,7 @@ export default function MyProfile() {
     isFetchingNextPage: myScrapsIsFetchingNextPage,
     fetchNextPage: myScrapsFetchNextPage,
     hasNextPage: myScrapsHasNextPage,
+    refetch: myScrapsRefetch,
   } = useMyScrapsQuery('POST_DATE,DESC');
   const {
     data: profilePostData,
@@ -79,7 +80,7 @@ export default function MyProfile() {
         />
         <MyProfileMenu postView={postView} setPostView={setPostView} />
         {profilePostData && postView !== 'scrap' && <FeedPostFormat userData={myProfileData} resultData={profilePostData.pages.flatMap((page) => page.content)} />}
-        {myScrapsData && postView === 'scrap' && <ScrapPostFormat userData={myProfileData} resultData={myScrapsData.pages.flatMap((page) => page.content)} />}
+        {myScrapsData && postView === 'scrap' && <ScrapPostFormat refetch={myScrapsRefetch} userData={myProfileData} resultData={myScrapsData.pages.flatMap((page) => page.content)} />}
       </div>
       <div ref={ref} />
       <FooterMenu />

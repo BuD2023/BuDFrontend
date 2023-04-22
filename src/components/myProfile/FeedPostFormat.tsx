@@ -1,4 +1,4 @@
-import { FcPortraitMode } from 'react-icons/fc';
+import { FcCheckmark, FcPortraitMode } from 'react-icons/fc';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import LikeCommentScrap from '../common/LikeCommentScrap';
@@ -9,7 +9,7 @@ import { timeForToday } from '../../utils/timeForToday';
 import { useRecoilValueLoadable } from 'recoil';
 import { getMyPageInfo } from '../../store/recoil/user';
 
-export default function FeedPostFormat({ resultData, userData }: any) {
+export default function FeedPostFormat({ resultData, userData, refetch }: any) {
   const navigate = useNavigate();
 
   // 사용자 정보
@@ -22,11 +22,13 @@ export default function FeedPostFormat({ resultData, userData }: any) {
     pic: '',
   });
 
+  console.log(resultData, userData, myPageInfo);
+
   return (
     <>
       <PicModal isPicPopUp={isPicPopUp} setIsPicPopUp={setIsPicPopUp} />
       <ul className="w-full">
-        {userData && resultData.length > 0 ? (
+        {userData && resultData && resultData.length > 0 ? (
           resultData.map((data: any) => (
             <li
               onClick={(e) => {
@@ -66,8 +68,17 @@ export default function FeedPostFormat({ resultData, userData }: any) {
                   {userData.nickName !== myPageInfo.nickName && (
                     <div className="text-end grow font-bold">
                       <div className="flex h-full items-center justify-end gap-3">
-                        <FcPortraitMode />
-                        <p>팔로우</p>
+                        {data.follow ? (
+                          <>
+                            <FcCheckmark size={21} />
+                            <p>팔로잉</p>
+                          </>
+                        ) : (
+                          <>
+                            <FcPortraitMode />
+                            <p>팔로우</p>
+                          </>
+                        )}
                       </div>
                     </div>
                   )}
@@ -81,7 +92,7 @@ export default function FeedPostFormat({ resultData, userData }: any) {
                 </div>
               </div>
               {data.imageUrls.length > 0 && data.imageUrls[0] !== null && <ImagePeek setIsPicPopUp={setIsPicPopUp} imgPeek={data.imageUrls.map((imgeUrl: any) => S3_URL + imgeUrl)} />}
-              <LikeCommentScrap scrap={data.scrap} like={data.like} postType={data.postType} likeCount={data.likeCount} commentCount={data.commentCount} postId={data.postId} />
+              <LikeCommentScrap refetch={refetch} scrap={data.scrap} like={data.like} postType={data.postType} likeCount={data.likeCount} commentCount={data.commentCount} postId={data.postId} />
             </li>
           ))
         ) : (

@@ -23,6 +23,7 @@ export default function OtherProfile() {
     isFetchingNextPage: profilePostIsFetchingNextPage,
     fetchNextPage: profilePostFetchNextPage,
     hasNextPage: profilePostHasNextPage,
+    refetch: profilePostRefetch,
   } = useProfilePostQuery(Number(id), postView.toLocaleUpperCase());
 
   // 인피니티 스크롤
@@ -64,7 +65,7 @@ export default function OtherProfile() {
           isLoading={isLoading}
         />
         <OtherProfileMenu id={id} postView={postView} setPostView={setPostView} />
-        {profilePostData && <FeedPostFormat userData={data} resultData={profilePostData.pages.flatMap((page) => page.content)} />}
+        {profilePostData && <FeedPostFormat refetch={profilePostRefetch} userData={data} resultData={profilePostData.pages.flatMap((page) => page.content)} />}
       </div>
       <div ref={ref} />
       <FooterMenu />
