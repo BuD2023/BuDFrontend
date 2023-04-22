@@ -3,10 +3,11 @@ import { BsFillHandThumbsUpFill } from 'react-icons/bs';
 import { FcLike, FcSms, FcVoicePresentation } from 'react-icons/fc';
 import { useRecoilValueLoadable } from 'recoil';
 import { useCommunityLikeMutation, useCommunityScrapMutation } from '../../store/module/useCommunityQuery';
+import { useMyScrapsQuery } from '../../store/module/useMyProfileQuery';
 import { getMyPageInfo } from '../../store/recoil/user';
 import { LikeCommentScrapPropsType } from './_Common.interface';
 
-export default function LikeCommentScrap({ postType, likeCount, commentCount, postId, refetch, like, scrap }: LikeCommentScrapPropsType) {
+export default function LikeCommentScrap({ postType, likeCount, commentCount, postId, like, scrap }: LikeCommentScrapPropsType) {
   // 사용자 정보
   const getMyPageInfoLodable = useRecoilValueLoadable(getMyPageInfo);
   const myPageInfo: any = 'hasValue' === getMyPageInfoLodable.state ? getMyPageInfoLodable.contents : {};
@@ -19,14 +20,11 @@ export default function LikeCommentScrap({ postType, likeCount, commentCount, po
 
   useEffect(() => {
     if (likeSuccess || scrapSuccess) {
-      console.log(likeIsSuccess, scrapIsSuccess);
-      if (refetch && (likeIsSuccess || scrapIsSuccess)) {
-        refetch();
+      if (likeIsSuccess || scrapIsSuccess) {
+        // refetch();
       }
     }
-  }, [likeSuccess, refetch, likeIsSuccess, scrapSuccess, scrapIsSuccess]);
-
-  console.log(likeIsSuccess);
+  }, [likeSuccess, likeIsSuccess, scrapSuccess, scrapIsSuccess]);
 
   return (
     <div className="flex h-[54px] w-full items-center justify-between rounded-b-[20px] bg-[#a49c7c] p-4 text-base text-white dark:bg-[#2c2e34]">
