@@ -11,6 +11,7 @@ import { makeCompressedImg } from '../../utils/makeCompressedImg';
 import PicModal from '../../components/common/PicModal';
 import AlertModal from '../../components/common/AlertModal';
 import { ChatMessageType, InfoMessageType, myChatroomListContentType, myChatroomListType } from '../../components/chatRoom/_ChatRoom.interface';
+import useErrorBoundary from '../../utils/useErrorBoundary';
 
 export default function ChatRoom() {
   const navigate = useNavigate();

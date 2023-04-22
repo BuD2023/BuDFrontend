@@ -23,7 +23,7 @@ export default function RoomChats({ hostInfo, messageList, newChatMessages, hasN
   }, [inView]);
 
   // 사진 popUp
-  const [isPicPopUp, setIsPicPopUp] = useState({
+  const [isPicPopUp, setIsPicPopUp] = useState<{ open: boolean; pic: string }>({
     open: false,
     pic: '',
   });

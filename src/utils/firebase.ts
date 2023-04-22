@@ -17,19 +17,23 @@ export const foregroundMessaging = getMessaging(app);
 
 export async function getFcmToken() {
   console.log('권한 요청 중...');
-
-  const permission = await Notification.requestPermission();
-  if (permission === 'denied') {
-    console.log('알림 권한 허용 안됨');
-    return;
+  try {
+    const permission = await Notification.requestPermission();
+    if (permission === 'denied') {
+      console.log('알림 권한 허용 안됨');
+      return;
+    }
+    console.log('알림 권한이 허용됨');
+    const token = await getToken(foregroundMessaging, {
+      vapidKey: VAPID_KEY,
+    });
+    console.log(`FCMtoken: ${token}`);
+    return token;
+  } catch (error) {
+    alert('브라우저에서 알림이 차단되어있습니다. 알림 받기를 원하시면, 브라우저 웹 설정에서 알림을 허용해주세요!');
+    console.log(error);
+    return undefined;
   }
-
-  console.log('알림 권한이 허용됨');
-
-  const token = await getToken(foregroundMessaging, {
-    vapidKey: VAPID_KEY,
-  });
-  return token;
 }
 
 // onMessage 이벤트가 발생할 때마다 payload 인자를 Promise의 해결 값으로 반환 => 앱에서 FCM 푸시 알림 메시지 처리 O
