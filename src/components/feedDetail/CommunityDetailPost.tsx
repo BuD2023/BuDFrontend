@@ -95,6 +95,8 @@ export default function CommunityDetailPost(props: CommunityDetailPostProps) {
         <ImagePeek setIsPicPopUp={setIsPicPopUp} imgPeek={questionData.imageUrls.map((imgeUrl) => S3_URL + imgeUrl)} />
       )}
       <LikeCommentScrap
+        scrap={questionData?.scrap as boolean}
+        like={questionData?.like as boolean}
         postType={questionData?.postType as postType}
         likeCount={questionData?.likeCount as number}
         commentCount={questionData?.commentCount as number}

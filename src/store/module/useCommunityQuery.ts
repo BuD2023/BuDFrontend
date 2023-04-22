@@ -11,6 +11,7 @@ import { OrderType, postType, SortType } from '../../components/community/_Commu
 import { accessToken } from '../../main';
 import { useCommunityDetailQuery } from './useCommunityDetailQuery';
 import { useMyFollowersQuery, useMyFollowsQuery, useMyProfileQuery, useMyScrapsQuery } from './useMyProfileQuery';
+import { useProfilePostQuery } from './useProfilePostQuery';
 import { useUserProfileQuery } from './useUserProfileQuery';
 
 let refetchNew = '';
@@ -77,9 +78,10 @@ export function useDeleteCommunityMutation(id: number) {
   });
 }
 
-export function useCommunityLikeMutation(postId: number) {
+export function useCommunityLikeMutation(postId: number, userId: number, postType: string) {
   const { refetch: detailRefetch } = useCommunityDetailQuery(postId);
   // const { refetch: allListRefetch } = useCommunityPostQuery();
+  const { refetch: myPageRefetch } = useProfilePostQuery(userId, postType);
 
   return useMutation(() => postCommunityLikeAxios(accessToken, postId), {
     onError: (err) => {
@@ -87,20 +89,23 @@ export function useCommunityLikeMutation(postId: number) {
     },
     onSuccess: async () => {
       detailRefetch();
+      myPageRefetch();
       console.log('좋아요 상태 변경 반영됨');
     },
   });
 }
 
 export function useCommunityScrapMutation(postId: number) {
-  const { refetch } = useMyScrapsQuery('POST_DATE,DESC');
+  const { refetch: myScrapRefetch } = useMyScrapsQuery('POST_DATE,DESC');
+  const { refetch: detailRefetch } = useCommunityDetailQuery(postId);
   return useMutation(() => postCommunityScrapAxios(accessToken, postId), {
     onError: (err) => {
       console.log(err);
     },
     onSuccess: () => {
       console.log('게시물 스크랩 상태 변경 반영됨');
-      refetch();
+      myScrapRefetch();
+      detailRefetch();
     },
   });
 }

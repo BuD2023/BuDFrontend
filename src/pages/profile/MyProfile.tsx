@@ -1,8 +1,9 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { useNavigate, useParams } from 'react-router-dom';
 import FooterMenu from '../../components/common/FooterMenu';
 import ScrollToTopBtn from '../../components/common/ScrollToTopBtn';
+import FeedPostFormat from '../../components/myProfile/FeedPostFormat';
 import MyProfileHeader from '../../components/myProfile/MyProfileHeader';
 import MyProfileInfo from '../../components/myProfile/MyProfileInfo';
 import MyProfileMenu from '../../components/myProfile/MyProfileMenu';
@@ -34,19 +35,19 @@ export default function MyProfile() {
     isFetchingNextPage: profilePostIsFetchingNextPage,
     fetchNextPage: profilePostFetchNextPage,
     hasNextPage: profilePostHasNextPage,
-  } = useProfilePostQuery(Number(userId), postView === 'scrap' ? 'FEED' : postView.toUpperCase());
+  } = useProfilePostQuery(Number(userId), postView === 'scrap' ? 'ALL' : postView.toUpperCase());
 
   // 인피니티 스크롤
   const { ref, inView } = useInView();
 
   useEffect(() => {
     if (postView === 'scrap' && inView && myScrapsHasNextPage && !myScrapsIsFetching && !myScrapsIsFetchingNextPage) myScrapsFetchNextPage();
-    if (postView === 'feed' && inView && profilePostHasNextPage && !profilePostIsFetching && !profilePostIsFetchingNextPage) profilePostFetchNextPage();
+    if ((postView === 'qna' || postView === 'feed') && inView && profilePostHasNextPage && !profilePostIsFetching && !profilePostIsFetchingNextPage) profilePostFetchNextPage();
   }, [inView]);
 
   useEffect(() => {
     if (postView === 'scrap') myScrapsFetchNextPage();
-    if (postView === 'feed') profilePostFetchNextPage();
+    if (postView === 'feed' || postView === 'qna') profilePostFetchNextPage();
   }, [postView]);
 
   if (myProfileError || myScrapsError || profilePostError) {
@@ -73,8 +74,8 @@ export default function MyProfile() {
           isLoading={myProfileIsLoading}
         />
         <MyProfileMenu postView={postView} setPostView={setPostView} />
+        {profilePostData && postView !== 'scrap' && <FeedPostFormat userData={myProfileData} resultData={profilePostData.pages.flatMap((page) => page.content)} />}
         {/* {myScrapsData && postView === 'scrap' && <ScrapPostFormat resultData={myScrapsData.pages.flatMap((page) => page.content)} />} */}
-        {/* {profilePostData && postView !== 'scrap' && <FeedPostFormat type="feed" resultData={profilePostData.pages.flatMap((page) => page.content)} />} */}
       </div>
       <div ref={ref} />
       <FooterMenu />

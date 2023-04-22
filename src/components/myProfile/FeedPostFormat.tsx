@@ -8,9 +8,8 @@ import PicModal from '../common/PicModal';
 import { S3_URL } from '../../constant/union';
 import { timeForToday } from '../../utils/timeForToday';
 
-export default function FeedPostFormat({ resultData, type }: any) {
+export default function FeedPostFormat({ resultData, userData }: any) {
   const navigate = useNavigate();
-  // const userId = 4;
 
   //사진 팝업모달
   const [isPicPopUp, setIsPicPopUp] = useState({
@@ -42,22 +41,15 @@ export default function FeedPostFormat({ resultData, type }: any) {
                     <img
                       onClick={(e) => {
                         e.stopPropagation();
-                        navigate(`/otherProfile/${data.member.nickname}/feed`);
+                        navigate(`/myProfile/${userData.id}`);
+                        // navigate(`/otherProfile/${data.member.nickname}/feed`);
                       }}
-                      src={data.member?.profileImg ?? DefaultProfileImage}
-                      alt={data.member?.nickname}
+                      src={S3_URL + userData.profileUrl}
+                      alt={userData.nickName}
                       className="w-[58px] rounded-full"
                     />
                     <div className="pl-3">
-                      <p
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          navigate(`/otherProfile/${data.member.id}/feed`);
-                        }}
-                        className="text-xl font-bold"
-                      >
-                        {data.member?.nickname}
-                      </p>
+                      <p className="text-xl font-bold">{userData.nickName}</p>
                       <p className="text-[17px] opacity-50">{timeForToday(data.createdAt)}</p>
                     </div>
                   </div>
@@ -77,7 +69,7 @@ export default function FeedPostFormat({ resultData, type }: any) {
                 </div>
               </div>
               {data.imageUrls.length > 0 && data.imageUrls[0] !== null && <ImagePeek setIsPicPopUp={setIsPicPopUp} imgPeek={data.imageUrls.map((imgeUrl: any) => S3_URL + imgeUrl)} />}
-              <LikeCommentScrap postType={data.postType} likeCount={data.likeCount} commentCount={data.commentCount} postId={data.postId} />
+              <LikeCommentScrap scrap={data.scrp} like={data.like} postType={data.postType} likeCount={data.likeCount} commentCount={data.commentCount} postId={data.postId} />
             </li>
           ))
         ) : (
