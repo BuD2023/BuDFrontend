@@ -19,7 +19,7 @@ export function useCommunityPostQuery(word?: string, sort?: SortType, order?: Or
   return useInfiniteQuery(['Community', word, sort, order, postType, refetchNew], ({ pageParam = 0 }) => getCommunityPostAxios(accessToken, word, sort, order, pageParam, size, postType), {
     getNextPageParam: (prevData, allPages) => {
       const lastPage = prevData.last;
-      const nextPage = allPages.length + 1;
+      const nextPage = (allPages.length + 1) as number;
       return lastPage ? undefined : nextPage;
     },
     refetchInterval: 1000 * 60,
@@ -80,7 +80,6 @@ export function useDeleteCommunityMutation(id: number) {
 
 export function useCommunityLikeMutation(postId: number, userId: number, postType: string) {
   const { refetch: detailRefetch } = useCommunityDetailQuery(postId);
-  // const { refetch: allListRefetch } = useCommunityPostQuery();
   const { refetch: myPageRefetch } = useProfilePostQuery(userId, postType);
 
   return useMutation(() => postCommunityLikeAxios(accessToken, postId), {

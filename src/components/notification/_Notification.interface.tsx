@@ -4,7 +4,21 @@ export interface NotiContent {
 
 /** NotificationListContentType에 사용하는 타입들 */
 export type notificationType = 'POST' | 'FOLLOW';
-export type notificationDetailType = 'ANSWER' | 'PIN' | 'COMMENT' | 'LIKE' | 'FOLLOWED' | 'NEW_POST';
+export type notificationDetailType =
+  | 'FOLLOWED'
+  | 'NEW_POST'
+  | 'POST_COMMENT'
+  | 'POST_RE_COMMENT'
+  | 'ANSWER_COMMENT'
+  | 'ANSWER_RE_COMMENT'
+  | 'ANSWER'
+  | 'ADD_LIKE_POST'
+  | 'ADD_LIKE_COMMENT'
+  | 'ADD_LIKE_ANSWER'
+  | 'ADD_LIKE_ANSWER_COMMENT'
+  | 'COMMENT_PIN'
+  | 'ANSWER_PIN'
+  | 'ANSWER_COMMENT_PIN';
 export type pageType = 'QNA' | 'FEED' | 'OTHER_PROFILE';
 
 /** NotificationListType에 사용하는 content 타입 */

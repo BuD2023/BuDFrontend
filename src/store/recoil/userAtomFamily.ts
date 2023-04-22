@@ -1,6 +1,7 @@
 import { atomFamily } from 'recoil';
 import getGithubInfoAxios from '../../apiFetcher/githubInfo/getGithubInfo';
 
+// 임시로 한번 어떤건지 사용해봤습니다!
 export const githubUserInfoAtom = atomFamily({
   key: 'githubUserInfo',
   default: async (accessToken: string) => {

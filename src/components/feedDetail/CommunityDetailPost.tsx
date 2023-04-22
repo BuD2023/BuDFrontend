@@ -18,7 +18,11 @@ interface CommunityDetailPostProps {
 export default function CommunityDetailPost(props: CommunityDetailPostProps) {
   const { id: questionId } = useParams();
   const navigate = useNavigate();
-  const { data: questionData, isLoading: questionIsLoading, error: questionError } = useCommunityDetailQuery(Number(questionId));
+  const { data: questionData, isLoading: questionIsLoading, error: questionError, refetch } = useCommunityDetailQuery(Number(questionId));
+
+  useEffect(() => {
+    refetch();
+  }, [questionIsLoading]);
 
   // 사용자 정보
   const githubInfoLoadable = useRecoilValueLoadable(userGithubInfo);
@@ -65,7 +69,7 @@ export default function CommunityDetailPost(props: CommunityDetailPostProps) {
                   navigate(`/otherProfile/${questionData?.member.id}/feed`);
                 }
               }}
-              src={S3_URL + questionData?.member.profileImg}
+              src={S3_URL + (questionData?.member.profileImg as string)}
               alt={questionData?.member.nickname}
               className="w-[58px] cursor-pointer rounded-full"
             />
