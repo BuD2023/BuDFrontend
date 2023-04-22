@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { useNavigate, useParams } from 'react-router-dom';
 import FooterMenu from '../../components/common/FooterMenu';
-import ScrapPostFormat from '../../components/common/ScrapPostFormat';
+import ScrapPostFormat from '../../components/myProfile/ScrapPostFormat';
 import ScrollToTopBtn from '../../components/common/ScrollToTopBtn';
 import FeedPostFormat from '../../components/myProfile/FeedPostFormat';
 import MyProfileHeader from '../../components/myProfile/MyProfileHeader';
@@ -47,8 +47,8 @@ export default function MyProfile() {
 
   useEffect(() => {
     if (postView === 'scrap') myScrapsFetchNextPage();
-    if (postView === 'feed' || postView === 'qna') profilePostFetchNextPage();
-  }, [postView]);
+    if ((myProfileData && postView === 'feed') || postView === 'qna') profilePostFetchNextPage();
+  }, [postView, myProfileData]);
 
   if (myProfileError || myScrapsError || profilePostError) {
     navigate('/NotFound');

@@ -26,6 +26,8 @@ export default function LikeCommentScrap({ postType, likeCount, commentCount, po
     }
   }, [likeSuccess, refetch, likeIsSuccess, scrapSuccess, scrapIsSuccess]);
 
+  console.log(likeIsSuccess);
+
   return (
     <div className="flex h-[54px] w-full items-center justify-between rounded-b-[20px] bg-[#a49c7c] p-4 text-base text-white dark:bg-[#2c2e34]">
       <div className="flex gap-6">

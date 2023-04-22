@@ -22,10 +22,6 @@ export default function FeedPostFormat({ resultData, userData }: any) {
     pic: '',
   });
 
-  console.log(userData);
-  console.log(resultData);
-  console.log(myPageInfo);
-
   return (
     <>
       <PicModal isPicPopUp={isPicPopUp} setIsPicPopUp={setIsPicPopUp} />

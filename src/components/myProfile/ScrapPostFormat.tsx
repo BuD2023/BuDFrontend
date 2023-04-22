@@ -1,9 +1,9 @@
 import { FcPortraitMode } from 'react-icons/fc';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import LikeCommentScrap from './LikeCommentScrap';
-import ImagePeek from './ImagePeek';
-import PicModal from './PicModal';
+import LikeCommentScrap from '../common/LikeCommentScrap';
+import ImagePeek from '../common/ImagePeek';
+import PicModal from '../common/PicModal';
 import { S3_URL } from '../../constant/union';
 import { timeForToday } from '../../utils/timeForToday';
 
