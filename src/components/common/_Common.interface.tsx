@@ -69,6 +69,8 @@ export interface LikeCommentScrapPropsType {
   commentCount: number;
   postId: number;
   refetch?: () => void;
+  like: boolean;
+  scrap: boolean;
 }
 
 /** ScrapPostFormat 캄포넌트 props 타입 */

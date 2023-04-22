@@ -73,6 +73,8 @@ export interface CommunityPostListContentMemberType {
 
 /** getCommunityPostAxios - 커뮤니티 post 불러올때 response의 content 타입 */
 export interface CommunityPostListContentType {
+  scrap: boolean;
+  like: boolean;
   id: number;
   member: CommunityPostListContentMemberType;
   title: string;
@@ -136,7 +138,9 @@ export interface getCommunityDetailType {
   imageUrls: null[] | string[];
   content: string;
   commentCount: number;
+  like: boolean;
   likeCount: number;
+  scrap: boolean;
   scrapCount: number;
   hitCount: number;
   postStatus: PostStatusType;
