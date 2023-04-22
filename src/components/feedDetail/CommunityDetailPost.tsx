@@ -20,6 +20,10 @@ export default function CommunityDetailPost(props: CommunityDetailPostProps) {
   const navigate = useNavigate();
   const { data: questionData, isLoading: questionIsLoading, error: questionError, refetch } = useCommunityDetailQuery(Number(questionId));
 
+  useEffect(() => {
+    refetch();
+  }, [questionIsLoading]);
+
   // 사용자 정보
   const getMyPageInfoLodable = useRecoilValueLoadable(getMyPageInfo);
   const myPageInfo: any = 'hasValue' === getMyPageInfoLodable.state ? getMyPageInfoLodable.contents : {};
@@ -69,7 +73,7 @@ export default function CommunityDetailPost(props: CommunityDetailPostProps) {
                   navigate(`/otherProfile/${questionData?.member.id}/feed`);
                 }
               }}
-              src={S3_URL + questionData?.member.profileImg}
+              src={S3_URL + (questionData?.member.profileImg as string)}
               alt={questionData?.member.nickname}
               className="w-[58px] cursor-pointer rounded-full"
             />

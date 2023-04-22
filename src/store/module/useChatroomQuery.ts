@@ -15,11 +15,11 @@ export function useMyChatroomListQuery(chatRoomId: number, size?: number) {
       return lastPage ? undefined : nextPage;
     },
     refetchOnMount: true,
-    refetchOnReconnect: false,
-    refetchOnWindowFocus: false,
+    refetchOnReconnect: true,
+    refetchOnWindowFocus: true,
     retry: 0,
-    staleTime: 0,
-    cacheTime: 1000 * 60 * 1,
+    staleTime: 1000 * 60,
+    cacheTime: 1000 * 60 * 5,
   });
 }
 
@@ -31,7 +31,7 @@ export function useChatroomDetailQuery(chatRoomId: number) {
     refetchOnWindowFocus: true,
     retry: 0,
     staleTime: 0,
-    cacheTime: 1000 * 60 * 1,
+    cacheTime: 1000 * 60 * 5,
   });
 }
 
@@ -42,8 +42,6 @@ export function useChatroomStatusQuery() {
     refetchOnReconnect: true,
     refetchOnWindowFocus: true,
     retry: 0,
-    staleTime: 0,
-    cacheTime: 1000 * 60 * 1,
   });
 }
 
@@ -54,9 +52,7 @@ export function useChatUserListQuery(chatroomId: number) {
     refetchOnMount: true,
     refetchOnReconnect: true,
     refetchOnWindowFocus: true,
-    retry: 0,
-    staleTime: 0,
-    cacheTime: 1000 * 60 * 1,
+    retry: 3,
   });
 }
 

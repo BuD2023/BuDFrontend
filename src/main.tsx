@@ -13,7 +13,7 @@ export var accessToken =
 
 // 동성 토큰
 // export var accessToken =
-//   'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJHZ3l1bWFsYW5nIiwicm9sZSI6IltST0xFX1ZFUklGSUVEXSIsImlhdCI6MTY4MDg2NzE4MCwiZXhwIjoxNjgwODcwNzgwfQ.oXaVHcoEobBh4AaE8K4DtsnEngDHwSDeeSXa7BT6cANWxtT9ENHGx4QnoQrhxa6gWg0aJd7jR47GSJ6_RigkKg';
+//   'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJLb2R5d2l0aHRoZUsiLCJyb2xlIjoiUk9MRV9WRVJJRklFRCIsImlhdCI6MTY4MjE1MTE5MCwiZXhwIjoxNjgyMjM3NTkwfQ.J4gFkLUZy1EwlmrlgxnNakXAvCW4quPsoOUb35uFLPwyZXxSVYDy6uSnCMGKnQJh1dUat_y8w5UbA3-lxRYcMA';
 
 export const queryClient = new QueryClient({
   defaultOptions: {

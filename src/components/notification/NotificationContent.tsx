@@ -58,27 +58,57 @@ export default function NotificationContent() {
     ),
     NEW_POST: (senderId: string) => (
       <p>
-        <span className="font-bold">{senderId}</span>님이 새로운 글을 작성했습니다.
+        <span className="font-bold">{senderId}</span>님이 새로운 게시글을 작성했습니다.
       </p>
     ),
-    COMMENT: (senderId: string) => (
+    POST_COMMENT: (senderId: string) => (
       <p>
-        <span className="font-bold">{senderId}</span>님이 댓글을 작성했습니다.
+        <span className="font-bold">{senderId}</span>님이 회원님의 게시글에 댓글을 작성했습니다.
       </p>
     ),
-    LIKE: (senderId: string) => (
+    POST_RE_COMMENT: (senderId: string) => (
       <p>
-        <span className="font-bold">{senderId}</span>님이 좋아요를 눌렀습니다.
+        <span className="font-bold">{senderId}</span>님이 회원님의 댓글에 대댓글을 작성했습니다.
       </p>
     ),
     ANSWER: (senderId: string) => (
       <p>
-        <span className="font-bold">{senderId}</span>님이 답변을 작성했습니다.
+        <span className="font-bold">{senderId}</span>님이 회원님의 질문에대한 답변을 남겼습니다.
       </p>
     ),
-    PIN: (senderId: string) => (
+    ADD_LIKE_POST: (senderId: string) => (
       <p>
-        <span className="font-bold">{senderId}</span>님이 회원님의 댓글을 핀했습니다.
+        <span className="font-bold">{senderId}</span>님이 회원님의 게시물을 좋아요 했습니다.
+      </p>
+    ),
+    ADD_LIKE_COMMENT: (senderId: string) => (
+      <p>
+        <span className="font-bold">{senderId}</span>님이 회원님의 댓글을 좋아요 했습니다.
+      </p>
+    ),
+    ADD_LIKE_ANSWER: (senderId: string) => (
+      <p>
+        <span className="font-bold">{senderId}</span>님이 회원님의 답변을 좋아요 했습니다.
+      </p>
+    ),
+    ADD_LIKE_ANSWER_COMMENT: (senderId: string) => (
+      <p>
+        <span className="font-bold">{senderId}</span>님이 회원님의 댓글에 좋아요 했습니다.
+      </p>
+    ),
+    COMMENT_PIN: (senderId: string) => (
+      <p>
+        <span className="font-bold">{senderId}</span>님이 회원님의 댓글을 고정했습니다.
+      </p>
+    ),
+    ANSWER_PIN: (senderId: string) => (
+      <p>
+        축하합니다! <span className="font-bold">{senderId}</span>님이 회원님의 답변을 채택했습니다.
+      </p>
+    ),
+    ANSWER_COMMENT_PIN: (senderId: string) => (
+      <p>
+        <span className="font-bold">{senderId}</span>님이 회원님의 댓글을 고정했습니다.
       </p>
     ),
   };
