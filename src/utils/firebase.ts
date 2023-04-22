@@ -27,7 +27,6 @@ export async function getFcmToken() {
     const token = await getToken(foregroundMessaging, {
       vapidKey: VAPID_KEY,
     });
-    console.log(`FCMtoken: ${token}`);
     return token;
   } catch (error) {
     alert('브라우저에서 알림이 차단되어있습니다. 알림 받기를 원하시면, 브라우저 웹 설정에서 알림을 허용해주세요!');

@@ -46,8 +46,8 @@ export default function MyProfile() {
 
   useEffect(() => {
     if (postView === 'scrap') myScrapsFetchNextPage();
-    if (postView === 'feed' || postView === 'qna') profilePostFetchNextPage();
-  }, [postView]);
+    if ((myProfileData && postView === 'feed') || postView === 'qna') profilePostFetchNextPage();
+  }, [postView, myProfileData]);
 
   if (myProfileError || myScrapsError || profilePostError) {
     navigate('/NotFound');

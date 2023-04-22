@@ -11,7 +11,6 @@ import { makeCompressedImg } from '../../utils/makeCompressedImg';
 import PicModal from '../../components/common/PicModal';
 import AlertModal from '../../components/common/AlertModal';
 import { ChatMessageType, InfoMessageType, myChatroomListContentType, myChatroomListType } from '../../components/chatRoom/_ChatRoom.interface';
-import useErrorBoundary from '../../utils/useErrorBoundary';
 
 export default function ChatRoom() {
   const navigate = useNavigate();
@@ -88,7 +87,7 @@ export default function ChatRoom() {
       (client.current as StompJs.Client).publish({
         destination: '/chats/image',
         body: JSON.stringify({
-          senderId: 6,
+          senderId: 8,
           chatroomId: ROOM_NUM,
           imageByte: imgPeek.image,
         }),
@@ -97,7 +96,7 @@ export default function ChatRoom() {
       (client.current as StompJs.Client).publish({
         destination: '/chats/message',
         body: JSON.stringify({
-          senderId: 6,
+          senderId: 8,
           chatroomId: ROOM_NUM,
           message: message,
         }),

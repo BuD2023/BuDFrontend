@@ -33,10 +33,6 @@ async function requestPermission() {
     data: { fcmToken: token },
   });
 
-  // 토큰 있으면 콘솔 출력
-  if (token) console.log('token: ', token);
-  else console.log('Can not get Token');
-
   // foreground 알림 푸쉬 받기
   onMessage(foregroundMessaging, (payload) => {
     console.log('메시지가 도착했습니다.', payload);

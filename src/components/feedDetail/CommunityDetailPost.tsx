@@ -51,9 +51,9 @@ export default function CommunityDetailPost(props: CommunityDetailPostProps) {
     navigate('/NotFound');
   }
 
-  if (questionIsLoading) {
-    return <div className="mb-6 flex h-[298px] w-full cursor-pointer flex-col items-center gap-4 rounded-[20px] bg-midIvory dark:bg-midNavy"></div>;
-  }
+  // if (questionIsLoading) {
+  //   return <div className="mb-6 flex h-[298px] w-full cursor-pointer flex-col items-center gap-4 rounded-[20px] bg-midIvory dark:bg-midNavy"></div>;
+  // }
 
   useEffect(() => {
     refetch();

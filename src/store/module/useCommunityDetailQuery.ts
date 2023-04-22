@@ -12,6 +12,7 @@ import { accessToken } from '../../main';
 import postQnaAnswerLikeAxios from '../../apiFetcher/communityInfo/postQnaAnswerLike';
 import deleteQnaAnswerAxios from '../../apiFetcher/communityInfo/deleteQnaAnswer';
 
+let fetchNew = '';
 export function useCommunityDetailQuery(id: number) {
   return useQuery(['CommunityDetail', id, fetchNew], () => getCommunityDetailAxios(accessToken, id), {
     enabled: false,
@@ -19,13 +20,10 @@ export function useCommunityDetailQuery(id: number) {
     refetchOnReconnect: true,
     refetchOnWindowFocus: true,
     retry: 0,
-    staleTime: 1000 * 60,
-    cacheTime: 1000 * 60 * 5,
   });
 }
 
 //QnA 답변 조회
-let fetchNew = '';
 export function useCommunityAnswerQuery(id: number) {
   return useQuery(['CommunityAnswer', id, fetchNew], () => getQnaAnswerAxios(accessToken, id), {
     // enabled: true,
