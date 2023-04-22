@@ -11,6 +11,8 @@ import { CommonUserListType } from '../myProfile/_MyProfile.interface';
 import { S3_URL } from '../../constant/union';
 import { userGithubInfo } from '../../store/recoil/user';
 import { useRecoilValueLoadable } from 'recoil';
+import { useChatUserListQuery } from '../../store/module/useChatroomQuery';
+import { chatroomUserListType } from '../chatRoom/_ChatRoom.interface';
 
 export default function UserListModal({ isUserList, setIsUserList, type, follows }: UserListModalPropsType) {
   // 사용자 정보
@@ -25,6 +27,7 @@ export default function UserListModal({ isUserList, setIsUserList, type, follows
   const { data: MyFollowsData, isLoading: followsIsLading, error: followsError, refetch: followsRefetch } = useMyFollowsQuery();
   const { data: UserFollowersData, isLoading: UserFollowersIsLoading, error: UserFollowersError, refetch: UserFollowersRefetch } = useUserFollowersQuery(Number(id));
   const { data: UserFollowsData, isLoading: UserFollowsIsLading, error: UserFollowsError, refetch: UserFollowsRefetch } = useUserFollowsQuery(Number(id));
+  const { data: chatUserList, refetch: chatUserListRefetch } = useChatUserListQuery(Number(id));
 
   let data: CommonUserListType[];
   switch (type) {
@@ -40,6 +43,10 @@ export default function UserListModal({ isUserList, setIsUserList, type, follows
     case 'MyFollowers':
       data = MyFollowersData as CommonUserListType[];
       break;
+    case 'ChatUsers':
+      data = chatUserList as chatroomUserListType[];
+      break;
+
     default:
       data = [];
       break;
@@ -58,6 +65,9 @@ export default function UserListModal({ isUserList, setIsUserList, type, follows
         break;
       case 'UserFollowers':
         UserFollowersRefetch();
+        break;
+      case 'ChatUsers':
+        chatUserListRefetch();
         break;
       default:
         break;

@@ -1,9 +1,12 @@
-import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, useMutation, useQuery } from '@tanstack/react-query';
 import getChatroomInfoAxios from '../../apiFetcher/coffeeChatInfo/getChatroomInfo';
 import getChatroomStatusAxios from '../../apiFetcher/coffeeChatInfo/getChatroomStatus';
+import getChatUserListAxios from '../../apiFetcher/coffeeChatInfo/getChatUserList';
 import getAllMyChatroomListAxios from '../../apiFetcher/coffeeChatInfo/getMyChatroomList';
+import postNewChatroomHostAxios from '../../apiFetcher/coffeeChatInfo/postNewChatroomHost';
 import { accessToken } from '../../main';
 
+// 내 채팅방 메세지 리스트 get
 export function useMyChatroomListQuery(chatRoomId: number, size?: number) {
   return useInfiniteQuery(['myChatroomList', 'all', chatRoomId], ({ pageParam = 0 }) => getAllMyChatroomListAxios(accessToken, pageParam, chatRoomId, size), {
     getNextPageParam: (prevData, allPages) => {
@@ -13,31 +16,57 @@ export function useMyChatroomListQuery(chatRoomId: number, size?: number) {
     },
     refetchOnMount: true,
     refetchOnReconnect: false,
-    refetchOnWindowFocus: false, // react-query는 사용자가 사용하는 윈도우가 다른 곳을 갔다가 다시 화면으로 돌아오면 이 함수를 재실행합니다. 그 재실행 여부 옵션 입니다.
+    refetchOnWindowFocus: false,
     retry: 0,
     staleTime: 0,
     cacheTime: 1000 * 60 * 1,
   });
 }
 
+// 채팅방 상세정보
 export function useChatroomDetailQuery(chatRoomId: number) {
   return useQuery(['chatroomInfo', chatRoomId], () => getChatroomInfoAxios(accessToken, chatRoomId), {
     refetchOnMount: true,
     refetchOnReconnect: true,
-    refetchOnWindowFocus: true, // react-query는 사용자가 사용하는 윈도우가 다른 곳을 갔다가 다시 화면으로 돌아오면 이 함수를 재실행합니다. 그 재실행 여부 옵션 입니다.
+    refetchOnWindowFocus: true,
     retry: 0,
     staleTime: 0,
     cacheTime: 1000 * 60 * 1,
   });
 }
 
+// 채팅방 상태 정보
 export function useChatroomStatusQuery() {
   return useQuery(['chatroomStatus'], () => getChatroomStatusAxios(accessToken), {
     refetchOnMount: true,
     refetchOnReconnect: true,
-    refetchOnWindowFocus: true, // react-query는 사용자가 사용하는 윈도우가 다른 곳을 갔다가 다시 화면으로 돌아오면 이 함수를 재실행합니다. 그 재실행 여부 옵션 입니다.
+    refetchOnWindowFocus: true,
     retry: 0,
     staleTime: 0,
     cacheTime: 1000 * 60 * 1,
+  });
+}
+
+// 채팅방 참여 유저 리스트
+export function useChatUserListQuery(chatroomId: number) {
+  return useQuery(['chatUser', chatroomId], () => getChatUserListAxios(accessToken, chatroomId), {
+    refetchOnMount: true,
+    refetchOnReconnect: true,
+    refetchOnWindowFocus: true,
+    retry: 0,
+    staleTime: 0,
+    cacheTime: 1000 * 60 * 1,
+  });
+}
+
+// 채팅방 호스트 변경
+export function useNewChatroomHostMutation(chatroomId: number) {
+  return useMutation((userId: number) => postNewChatroomHostAxios(accessToken, chatroomId, userId), {
+    onError: (err) => {
+      console.log(err);
+    },
+    onSuccess: async () => {
+      console.log(`호스트가 변경되었습니다.`);
+    },
   });
 }

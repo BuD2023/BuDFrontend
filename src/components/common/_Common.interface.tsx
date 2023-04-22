@@ -3,6 +3,7 @@ import { ReactElement, RefObject } from 'react';
 import { postingInfoType, postType, SortAndOrderType } from '../community/_Community.interface';
 import { SetNotificationType } from '../SignUp/_SignUp.interface';
 import { ScrapPostPropsType } from '../myProfile/_MyProfile.interface';
+import { chatroomUserListType } from '../chatRoom/_ChatRoom.interface';
 
 /** AddBtn - 컴포넌트 props 타입 */
 export interface AddBtnPropsType {
@@ -150,10 +151,8 @@ export interface UserListModalPropsType {
 
 /** UserModal 컴포넌트 props 타입 */
 export interface UserModalPropsType {
+  hostInfo: { id: number | null; nickName: string };
   userModal: boolean;
   setUserModal: (x: boolean) => void;
-  userName: string;
-  userImg: string;
-  userIntro: string;
-  userJob: string;
+  userInfo: any;
 }
