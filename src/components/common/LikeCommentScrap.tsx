@@ -1,13 +1,18 @@
 import { useEffect, useState } from 'react';
 import { BsFillHandThumbsUpFill } from 'react-icons/bs';
 import { FcLike, FcSms, FcVoicePresentation } from 'react-icons/fc';
+import { useRecoilValueLoadable } from 'recoil';
 import { useCommunityLikeMutation, useCommunityScrapMutation } from '../../store/module/useCommunityQuery';
+import { getMyPageInfo } from '../../store/recoil/user';
 import { LikeCommentScrapPropsType } from './_Common.interface';
 
 export default function LikeCommentScrap({ postType, likeCount, commentCount, postId, refetch, like, scrap }: LikeCommentScrapPropsType) {
-  const userId = 4;
-  const { mutate: likeMutate, isSuccess: likeIsSuccess } = useCommunityLikeMutation(postId, userId, postType);
-  const { mutate: scrapMutate, isSuccess: scrapIsSuccess } = useCommunityScrapMutation(postId);
+  // 사용자 정보
+  const getMyPageInfoLodable = useRecoilValueLoadable(getMyPageInfo);
+  const myPageInfo: any = 'hasValue' === getMyPageInfoLodable.state ? getMyPageInfoLodable.contents : {};
+
+  const { mutate: likeMutate, isSuccess: likeIsSuccess } = useCommunityLikeMutation(postId, myPageInfo.id, postType);
+  const { mutate: scrapMutate, isSuccess: scrapIsSuccess } = useCommunityScrapMutation(postId, myPageInfo.id, postType);
 
   const [likeSuccess, setLikeSuccess] = useState(false);
   const [scrapSuccess, setScrapSuccess] = useState(false);

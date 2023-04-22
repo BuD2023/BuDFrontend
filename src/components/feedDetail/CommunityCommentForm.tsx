@@ -16,7 +16,7 @@ import {
   useQnACommentPinMutation,
   useQnACommentQuery,
 } from '../../store/module/useCommunityDetailQuery';
-import { userGithubInfo } from '../../store/recoil/user';
+import { getMyPageInfo } from '../../store/recoil/user';
 import { CommunityCommentType } from '../community/_Community.interface';
 import { CommunityFeedCommentFormPropsType } from './_FeedDetail.interface';
 
@@ -26,8 +26,8 @@ export default function CommunityCommentForm({ type, answerId }: CommunityFeedCo
   const navigate = useNavigate();
 
   // 사용자 정보
-  const githubInfoLoadable = useRecoilValueLoadable(userGithubInfo);
-  const githubInfo: any = 'hasValue' === githubInfoLoadable.state ? githubInfoLoadable.contents : {};
+  const getMyPageInfoLodable = useRecoilValueLoadable(getMyPageInfo);
+  const myPageInfo: any = 'hasValue' === getMyPageInfoLodable.state ? getMyPageInfoLodable.contents : {};
 
   const { data: feedData, isLoading: feedIsLoading, error: feedError, refetch: feedRefetch } = useFeedCommentQuery(Number(postId));
   const { data: QnAData, isLoading: QnAIsLoading, error: QnAError, refetch: qnaRefetch } = useQnACommentQuery(Number(answerId));
@@ -163,7 +163,7 @@ export default function CommunityCommentForm({ type, answerId }: CommunityFeedCo
                     <li key={content.commentId} className="flex min-h-[60px] w-full gap-2 bg-midIvory px-4 dark:bg-midNavy">
                       {/* {comment.isRef && <BsArrowReturnRight className="ml-4 text-[20px]" />} */}
                       <img
-                        onClick={() => (content.memberName === githubInfo.nickname ? navigate(`/myProfile/feed`) : navigate(`/otherProfile/${content.memberId}/feed`))}
+                        onClick={() => (content.memberName === myPageInfo.nickName ? navigate(`/myProfile/feed`) : navigate(`/otherProfile/${content.memberId}/feed`))}
                         src={S3_URL + content.memberProfileUrl}
                         className="h-[50px] w-[50px] shrink-0 cursor-pointer rounded-full object-cover"
                       />

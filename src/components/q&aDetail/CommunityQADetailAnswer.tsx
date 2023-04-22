@@ -6,11 +6,10 @@ import { useCommunityAnswerQuery, useDeleteQnaAnswerMutation, usePinAnswerMutati
 import { useFollowMutation } from '../../store/module/useCommunityQuery';
 import CommunityCommentForm from '../feedDetail/CommunityCommentForm';
 import { CommunityQADetailAnswerProps, QnaAnswerContentType } from './_Q&ADetail.interface';
-import { myInfo } from '../myProfile/_MyProfile.interface';
 import { S3_URL } from '../../constant/union';
 import { timeForToday } from '../../utils/timeForToday';
 import { useRecoilValueLoadable } from 'recoil';
-import { userGithubInfo } from '../../store/recoil/user';
+import { getMyPageInfo } from '../../store/recoil/user';
 
 export default function CommunityQADetailAnswer({ isCommentOpen, setIsCommentOpen, answerPin, setAnswerPin, questionUserId }: CommunityQADetailAnswerProps) {
   const { id: postId } = useParams();
@@ -20,8 +19,8 @@ export default function CommunityQADetailAnswer({ isCommentOpen, setIsCommentOpe
   const [activeAnswerMenu, setActiveAnswerMenu] = useState<number[]>([]);
 
   // 사용자 정보
-  const githubInfoLoadable = useRecoilValueLoadable(userGithubInfo);
-  const githubInfo: any = 'hasValue' === githubInfoLoadable.state ? githubInfoLoadable.contents : {};
+  const getMyPageInfoLodable = useRecoilValueLoadable(getMyPageInfo);
+  const myPageInfo: any = 'hasValue' === getMyPageInfoLodable.state ? getMyPageInfoLodable.contents : {};
 
   const [userId, setUserId] = useState<number>();
   const [answerId, setAnswerId] = useState<number>();
@@ -69,7 +68,7 @@ export default function CommunityQADetailAnswer({ isCommentOpen, setIsCommentOpe
               </div>
               {!answerPin && (
                 <div className="flex items-center gap-4">
-                  {myInfo.id === questionUserId && (
+                  {myPageInfo.id === questionUserId && (
                     <span onClick={() => handleClickPinAnswer(answer.id)} className="cursor-pointer rounded-lg bg-pointGreen py-2 px-2.5 text-base text-white dark:bg-sky">
                       채택하기
                     </span>
@@ -92,7 +91,7 @@ export default function CommunityQADetailAnswer({ isCommentOpen, setIsCommentOpe
                   />
                 </div>
               )}
-              {isMenu && activeAnswerMenu.includes(answer.id) && githubInfo.nickName === answer.member.nickname && (
+              {isMenu && activeAnswerMenu.includes(answer.id) && myPageInfo.nickName === answer.member.nickname && (
                 <div className="absolute right-4 top-[45px] flex flex-col gap-3 rounded-xl bg-greyBeige p-3 text-[16px] font-medium">
                   <div onClick={() => navigate(`/answerEdit/${postId}/${answer.id}`)} className="cursor-pointer">
                     수정하기

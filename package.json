@@ -46,6 +46,7 @@
     "postcss-loader": "^7.1.0",
     "prettier": "^2.8.7",
     "prettier-plugin-tailwindcss": "^0.2.5",
+    "react-hot-toast": "^2.4.0",
     "react-icons": "^4.8.0",
     "react-intersection-observer": "^9.4.3",
     "react-router-dom": "^6.9.0",

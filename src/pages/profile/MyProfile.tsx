@@ -15,9 +15,8 @@ export default function MyProfile() {
   const initialPostView = useParams();
   const [postView, setPostView] = useState(initialPostView.filter ?? 'FEED');
   const navigate = useNavigate();
-  const userId = 4;
 
-  const { data: myProfileData, isLoading: myProfileIsLoading, error: myProfileError } = useMyProfileQuery();
+  const { data: myProfileData, isLoading: myProfileIsLoading, error: myProfileError, refetch } = useMyProfileQuery();
   const {
     data: myScrapsData,
     isLoading: myScrapsIsLoading,
@@ -35,7 +34,7 @@ export default function MyProfile() {
     isFetchingNextPage: profilePostIsFetchingNextPage,
     fetchNextPage: profilePostFetchNextPage,
     hasNextPage: profilePostHasNextPage,
-  } = useProfilePostQuery(Number(userId), postView === 'scrap' ? 'ALL' : postView.toUpperCase());
+  } = useProfilePostQuery(Number(myProfileData?.id), postView === 'scrap' ? 'ALL' : postView.toUpperCase());
 
   // 인피니티 스크롤
   const { ref, inView } = useInView();
@@ -53,6 +52,10 @@ export default function MyProfile() {
   if (myProfileError || myScrapsError || profilePostError) {
     navigate('/NotFound');
   }
+
+  useEffect(() => {
+    refetch();
+  }, []);
 
   return (
     <section>

@@ -94,17 +94,19 @@ export function useCommunityLikeMutation(postId: number, userId: number, postTyp
   });
 }
 
-export function useCommunityScrapMutation(postId: number) {
+export function useCommunityScrapMutation(postId: number, userId: number, postType: string) {
   const { refetch: myScrapRefetch } = useMyScrapsQuery('POST_DATE,DESC');
   const { refetch: detailRefetch } = useCommunityDetailQuery(postId);
+  const { refetch: myPageRefetch } = useProfilePostQuery(userId, postType);
   return useMutation(() => postCommunityScrapAxios(accessToken, postId), {
     onError: (err) => {
       console.log(err);
     },
     onSuccess: () => {
-      console.log('게시물 스크랩 상태 변경 반영됨');
-      myScrapRefetch();
       detailRefetch();
+      myPageRefetch();
+      myScrapRefetch();
+      console.log('게시물 스크랩 상태 변경 반영됨');
     },
   });
 }

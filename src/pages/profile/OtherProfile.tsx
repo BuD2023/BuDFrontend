@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
+import { useInView } from 'react-intersection-observer';
 import { useNavigate, useParams } from 'react-router-dom';
 import FooterMenu from '../../components/common/FooterMenu';
+import FeedPostFormat from '../../components/myProfile/FeedPostFormat';
 import OtherProfileHeader from '../../components/otherProfile/OtherProfileHeader';
 import OtherProfileInfo from '../../components/otherProfile/OtherProfileInfo';
 import OtherProfileMenu from '../../components/otherProfile/OtherProfileMenu';
@@ -23,7 +25,18 @@ export default function OtherProfile() {
     hasNextPage: profilePostHasNextPage,
   } = useProfilePostQuery(Number(id), postView.toLocaleUpperCase());
 
-  if (error) {
+  // 인피니티 스크롤
+  const { ref, inView } = useInView();
+
+  useEffect(() => {
+    if ((postView === 'qna' || postView === 'feed') && inView && profilePostHasNextPage && !profilePostIsFetching && !profilePostIsFetchingNextPage) profilePostFetchNextPage();
+  }, [inView]);
+
+  useEffect(() => {
+    if (postView === 'feed' || postView === 'qna') profilePostFetchNextPage();
+  }, [postView]);
+
+  if (error || profilePostError) {
     navigate('/NotFound');
   }
 
@@ -51,8 +64,9 @@ export default function OtherProfile() {
           isLoading={isLoading}
         />
         <OtherProfileMenu id={id} postView={postView} setPostView={setPostView} />
-        {/* {profilePostData && <FeedPostFormat type="other" resultData={profilePostData.pages.flatMap((page) => page.content)} />} */}
+        {profilePostData && <FeedPostFormat userData={data} resultData={profilePostData.pages.flatMap((page) => page.content)} />}
       </div>
+      <div ref={ref} />
       <FooterMenu />
     </section>
   );

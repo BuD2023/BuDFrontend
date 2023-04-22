@@ -9,15 +9,15 @@ import { useFollowMutation } from '../../store/module/useCommunityQuery';
 import { UserListModalPropsType } from './_Common.interface';
 import { CommonUserListType } from '../myProfile/_MyProfile.interface';
 import { S3_URL } from '../../constant/union';
-import { userGithubInfo } from '../../store/recoil/user';
+import { getMyPageInfo } from '../../store/recoil/user';
 import { useRecoilValueLoadable } from 'recoil';
 import { useChatUserListQuery } from '../../store/module/useChatroomQuery';
 import { chatroomUserListType } from '../chatRoom/_ChatRoom.interface';
 
 export default function UserListModal({ isUserList, setIsUserList, type, follows }: UserListModalPropsType) {
   // 사용자 정보
-  const githubInfoLoadable = useRecoilValueLoadable(userGithubInfo);
-  const githubInfo: any = 'hasValue' === githubInfoLoadable.state ? githubInfoLoadable.contents : {};
+  const getMyPageInfoLodable = useRecoilValueLoadable(getMyPageInfo);
+  const myPageInfo: any = 'hasValue' === getMyPageInfoLodable.state ? getMyPageInfoLodable.contents : {};
 
   const cancelButtonRef = useRef(null);
   const { id } = useParams();
@@ -112,7 +112,7 @@ export default function UserListModal({ isUserList, setIsUserList, type, follows
                         <div key={user.id} className="flex items-center justify-between">
                           <div
                             onClick={(e) => {
-                              if (user.nickName === githubInfo.nickName) {
+                              if (user.nickName === myPageInfo.nickName) {
                                 navigate('/myProfile/feed');
                                 e.stopPropagation;
                                 return;
@@ -128,7 +128,7 @@ export default function UserListModal({ isUserList, setIsUserList, type, follows
                           </div>
                           <div
                             onClick={() => handleClickFollow(user.id)}
-                            className={`mr-4 flex cursor-pointer items-center gap-1 text-[14px] font-semibold ` + (user.nickName === githubInfo.nickName ? 'hidden' : '')}
+                            className={`mr-4 flex cursor-pointer items-center gap-1 text-[14px] font-semibold ` + (user.nickName === myPageInfo.nickName ? 'hidden' : '')}
                           >
                             <RiUserFollowFill className="text-[16px]" />
                             <span>팔로우 {user.isFollowing}</span>
