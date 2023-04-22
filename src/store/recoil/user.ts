@@ -6,9 +6,7 @@ export const userGithubInfo = selector({
   key: 'githubInfo',
   get: async () => {
     try {
-      const token = accessToken;
-      const response = await getGithubInfoAxios(token);
-      return response || [];
+      return (await getGithubInfoAxios(accessToken)) || [];
     } catch (error) {
       console.log(`Error: \n${error}`);
       return [];

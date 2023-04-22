@@ -10,13 +10,14 @@ import { useMyChatroomListQuery } from '../../store/module/useChatroomQuery';
 import { makeCompressedImg } from '../../utils/makeCompressedImg';
 import PicModal from '../../components/common/PicModal';
 import AlertModal from '../../components/common/AlertModal';
-import { ChatMessageType, chatType, InfoMessageType, myChatroomListContentType, myChatroomListType } from '../../components/chatRoom/_ChatRoom.interface';
+import { ChatMessageType, InfoMessageType, myChatroomListContentType, myChatroomListType } from '../../components/chatRoom/_ChatRoom.interface';
 
 export default function ChatRoom() {
   const navigate = useNavigate();
   const { id } = useParams();
   const ROOM_NUM = Number(id);
   const CHAT_SIZE = 10;
+  const [hostInfo, setHostInfo] = useState<{ id: null | number; nickName: string }>({ id: null, nickName: '' });
 
   //리액트 쿼리
   const { isLoading, data: chatroomListData, hasNextPage, isFetching, isFetchingNextPage, fetchNextPage } = useMyChatroomListQuery(ROOM_NUM, CHAT_SIZE);
@@ -173,9 +174,17 @@ export default function ChatRoom() {
     <section>
       <AlertModal alertModal={alertModal} setAlertModal={setAlertModal} title="채팅방 종료" des="호스트가 채팅방을 퇴장함에 따라 채팅이 종료됩니다." action={action} />
       <PicModal isPicPopUp={isPicPopUp} setIsPicPopUp={setIsPicPopUp} />
-      <RoomHeader newChatMessages={newChatMessages} />
+      <RoomHeader newChatMessages={newChatMessages} setHostInfo={setHostInfo} />
       <div className="fixed left-0 top-20 h-full w-full rounded-[20px] bg-midIvory dark:bg-midNavy"></div>
-      <RoomChats messageList={messageList} newChatMessages={newChatMessages} hasNextPage={hasNextPage} isFetching={isFetching} isFetchingNextPage={isFetchingNextPage} fetchNextPage={fetchNextPage} />
+      <RoomChats
+        hostInfo={hostInfo}
+        messageList={messageList}
+        newChatMessages={newChatMessages}
+        hasNextPage={hasNextPage}
+        isFetching={isFetching}
+        isFetchingNextPage={isFetchingNextPage}
+        fetchNextPage={fetchNextPage}
+      />
       <div className={`fixed bottom-0 left-0 z-20 flex w-full ${imgPeek ? 'items-end' : 'items-center'} justify-start gap-4 bg-lightIvory p-3 dark:bg-darkNavy`}>
         <BsCameraFill
           size="40"

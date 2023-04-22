@@ -65,6 +65,17 @@ export interface chatroomInfoType {
   hostId: number;
 }
 
+/** getChatUserListAxios - 채팅방의 유저리스트 정보 */
+export interface chatroomUserListType {
+  id: number;
+  userId: string;
+  nickName: string;
+  description: string;
+  isReader: boolean;
+  isFollowing: boolean;
+  profileUrl: string;
+}
+
 /** getChatroomStatusAxios - 채팅방 헤더에 들어갈 간략한 정보 */
 export interface chatroomsStatusType {
   numberOfChatRooms: number;
@@ -73,6 +84,7 @@ export interface chatroomsStatusType {
 
 /** RoomChats 컴포넌트의 props 타입 */
 export interface RoomChatsPropsType {
+  hostInfo: { id: null | number; nickName: string };
   messageList: myChatroomListContentType[];
   newChatMessages: InfoMessageType[] | ChatMessageType[];
   hasNextPage: boolean | undefined;

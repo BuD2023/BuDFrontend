@@ -2,14 +2,17 @@ import { RefObject, useEffect, useRef, useState } from 'react';
 import PicModal from '../common/PicModal';
 import UserModal from '../common/UserModal';
 import defaultImage from '../../assets/DefaultProfileImage.webp';
-import { useGithubQuery } from '../../store/module/useGithubQuery';
 import { useInView } from 'react-intersection-observer';
 import { S3_URL } from '../../constant/union';
 import ScrollToBottomBtn from '../common/ScrollToBottomBtn';
 import { ChatMessageType, RoomChatsPropsType } from './_ChatRoom.interface';
+import { accessToken } from '../../main';
+import { githubUserInfoAtom } from '../../store/recoil/userAtomFamily';
+import { useRecoilValue } from 'recoil';
 
-export default function RoomChats({ messageList, newChatMessages, hasNextPage, isFetching, isFetchingNextPage, fetchNextPage }: RoomChatsPropsType) {
-  const { data } = useGithubQuery();
+export default function RoomChats({ hostInfo, messageList, newChatMessages, hasNextPage, isFetching, isFetchingNextPage, fetchNextPage }: RoomChatsPropsType) {
+  // 리코일
+  const githubUser = useRecoilValue(githubUserInfoAtom(accessToken));
 
   const [userModal, setUserModal] = useState(false);
 
@@ -34,26 +37,30 @@ export default function RoomChats({ messageList, newChatMessages, hasNextPage, i
   }, [messageList]);
 
   // 백엔드에서 받은 유저 정보에서 받아서 사용할 것들!
-  const handleClickUserImg = (userName: string, userProfileUrl: string) => {
-    // console.log(e.target.src, e.target.alt);
+  const handleClickUserImg = (userName: string, userProfileUrl: string, userId: number) => {
     setUserModal(true);
-    setUserName(userName);
-    setUserImg(userProfileUrl);
-    setUserIntro('일단 예시로 둔 소개입니다 ^^.');
-    setUserJob('프론트엔드');
+    setUserInfo({
+      userId: userId,
+      nickName: userName,
+      profileUrl: userProfileUrl,
+      userIntro: '일단 예시로 둔 소개입니다 ^^.',
+      job: '프론트엔드',
+    });
   };
-
-  const [userName, setUserName] = useState('');
-  const [userImg, setUserImg] = useState('');
-  const [userIntro, setUserIntro] = useState('');
-  const [userJob, setUserJob] = useState('');
+  const [userInfo, setUserInfo] = useState({
+    userId: 0,
+    nickName: '',
+    profileUrl: '',
+    userIntro: '',
+    job: '',
+  });
 
   //scrollToBottom
   const scrollRef = useRef(null);
 
   return (
     <>
-      <UserModal userModal={userModal} setUserModal={setUserModal} userName={userName} userImg={userImg} userIntro={userIntro} userJob={userJob} />
+      <UserModal userModal={userModal} setUserModal={setUserModal} userInfo={userInfo} hostInfo={hostInfo} />
       <PicModal isPicPopUp={isPicPopUp} setIsPicPopUp={setIsPicPopUp} />
       <div ref={scrollRef} className="fixed top-20 left-0 z-10 flex h-[calc(100vh-145px)] w-full flex-col-reverse overflow-auto p-4">
         <ScrollToBottomBtn scrollToNew={scrollRef as RefObject<HTMLDivElement>} />
@@ -64,13 +71,13 @@ export default function RoomChats({ messageList, newChatMessages, hasNextPage, i
               .filter((i: Partial<ChatMessageType>) => i.chatType === 'MESSAGE' || i.chatType === 'IMAGE')
               .reverse()
               .map((chat: Partial<ChatMessageType>) => {
-                return chat.userName !== data?.nickName ? (
+                return chat.userName !== githubUser?.nickName ? (
                   <div key={chat.chatId} className="mb-3 flex gap-4">
                     <img
                       src={chat.userProfileUrl ? S3_URL + chat.userProfileUrl : defaultImage}
                       alt={chat.userName}
                       className="h-[50px] w-[50px] cursor-pointer rounded-full object-cover"
-                      onClick={() => handleClickUserImg(chat.userName as string, (chat.userProfileUrl ? chat.userProfileUrl : defaultImage) as string)}
+                      onClick={() => handleClickUserImg(chat.userName as string, chat.userProfileUrl as string, chat.userId as number)}
                     />
                     <div className="flex flex-col gap-2">
                       <p className="mt-2 text-base font-semibold">{chat.userName}</p>
@@ -122,13 +129,13 @@ export default function RoomChats({ messageList, newChatMessages, hasNextPage, i
         <>
           {messageList &&
             messageList.map((chat) => {
-              return chat.userName !== data?.nickName ? (
+              return chat.userName !== githubUser?.nickName ? (
                 <div key={chat.chatId} className="mb-3 flex gap-4">
                   <img
                     src={chat.userProfileUrl ? S3_URL + chat.userProfileUrl : defaultImage}
                     alt={chat.userName}
                     className="h-[50px] w-[50px] cursor-pointer rounded-full object-cover"
-                    onClick={() => handleClickUserImg(chat.userName as string, (chat.userProfileUrl ? chat.userProfileUrl : defaultImage) as string)}
+                    onClick={() => handleClickUserImg(chat.userName as string, chat.userProfileUrl as string, chat.userId as number)}
                   />
                   <div className="flex flex-col gap-2">
                     <p className="mt-2 text-base font-semibold">{chat.userName}</p>

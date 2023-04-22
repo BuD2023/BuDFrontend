@@ -1,11 +1,8 @@
-import { InfiniteData } from '@tanstack/react-query';
 import { useEffect, useRef, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { useNavigate, useParams } from 'react-router-dom';
 import FooterMenu from '../../components/common/FooterMenu';
-import ScrapPostFormat from '../../components/common/ScrapPostFormat';
 import ScrollToTopBtn from '../../components/common/ScrollToTopBtn';
-import FeedPostFormat from '../../components/myProfile/FeedPostFormat';
 import MyProfileHeader from '../../components/myProfile/MyProfileHeader';
 import MyProfileInfo from '../../components/myProfile/MyProfileInfo';
 import MyProfileMenu from '../../components/myProfile/MyProfileMenu';
@@ -55,9 +52,6 @@ export default function MyProfile() {
   if (myProfileError || myScrapsError || profilePostError) {
     navigate('/NotFound');
   }
-
-  // console.log(myScrapsData);
-  // console.log(profilePostData);
 
   return (
     <section>
