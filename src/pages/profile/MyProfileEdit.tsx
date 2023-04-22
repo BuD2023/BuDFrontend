@@ -6,15 +6,15 @@ import ChangeIntroduction from '../../components/myProfileEdit/ChangeIntroductio
 import ChangeJob from '../../components/myProfileEdit/ChangeJob';
 import ChangeNickName from '../../components/myProfileEdit/ChangeNickName';
 import ChangeProfilePic from '../../components/myProfileEdit/ChangeProfilePic';
-import { userGithubInfo } from '../../store/recoil/user';
+import { getMyPageInfo } from '../../store/recoil/user';
 
 export default function MyProfileEdit() {
   // 사용자 정보
-  const githubInfoLoadable = useRecoilValueLoadable(userGithubInfo);
-  const githubInfo: any = 'hasValue' === githubInfoLoadable.state ? githubInfoLoadable.contents : {};
+  const getMyPageInfoLodable = useRecoilValueLoadable(getMyPageInfo);
+  const myPageInfo: any = 'hasValue' === getMyPageInfoLodable.state ? getMyPageInfoLodable.contents : {};
 
   const [selectedJob, setSelectedJob] = useState('프론트엔드 개발');
-  const [nickName, setNickName] = useState(githubInfo.nickName);
+  const [nickName, setNickName] = useState(myPageInfo.nickName);
   const [introduction, setIntroduction] = useState('안녕하세요!');
   const defaultImg = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png';
   const [profileImg, setProfileImg] = useState<string | ArrayBuffer | null>(defaultImg);

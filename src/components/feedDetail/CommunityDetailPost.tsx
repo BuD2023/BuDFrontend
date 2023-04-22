@@ -9,7 +9,7 @@ import { useFollowMutation } from '../../store/module/useCommunityQuery';
 import { postType } from '../community/_Community.interface';
 import { timeForToday } from '../../utils/timeForToday';
 import { useRecoilValueLoadable } from 'recoil';
-import { userGithubInfo } from '../../store/recoil/user';
+import { getMyPageInfo } from '../../store/recoil/user';
 
 interface CommunityDetailPostProps {
   setQuestionUserId?: any;
@@ -18,11 +18,11 @@ interface CommunityDetailPostProps {
 export default function CommunityDetailPost(props: CommunityDetailPostProps) {
   const { id: questionId } = useParams();
   const navigate = useNavigate();
-  const { data: questionData, isLoading: questionIsLoading, error: questionError } = useCommunityDetailQuery(Number(questionId));
+  const { data: questionData, isLoading: questionIsLoading, error: questionError, refetch } = useCommunityDetailQuery(Number(questionId));
 
   // 사용자 정보
-  const githubInfoLoadable = useRecoilValueLoadable(userGithubInfo);
-  const githubInfo: any = 'hasValue' === githubInfoLoadable.state ? githubInfoLoadable.contents : {};
+  const getMyPageInfoLodable = useRecoilValueLoadable(getMyPageInfo);
+  const myPageInfo: any = 'hasValue' === getMyPageInfoLodable.state ? getMyPageInfoLodable.contents : {};
 
   const [userId, setUserId] = useState<number>();
   const { mutate } = useFollowMutation(Number(userId));
@@ -32,7 +32,7 @@ export default function CommunityDetailPost(props: CommunityDetailPostProps) {
   }, [questionData?.member.id]);
 
   const handleClickFollow = (e: React.MouseEvent<HTMLElement>, memberId: number, memberNickname?: string) => {
-    if (memberNickname === githubInfo.nickName) return;
+    if (memberNickname === myPageInfo.nickName) return;
     setUserId(memberId);
     e.stopPropagation();
     mutate();
@@ -51,6 +51,10 @@ export default function CommunityDetailPost(props: CommunityDetailPostProps) {
     return <div className="mb-6 flex h-[298px] w-full cursor-pointer flex-col items-center gap-4 rounded-[20px] bg-midIvory dark:bg-midNavy"></div>;
   }
 
+  useEffect(() => {
+    refetch();
+  }, []);
+
   return (
     <div className="mb-6 flex w-full flex-col items-center gap-4 rounded-[20px] bg-midIvory dark:bg-midNavy">
       <div className="flex w-full flex-col gap-4 p-4 text-lightText dark:text-white">
@@ -59,7 +63,7 @@ export default function CommunityDetailPost(props: CommunityDetailPostProps) {
             <img
               onClick={(e) => {
                 e.stopPropagation();
-                if (questionData?.member.nickname === githubInfo.nickName) {
+                if (questionData?.member.nickname === myPageInfo.nickName) {
                   navigate(`/myProfile/feed`);
                 } else {
                   navigate(`/otherProfile/${questionData?.member.id}/feed`);

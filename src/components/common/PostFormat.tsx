@@ -12,12 +12,12 @@ import { PostFormatPropsType } from './_Common.interface';
 import { CommunityPostListContentType } from '../community/_Community.interface';
 import { timeForToday } from '../../utils/timeForToday';
 import { useRecoilValueLoadable } from 'recoil';
-import { userGithubInfo } from '../../store/recoil/user';
+import { getMyPageInfo } from '../../store/recoil/user';
 
 export default function PostFormat({ inputValue, sortAndOrder, filter: postTypeFilter }: PostFormatPropsType) {
   // 사용자 정보
-  const githubInfoLoadable = useRecoilValueLoadable(userGithubInfo);
-  const githubInfo: any = 'hasValue' === githubInfoLoadable.state ? githubInfoLoadable.contents : {};
+  const getMyPageInfoLodable = useRecoilValueLoadable(getMyPageInfo);
+  const myPageInfo: any = 'hasValue' === getMyPageInfoLodable.state ? getMyPageInfoLodable.contents : {};
 
   const { sort, order } = sortAndOrder;
   const navigate = useNavigate();
@@ -86,7 +86,7 @@ export default function PostFormat({ inputValue, sortAndOrder, filter: postTypeF
                     <img
                       onClick={(e) => {
                         e.stopPropagation();
-                        if (data.member.username === githubInfo.nickName) {
+                        if (data.member.username === myPageInfo.nickName) {
                           navigate(`/myProfile/feed`);
                         } else {
                           navigate(`/otherProfile/${data.member.id}/feed`);

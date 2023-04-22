@@ -50,6 +50,7 @@ export function useChatroomStatusQuery() {
 // 채팅방 참여 유저 리스트
 export function useChatUserListQuery(chatroomId: number) {
   return useQuery(['chatUser', chatroomId], () => getChatUserListAxios(accessToken, chatroomId), {
+    enabled: false,
     refetchOnMount: true,
     refetchOnReconnect: true,
     refetchOnWindowFocus: true,

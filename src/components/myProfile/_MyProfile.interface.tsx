@@ -176,12 +176,3 @@ export interface FeedPostFormatProps {
   resultData: FeedPostContentPropsType[];
   type: string;
 }
-
-export const myInfo = {
-  id: 4,
-  level: 1,
-  nickname: 'JHni2',
-  prfileImg: 'null',
-  userId: 'JHni2',
-  username: 'JHni2',
-};

@@ -1,7 +1,8 @@
 import { useState } from 'react';
+import { useRecoilValueLoadable } from 'recoil';
 import { S3_URL } from '../../constant/union';
+import { getMyPageInfo } from '../../store/recoil/user';
 import LevelIconModal from '../common/LevelIconModal';
-import { myInfo } from '../myProfile/_MyProfile.interface';
 
 export default function LevelImgList() {
   const images = [];
@@ -12,6 +13,10 @@ export default function LevelImgList() {
     pic: '',
   });
 
+  // 사용자 정보
+  const getMyPageInfoLodable = useRecoilValueLoadable(getMyPageInfo);
+  const myPageInfo: any = 'hasValue' === getMyPageInfoLodable.state ? getMyPageInfoLodable.contents : {};
+
   const handleClickImg = (level: string) => {
     setLevel(level);
     setIsPicPopUp({
@@ -21,7 +26,7 @@ export default function LevelImgList() {
   };
 
   for (let i = 1; i <= 10; i++) {
-    const num = String(myInfo.level >= i ? i : i + 'L');
+    const num = String(myPageInfo.level >= i ? i : i + 'L');
     images.push(
       <div key={`level-${i}`} className="rounded-xl bg-white bg-opacity-50">
         <img onClick={() => handleClickImg(num)} className="dark:brightness-1 aspect-square cursor-pointer object-contain brightness-95" src={`${S3_URL}levels/lv${num}.png`} alt={`Level ${i}`} />
