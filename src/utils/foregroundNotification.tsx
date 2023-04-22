@@ -3,7 +3,7 @@ import toast, { Toaster } from 'react-hot-toast';
 import { getFcmToken, onMessageListener } from './firebase';
 
 // 앱에서 푸시 알림을 표시하는 컴포넌트
-const Notification = () => {
+const foregroundNotification = () => {
   const [notification, setNotification] = useState({ title: '', body: '' });
   const notify = () => toast(<ToastDisplay />);
 
@@ -22,13 +22,13 @@ const Notification = () => {
     getFcmToken();
   }, []);
 
-  useEffect(() => {
-    onMessageListener()
-      .then((payload) => {
-        setNotification({ title: payload?.notification?.title, body: payload?.notification?.body });
-      })
-      .catch((err) => console.log('failed: ', err));
-  }, []);
+  // useEffect(() => {
+  //   onMessageListener()
+  //     .then((payload) => {
+  //       setNotification({ title: payload?.notification?.title, body: payload?.notification?.body });
+  //     })
+  //     .catch((err) => console.log('failed: ', err));
+  // }, []);
 
   useEffect(() => {
     if (notification?.title) {
