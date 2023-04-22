@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { useNavigate, useParams } from 'react-router-dom';
 import FooterMenu from '../../components/common/FooterMenu';
+import ScrapPostFormat from '../../components/common/ScrapPostFormat';
 import ScrollToTopBtn from '../../components/common/ScrollToTopBtn';
 import FeedPostFormat from '../../components/myProfile/FeedPostFormat';
 import MyProfileHeader from '../../components/myProfile/MyProfileHeader';
@@ -78,7 +79,7 @@ export default function MyProfile() {
         />
         <MyProfileMenu postView={postView} setPostView={setPostView} />
         {profilePostData && postView !== 'scrap' && <FeedPostFormat userData={myProfileData} resultData={profilePostData.pages.flatMap((page) => page.content)} />}
-        {/* {myScrapsData && postView === 'scrap' && <ScrapPostFormat resultData={myScrapsData.pages.flatMap((page) => page.content)} />} */}
+        {myScrapsData && postView === 'scrap' && <ScrapPostFormat userData={myProfileData} resultData={myScrapsData.pages.flatMap((page) => page.content)} />}
       </div>
       <div ref={ref} />
       <FooterMenu />
