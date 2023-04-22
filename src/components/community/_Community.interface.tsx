@@ -73,6 +73,7 @@ export interface CommunityPostListContentMemberType {
 
 /** getCommunityPostAxios - 커뮤니티 post 불러올때 response의 content 타입 */
 export interface CommunityPostListContentType {
+  follow: boolean;
   scrap: boolean;
   like: boolean;
   id: number;
@@ -132,6 +133,7 @@ export interface CommunityDetailListContentMemberType {
 
 /** getCommunityDetailAxios - 커뮤니티 디테일 게시물에 대한 response 타입*/
 export interface getCommunityDetailType {
+  follow: boolean;
   id: number;
   title: string;
   member: CommunityDetailListContentMemberType;

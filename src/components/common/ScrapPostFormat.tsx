@@ -1,20 +1,14 @@
-import { FcCheckmark, FcPortraitMode } from 'react-icons/fc';
+import { FcPortraitMode } from 'react-icons/fc';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import LikeCommentScrap from '../common/LikeCommentScrap';
-import ImagePeek from '../common/ImagePeek';
-import PicModal from '../common/PicModal';
+import LikeCommentScrap from './LikeCommentScrap';
+import ImagePeek from './ImagePeek';
+import PicModal from './PicModal';
 import { S3_URL } from '../../constant/union';
 import { timeForToday } from '../../utils/timeForToday';
-import { useRecoilValueLoadable } from 'recoil';
-import { getMyPageInfo } from '../../store/recoil/user';
 
-export default function FeedPostFormat({ resultData, userData, refetch }: any) {
+export default function ScrapPostFormat({ resultData, userData }: any) {
   const navigate = useNavigate();
-
-  // 사용자 정보
-  const getMyPageInfoLodable = useRecoilValueLoadable(getMyPageInfo);
-  const myPageInfo: any = 'hasValue' === getMyPageInfoLodable.state ? getMyPageInfoLodable.contents : {};
 
   //사진 팝업모달
   const [isPicPopUp, setIsPicPopUp] = useState({
@@ -22,13 +16,13 @@ export default function FeedPostFormat({ resultData, userData, refetch }: any) {
     pic: '',
   });
 
-  console.log(resultData, userData, myPageInfo);
+  console.log(resultData);
 
   return (
     <>
       <PicModal isPicPopUp={isPicPopUp} setIsPicPopUp={setIsPicPopUp} />
       <ul className="w-full">
-        {userData && resultData && resultData.length > 0 ? (
+        {resultData.length > 0 ? (
           resultData.map((data: any) => (
             <li
               onClick={(e) => {
@@ -48,37 +42,28 @@ export default function FeedPostFormat({ resultData, userData, refetch }: any) {
                     <img
                       onClick={(e) => {
                         e.stopPropagation();
-                        if (userData.id !== myPageInfo.id) {
-                          navigate(`/otherProfile/${userData.id}/feed`);
+                        if (resultData.id === userData.id) {
+                          navigate(`/myProfile/feed`);
                           return;
                         } else {
-                          navigate(`/myProfile/feed`);
+                          navigate(`/otherProfile/${data.postRegisterMemberId}/feed`);
                           return;
                         }
                       }}
-                      src={S3_URL + userData.profileUrl}
-                      alt={userData.nickName}
+                      src={S3_URL + data.postRegisterMemberProfileImg}
+                      alt={data.title}
                       className="w-[58px] rounded-full"
                     />
                     <div className="pl-3">
-                      <p className="text-xl font-bold">{userData.nickName}</p>
+                      <p className="text-xl font-bold">{data.postRegisterMemberNickname}</p>
                       <p className="text-[17px] opacity-50">{timeForToday(data.createdAt)}</p>
                     </div>
                   </div>
-                  {userData.nickName !== myPageInfo.nickName && (
+                  {data.postRegisterMemberId !== userData.id && (
                     <div className="text-end grow font-bold">
                       <div className="flex h-full items-center justify-end gap-3">
-                        {data.follow ? (
-                          <>
-                            <FcCheckmark size={21} />
-                            <p>팔로잉</p>
-                          </>
-                        ) : (
-                          <>
-                            <FcPortraitMode />
-                            <p>팔로우</p>
-                          </>
-                        )}
+                        <FcPortraitMode />
+                        <p>팔로우</p>
                       </div>
                     </div>
                   )}
@@ -91,13 +76,13 @@ export default function FeedPostFormat({ resultData, userData, refetch }: any) {
                   <p className="text-base">{data.content}</p>
                 </div>
               </div>
-              {data.imageUrls.length > 0 && data.imageUrls[0] !== null && <ImagePeek setIsPicPopUp={setIsPicPopUp} imgPeek={data.imageUrls.map((imgeUrl: any) => S3_URL + imgeUrl)} />}
-              <LikeCommentScrap refetch={refetch} scrap={data.scrap} like={data.like} postType={data.postType} likeCount={data.likeCount} commentCount={data.commentCount} postId={data.postId} />
+              {data.imageUrls.length > 0 && data.imageUrls[0] !== null && <ImagePeek setIsPicPopUp={setIsPicPopUp} imgPeek={data.imageUrls.map((imgeUrl: string) => S3_URL + imgeUrl)} />}
+              <LikeCommentScrap like={data.like} scrap={true} postType={data.postType} likeCount={data.likeCount} commentCount={data.commentCount} postId={data.postId} />
             </li>
           ))
         ) : (
           <div className="mb-6 flex h-[298px] flex-col items-center justify-center gap-4 rounded-[20px] bg-midIvory dark:bg-midNavy">
-            <div className="flex h-[200px] w-full items-center justify-center p-4 text-base font-semibold text-lightText dark:text-white">피드 게시글이 없습니다.</div>
+            <div className="flex h-[200px] w-full items-center justify-center p-4 text-base font-semibold text-lightText dark:text-white">스크랩된 게시글이 없습니다.</div>
           </div>
         )}
       </ul>

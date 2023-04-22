@@ -1,4 +1,4 @@
-import { FcPortraitMode } from 'react-icons/fc';
+import { FcCheckmark, FcPortraitMode } from 'react-icons/fc';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import LikeCommentScrap from '../common/LikeCommentScrap';
@@ -7,7 +7,7 @@ import PicModal from '../common/PicModal';
 import { S3_URL } from '../../constant/union';
 import { timeForToday } from '../../utils/timeForToday';
 
-export default function ScrapPostFormat({ resultData, userData }: any) {
+export default function ScrapPostFormat({ resultData, userData, refetch }: any) {
   const navigate = useNavigate();
 
   //사진 팝업모달
@@ -16,13 +16,11 @@ export default function ScrapPostFormat({ resultData, userData }: any) {
     pic: '',
   });
 
-  console.log(resultData);
-
   return (
     <>
       <PicModal isPicPopUp={isPicPopUp} setIsPicPopUp={setIsPicPopUp} />
       <ul className="w-full">
-        {resultData.length > 0 ? (
+        {resultData && userData && resultData.length > 0 ? (
           resultData.map((data: any) => (
             <li
               onClick={(e) => {
@@ -62,8 +60,17 @@ export default function ScrapPostFormat({ resultData, userData }: any) {
                   {data.postRegisterMemberId !== userData.id && (
                     <div className="text-end grow font-bold">
                       <div className="flex h-full items-center justify-end gap-3">
-                        <FcPortraitMode />
-                        <p>팔로우</p>
+                        {data.follow ? (
+                          <>
+                            <FcCheckmark size={21} />
+                            <p>팔로잉</p>
+                          </>
+                        ) : (
+                          <>
+                            <FcPortraitMode />
+                            <p>팔로우</p>
+                          </>
+                        )}
                       </div>
                     </div>
                   )}
@@ -77,7 +84,7 @@ export default function ScrapPostFormat({ resultData, userData }: any) {
                 </div>
               </div>
               {data.imageUrls.length > 0 && data.imageUrls[0] !== null && <ImagePeek setIsPicPopUp={setIsPicPopUp} imgPeek={data.imageUrls.map((imgeUrl: string) => S3_URL + imgeUrl)} />}
-              <LikeCommentScrap like={data.like} scrap={true} postType={data.postType} likeCount={data.likeCount} commentCount={data.commentCount} postId={data.postId} />
+              <LikeCommentScrap refetch={refetch} like={data.like} scrap={true} postType={data.postType} likeCount={data.likeCount} commentCount={data.commentCount} postId={data.postId} />
             </li>
           ))
         ) : (

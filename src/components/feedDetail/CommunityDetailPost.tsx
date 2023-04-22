@@ -1,4 +1,4 @@
-import { FcPortraitMode } from 'react-icons/fc';
+import { FcCheckmark, FcPortraitMode } from 'react-icons/fc';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useCommunityDetailQuery } from '../../store/module/useCommunityDetailQuery';
 import LikeCommentScrap from '../common/LikeCommentScrap';
@@ -76,14 +76,23 @@ export default function CommunityDetailPost(props: CommunityDetailPostProps) {
                   <p className="text-[17px] opacity-50">{timeForToday(questionData?.createdAt as string)}</p>
                 </div>
               </div>
-              <div className="text-end grow font-bold">
-                <div className="flex h-full items-center justify-end">
-                  <div onClick={(e) => handleClickFollow(e, Number(questionData?.member.id), questionData?.member.nickname)} className="flex h-full cursor-pointer items-center justify-end gap-3">
-                    <FcPortraitMode />
-                    <p>팔로우</p>
+              {questionData?.member.nickname !== myPageInfo.nickName && (
+                <div className="text-end grow font-bold">
+                  <div onClick={(e) => handleClickFollow(e, Number(questionData?.member.id), questionData?.member.nickname)} className="flex h-full items-center justify-end gap-3">
+                    {questionData?.follow ? (
+                      <>
+                        <FcCheckmark size={21} />
+                        <p>팔로잉</p>
+                      </>
+                    ) : (
+                      <>
+                        <FcPortraitMode />
+                        <p>팔로우</p>
+                      </>
+                    )}
                   </div>
                 </div>
-              </div>
+              )}
             </div>
             <div className="flex text-[16px] font-semibold">
               <div className="rounded-[30px] bg-greyBeige px-3 py-2 text-[14px] dark:bg-sky">{`${questionData?.postType === 'FEED' ? '개발 피드' : 'Q & A 피드'}`}</div>
