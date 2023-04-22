@@ -26,6 +26,7 @@ export default function RoomHeader({ newChatMessages, setHostInfo }: RoomHeaderP
   }, [chatRoomInfo?.hostId, chatRoomInfo?.hostName]);
 
   useEffect(() => {
+    console.log(newChatMessages);
     if (newChatMessages.find((i) => i.chatType === 'EXPIRE')) {
       console.log('채팅방 폭파!!');
     }

@@ -29,36 +29,6 @@ import UserInfo from './pages/setting/UserInfo.js';
 import { RecoilRoot } from 'recoil';
 import { useNotificationTokenMutation } from './store/module/useNotificationQuery.js';
 import { getFcmToken } from './utils/firebase.js';
-import { initializeApp } from 'firebase/app';
-import { getMessaging, onMessage } from 'firebase/messaging';
-
-const firebaseConfig = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
-  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
-  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
-  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
-  appId: import.meta.env.VITE_FIREBASE_APP_ID,
-  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
-};
-const app = initializeApp(firebaseConfig);
-const foregroundMessaging = getMessaging(app);
-
-async function requestPermission() {
-  // 토큰 받기
-  const token = await getFcmToken();
-
-  // 토큰 있으면 콘솔 출력
-  if (token) console.log('token: ', token);
-  else console.log('Can not get Token');
-
-  // foreground 알림 푸쉬 받기
-  onMessage(foregroundMessaging, (payload) => {
-    console.log('메시지가 도착했습니다.', payload);
-  });
-}
-
-requestPermission();
 
 function App() {
   const $html = document.querySelector('html');

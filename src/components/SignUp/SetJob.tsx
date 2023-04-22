@@ -37,7 +37,6 @@ export default function SetJob() {
     try {
       const fcmToken = await getNotificationToken();
       mutate({ fcmToken: fcmToken as string, isFollowPushAvailable: notification.follow, isPostPushAvailable: notification.post });
-      console.log(data);
       navigate('/');
     } catch (err) {
       console.log(err);
