@@ -6,7 +6,7 @@ import ChatRoom from './pages/coffeeChat/ChatRoom';
 import NotFound from './pages/NotFound';
 import NewsDetail from './pages/news/NewsDetail';
 import Notification from './pages/notification/Notification';
-import { useLayoutEffect } from 'react';
+import { useEffect, useLayoutEffect } from 'react';
 import LogInPage from './pages/SignUp/LogInPage';
 import SetPicture from './components/SignUp/SetPicture';
 import SetJob from './components/SignUp/SetJob';
@@ -27,6 +27,8 @@ import MyProfileEdit from './pages/profile/MyProfileEdit.js';
 import Setting from './pages/setting/Setting.js';
 import UserInfo from './pages/setting/UserInfo.js';
 import { RecoilRoot } from 'recoil';
+import { useNotificationTokenMutation } from './store/module/useNotificationQuery.js';
+import { getFcmToken } from './utils/firebase.js';
 
 function App() {
   const $html = document.querySelector('html');
@@ -48,6 +50,18 @@ function App() {
         console.error('Service Worker registration failed:', error);
       });
   }
+
+  const { mutate: postFcmTokenMutation } = useNotificationTokenMutation();
+
+  useEffect(() => {
+    const getToken = async () => {
+      const response = await getFcmToken();
+      postFcmTokenMutation({
+        fcmToken: response as string,
+      });
+    };
+    getToken();
+  }, []);
 
   return (
     <RecoilRoot>
