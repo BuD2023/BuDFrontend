@@ -2,8 +2,8 @@ import { IconType } from 'react-icons/lib';
 import { ReactElement, RefObject } from 'react';
 import { postingInfoType, postType, SortAndOrderType } from '../community/_Community.interface';
 import { SetNotificationType } from '../SignUp/_SignUp.interface';
-import { ScrapPostPropsType } from '../myProfile/_MyProfile.interface';
 import { chatroomUserListType } from '../chatRoom/_ChatRoom.interface';
+import { ScrapPostContentType } from '../myProfile/_MyProfile.interface';
 
 /** AddBtn - 컴포넌트 props 타입 */
 export interface AddBtnPropsType {
@@ -77,7 +77,7 @@ export interface LikeCommentScrapPropsType {
 
 /** ScrapPostFormat 캄포넌트 props 타입 */
 export interface ScrapPostFormatPropsType {
-  resultData: ScrapPostPropsType[];
+  resultData: ScrapPostContentType[];
 }
 
 /** 글작성 및 수정, 채팅방 생성시 header에 mainBtn 컴포넌트로 들어오는 onSubmit 객체의 타입 */
