@@ -166,7 +166,7 @@ export default function CommunityQADetailAnswer({ isCommentOpen, setIsCommentOpe
             </div>
             {isCommentOpen && activeComment.includes(answer.id) && (
               <div className="mt-4 w-full">
-                <CommunityCommentForm type="QNA" answerId={answer.id} />
+                <CommunityCommentForm type="QNA" answerId={answer.id} questionUserId={answer.member.id} />
               </div>
             )}
           </div>

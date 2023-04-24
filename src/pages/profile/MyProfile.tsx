@@ -27,7 +27,7 @@ export default function MyProfile() {
     fetchNextPage: myScrapsFetchNextPage,
     hasNextPage: myScrapsHasNextPage,
     refetch: myScrapsRefetch,
-  } = useMyScrapsQuery('POST_DATE,DESC');
+  } = useMyScrapsQuery();
   const {
     data: profilePostData,
     isLoading: profilePostIsLoading,

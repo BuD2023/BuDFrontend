@@ -25,10 +25,10 @@ export default function PostFormat({ inputValue, sortAndOrder, filter: postTypeF
 
   //리액트 쿼리
   const { isLoading, isError, data, hasNextPage, isFetching, isFetchingNextPage, fetchNextPage, refetch } = useCommunityPostQuery(inputValue, sort, order, POSTLIST_SIZE, postTypeFilter);
-  const [userId, setUserId] = useState(0);
-  const { mutate } = useFollowMutation(Number(userId));
+  const [userId, setUserId] = useState<number>();
+  const { mutate, isSuccess } = useFollowMutation(Number(userId));
 
-  const handleClickFollow = (e: React.MouseEvent<HTMLElement>, memberId: number, userName: string) => {
+  const handleClickFollow = (e: React.MouseEvent<HTMLElement>, memberId: number) => {
     setUserId(memberId);
     e.stopPropagation();
     mutate();
@@ -47,6 +47,17 @@ export default function PostFormat({ inputValue, sortAndOrder, filter: postTypeF
     open: false,
     pic: '',
   });
+
+  const [followSuccess, setFollowSuccess] = useState(false);
+
+  useEffect(() => {
+    if (followSuccess) {
+      console.log(isSuccess);
+      if (refetch && isSuccess) {
+        refetch();
+      }
+    }
+  }, [followSuccess, refetch, isSuccess]);
 
   if (isLoading) {
     return (
@@ -103,7 +114,13 @@ export default function PostFormat({ inputValue, sortAndOrder, filter: postTypeF
                   </div>
                   {data.member.username !== myPageInfo.nickName && (
                     <div className="text-end grow font-bold">
-                      <div className="flex h-full items-center justify-end gap-3">
+                      <div
+                        onClick={(e) => {
+                          handleClickFollow(e, data.member.id);
+                          setFollowSuccess(true);
+                        }}
+                        className="flex h-full items-center justify-end gap-3"
+                      >
                         {data.follow ? (
                           <>
                             <FcCheckmark size={21} />

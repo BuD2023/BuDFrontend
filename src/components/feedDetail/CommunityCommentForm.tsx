@@ -20,7 +20,7 @@ import { getMyPageInfo } from '../../store/recoil/user';
 import { CommunityCommentType } from '../community/_Community.interface';
 import { CommunityFeedCommentFormPropsType } from './_FeedDetail.interface';
 
-export default function CommunityCommentForm({ type, answerId }: CommunityFeedCommentFormPropsType) {
+export default function CommunityCommentForm({ type, answerId, questionUserId }: CommunityFeedCommentFormPropsType) {
   const { id: postId } = useParams();
   const [commentId, setCommentId] = useState(0);
   const navigate = useNavigate();
@@ -51,9 +51,8 @@ export default function CommunityCommentForm({ type, answerId }: CommunityFeedCo
     }
   };
 
-  const handleClickLike = (commentId: number, memberName: string) => {
+  const handleClickLike = (commentId: number) => {
     setCommentId(commentId);
-
     if (type === 'FEED') {
       feedCommentLikeMutate();
     } else {
@@ -98,6 +97,8 @@ export default function CommunityCommentForm({ type, answerId }: CommunityFeedCo
     }
   }, []);
 
+  console.log(answerId);
+
   return (
     <div className="flex min-h-[170px] w-full flex-col items-center gap-4 rounded-[20px] bg-midIvory dark:bg-midNavy">
       <div className="flex h-[55px] w-full items-center border-b border-b-darkIvory border-opacity-30 p-5 text-[20px] font-bold dark:border-darkNavy dark:border-b-lightNavy dark:border-opacity-30">
@@ -112,53 +113,61 @@ export default function CommunityCommentForm({ type, answerId }: CommunityFeedCo
                 return (
                   <SwipeableListItem
                     key={content.commentId}
-                    swipeLeft={{
-                      content: (
-                        <div className="flex h-full w-full items-center justify-end bg-[#ff5232] p-4 text-white dark:bg-[#a51b0b]">
-                          <span className="flex items-center gap-2 text-lg">
-                            삭제
-                            <BsFillTrashFill />
-                          </span>
-                        </div>
-                      ),
-                      action: () => {
-                        console.log('Deleting item:', content.commentId);
-                        setCommentId(content.commentId);
-                        if (type === 'FEED') {
-                          deleteFeedCommentMutate();
-                        } else {
-                          deleteQnaCommentMutate();
-                        }
-                      },
-                    }}
-                    swipeRight={{
-                      content: (
-                        <div className="flex h-full w-full items-center justify-start bg-pointGreen p-4 text-white dark:bg-pointGreen">
-                          <span className="flex items-center gap-2 text-lg">
-                            고정하기
-                            <BsFillPinAngleFill />
-                          </span>
-                        </div>
-                      ),
-                      action: () => {
-                        console.log('Pin item:', content.commentId);
-                        setCommentId(content.commentId);
-                        if (content.isPinned) {
-                          if (type === 'FEED') {
-                            deleteFeedCommentPinMutate();
-                            return;
-                          } else {
-                            deleteQnaCommentPinMutate();
-                            return;
+                    swipeLeft={
+                      content.memberId === myPageInfo.id
+                        ? {
+                            content: (
+                              <div className="flex h-full w-full items-center justify-end bg-[#ff5232] p-4 text-white dark:bg-[#a51b0b]">
+                                <span className="flex items-center gap-2 text-lg">
+                                  삭제
+                                  <BsFillTrashFill />
+                                </span>
+                              </div>
+                            ),
+                            action: () => {
+                              console.log('Deleting item:', content.commentId);
+                              setCommentId(content.commentId);
+                              if (type === 'FEED') {
+                                deleteFeedCommentMutate();
+                              } else {
+                                deleteQnaCommentMutate();
+                              }
+                            },
                           }
-                        }
-                        if (type === 'FEED') {
-                          feedCommentPinMutate();
-                        } else {
-                          qnaCommentPinMutate();
-                        }
-                      },
-                    }}
+                        : undefined
+                    }
+                    swipeRight={
+                      questionUserId === myPageInfo.id
+                        ? {
+                            content: (
+                              <div className="flex h-full w-full items-center justify-start bg-pointGreen p-4 text-white dark:bg-pointGreen">
+                                <span className="flex items-center gap-2 text-lg">
+                                  고정하기
+                                  <BsFillPinAngleFill />
+                                </span>
+                              </div>
+                            ),
+                            action: () => {
+                              console.log('Pin item:', content.commentId);
+                              setCommentId(content.commentId);
+                              if (content.isPinned) {
+                                if (type === 'FEED') {
+                                  deleteFeedCommentPinMutate();
+                                  return;
+                                } else {
+                                  deleteQnaCommentPinMutate();
+                                  return;
+                                }
+                              }
+                              if (type === 'FEED') {
+                                feedCommentPinMutate();
+                              } else {
+                                qnaCommentPinMutate();
+                              }
+                            },
+                          }
+                        : undefined
+                    }
                   >
                     <li key={content.commentId} className="flex min-h-[60px] w-full gap-2 bg-midIvory px-4 dark:bg-midNavy">
                       {/* {comment.isRef && <BsArrowReturnRight className="ml-4 text-[20px]" />} */}
@@ -183,7 +192,7 @@ export default function CommunityCommentForm({ type, answerId }: CommunityFeedCo
                         </div>
                         <div className="flex justify-between">
                           <div className="text-[15px]">{content.content}</div>
-                          <div onClick={() => handleClickLike(content.commentId, content.memberName)} className="flex cursor-pointer items-center justify-center gap-1">
+                          <div onClick={() => handleClickLike(content.commentId)} className="flex cursor-pointer items-center justify-center gap-1">
                             {content.isReaderLiked ? <BsHeartFill className="text-[#f44336]" /> : <BsHeartFill className="text-white" />}
                             <span className="text-[13px]">{content.numberOfLikes}</span>
                           </div>

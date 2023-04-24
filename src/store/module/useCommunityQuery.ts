@@ -81,7 +81,6 @@ export function useDeleteCommunityMutation(id: number) {
 export function useCommunityLikeMutation(postId: number, userId: number, postType: string) {
   const { refetch: detailRefetch } = useCommunityDetailQuery(postId);
   const { refetch: myPageRefetch } = useProfilePostQuery(userId, postType);
-
   return useMutation(() => postCommunityLikeAxios(accessToken, postId), {
     onError: (err) => {
       console.log(err);
@@ -111,22 +110,25 @@ export function useCommunityScrapMutation(postId: number, userId: number, postTy
   });
 }
 
-export function useFollowMutation(id: number) {
+export function useFollowMutation(userId: number, postId?: number) {
   const { refetch: followersRefetch } = useMyFollowersQuery();
   const { refetch: followrRefetch } = useMyFollowsQuery();
   const { refetch: myProfileRefetch } = useMyProfileQuery();
-  const { refetch: userProfileRefetch } = useUserProfileQuery(id);
-
-  return useMutation(() => postUserFollow(accessToken, id), {
+  const { refetch: userProfileRefetch } = useUserProfileQuery(userId);
+  const { refetch: detailRefetch } = useCommunityDetailQuery(Number(postId));
+  const { refetch: myScrapRefetch } = useMyScrapsQuery();
+  return useMutation(() => postUserFollow(accessToken, userId), {
     onError: (err) => {
       console.log(err);
     },
     onSuccess: () => {
       console.log('팔로우 상태가 변경되었습니다.');
+      myScrapRefetch();
       followrRefetch();
       followersRefetch();
       myProfileRefetch();
-      if (id !== 0) userProfileRefetch();
+      if (postId) detailRefetch();
+      if (userId) userProfileRefetch();
     },
   });
 }
