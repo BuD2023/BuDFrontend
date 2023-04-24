@@ -1,10 +1,10 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { BsBackspace } from 'react-icons/bs';
 import { MdKeyboardVoice } from 'react-icons/md';
 import useSpeechRecognition from '../../utils/useSpeechRecognition';
 import { ISearchBarPropsType } from './_Common.interface';
 
-export default function SearchBar({ inputValue, setInputValue, filterKeywords }: ISearchBarPropsType) {
+export default function SearchBar({ inputValue, setInputValue }: ISearchBarPropsType) {
   const inputRef = useRef<HTMLInputElement>(null);
   const clearInputValue = () => {
     inputRef.current && (inputRef.current.value = '');
@@ -14,6 +14,10 @@ export default function SearchBar({ inputValue, setInputValue, filterKeywords }:
 
   //음성인식
   const { text, setText, startListening, stopListening, isListening, hasRecognitionSupport } = useSpeechRecognition();
+  const [tmpValue, setTmpValue] = useState('');
+  useEffect(() => {
+    setTmpValue(inputValue);
+  }, [inputValue]);
   const voiceRecHandler = () => {
     if (isListening) {
       stopListening();
@@ -30,12 +34,31 @@ export default function SearchBar({ inputValue, setInputValue, filterKeywords }:
       <div className="relative flex w-full items-center">
         <input
           ref={inputRef}
-          onKeyPress={(e: React.KeyboardEvent<HTMLInputElement>) => {
-            e.key === 'Enter' && setInputValue(e.currentTarget.value);
+          onChange={(e) => {
+            setTmpValue(e.target.value);
+            if (e.target.value.length < 1) {
+              inputRef.current && (inputRef.current.value = '');
+              setInputValue('');
+              setText('');
+            }
           }}
-          onFocus={() => setText('')}
+          value={text ? text : tmpValue}
+          contentEditable
+          onKeyPress={(e: React.KeyboardEvent<HTMLInputElement>) => {
+            if (e.key === 'Enter') {
+              if (text && text.length > 0) setInputValue(text);
+              else setInputValue(tmpValue);
+            }
+          }}
+          onFocus={() => {
+            if (text) {
+              setTmpValue(text);
+              setText('');
+            } else return;
+          }}
           type="text"
-          placeholder={text ? text : filterKeywords && filterKeywords.length > 0 ? filterKeywords : '키워드로 검색'}
+          // placeholder={text ? text : filterKeywords && filterKeywords.length > 0 ? filterKeywords : '키워드로 검색'}
+          placeholder={'키워드로 검색'}
           className="searchInput h-[60px] w-full rounded-xl bg-white p-4 text-xl font-bold text-[#514848] dark:bg-[#E4E4E4]"
         />
         {inputValue && <BsBackspace onClick={clearInputValue} className="absolute right-5 cursor-pointer" size={20} />}

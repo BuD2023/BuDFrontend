@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useNotificationTokenMutation } from '../../store/module/useNotificationQuery';
-import { getFcmToken } from '../../utils/firebase';
+import { getFcmToken } from '../../utils/fcm';
 import CheckBoxModal from '../common/CheckBoxModal';
 import ChangeJob from '../myProfileEdit/ChangeJob';
 import { SetNotificationType } from './_SignUp.interface';

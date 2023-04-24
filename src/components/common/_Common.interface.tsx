@@ -135,7 +135,6 @@ export interface ScrollToBottomBtnPropsType {
 export interface ISearchBarPropsType {
   inputValue: string;
   setInputValue: (x: string) => void;
-  filterKeywords?: string;
 }
 
 /** Toggle 컴포넌트 props 타입 */

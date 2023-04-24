@@ -14,14 +14,14 @@ import FooterMenu from '../../components/common/FooterMenu';
 export default function News() {
   // 키워드 필터
   const [filter, setFilter] = useState(false);
-  const [filterKeywords, setFilterKeywords] = useState('');
+  // const [filterKeywords, setFilterKeywords] = useState('');
   const [inputValue, setInputValue] = useState('');
   const [sort, setSort] = useState(false);
   const [order, setOrder] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
 
-  const { data, isLoading, error, isFetching, isFetchingNextPage, fetchNextPage, hasNextPage } = useNewsQuery(inputValue, sort, order, filterKeywords);
+  const { data, isLoading, error, isFetching, isFetchingNextPage, fetchNextPage, hasNextPage } = useNewsQuery(inputValue, sort, order, inputValue);
 
   if (error) {
     navigate('/NotFound');
@@ -36,11 +36,11 @@ export default function News() {
   return (
     <>
       <ScrollToTopBtn />
-      <NewsKeywordFilter filter={filter} setFilter={setFilter} filterKeywords={filterKeywords} setFilterKeywords={setFilterKeywords} />
+      <NewsKeywordFilter filter={filter} setFilter={setFilter} inputValue={inputValue} setInputValue={setInputValue} />
       <section>
         <div className="mt-9 flex min-h-[calc(100vh-160px)] flex-col gap-4 p-4 text-lightText dark:text-white">
           <Header type="category" title="IT 소식" icon={<FcNews />} />
-          <SearchBar inputValue={inputValue} setInputValue={setInputValue} filterKeywords={filterKeywords} />
+          <SearchBar inputValue={inputValue} setInputValue={setInputValue} />
           <div className="flex justify-between gap-4 text-[18px] font-bold">
             <div className="flex h-[56px] w-full flex-col items-center justify-center rounded-xl bg-greyBeige px-4 dark:bg-midNavy">
               <p className="text-center leading-[26px]">&#127357;&nbsp; Naver IT news</p>

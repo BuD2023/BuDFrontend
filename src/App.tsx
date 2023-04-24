@@ -1,5 +1,6 @@
 import { Route, Routes } from 'react-router-dom';
 import './firebase-messaging-sw.js';
+import '../public/firebase-messaging-sw.js';
 import CoffeeChat from './pages/coffeeChat/CoffeeChat';
 import MyProfile from './pages/profile/MyProfile';
 import ChatRoom from './pages/coffeeChat/ChatRoom';
@@ -27,8 +28,9 @@ import MyProfileEdit from './pages/profile/MyProfileEdit.js';
 import Setting from './pages/setting/Setting.js';
 import UserInfo from './pages/setting/UserInfo.js';
 import { RecoilRoot } from 'recoil';
-import { useNotificationTokenMutation } from './store/module/useNotificationQuery.js';
-import { getFcmToken } from './utils/firebase.js';
+import { onMessage } from 'firebase/messaging';
+import { onBackgroundMessage } from 'firebase/messaging/sw';
+import { firebaseMessaging } from './utils/fcm.js';
 
 function App() {
   const $html = document.querySelector('html');
@@ -40,18 +42,29 @@ function App() {
     }
   }, []);
 
-  const { mutate: postFcmTokenMutation } = useNotificationTokenMutation();
-
-  useEffect(() => {
-    const getToken = async () => {
-      const response = await getFcmToken();
-      postFcmTokenMutation({
-        // 나중에수정
-        fcmToken: response as string,
-      });
+  // FCM 메시지 수신 이벤트 핸들링
+  onMessage(firebaseMessaging, (payload: any) => {
+    const title = payload.notification?.title;
+    const options = {
+      body: payload.notification?.body,
     };
-    getToken();
-  }, []);
+
+    console.log('Message received. title : ', title, 'options : ', options);
+    navigator.serviceWorker.ready.then((registration) => {
+      registration.showNotification(title as string, options);
+    });
+  });
+  // onBackgroundMessage(firebaseMessaging, (payload) => {
+  //   const title = payload.notification?.title;
+  //   const options = {
+  //     body: payload.notification?.body,
+  //   };
+
+  //   console.log('Background message received. title : ', title, 'options : ', options);
+  //   navigator.serviceWorker.ready.then((registration) => {
+  //     registration.showNotification(title as string, options);
+  //   });
+  // });
 
   return (
     <RecoilRoot>

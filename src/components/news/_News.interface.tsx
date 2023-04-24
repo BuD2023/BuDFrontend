@@ -24,8 +24,8 @@ export interface NewsPostsProps {
 export interface NewsKeywordFilterPropsType {
   filter: boolean;
   setFilter: (a: boolean) => void;
-  filterKeywords: string;
-  setFilterKeywords: React.Dispatch<React.SetStateAction<string>>;
+  inputValue: string;
+  setInputValue: (x: string) => void;
 }
 
 /** NewsFilter - 뉴스 정렬 사용하는 props 타입 */
