@@ -1,11 +1,6 @@
 import { useNavigate, useParams } from 'react-router-dom';
-import { postType } from './_Community.interface';
 
-interface CommunityFilterPropsType {
-  setFilter: (x: postType | 'ALL') => void;
-}
-
-export default function CommunityFilter({ setFilter }: CommunityFilterPropsType) {
+export default function CommunityFilter() {
   const navigate = useNavigate();
   const { filter } = useParams();
 
@@ -14,7 +9,6 @@ export default function CommunityFilter({ setFilter }: CommunityFilterPropsType)
       <div
         onClick={() => {
           navigate('/community/all');
-          setFilter('ALL');
         }}
         className={`flex w-full cursor-pointer flex-wrap items-center justify-center rounded-lg ${filter === 'all' ? 'bg-[#383030] text-white' : 'bg-midIvory dark:bg-midNavy'} py-2 px-4`}
       >
@@ -23,7 +17,6 @@ export default function CommunityFilter({ setFilter }: CommunityFilterPropsType)
       <div
         onClick={() => {
           navigate('/community/QNA');
-          setFilter('QNA');
         }}
         className={`flex w-full cursor-pointer flex-wrap items-center justify-center rounded-lg ${filter === 'QNA' ? 'bg-[#383030] text-white' : 'bg-midIvory dark:bg-midNavy'} py-2 px-4`}
       >
@@ -32,7 +25,6 @@ export default function CommunityFilter({ setFilter }: CommunityFilterPropsType)
       <div
         onClick={() => {
           navigate('/community/FEED');
-          setFilter('FEED');
         }}
         className={`flex w-full cursor-pointer flex-wrap items-center justify-center rounded-lg ${filter === 'FEED' ? 'bg-[#383030] text-white' : 'bg-midIvory dark:bg-midNavy'} py-2 px-4`}
       >

@@ -116,7 +116,6 @@ export interface PictureModalPropsType {
 export interface PostFormatPropsType {
   inputValue: string;
   sortAndOrder: SortAndOrderType;
-  filter: postType | 'ALL';
 }
 
 /** QuestionModal 컴포넌트 props 타입 */

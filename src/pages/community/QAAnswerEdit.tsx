@@ -20,20 +20,21 @@ export default function QAAnswerEdit() {
   const answerValue = useRecoilValue(answerEdit);
 
   // QNA 질문 글 정보
-  const { isLoading, data } = useCommunityDetailQuery(Number(postId));
+  const { isLoading, data, refetch } = useCommunityDetailQuery(Number(postId));
+  const [questionInfo, setQuestionInfo] = useState({
+    title: data?.title,
+    content: data?.content,
+  });
   useEffect(() => {
+    refetch();
     setQuestionInfo({ title: data?.title, content: data?.content });
-  }, [data]);
+  }, [isLoading]);
 
   // 보낼 게시글 전체 정보
   const [postInfo, setPostInfo] = useState<Partial<QnaAnswerType>>({
     postTypeInfo: 'ANSWER_UPDATE',
     content: answerValue.content,
     images: answerValue.images,
-  });
-  const [questionInfo, setQuestionInfo] = useState({
-    title: data?.title,
-    content: data?.content,
   });
 
   // 사진 미리보기

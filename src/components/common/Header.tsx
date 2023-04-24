@@ -70,7 +70,6 @@ export default function Header({ type, title, restart, icon, onSubmit, postId, c
           <div
             onClick={() => {
               url.pathname.includes('post') || url.pathname.includes('answer') ? setConfirmModal(true) : navigate(-1);
-              console.log(url.pathname);
             }}
             className="cursor-pointer rounded-xl p-1"
           >

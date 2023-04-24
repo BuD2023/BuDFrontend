@@ -19,7 +19,7 @@ export default function PostEdit() {
   const [isClick, setIsClick] = useState<boolean>(true);
 
   // 게시글 전체 정보
-  const { data, isLoading, error } = useCommunityDetailQuery(Number(postId));
+  const { data, isLoading, error, refetch } = useCommunityDetailQuery(Number(postId));
   const [postInfo, setPostInfo] = useState<Partial<CommunityPostType>>({
     postTypeInfo: 'POST_UPDATE',
     title: data?.title,
@@ -30,8 +30,9 @@ export default function PostEdit() {
   } as Partial<CommunityPostType>);
 
   useEffect(() => {
+    refetch();
     setPostInfo({ postTypeInfo: 'POST_UPDATE', title: data?.title, content: data?.content, postType: data?.postType, images: data?.imageUrls, postId: Number(postId) } as Partial<CommunityPostType>);
-  }, [data]);
+  }, [isLoading]);
 
   // 사진 업로드
   const imgRef = useRef<HTMLInputElement>(null);

@@ -1,5 +1,5 @@
 import { FcCheckmark, FcPortraitMode } from 'react-icons/fc';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useCommunityPostQuery } from '../../store/module/useCommunityQuery';
 import { useFollowMutation } from '../../store/module/useCommunityQuery';
 import { useInView } from 'react-intersection-observer';
@@ -9,12 +9,14 @@ import ImagePeek from './ImagePeek';
 import PicModal from './PicModal';
 import { S3_URL } from '../../constant/union';
 import { PostFormatPropsType } from './_Common.interface';
-import { CommunityPostListContentType } from '../community/_Community.interface';
+import { CommunityPostListContentType, postType } from '../community/_Community.interface';
 import { timeForToday } from '../../utils/timeForToday';
 import { useRecoilValueLoadable } from 'recoil';
 import { getMyPageInfo } from '../../store/recoil/user';
 
-export default function PostFormat({ inputValue, sortAndOrder, filter: postTypeFilter }: PostFormatPropsType) {
+export default function PostFormat({ inputValue, sortAndOrder }: PostFormatPropsType) {
+  const { filter } = useParams();
+
   // 사용자 정보
   const getMyPageInfoLodable = useRecoilValueLoadable(getMyPageInfo);
   const myPageInfo: any = 'hasValue' === getMyPageInfoLodable.state ? getMyPageInfoLodable.contents : {};
@@ -24,7 +26,13 @@ export default function PostFormat({ inputValue, sortAndOrder, filter: postTypeF
   const POSTLIST_SIZE = 10;
 
   //리액트 쿼리
-  const { isLoading, isError, data, hasNextPage, isFetching, isFetchingNextPage, fetchNextPage, refetch } = useCommunityPostQuery(inputValue, sort, order, POSTLIST_SIZE, postTypeFilter);
+  const { isLoading, isError, data, hasNextPage, isFetching, isFetchingNextPage, fetchNextPage, refetch } = useCommunityPostQuery(
+    inputValue,
+    sort,
+    order,
+    POSTLIST_SIZE,
+    filter === 'all' ? 'ALL' : (filter as postType)
+  );
   const [userId, setUserId] = useState<number>();
   const { mutate, isSuccess } = useFollowMutation(Number(userId));
 
