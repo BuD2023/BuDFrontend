@@ -58,4 +58,5 @@ export interface QnaAnswerType {
   numberOfElements: number;
   first: boolean;
   empty: boolean;
+  imagesUrls: string[];
 }

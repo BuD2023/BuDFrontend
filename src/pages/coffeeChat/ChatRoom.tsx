@@ -18,18 +18,19 @@ export default function ChatRoom() {
   const { id } = useParams();
   const ROOM_NUM = Number(id);
   const CHAT_SIZE = 10;
-  const [hostInfo, setHostInfo] = useState<{ id: null | number; nickName: string }>({ id: null, nickName: '' });
+  const [hostInfo, setHostInfo] = useState<{ id: number; nickName: string }>({ id: 0, nickName: '' });
 
   //리액트 쿼리
-  const { isLoading, data: chatroomListData, hasNextPage, isFetching, isFetchingNextPage, fetchNextPage } = useMyChatroomListQuery(ROOM_NUM, CHAT_SIZE);
+  const { isLoading, data: chatroomListData, hasNextPage, isFetching, isFetchingNextPage, fetchNextPage, refetch } = useMyChatroomListQuery(ROOM_NUM, CHAT_SIZE);
 
   // 채팅 메세지 useState
   const [message, setMessage] = useState<string>('');
   const [newChatMessages, setNewChatMessages] = useState<InfoMessageType[] | ChatMessageType[]>([]);
   const [messageList, setMessageList] = useState<myChatroomListContentType[]>(chatroomListData?.pages.map((i: myChatroomListType) => i.content).flat() as myChatroomListContentType[]);
   useEffect(() => {
+    refetch();
     setMessageList(chatroomListData?.pages.map((i: myChatroomListType) => i.content).flat() as myChatroomListContentType[]);
-  }, [chatroomListData]);
+  }, [isLoading]);
 
   // webSocket
   const client = useRef({});
@@ -67,13 +68,16 @@ export default function ChatRoom() {
 
   // 웹소켓 구독
   const subscribe = () => {
-    (client.current as StompJs.Client).subscribe(`/chatrooms/${ROOM_NUM}`, ({ body }) => {
-      setNewChatMessages((_chatMessages) => [..._chatMessages, JSON.parse(body)]);
-    }),
+    (client.current as StompJs.Client).subscribe(
+      `/chatrooms/${ROOM_NUM}`,
+      ({ body }) => {
+        setNewChatMessages((_chatMessages) => [..._chatMessages, JSON.parse(body)]);
+      },
       {
         Authorization: `Bearer ${accessToken}`,
-      };
-    console.log(`Subscribed to chatroom ${ROOM_NUM}`);
+      }
+    ),
+      console.log(`Subscribed to chatroom ${ROOM_NUM}`);
   };
 
   // 메시지 전송 함수 수정
@@ -159,6 +163,10 @@ export default function ChatRoom() {
     navigate('/coffeeChat');
   };
 
+  if (isLoading) {
+    <div>Loading....</div>;
+  }
+
   return (
     <section>
       <AlertModal alertModal={alertModal} setAlertModal={setAlertModal} title="채팅방 종료" des="호스트가 채팅방을 퇴장함에 따라 채팅이 종료됩니다." action={action} />
@@ -169,7 +177,7 @@ export default function ChatRoom() {
         hostInfo={hostInfo}
         messageList={messageList}
         newChatMessages={newChatMessages}
-        hasNextPage={hasNextPage}
+        hasNextPage={hasNextPage as boolean}
         isFetching={isFetching}
         isFetchingNextPage={isFetchingNextPage}
         fetchNextPage={fetchNextPage}

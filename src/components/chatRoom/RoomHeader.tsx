@@ -7,7 +7,7 @@ import UserListModal from '../common/UserListModal';
 
 interface RoomHeaderPropsType {
   newChatMessages: InfoMessageType[] | ChatMessageType[];
-  setHostInfo: (x: { id: null | number; nickName: string }) => void;
+  setHostInfo: (x: { id: number; nickName: string }) => void;
 }
 
 export default function RoomHeader({ newChatMessages, setHostInfo }: RoomHeaderPropsType) {

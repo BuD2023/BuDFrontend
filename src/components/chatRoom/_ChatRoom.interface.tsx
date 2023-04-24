@@ -84,10 +84,10 @@ export interface chatroomsStatusType {
 
 /** RoomChats 컴포넌트의 props 타입 */
 export interface RoomChatsPropsType {
-  hostInfo: { id: null | number; nickName: string };
+  hostInfo: { id: number; nickName: string };
   messageList: myChatroomListContentType[];
-  newChatMessages: InfoMessageType[] | ChatMessageType[];
-  hasNextPage: boolean | undefined;
+  newChatMessages: Partial<ChatMessageType>[];
+  hasNextPage: boolean;
   isFetching: boolean;
   isFetchingNextPage: boolean;
   fetchNextPage: () => void;
