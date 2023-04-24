@@ -13,6 +13,7 @@ import { getMyPageInfo } from '../../store/recoil/user';
 import { useRecoilValueLoadable } from 'recoil';
 import { useChatUserListQuery } from '../../store/module/useChatroomQuery';
 import { chatroomUserListType } from '../chatRoom/_ChatRoom.interface';
+import { FcCheckmark, FcPortraitMode } from 'react-icons/fc';
 
 export default function UserListModal({ isUserList, setIsUserList, type, follows }: UserListModalPropsType) {
   // 사용자 정보
@@ -28,6 +29,9 @@ export default function UserListModal({ isUserList, setIsUserList, type, follows
   const { data: UserFollowersData, isLoading: UserFollowersIsLoading, error: UserFollowersError, refetch: UserFollowersRefetch } = useUserFollowersQuery(Number(id));
   const { data: UserFollowsData, isLoading: UserFollowsIsLading, error: UserFollowsError, refetch: UserFollowsRefetch } = useUserFollowsQuery(Number(id));
   const { data: chatUserList, refetch: chatUserListRefetch } = useChatUserListQuery(Number(id));
+
+  const [userId, setUserId] = useState(id ?? 0);
+  const { mutate, isSuccess } = useFollowMutation(Number(userId));
 
   let data: CommonUserListType[];
   switch (type) {
@@ -46,7 +50,6 @@ export default function UserListModal({ isUserList, setIsUserList, type, follows
     case 'ChatUsers':
       data = chatUserList as chatroomUserListType[];
       break;
-
     default:
       data = [];
       break;
@@ -72,10 +75,7 @@ export default function UserListModal({ isUserList, setIsUserList, type, follows
       default:
         break;
     }
-  }, [type]);
-
-  const [userId, setUserId] = useState(id ?? 0);
-  const { mutate } = useFollowMutation(Number(userId));
+  }, [type, isSuccess]);
 
   const handleClickFollow = (memberId: number) => {
     setUserId(memberId);
@@ -130,8 +130,17 @@ export default function UserListModal({ isUserList, setIsUserList, type, follows
                             onClick={() => handleClickFollow(user.id)}
                             className={`mr-4 flex cursor-pointer items-center gap-1 text-[14px] font-semibold ` + (user.nickName === myPageInfo.nickName ? 'hidden' : '')}
                           >
-                            <RiUserFollowFill className="text-[16px]" />
-                            <span>팔로우 {user.isFollowing}</span>
+                            {user.isFollowing ? (
+                              <>
+                                <FcCheckmark size={21} />
+                                <p>팔로잉</p>
+                              </>
+                            ) : (
+                              <>
+                                <FcPortraitMode />
+                                <p>팔로우</p>
+                              </>
+                            )}
                           </div>
                         </div>
                       ))}

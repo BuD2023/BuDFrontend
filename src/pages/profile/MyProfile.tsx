@@ -16,6 +16,7 @@ export default function MyProfile() {
   const initialPostView = useParams();
   const [postView, setPostView] = useState(initialPostView.filter ?? 'FEED');
   const navigate = useNavigate();
+  const [followIsSuccess, setFollowIsSuccess] = useState<boolean>();
 
   const { data: myProfileData, isLoading: myProfileIsLoading, error: myProfileError, refetch } = useMyProfileQuery();
   const {
@@ -57,7 +58,9 @@ export default function MyProfile() {
 
   useEffect(() => {
     refetch();
-  }, []);
+  }, [followIsSuccess]);
+
+  console.log(followIsSuccess);
 
   return (
     <section>
@@ -80,7 +83,9 @@ export default function MyProfile() {
         />
         <MyProfileMenu postView={postView} setPostView={setPostView} />
         {profilePostData && postView !== 'scrap' && <FeedPostFormat userData={myProfileData} resultData={profilePostData.pages.flatMap((page) => page.content)} />}
-        {myScrapsData && postView === 'scrap' && <ScrapPostFormat refetch={myScrapsRefetch} userData={myProfileData} resultData={myScrapsData.pages.flatMap((page) => page.content)} />}
+        {myScrapsData && postView === 'scrap' && (
+          <ScrapPostFormat setFollowIsSuccess={setFollowIsSuccess} refetch={myScrapsRefetch} userData={myProfileData} resultData={myScrapsData.pages.flatMap((page) => page.content)} />
+        )}
       </div>
       <div ref={ref} />
       <FooterMenu />
