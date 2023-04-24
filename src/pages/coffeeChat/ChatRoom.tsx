@@ -48,6 +48,10 @@ export default function ChatRoom() {
       // },
       debug: function (str) {
         console.log(str);
+        if (str.includes('DISCONNECT')) {
+          navigate('/coffeeChat');
+          return;
+        }
       },
       reconnectDelay: 5000,
       heartbeatIncoming: 4000,

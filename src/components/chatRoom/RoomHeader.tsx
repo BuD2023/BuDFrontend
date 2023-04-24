@@ -1,7 +1,7 @@
 import { BsChevronLeft, BsFillPersonFill } from 'react-icons/bs';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { useChatroomDetailQuery } from '../../store/module/useChatroomQuery';
+import { useChatroomDetailQuery, useChatUserListQuery } from '../../store/module/useChatroomQuery';
 import { ChatMessageType, InfoMessageType } from './_ChatRoom.interface';
 import UserListModal from '../common/UserListModal';
 
@@ -37,7 +37,6 @@ export default function RoomHeader({ newChatMessages, setHostInfo }: RoomHeaderP
     newChatMessages.forEach((msg) => {
       if (msg.hasOwnProperty('numberOfMembers') && msg.numberOfMembers !== prevNumMembers) {
         prevNumMembers = msg.numberOfMembers;
-        console.log(msg.numberOfMembers);
         refetch();
       }
     });
@@ -51,9 +50,11 @@ export default function RoomHeader({ newChatMessages, setHostInfo }: RoomHeaderP
   // 현재 채팅방 인원수 계산
   const numberOfMember = (newChatMessages.slice().reverse() as Partial<ChatMessageType[]>).find((i) => i?.chatType !== 'MESSAGE' && i?.chatType !== 'IMAGE')?.numberOfMembers;
 
+  const { refetch: chatUserListRefetch } = useChatUserListQuery(Number(id));
+
   useEffect(() => {
     console.log(chatRoomInfo?.numberOfMembers);
-    refetch();
+    chatUserListRefetch();
   }, [chatRoomInfo?.numberOfMembers]);
 
   return (
