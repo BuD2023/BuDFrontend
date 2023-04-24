@@ -21,9 +21,6 @@ export default function Community() {
     order: 'DESC',
   });
 
-  // 커뮤니티
-  const [filter, setFilter] = useState<postType | 'ALL'>('ALL');
-
   return (
     <section>
       <ScrollToTopBtn />
@@ -31,9 +28,9 @@ export default function Community() {
         <Header type="category" title="커뮤니티" icon={<FcGlobe />} />
         <AddBtn url="/postCreate" text="글쓰기" />
         <SearchBar inputValue={inputValue} setInputValue={setInputValue} />
-        <CommunityFilter setFilter={setFilter} />
+        <CommunityFilter />
         <CommunitySort setSortAndOrder={setSortAndOrder} sortAndOrder={sortAndOrder} />
-        <PostFormat inputValue={inputValue} sortAndOrder={sortAndOrder} filter={filter} />
+        <PostFormat inputValue={inputValue} sortAndOrder={sortAndOrder} />
       </div>
       <FooterMenu />
     </section>

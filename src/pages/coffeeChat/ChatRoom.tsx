@@ -11,6 +11,7 @@ import { makeCompressedImg } from '../../utils/makeCompressedImg';
 import PicModal from '../../components/common/PicModal';
 import AlertModal from '../../components/common/AlertModal';
 import { ChatMessageType, InfoMessageType, myChatroomListContentType, myChatroomListType } from '../../components/chatRoom/_ChatRoom.interface';
+import { toFileURLs } from '../../utils/toFileURLs';
 
 export default function ChatRoom() {
   const navigate = useNavigate();
@@ -129,31 +130,19 @@ export default function ChatRoom() {
 
   // 사진 업로드
   const imgRef = useRef<HTMLInputElement>(null);
-  const handleChangeProfileImg = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const fileArr = e.target.files as FileList;
     // 사진 파일이 있으면 로딩상태로 변경
     if (fileArr) {
-      setImgPeek({ ...imgPeek, isLoading: true });
+      setImgPeek({ image: '', isLoading: true });
     } else return;
     try {
+      // 사진 최적화
       const compressedFiles = await makeCompressedImg(fileArr);
-      const compressedFileURLs = await Promise.all(
-        compressedFiles
-          .map((compressed) => {
-            return new Promise<string>((resolve) => {
-              let reader = new FileReader();
-              reader.onload = () => {
-                resolve(reader.result as string);
-              };
-              reader.readAsDataURL(compressed as Blob);
-            });
-          })
-          .flat()
-      );
-      setTimeout(() => {
-        console.log('파일 업로드 완료!');
-        setImgPeek({ isLoading: false, image: compressedFileURLs[0] });
-      }, 1000);
+      // 파일 url 생성
+      const result = await toFileURLs(compressedFiles as File[]);
+      // 사진 보기
+      setImgPeek({ isLoading: false, image: result[0] });
     } catch (err) {
       console.error('파일 업로드 오류:', err);
       setImgPeek({ image: '', isLoading: false });
@@ -193,8 +182,8 @@ export default function ChatRoom() {
             imgRef?.current?.click();
           }}
         />
-        <input ref={imgRef} type="file" accept="image/*" onChange={handleChangeProfileImg} className="hidden" />
-        {imgPeek.image && (imgPeek.image.length > 0 || imgPeek.isLoading === true) ? (
+        <input ref={imgRef} type="file" accept="image/*" onChange={handleImageUpload} className="hidden" />
+        {imgPeek.image.length > 0 || imgPeek.isLoading ? (
           <div className="flex w-full grow rounded-[20px] bg-greyBeige px-4 py-2 dark:bg-lightNavy">
             {imgPeek.isLoading ? (
               <div className="flex h-[50vw] w-[50vw] shrink-0 cursor-pointer items-center justify-center rounded-lg bg-lightIvory text-[16px] dark:bg-darkNavy">이미지 준비중...</div>

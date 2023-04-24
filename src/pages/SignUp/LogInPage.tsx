@@ -23,7 +23,7 @@ export default function LogIn() {
   function loginWithGithub() {
     window.location.assign('http://34.64.224.24:8080/oauth2/authorization/github ');
     postFcmTokenMutation({
-      fcmToken: fcmToken,
+      fcmToken: fcmToken as string,
     });
   }
 

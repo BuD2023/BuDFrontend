@@ -8,8 +8,10 @@ import CommunityCommentForm from '../feedDetail/CommunityCommentForm';
 import { CommunityQADetailAnswerProps, QnaAnswerContentType } from './_Q&ADetail.interface';
 import { S3_URL } from '../../constant/union';
 import { timeForToday } from '../../utils/timeForToday';
-import { useRecoilValueLoadable } from 'recoil';
+import { useRecoilState, useRecoilValueLoadable } from 'recoil';
 import { getMyPageInfo } from '../../store/recoil/user';
+import { answerEdit } from '../../store/recoil/answerEdit';
+import ImagePeek from '../common/ImagePeek';
 
 export default function CommunityQADetailAnswer({ isCommentOpen, setIsCommentOpen, answerPin, setAnswerPin, questionUserId }: CommunityQADetailAnswerProps) {
   const { id: postId } = useParams();
@@ -17,6 +19,9 @@ export default function CommunityQADetailAnswer({ isCommentOpen, setIsCommentOpe
   const [isMenu, setIsMenu] = useState<boolean>();
   const [activeComment, setActiveComment] = useState<number[]>([]);
   const [activeAnswerMenu, setActiveAnswerMenu] = useState<number[]>([]);
+
+  // recoil
+  const [_, setAnswerEditValue] = useRecoilState(answerEdit);
 
   // 사용자 정보
   const getMyPageInfoLodable = useRecoilValueLoadable(getMyPageInfo);
@@ -100,7 +105,16 @@ export default function CommunityQADetailAnswer({ isCommentOpen, setIsCommentOpe
                 )}
                 {isMenu && activeAnswerMenu.includes(answer.id) && (
                   <div className="absolute right-4 top-[45px] flex flex-col gap-3 rounded-xl bg-greyBeige p-3 text-[16px] font-medium">
-                    <div onClick={() => navigate(`/answerEdit/${postId}/${answer.id}`)} className="cursor-pointer">
+                    <div
+                      onClick={() => {
+                        setAnswerEditValue({
+                          content: answer.content,
+                          images: [],
+                        });
+                        navigate(`/answerEdit/${postId}/${answer.id}`);
+                      }}
+                      className="cursor-pointer"
+                    >
                       수정하기
                     </div>
                     <div onClick={() => handleClickDeleteAnswer(answer.id)} className="cursor-pointer">

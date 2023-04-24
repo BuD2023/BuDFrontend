@@ -170,7 +170,7 @@ export interface QnaAnswerType {
   postId: number;
   qnaAnswerId: number;
   content: string;
-  images: null | Blob[];
+  images: null | Blob[] | string[];
 }
 
 export interface CommentContentType {

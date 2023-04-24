@@ -1,5 +1,5 @@
 import { BsChevronLeft } from 'react-icons/bs';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { AiFillPicture } from 'react-icons/ai';
 import { useParams } from 'react-router-dom';
 import { useCommunityDetailQuery } from '../../store/module/useCommunityDetailQuery';
@@ -7,21 +7,34 @@ import { QnaAnswerType } from '../../components/community/_Community.interface';
 import PicModal from '../../components/common/PicModal';
 import QuestionModal from '../../components/common/QuestionModal';
 import Header from '../../components/common/Header';
-import { handleChangeProfileImg } from '../../utils/handleChangeImgFile';
+import { handleFileImage } from '../../utils/handleChangeImgFile';
+import { useRecoilValue } from 'recoil';
+import { answerEdit } from '../../store/recoil/answerEdit';
+import { usePreventLeave } from '../../utils/usePreventLeave';
 
 export default function QAAnswerEdit() {
   const { postId, answerId } = useParams();
   const [alertModal, setAlertModal] = useState<boolean>(false);
 
+  //recoil
+  const answerValue = useRecoilValue(answerEdit);
+
   // QNA 질문 글 정보
-  const { isLoading, data } = useCommunityDetailQuery(Number(postId));
+  const { isLoading, data, refetch } = useCommunityDetailQuery(Number(postId));
+  const [questionInfo, setQuestionInfo] = useState({
+    title: data?.title,
+    content: data?.content,
+  });
+  useEffect(() => {
+    refetch();
+    setQuestionInfo({ title: data?.title, content: data?.content });
+  }, [isLoading]);
 
   // 보낼 게시글 전체 정보
   const [postInfo, setPostInfo] = useState<Partial<QnaAnswerType>>({
     postTypeInfo: 'ANSWER_UPDATE',
-    qnaAnswerId: Number(answerId),
-    content: '',
-    images: [],
+    content: answerValue.content,
+    images: answerValue.images,
   });
 
   // 사진 미리보기
@@ -29,6 +42,14 @@ export default function QAAnswerEdit() {
 
   // 사진 업로드
   const imgRef = useRef<HTMLInputElement>(null);
+  const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const result = await handleFileImage(e);
+    setImgPeek(result.url);
+    setPostInfo({
+      ...postInfo,
+      images: result.file as Blob[],
+    });
+  };
 
   // 사진 popUp
   const [isPicPopUp, setIsPicPopUp] = useState({
@@ -36,10 +57,13 @@ export default function QAAnswerEdit() {
     pic: '',
   });
 
+  const { enablePrevent } = usePreventLeave();
+  enablePrevent();
+
   return (
     <>
       <PicModal isPicPopUp={isPicPopUp} setIsPicPopUp={setIsPicPopUp} />
-      {data !== undefined && <QuestionModal alertModal={alertModal} setAlertModal={setAlertModal} title={data?.title} des={data?.content} />}
+      {questionInfo !== undefined && <QuestionModal alertModal={alertModal} setAlertModal={setAlertModal} title={questionInfo?.title as string} des={questionInfo?.content as string} />}
       <section className="inset-0 flex flex-col gap-7 px-6 py-4 text-lightText dark:text-white">
         <Header type="withMainBtn" title="답변달기" icon={<BsChevronLeft />} onSubmit={postInfo} />
         <div className="mt-9 flex h-full flex-col gap-8 px-2 pt-10">
@@ -49,14 +73,14 @@ export default function QAAnswerEdit() {
               <div className="flex w-full items-center justify-between gap-2">
                 <div className="text-start flex h-[54px] w-full items-center overflow-hidden rounded-[20px] bg-midIvory p-2 px-4 text-[21px] dark:bg-lightNavy">
                   <div onClick={() => setAlertModal(!alertModal)} className="w-full grow cursor-pointer truncate text-[18px] font-semibold">
-                    {data?.title}
+                    {questionInfo?.title}
                   </div>
                 </div>
                 <div onClick={() => imgRef?.current?.click()} className="flex h-[54px] w-[54px] shrink-0 cursor-pointer items-center justify-center rounded-full bg-midIvory dark:bg-lightNavy">
                   <AiFillPicture className="opacity-80" />
                 </div>
               </div>
-              <input ref={imgRef} type="file" accept="image/*" multiple onChange={(e) => handleChangeProfileImg(e, setImgPeek, postInfo, setPostInfo)} className="hidden" />
+              <input ref={imgRef} type="file" accept="image/*" multiple onChange={handleUpload} className="hidden" />
             </div>
             <div className={`flex h-[calc(100vh-286px)] w-full flex-col gap-2 transition-all`}>
               {imgPeek.length > 0 && (
@@ -83,7 +107,7 @@ export default function QAAnswerEdit() {
                     content: e.target.value,
                   })
                 }
-                value={postInfo.content}
+                defaultValue={postInfo.content}
                 placeholder="내용을 입력해주세요(필수)"
                 className="h-full w-full rounded-[20px] bg-midIvory p-4 text-[16px] leading-5 transition-all placeholder:font-semibold placeholder:text-[#7b6d6d] placeholder:opacity-80 focus:outline-none dark:bg-lightNavy dark:placeholder:text-white"
               />

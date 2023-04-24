@@ -9,6 +9,7 @@ export default function SearchBar({ inputValue, setInputValue }: ISearchBarProps
   const clearInputValue = () => {
     inputRef.current && (inputRef.current.value = '');
     setInputValue('');
+    setTmpValue('');
     setText('');
   };
 
@@ -37,8 +38,8 @@ export default function SearchBar({ inputValue, setInputValue }: ISearchBarProps
           onChange={(e) => {
             setTmpValue(e.target.value);
             if (e.target.value.length < 1) {
-              inputRef.current && (inputRef.current.value = '');
               setInputValue('');
+              setTmpValue('');
               setText('');
             }
           }}
