@@ -41,7 +41,7 @@ export default function LikeCommentScrap({ postType, likeCount, commentCount, po
             like ? (
               <FcLike size="20px" />
             ) : (
-              <FcLike className="brightness-[5]" size="20px" />
+              <FcLike className="opacity-50 brightness-[5]" size="20px" />
             )
           ) : like ? (
             <BsFillHandThumbsUpFill size="20px" className="text-[#fbceb1]" />
@@ -64,7 +64,7 @@ export default function LikeCommentScrap({ postType, likeCount, commentCount, po
         }}
       >
         <svg stroke="currentColor" fill="currentColor" strokeWidth="0" version="1" viewBox="0 0 48 48" enableBackground="new 0 0 48 48" height="20px" width="20px" xmlns="http://www.w3.org/2000/svg">
-          <path fill={scrap ? `#f9e288` : 'white'} d="M37,43l-13-6l-13,6V9c0-2.2,1.8-4,4-4h18c2.2,0,4,1.8,4,4V43z"></path>
+          <path fill={scrap ? `#f9e288` : '#ffffff80'} d="M37,43l-13-6l-13,6V9c0-2.2,1.8-4,4-4h18c2.2,0,4,1.8,4,4V43z"></path>
         </svg>
         {`스크랩`}
       </div>

@@ -21,7 +21,7 @@ export async function getFcmToken() {
     } else {
       console.log('fcm.tsx(ERROR): token 가져올 수 없음');
     }
-    return 'fGepswSBCRctUYjWOofotr:APA91bFGPBopTcHTfumq5JZa77O-oS3J-RDqXcGTxQb_nUVcRv7eL-BcZrjwjlg8OAPHTT5awbb-n680YavG5-kqippLL2RUw8O2yJXOc37qNCAchN7Ne1TnNE0x2oR-JYvuUXxVnAkn';
+    return token;
   } catch (error) {
     alert('브라우저에서 알림이 차단되어있습니다. 알림 받기를 원하시면, 브라우저 웹 설정에서 알림을 허용해주세요!');
     console.log(error);

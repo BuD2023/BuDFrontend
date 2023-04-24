@@ -9,7 +9,7 @@ import postUserFollow from '../../apiFetcher/communityInfo/postUserFollow';
 import updateCommunityPostAxios from '../../apiFetcher/communityInfo/updateCommunityPost';
 import { OrderType, postType, SortType } from '../../components/community/_Community.interface';
 import { accessToken } from '../../main';
-import { useCommunityDetailQuery } from './useCommunityDetailQuery';
+import { useCommunityAnswerQuery, useCommunityDetailQuery } from './useCommunityDetailQuery';
 import { useMyFollowersQuery, useMyFollowsQuery, useMyProfileQuery, useMyScrapsQuery } from './useMyProfileQuery';
 import { useProfilePostQuery } from './useProfilePostQuery';
 import { useUserProfileQuery } from './useUserProfileQuery';
@@ -117,6 +117,7 @@ export function useFollowMutation(userId: number, postId?: number) {
   const { refetch: userProfileRefetch } = useUserProfileQuery(userId);
   const { refetch: detailRefetch } = useCommunityDetailQuery(Number(postId));
   const { refetch: myScrapRefetch } = useMyScrapsQuery();
+  const { refetch: qnaAnswerRefetch } = useCommunityAnswerQuery(Number(postId));
   return useMutation(() => postUserFollow(accessToken, userId), {
     onError: (err) => {
       console.log(err);
@@ -127,7 +128,10 @@ export function useFollowMutation(userId: number, postId?: number) {
       followrRefetch();
       followersRefetch();
       myProfileRefetch();
-      if (postId) detailRefetch();
+      if (postId) {
+        detailRefetch();
+        qnaAnswerRefetch();
+      }
       if (userId) userProfileRefetch();
     },
   });

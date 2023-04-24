@@ -12,7 +12,7 @@ export default function CommunityFeedDetail() {
   return (
     <section>
       <div className="mb-[80px] mt-9 flex h-full min-h-[calc(100vh-160px)] flex-col items-start gap-2 p-4 dark:text-white">
-        <Header type="community" title="개발 피드" icon={<BsChevronLeft />} postId={id} />
+        <Header questionUserId={questionUserId} type="community" title="개발 피드" icon={<BsChevronLeft />} postId={id} />
         <CommunityDetailPost setQuestionUserId={setQuestionUserId} />
         <CommunityCommentForm questionUserId={questionUserId} type="FEED" />
       </div>

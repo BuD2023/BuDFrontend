@@ -26,7 +26,7 @@ export function useCommunityDetailQuery(id: number) {
 //QnA 답변 조회
 export function useCommunityAnswerQuery(id: number) {
   return useQuery(['CommunityAnswer', id, fetchNew], () => getQnaAnswerAxios(accessToken, id), {
-    // enabled: true,
+    enabled: false,
     refetchOnMount: true,
     refetchOnReconnect: true,
     refetchOnWindowFocus: true,

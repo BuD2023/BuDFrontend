@@ -34,6 +34,8 @@ interface QnaAnswerContentMemberType {
   credentialsNonExpired: false;
 }
 export interface QnaAnswerContentType {
+  like: boolean;
+  follow: boolean;
   id: number;
   member: QnaAnswerContentMemberType;
   content: string;

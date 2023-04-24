@@ -55,6 +55,7 @@ export interface CommonHeaderType {
   postId?: string;
   copyUrl?: string;
   answerPin?: boolean;
+  questionUserId?: number;
 }
 
 /** ImagePeek - 이미지 미리보기 컴포넌트에 들어가는 props 타입 */
