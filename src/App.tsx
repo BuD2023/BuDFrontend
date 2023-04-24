@@ -29,7 +29,6 @@ import Setting from './pages/setting/Setting.js';
 import UserInfo from './pages/setting/UserInfo.js';
 import { RecoilRoot } from 'recoil';
 import { onMessage } from 'firebase/messaging';
-import { onBackgroundMessage } from 'firebase/messaging/sw';
 import { firebaseMessaging } from './utils/fcm.js';
 
 function App() {
@@ -48,7 +47,6 @@ function App() {
     const options = {
       body: payload.notification?.body,
     };
-
     console.log('Message received. title : ', title, 'options : ', options);
     navigator.serviceWorker.ready.then((registration) => {
       registration.showNotification(title as string, options);

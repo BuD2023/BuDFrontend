@@ -9,7 +9,7 @@ import { CommunityPostType } from '../../components/community/_Community.interfa
 import { usePreventLeave } from '../../utils/usePreventLeave';
 import PicModal from '../../components/common/PicModal';
 import Header from '../../components/common/Header';
-import { handleChangeProfileImg } from '../../utils/handleChangeImgFile';
+import { handleFileImage } from '../../utils/handleChangeImgFile';
 
 export default function PostEdit() {
   const { id: postId } = useParams();
@@ -44,6 +44,14 @@ export default function PostEdit() {
     open: false,
     pic: '',
   });
+  const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const result = await handleFileImage(e);
+    setImgPeek(result.url);
+    setPostInfo({
+      ...postInfo,
+      images: result.file as Blob[],
+    });
+  };
 
   const { enablePrevent } = usePreventLeave();
   enablePrevent();
@@ -98,7 +106,7 @@ export default function PostEdit() {
                 placeholder="제목을 입력해주세요(필수)"
                 className="h-[54px] w-full rounded-[20px] bg-midIvory p-2 px-4 text-[16px] placeholder:font-semibold  placeholder:text-[#7b6d6d] placeholder:opacity-80 focus:outline-none dark:bg-lightNavy dark:placeholder:text-white"
               />
-              <input ref={imgRef} type="file" accept="image/*" multiple onChange={(e) => handleChangeProfileImg(e, setImgPeek, postInfo, setPostInfo)} className="hidden" />
+              <input ref={imgRef} type="file" accept="image/*" multiple onChange={handleUpload} className="hidden" />
               <div onClick={() => imgRef?.current?.click()} className="flex h-[54px] w-[54px] shrink-0 cursor-pointer items-center justify-center rounded-full bg-midIvory dark:bg-lightNavy">
                 <AiFillPicture className="opacity-80" />
               </div>

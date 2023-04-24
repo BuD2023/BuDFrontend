@@ -30,7 +30,7 @@ async function requestPermission() {
       'Content-Type': 'application/json',
     },
     // 나중에수정
-    data: { fcmToken: 'fGepswSBCRctUYjWOofotr:APA91bFGPBopTcHTfumq5JZa77O-oS3J-RDqXcGTxQb_nUVcRv7eL-BcZrjwjlg8OAPHTT5awbb-n680YavG5-kqippLL2RUw8O2yJXOc37qNCAchN7Ne1TnNE0x2oR-JYvuUXxVnAkn' },
+    data: { fcmToken: token },
   });
 
   // foreground 알림 푸쉬 받기

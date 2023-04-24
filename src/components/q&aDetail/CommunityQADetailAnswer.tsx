@@ -8,8 +8,10 @@ import CommunityCommentForm from '../feedDetail/CommunityCommentForm';
 import { CommunityQADetailAnswerProps, QnaAnswerContentType } from './_Q&ADetail.interface';
 import { S3_URL } from '../../constant/union';
 import { timeForToday } from '../../utils/timeForToday';
-import { useRecoilValueLoadable } from 'recoil';
+import { useRecoilState, useRecoilValueLoadable } from 'recoil';
 import { getMyPageInfo } from '../../store/recoil/user';
+import { answerEdit } from '../../store/recoil/answerEdit';
+import ImagePeek from '../common/ImagePeek';
 
 export default function CommunityQADetailAnswer({ isCommentOpen, setIsCommentOpen, answerPin, setAnswerPin, questionUserId }: CommunityQADetailAnswerProps) {
   const { id: postId } = useParams();
@@ -17,6 +19,9 @@ export default function CommunityQADetailAnswer({ isCommentOpen, setIsCommentOpe
   const [isMenu, setIsMenu] = useState<boolean>();
   const [activeComment, setActiveComment] = useState<number[]>([]);
   const [activeAnswerMenu, setActiveAnswerMenu] = useState<number[]>([]);
+
+  // recoil
+  const [_, setAnswerEditValue] = useRecoilState(answerEdit);
 
   // 사용자 정보
   const getMyPageInfoLodable = useRecoilValueLoadable(getMyPageInfo);
@@ -93,7 +98,16 @@ export default function CommunityQADetailAnswer({ isCommentOpen, setIsCommentOpe
               )}
               {isMenu && activeAnswerMenu.includes(answer.id) && myPageInfo.nickName === answer.member.nickname && (
                 <div className="absolute right-4 top-[45px] flex flex-col gap-3 rounded-xl bg-greyBeige p-3 text-[16px] font-medium">
-                  <div onClick={() => navigate(`/answerEdit/${postId}/${answer.id}`)} className="cursor-pointer">
+                  <div
+                    onClick={() => {
+                      setAnswerEditValue({
+                        content: answer.content,
+                        images: [],
+                      });
+                      navigate(`/answerEdit/${postId}/${answer.id}`);
+                    }}
+                    className="cursor-pointer"
+                  >
                     수정하기
                   </div>
                   <div onClick={() => handleClickDeleteAnswer(answer.id)} className="cursor-pointer">
@@ -133,6 +147,9 @@ export default function CommunityQADetailAnswer({ isCommentOpen, setIsCommentOpe
                 <p className="text-base">{answer.content}</p>
               </div>
             </div>
+            {/* {answerData !== undefined && answerData.imageUrls.length > 0 && answerData.imageUrls[0] !== null && (
+            <ImagePeek setIsPicPopUp={answerData} imgPeek={answerData.imageUrls.map((imgeUrl) => S3_URL + imgeUrl)} />
+          )} */}
             <div
               className={
                 'flex h-[54px] w-full items-center gap-8 rounded-b-[20px] bg-[#a49c7c] p-4 text-base text-white dark:bg-[#383030] dark:dark:bg-[#2c2e34] ' +

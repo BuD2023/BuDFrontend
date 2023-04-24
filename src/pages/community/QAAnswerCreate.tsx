@@ -7,7 +7,7 @@ import { QnaAnswerType } from '../../components/community/_Community.interface';
 import PicModal from '../../components/common/PicModal';
 import QuestionModal from '../../components/common/QuestionModal';
 import Header from '../../components/common/Header';
-import { handleChangeProfileImg } from '../../utils/handleChangeImgFile';
+import { handleFileImage } from '../../utils/handleChangeImgFile';
 
 export default function QAAnswerCreate() {
   const { postId } = useParams();
@@ -30,6 +30,14 @@ export default function QAAnswerCreate() {
 
   // 사진 업로드
   const imgRef = useRef<HTMLInputElement>(null);
+  const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const result = await handleFileImage(e);
+    setImgPeek(result.url);
+    setPostInfo({
+      ...postInfo,
+      images: result.file as Blob[],
+    });
+  };
 
   // 사진 popUp
   const [isPicPopUp, setIsPicPopUp] = useState({
@@ -58,7 +66,7 @@ export default function QAAnswerCreate() {
                   <AiFillPicture className="opacity-80" />
                 </div>
               </div>
-              <input ref={imgRef} type="file" accept="image/*" multiple onChange={(e) => handleChangeProfileImg(e, setImgPeek, postInfo, setPostInfo)} className="hidden" />
+              <input ref={imgRef} type="file" accept="image/*" multiple onChange={handleUpload} className="hidden" />
             </div>
             <div className={`flex h-[calc(100vh-286px)] w-full flex-col gap-2 transition-all`}>
               {imgPeek.length > 0 && (

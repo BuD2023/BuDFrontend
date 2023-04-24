@@ -100,7 +100,7 @@ export default function MainBtn({ onSubmit, content, size }: MainBtnPropsType) {
           mutateCreateQnaAnswer(
             toFormData({
               postTypeInfo: onSubmit.postTypeInfo as postingInfoType,
-              postId: Number(onSubmit.postId) as number,
+              postId: String(onSubmit.postId),
               content: onSubmit.content as string,
             })
           );
@@ -110,7 +110,7 @@ export default function MainBtn({ onSubmit, content, size }: MainBtnPropsType) {
           mutateCreateQnaAnswer(
             toFormData({
               postTypeInfo: onSubmit.postTypeInfo as postingInfoType,
-              postId: Number(onSubmit.postId) as number,
+              postId: String(onSubmit.postId),
               content: onSubmit.content as string,
               images: onSubmit.images,
             })
@@ -126,7 +126,7 @@ export default function MainBtn({ onSubmit, content, size }: MainBtnPropsType) {
             toFormData({
               postTypeInfo: onSubmit.postTypeInfo as postingInfoType,
               content: onSubmit.content as string,
-              qnaAnswerId: onSubmit.qnaAnswerId as number,
+              // qnaAnswerId: onSubmit.qnaAnswerId as number,
             })
           );
           console.log('Update Answer : No Image');
@@ -136,7 +136,7 @@ export default function MainBtn({ onSubmit, content, size }: MainBtnPropsType) {
             toFormData({
               postTypeInfo: onSubmit.postTypeInfo as postingInfoType,
               content: onSubmit.content as string,
-              qnaAnswerId: onSubmit.qnaAnswerId as number,
+              // qnaAnswerId: onSubmit.qnaAnswerId as number,
               images: onSubmit.images,
             })
           );
