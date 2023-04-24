@@ -7,10 +7,18 @@ import PicModal from '../common/PicModal';
 import { S3_URL } from '../../constant/union';
 import { timeForToday } from '../../utils/timeForToday';
 import { useFollowMutation } from '../../store/module/useCommunityQuery';
-import { useMyScrapsQuery } from '../../store/module/useMyProfileQuery';
+import { MyProfileType, ScrapPostContentType } from './_MyProfile.interface';
 
-export default function ScrapPostFormat({ refetch, userData, resultData, setFollowIsSuccess }: any) {
+interface ScrapPostFormatPropsType {
+  refetch: () => void;
+  userData: MyProfileType;
+  resultData: ScrapPostContentType[];
+  setFollowIsSuccess: (x: boolean) => void;
+}
+
+export default function ScrapPostFormat({ refetch, userData, resultData, setFollowIsSuccess }: ScrapPostFormatPropsType) {
   const navigate = useNavigate();
+  const [userId, setUserId] = useState<number>();
 
   //사진 팝업모달
   const [isPicPopUp, setIsPicPopUp] = useState({
@@ -18,30 +26,18 @@ export default function ScrapPostFormat({ refetch, userData, resultData, setFoll
     pic: '',
   });
 
-  const [userId, setUserId] = useState<number>();
-
+  //리액트 쿼리
   const { mutate, isSuccess } = useFollowMutation(Number(userId));
-  const {
-    data: myScrapsData,
-    isLoading: myScrapsIsLoading,
-    error: myScrapsError,
-    isFetching: myScrapsIsFetching,
-    isFetchingNextPage: myScrapsIsFetchingNextPage,
-    fetchNextPage: myScrapsFetchNextPage,
-    hasNextPage: myScrapsHasNextPage,
-    refetch: myScrapsRefetch,
-  } = useMyScrapsQuery();
 
+  // follow 클릭
   const handleClickFollow = (e: React.MouseEvent<HTMLElement>, memberId: number) => {
     setUserId(memberId);
     e.stopPropagation();
-    // setFollowIsSuccess(isSuccess);
     mutate();
   };
 
   useEffect(() => {
-    myScrapsRefetch();
-    // setFollowIsSuccess(isSuccess);
+    setFollowIsSuccess(isSuccess);
   }, [isSuccess]);
 
   return (
@@ -68,7 +64,7 @@ export default function ScrapPostFormat({ refetch, userData, resultData, setFoll
                     <img
                       onClick={(e) => {
                         e.stopPropagation();
-                        if (resultData.id === userData.id) {
+                        if (data.id === userData.id) {
                           navigate(`/myProfile/feed`);
                           return;
                         } else {

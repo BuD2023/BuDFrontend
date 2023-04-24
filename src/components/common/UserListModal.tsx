@@ -29,7 +29,6 @@ export default function UserListModal({ isUserList, setIsUserList, type, follows
   const { data: UserFollowersData, isLoading: UserFollowersIsLoading, error: UserFollowersError, refetch: UserFollowersRefetch } = useUserFollowersQuery(Number(id));
   const { data: UserFollowsData, isLoading: UserFollowsIsLading, error: UserFollowsError, refetch: UserFollowsRefetch } = useUserFollowsQuery(Number(id));
   const { data: chatUserList, isLoading: chatUserIsLoading, refetch: chatUserListRefetch } = useChatUserListQuery(Number(id));
-  console.log(chatUserList);
 
   const [userId, setUserId] = useState(id ?? 0);
   const { mutate, isSuccess } = useFollowMutation(Number(userId));
@@ -86,8 +85,6 @@ export default function UserListModal({ isUserList, setIsUserList, type, follows
   useEffect(() => {
     setIsUserList(false);
   }, [follows === 0]);
-
-  console.log(chatUserList);
 
   return (
     <Transition.Root show={isUserList} as={Fragment}>

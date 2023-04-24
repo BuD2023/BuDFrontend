@@ -64,7 +64,7 @@ export interface memberType {
 }
 
 /** getMyScrapList - ScrpListType의 content 타입 */
-export interface ScrapPostPropsType {
+export interface ScrapPostContentType {
   createdAt: string;
   id: number;
   post: {
@@ -85,8 +85,8 @@ export interface ScrapPostPropsType {
 }
 
 /** getMyScrapList - 나의 스크랩 리스트 가져올 때 사용하는 response 타입 */
-export interface ScrpListType {
-  content: ScrapPostPropsType[];
+export interface ScrapListType {
+  content: ScrapPostContentType[];
   empty: boolean;
   first: boolean;
   last: boolean;

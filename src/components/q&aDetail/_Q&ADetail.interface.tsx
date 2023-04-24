@@ -45,6 +45,7 @@ export interface QnaAnswerContentType {
   createdAt: string;
   updatedAt: string;
   qnaAnswerPin: boolean;
+  imageUrls: string[];
 }
 export interface QnaAnswerType {
   content: QnaAnswerContentType[];
@@ -58,5 +59,4 @@ export interface QnaAnswerType {
   numberOfElements: number;
   first: boolean;
   empty: boolean;
-  imagesUrls: string[];
 }
