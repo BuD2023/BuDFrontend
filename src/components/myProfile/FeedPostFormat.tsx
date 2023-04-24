@@ -1,6 +1,6 @@
 import { FcCheckmark, FcPortraitMode } from 'react-icons/fc';
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import LikeCommentScrap from '../common/LikeCommentScrap';
 import ImagePeek from '../common/ImagePeek';
 import PicModal from '../common/PicModal';
@@ -8,6 +8,7 @@ import { S3_URL } from '../../constant/union';
 import { timeForToday } from '../../utils/timeForToday';
 import { useRecoilValueLoadable } from 'recoil';
 import { getMyPageInfo } from '../../store/recoil/user';
+import { useFollowMutation } from '../../store/module/useCommunityQuery';
 
 export default function FeedPostFormat({ resultData, userData, refetch }: any) {
   const navigate = useNavigate();
@@ -22,7 +23,25 @@ export default function FeedPostFormat({ resultData, userData, refetch }: any) {
     pic: '',
   });
 
-  console.log(resultData, userData, myPageInfo);
+  const [userId, setUserId] = useState<number>();
+  const [followSuccess, setFollowSuccess] = useState(false);
+
+  const { mutate, isSuccess } = useFollowMutation(Number(userId));
+
+  const handleClickFollow = (e: React.MouseEvent<HTMLElement>, memberId: number) => {
+    setUserId(memberId);
+    e.stopPropagation();
+    mutate();
+  };
+
+  useEffect(() => {
+    if (followSuccess) {
+      console.log(isSuccess);
+      if (refetch && isSuccess) {
+        refetch();
+      }
+    }
+  }, [followSuccess, refetch, isSuccess]);
 
   return (
     <>
@@ -67,7 +86,13 @@ export default function FeedPostFormat({ resultData, userData, refetch }: any) {
                   </div>
                   {userData.nickName !== myPageInfo.nickName && (
                     <div className="text-end grow font-bold">
-                      <div className="flex h-full items-center justify-end gap-3">
+                      <div
+                        onClick={(e) => {
+                          handleClickFollow(e, data.postRegisterMemberId);
+                          setFollowSuccess(true);
+                        }}
+                        className="flex h-full items-center justify-end gap-3"
+                      >
                         {data.follow ? (
                           <>
                             <FcCheckmark size={21} />

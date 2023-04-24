@@ -1,13 +1,15 @@
 import { FcCheckmark, FcPortraitMode } from 'react-icons/fc';
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import LikeCommentScrap from '../common/LikeCommentScrap';
 import ImagePeek from '../common/ImagePeek';
 import PicModal from '../common/PicModal';
 import { S3_URL } from '../../constant/union';
 import { timeForToday } from '../../utils/timeForToday';
+import { useFollowMutation } from '../../store/module/useCommunityQuery';
+import { useMyScrapsQuery } from '../../store/module/useMyProfileQuery';
 
-export default function ScrapPostFormat({ resultData, userData, refetch }: any) {
+export default function ScrapPostFormat({ refetch, userData, resultData }: any) {
   const navigate = useNavigate();
 
   //사진 팝업모달
@@ -15,6 +17,38 @@ export default function ScrapPostFormat({ resultData, userData, refetch }: any) 
     open: false,
     pic: '',
   });
+
+  const [userId, setUserId] = useState<number>();
+  const [followSuccess, setFollowSuccess] = useState(false);
+
+  const { mutate, isSuccess } = useFollowMutation(Number(userId));
+  const {
+    data: myScrapsData,
+    isLoading: myScrapsIsLoading,
+    error: myScrapsError,
+    isFetching: myScrapsIsFetching,
+    isFetchingNextPage: myScrapsIsFetchingNextPage,
+    fetchNextPage: myScrapsFetchNextPage,
+    hasNextPage: myScrapsHasNextPage,
+    refetch: myScrapsRefetch,
+  } = useMyScrapsQuery();
+
+  const handleClickFollow = (e: React.MouseEvent<HTMLElement>, memberId: number) => {
+    setUserId(memberId);
+    e.stopPropagation();
+    mutate();
+  };
+
+  useEffect(() => {
+    if (followSuccess) {
+      console.log(isSuccess);
+      if (refetch && isSuccess) {
+        refetch();
+      }
+    }
+  }, [followSuccess, refetch, isSuccess]);
+
+  // console.log(myScrapsData);
 
   return (
     <>
@@ -59,7 +93,13 @@ export default function ScrapPostFormat({ resultData, userData, refetch }: any) 
                   </div>
                   {data.postRegisterMemberId !== userData.id && (
                     <div className="text-end grow font-bold">
-                      <div className="flex h-full items-center justify-end gap-3">
+                      <div
+                        onClick={(e) => {
+                          handleClickFollow(e, data.postRegisterMemberId);
+                          setFollowSuccess(true);
+                        }}
+                        className="flex h-full items-center justify-end gap-3"
+                      >
                         {data.follow ? (
                           <>
                             <FcCheckmark size={21} />

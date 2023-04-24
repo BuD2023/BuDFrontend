@@ -58,7 +58,7 @@ export default function SetJob() {
             <button
               onClick={() => navigate('/signUp/picture')}
               type="button"
-              className="rounded-full border-[2px] border-pointGreen bg-pointGreen py-2 px-5 text-lg text-white drop-shadow-2xl transition-all hover:border-white dark:border-[#7cb342] dark:bg-[#7cb342] hover:dark:border-white"
+              className="rounded-full border-[2px] border-pointGreen bg-pointGreen py-2 px-5 text-lg text-white drop-shadow-2xl transition-all hover:border-white  hover:dark:border-white"
             >
               이전
             </button>
@@ -66,7 +66,7 @@ export default function SetJob() {
               onClick={onClickHandler}
               disabled={!(selectedJob.length > 0)}
               type="button"
-              className="rounded-full border-[2px] border-pointGreen bg-pointGreen py-2 px-5 text-lg text-white drop-shadow-2xl transition-all hover:border-white disabled:opacity-0 dark:border-[#7cb342] dark:bg-[#7cb342] hover:dark:border-white"
+              className="rounded-full border-[2px] border-pointGreen bg-pointGreen py-2 px-5 text-lg text-white drop-shadow-2xl transition-all hover:border-white disabled:opacity-0  hover:dark:border-white"
             >
               완료
             </button>

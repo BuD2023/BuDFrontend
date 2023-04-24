@@ -10,8 +10,11 @@ import EditDeleteBtn from './EditDeleteBtn';
 import { useGithubMutation } from '../../store/module/useGithubQuery';
 import ConfirmModal from './ConfirmModal';
 import { CommonHeaderType } from './_Common.interface';
+import { useUnreadNotificationCountQuery } from '../../store/module/useNotificationQuery';
+import { useRecoilValueLoadable } from 'recoil';
+import { getMyPageInfo } from '../../store/recoil/user';
 
-export default function Header({ type, title, restart, icon, onSubmit, postId, copyUrl, answerPin }: CommonHeaderType) {
+export default function Header({ type, title, restart, icon, onSubmit, postId, copyUrl, answerPin, questionUserId }: CommonHeaderType) {
   const [visible, setVisible] = useState(true);
   const beforeScrollY = useRef(0);
   const navigate = useNavigate();
@@ -52,6 +55,12 @@ export default function Header({ type, title, restart, icon, onSubmit, postId, c
     navigate(-1);
   };
 
+  const { data } = useUnreadNotificationCountQuery();
+
+  // 사용자 정보
+  const getMyPageInfoLodable = useRecoilValueLoadable(getMyPageInfo);
+  const myPageInfo: any = 'hasValue' === getMyPageInfoLodable.state ? getMyPageInfoLodable.contents : {};
+
   return (
     <div className={'fixed left-0 top-0 z-30 flex w-full items-center justify-between bg-lightIvory p-4 py-5 transition-all dark:bg-darkNavy ' + (visible ? '' : 'opacity-0')}>
       <div className="flex items-center gap-3 text-[26px] font-bold">
@@ -73,9 +82,16 @@ export default function Header({ type, title, restart, icon, onSubmit, postId, c
           {restart && <MdOutlineRestartAlt onClick={() => postGithub()} className="cursor-pointer" />}
         </div>
       </div>
-      {type === 'category' && <NotiBtn />}
+      {type === 'category' && (
+        <div onClick={() => navigate('/notification')} className="relative">
+          <NotiBtn />
+          <div className="absolute top-[-11px] right-[-7px] flex min-h-[24px] min-w-[24px] cursor-pointer items-center justify-center rounded-full bg-[#f65f5a] p-1 text-xs font-medium text-white">
+            {data?.unreadCount}
+          </div>
+        </div>
+      )}
       {type === 'news' && <AiFillCopy size={26} className="cursor-pointer" onClick={() => navigator.clipboard.writeText((copyUrl ??= ''))} />}
-      {type === 'community' && (!answerPin ?? true) && <BsThreeDots size={26} onClick={() => setIsMenu(!isMenu)} className="cursor-pointer" />}
+      {type === 'community' && (!answerPin ?? true) && questionUserId === myPageInfo.id && <BsThreeDots size={26} onClick={() => setIsMenu(!isMenu)} className="cursor-pointer" />}
       {isMenu && <EditDeleteBtn postId={String(postId)} setIsMenu={setIsMenu} />}
       {type === 'withMainBtn' && <MainBtn onSubmit={onSubmit} content={'완료'} size={20} />}
       {type === 'withMainBtn' && (

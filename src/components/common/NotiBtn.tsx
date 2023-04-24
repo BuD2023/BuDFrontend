@@ -5,5 +5,5 @@ export default function NotiBtn() {
   const navigate = useNavigate();
   const status = true;
 
-  return <>{status ? <BsBellFill onClick={() => navigate('/notification')} size="26" className="cursor-pointer" /> : <BsBellSlashFill size="26" className="opacity-60" />}</>;
+  return <>{status ? <BsBellFill size="26" className="cursor-pointer" /> : <BsBellSlashFill size="26" className="opacity-60" />}</>;
 }

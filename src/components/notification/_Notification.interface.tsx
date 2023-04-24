@@ -57,3 +57,7 @@ export interface notificationDataType {
   isPostPushAvailable?: boolean;
   isFollowPushAvailable?: boolean;
 }
+
+export interface UnreadNotificationCountType {
+  unreadCount: number;
+}

@@ -25,7 +25,7 @@ export default function CommunityDetailPost(props: CommunityDetailPostProps) {
   const myPageInfo: any = 'hasValue' === getMyPageInfoLodable.state ? getMyPageInfoLodable.contents : {};
 
   const [userId, setUserId] = useState<number>();
-  const { mutate } = useFollowMutation(Number(userId));
+  const { mutate } = useFollowMutation(Number(userId), Number(questionId));
 
   useEffect(() => {
     props.setQuestionUserId && props.setQuestionUserId(questionData?.member.id);
@@ -82,7 +82,7 @@ export default function CommunityDetailPost(props: CommunityDetailPostProps) {
               </div>
               {questionData?.member.nickname !== myPageInfo.nickName && (
                 <div className="text-end grow font-bold">
-                  <div onClick={(e) => handleClickFollow(e, Number(questionData?.member.id), questionData?.member.nickname)} className="flex h-full items-center justify-end gap-3">
+                  <div onClick={(e) => handleClickFollow(e, Number(questionData?.member.id), questionData?.member.nickname)} className="flex h-full cursor-pointer items-center justify-end gap-3">
                     {questionData?.follow ? (
                       <>
                         <FcCheckmark size={21} />
