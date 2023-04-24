@@ -62,7 +62,7 @@ export default function Header({ type, title, restart, icon, onSubmit, postId, c
   const myPageInfo: any = 'hasValue' === getMyPageInfoLodable.state ? getMyPageInfoLodable.contents : {};
 
   return (
-    <div className={'fixed left-0 top-0 z-30 flex w-full items-center justify-between bg-lightIvory p-4 py-5 transition-all dark:bg-darkNavy ' + (visible ? '' : 'opacity-0')}>
+    <div className={'fixed left-0 top-0 z-30 flex w-full items-center justify-between bg-lightIvory p-4 py-5 transition-all dark:bg-darkNavy ' + (visible ? '' : 'hidden')}>
       <div className="flex items-center gap-3 text-[26px] font-bold">
         {type === 'category' ? (
           <div className="rounded-xl bg-white p-1">{icon}</div>
@@ -84,9 +84,11 @@ export default function Header({ type, title, restart, icon, onSubmit, postId, c
       {type === 'category' && (
         <div onClick={() => navigate('/notification')} className="relative">
           <NotiBtn />
-          <div className="absolute top-[-11px] right-[-7px] flex min-h-[24px] min-w-[24px] cursor-pointer items-center justify-center rounded-full bg-[#f65f5a] p-1 text-xs font-medium text-white">
-            {data?.unreadCount}
-          </div>
+          {data && data.unreadCount > 0 && (
+            <div className="absolute top-[-11px] right-[-7px] flex min-h-[24px] min-w-[24px] cursor-pointer items-center justify-center rounded-full bg-[#f65f5a] p-1 text-xs font-medium text-white">
+              {data.unreadCount}
+            </div>
+          )}
         </div>
       )}
       {type === 'news' && <AiFillCopy size={26} className="cursor-pointer" onClick={() => navigator.clipboard.writeText((copyUrl ??= ''))} />}

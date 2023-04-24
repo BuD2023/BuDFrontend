@@ -92,7 +92,7 @@ export default function ChatRoom() {
       (client.current as StompJs.Client).publish({
         destination: '/chats/image',
         body: JSON.stringify({
-          senderId: 8,
+          senderId: 4,
           chatroomId: ROOM_NUM,
           imageByte: imgPeek.image,
         }),
@@ -101,7 +101,7 @@ export default function ChatRoom() {
       (client.current as StompJs.Client).publish({
         destination: '/chats/message',
         body: JSON.stringify({
-          senderId: 8,
+          senderId: 4,
           chatroomId: ROOM_NUM,
           message: message,
         }),

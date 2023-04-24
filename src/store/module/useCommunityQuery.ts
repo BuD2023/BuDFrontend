@@ -12,7 +12,7 @@ import { accessToken } from '../../main';
 import { useCommunityAnswerQuery, useCommunityDetailQuery } from './useCommunityDetailQuery';
 import { useMyFollowersQuery, useMyFollowsQuery, useMyProfileQuery, useMyScrapsQuery } from './useMyProfileQuery';
 import { useProfilePostQuery } from './useProfilePostQuery';
-import { useUserProfileQuery } from './useUserProfileQuery';
+import { useUserFollowersQuery, useUserFollowsQuery, useUserProfileQuery } from './useUserProfileQuery';
 
 let refetchNew = '';
 export function useCommunityPostQuery(word?: string, sort?: SortType, order?: OrderType, size?: number, postType?: postType | 'ALL') {
@@ -111,9 +111,8 @@ export function useCommunityScrapMutation(postId: number, userId: number, postTy
 }
 
 export function useFollowMutation(userId: number, postId?: number) {
-  const { refetch: followersRefetch } = useMyFollowersQuery();
-  const { refetch: followrRefetch } = useMyFollowsQuery();
-  const { refetch: myProfileRefetch } = useMyProfileQuery();
+  const { refetch: myFollowersRefetch } = useMyFollowersQuery();
+  const { refetch: myFollowsRefetch } = useMyFollowsQuery();
   const { refetch: userProfileRefetch } = useUserProfileQuery(userId);
   const { refetch: detailRefetch } = useCommunityDetailQuery(Number(postId));
   const { refetch: myScrapRefetch } = useMyScrapsQuery();
@@ -125,9 +124,8 @@ export function useFollowMutation(userId: number, postId?: number) {
     onSuccess: () => {
       console.log('팔로우 상태가 변경되었습니다.');
       myScrapRefetch();
-      followrRefetch();
-      followersRefetch();
-      myProfileRefetch();
+      myFollowsRefetch();
+      myFollowersRefetch();
       if (postId) {
         detailRefetch();
         qnaAnswerRefetch();

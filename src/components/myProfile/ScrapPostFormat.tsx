@@ -9,7 +9,7 @@ import { timeForToday } from '../../utils/timeForToday';
 import { useFollowMutation } from '../../store/module/useCommunityQuery';
 import { useMyScrapsQuery } from '../../store/module/useMyProfileQuery';
 
-export default function ScrapPostFormat({ refetch, userData, resultData }: any) {
+export default function ScrapPostFormat({ refetch, userData, resultData, setFollowIsSuccess }: any) {
   const navigate = useNavigate();
 
   //사진 팝업모달
@@ -19,7 +19,6 @@ export default function ScrapPostFormat({ refetch, userData, resultData }: any) 
   });
 
   const [userId, setUserId] = useState<number>();
-  const [followSuccess, setFollowSuccess] = useState(false);
 
   const { mutate, isSuccess } = useFollowMutation(Number(userId));
   const {
@@ -40,15 +39,9 @@ export default function ScrapPostFormat({ refetch, userData, resultData }: any) 
   };
 
   useEffect(() => {
-    if (followSuccess) {
-      console.log(isSuccess);
-      if (refetch && isSuccess) {
-        refetch();
-      }
-    }
-  }, [followSuccess, refetch, isSuccess]);
-
-  // console.log(myScrapsData);
+    myScrapsRefetch();
+    setFollowIsSuccess(isSuccess);
+  }, [isSuccess]);
 
   return (
     <>
@@ -96,7 +89,6 @@ export default function ScrapPostFormat({ refetch, userData, resultData }: any) 
                       <div
                         onClick={(e) => {
                           handleClickFollow(e, data.postRegisterMemberId);
-                          setFollowSuccess(true);
                         }}
                         className="flex h-full items-center justify-end gap-3"
                       >
