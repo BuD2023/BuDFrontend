@@ -51,6 +51,10 @@ export default function CommunityDetailPost(props: CommunityDetailPostProps) {
     refetch();
   }, []);
 
+  if (questionIsLoading) {
+    return <div className="mb-6 flex h-[298px] w-full cursor-pointer flex-col items-center gap-4 rounded-[20px] bg-midIvory dark:bg-midNavy"></div>;
+  }
+
   return (
     <div className="mb-6 flex w-full flex-col items-center gap-4 rounded-[20px] bg-midIvory dark:bg-midNavy">
       {questionData && (

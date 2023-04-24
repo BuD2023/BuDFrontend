@@ -1,8 +1,30 @@
+import { useEffect, useState } from 'react';
 import { AiFillGithub } from 'react-icons/ai';
+import { useNotificationTokenMutation } from '../../store/module/useNotificationQuery';
+import { getFcmToken } from '../../utils/fcm';
+// import { onTokenRefresh } from ''
 
 export default function LogIn() {
+  //리액트 쿼리
+  const { mutate: postFcmTokenMutation } = useNotificationTokenMutation();
+
+  //useState
+  const [fcmToken, setFcmToken] = useState<string>('');
+
+  //fcm토큰 발급
+  useEffect(() => {
+    const getToken = async () => {
+      const token = await getFcmToken();
+      setFcmToken(token as string);
+    };
+    getToken();
+  });
+
   function loginWithGithub() {
     window.location.assign('http://34.64.224.24:8080/oauth2/authorization/github ');
+    postFcmTokenMutation({
+      fcmToken: 'fGepswSBCRctUYjWOofotr:APA91bFGPBopTcHTfumq5JZa77O-oS3J-RDqXcGTxQb_nUVcRv7eL-BcZrjwjlg8OAPHTT5awbb-n680YavG5-kqippLL2RUw8O2yJXOc37qNCAchN7Ne1TnNE0x2oR-JYvuUXxVnAkn' as string,
+    });
   }
 
   return (

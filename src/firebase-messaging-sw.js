@@ -2,7 +2,7 @@ import customAxios from './apiFetcher/customAxios';
 import { initializeApp } from 'firebase/app';
 import { onMessage } from 'firebase/messaging';
 import { accessToken } from './main';
-import { foregroundMessaging, getFcmToken } from './utils/firebase';
+import { firebaseMessaging, getFcmToken } from './utils/fcm';
 import { getMessaging, onBackgroundMessage } from 'firebase/messaging/sw';
 
 const firebaseConfig = {
@@ -30,11 +30,11 @@ async function requestPermission() {
       'Content-Type': 'application/json',
     },
     // 나중에수정
-    data: { fcmToken: token },
+    data: { fcmToken: 'fGepswSBCRctUYjWOofotr:APA91bFGPBopTcHTfumq5JZa77O-oS3J-RDqXcGTxQb_nUVcRv7eL-BcZrjwjlg8OAPHTT5awbb-n680YavG5-kqippLL2RUw8O2yJXOc37qNCAchN7Ne1TnNE0x2oR-JYvuUXxVnAkn' },
   });
 
   // foreground 알림 푸쉬 받기
-  onMessage(foregroundMessaging, (payload) => {
+  onMessage(firebaseMessaging, (payload) => {
     console.log('메시지가 도착했습니다.', payload);
     const { title, body, image } = payload.notification;
     // title, body, image, tag 등의 데이터를 활용하여 메시지를 화면에 표시
@@ -43,19 +43,19 @@ async function requestPermission() {
       icon: image,
     };
     // Notification을 사용하여 메시지를 화면에 표시
-    // self.registration.showNotification(title, notificationOptions);
+    self.registration.showNotification(title, notificationOptions);
   });
-
-  // onBackgroundMessage(backgroundMessaging, (payload) => {
-  //   console.log('[firebase-messaging-sw.js] Received background message ', payload);
-  //   // Customize notification here
-  //   const notificationTitle = 'Background Message Title';
-  //   const notificationOptions = {
-  //     body: 'Background Message body.',
-  //     icon: '/firebase-logo.png',
-  //   };
-  //   self.registration.showNotification(notificationTitle, notificationOptions);
-  // });
 }
+
+// onBackgroundMessage(backgroundMessaging, (payload) => {
+//   console.log('[firebase-messaging-sw.js] Received background message ', payload);
+//   // Customize notification here
+//   const notificationTitle = 'Background Message Title';
+//   const notificationOptions = {
+//     body: 'Background Message body.',
+//     icon: '/firebase-logo.png',
+//   };
+//   self.registration.showNotification(notificationTitle, notificationOptions);
+// });
 
 requestPermission();

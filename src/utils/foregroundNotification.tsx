@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
-import { getFcmToken, onMessageListener } from './firebase';
+import { getFcmToken, onMessageListener } from './fcm';
 
 // 앱에서 푸시 알림을 표시하는 컴포넌트
 const foregroundNotification = () => {
