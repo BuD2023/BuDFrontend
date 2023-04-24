@@ -42,9 +42,9 @@ export default function ChatRoom() {
   const connect = () => {
     client.current = new StompJs.Client({
       brokerURL: SOCKET_URL, // 웹소켓 서버로 직접 접속
-      connectHeaders: {
-        Authorization: `Bearer ${accessToken}`,
-      },
+      // connectHeaders: {
+      //   Authorization: `Bearer ${accessToken}`,
+      // },
       debug: function (str) {
         console.log(str);
       },
@@ -67,13 +67,16 @@ export default function ChatRoom() {
 
   // 웹소켓 구독
   const subscribe = () => {
-    (client.current as StompJs.Client).subscribe(`/chatrooms/${ROOM_NUM}`, ({ body }) => {
-      setNewChatMessages((_chatMessages) => [..._chatMessages, JSON.parse(body)]);
-    }),
+    (client.current as StompJs.Client).subscribe(
+      `/chatrooms/${ROOM_NUM}`,
+      ({ body }) => {
+        setNewChatMessages((_chatMessages) => [..._chatMessages, JSON.parse(body)]);
+      },
       {
         Authorization: `Bearer ${accessToken}`,
-      };
-    console.log(`Subscribed to chatroom ${ROOM_NUM}`);
+      }
+    ),
+      console.log(`Subscribed to chatroom ${ROOM_NUM}`);
   };
 
   // 메시지 전송 함수 수정

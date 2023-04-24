@@ -35,12 +35,13 @@ export default function ScrapPostFormat({ refetch, userData, resultData, setFoll
   const handleClickFollow = (e: React.MouseEvent<HTMLElement>, memberId: number) => {
     setUserId(memberId);
     e.stopPropagation();
+    // setFollowIsSuccess(isSuccess);
     mutate();
   };
 
   useEffect(() => {
     myScrapsRefetch();
-    setFollowIsSuccess(isSuccess);
+    // setFollowIsSuccess(isSuccess);
   }, [isSuccess]);
 
   return (

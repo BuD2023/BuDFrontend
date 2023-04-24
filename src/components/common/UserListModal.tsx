@@ -86,6 +86,8 @@ export default function UserListModal({ isUserList, setIsUserList, type, follows
     setIsUserList(false);
   }, [follows === 0]);
 
+  console.log(chatUserList);
+
   return (
     <Transition.Root show={isUserList} as={Fragment}>
       <Dialog as="div" className="relative z-50" initialFocus={cancelButtonRef} onClose={() => setIsUserList(false)}>

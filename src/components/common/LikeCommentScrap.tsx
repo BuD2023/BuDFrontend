@@ -46,7 +46,7 @@ export default function LikeCommentScrap({ postType, likeCount, commentCount, po
           ) : like ? (
             <BsFillHandThumbsUpFill size="20px" className="text-[#fbceb1]" />
           ) : (
-            <BsFillHandThumbsUpFill size="20px" className="text-white" />
+            <BsFillHandThumbsUpFill size="20px" className="text-white opacity-50" />
           )}
           {likeCount}
         </div>
