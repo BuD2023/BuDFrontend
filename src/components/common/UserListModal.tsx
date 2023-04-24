@@ -11,7 +11,7 @@ import { CommonUserListType } from '../myProfile/_MyProfile.interface';
 import { S3_URL } from '../../constant/union';
 import { getMyPageInfo } from '../../store/recoil/user';
 import { useRecoilValueLoadable } from 'recoil';
-import { useChatUserListQuery } from '../../store/module/useChatroomQuery';
+import { useChatUserListQuery, useMyChatroomListQuery } from '../../store/module/useChatroomQuery';
 import { chatroomUserListType } from '../chatRoom/_ChatRoom.interface';
 import { FcCheckmark, FcPortraitMode } from 'react-icons/fc';
 
@@ -29,7 +29,6 @@ export default function UserListModal({ isUserList, setIsUserList, type, follows
   const { data: UserFollowersData, isLoading: UserFollowersIsLoading, error: UserFollowersError, refetch: UserFollowersRefetch } = useUserFollowersQuery(Number(id));
   const { data: UserFollowsData, isLoading: UserFollowsIsLading, error: UserFollowsError, refetch: UserFollowsRefetch } = useUserFollowsQuery(Number(id));
   const { data: chatUserList, isLoading: chatUserIsLoading, refetch: chatUserListRefetch } = useChatUserListQuery(Number(id));
-  console.log(chatUserList);
 
   const [userId, setUserId] = useState(id ?? 0);
   const { mutate, isSuccess } = useFollowMutation(Number(userId));
@@ -87,7 +86,9 @@ export default function UserListModal({ isUserList, setIsUserList, type, follows
     setIsUserList(false);
   }, [follows === 0]);
 
-  console.log(chatUserList);
+  useEffect(() => {
+    if (chatUserList) chatUserListRefetch();
+  }, [chatUserList]);
 
   return (
     <Transition.Root show={isUserList} as={Fragment}>

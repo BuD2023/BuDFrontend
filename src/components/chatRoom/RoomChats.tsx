@@ -6,15 +6,10 @@ import { useInView } from 'react-intersection-observer';
 import { S3_URL } from '../../constant/union';
 import ScrollToBottomBtn from '../common/ScrollToBottomBtn';
 import { ChatMessageType, RoomChatsPropsType } from './_ChatRoom.interface';
-import { accessToken } from '../../main';
-import { githubUserInfoAtom } from '../../store/recoil/userAtomFamily';
-import { useRecoilValue, useRecoilValueLoadable } from 'recoil';
+import { useRecoilValueLoadable } from 'recoil';
 import { getMyPageInfo } from '../../store/recoil/user';
 
 export default function RoomChats({ hostInfo, messageList, newChatMessages, hasNextPage, isFetching, isFetchingNextPage, fetchNextPage }: RoomChatsPropsType) {
-  // 리코일
-  const githubUser = useRecoilValue(githubUserInfoAtom(accessToken));
-
   // 사용자 정보
   const getMyPageInfoLodable = useRecoilValueLoadable(getMyPageInfo);
   const myPageInfo: any = 'hasValue' === getMyPageInfoLodable.state ? getMyPageInfoLodable.contents : {};
@@ -42,6 +37,14 @@ export default function RoomChats({ hostInfo, messageList, newChatMessages, hasN
   }, [messageList]);
 
   // 백엔드에서 받은 유저 정보에서 받아서 사용할 것들!
+  const [userInfo, setUserInfo] = useState({
+    userId: 0,
+    nickName: '',
+    profileUrl: '',
+    userIntro: '',
+    job: '',
+  });
+
   const handleClickUserImg = (userName: string, userProfileUrl: string, userId: number) => {
     setUserModal(true);
     setUserInfo({
@@ -52,13 +55,6 @@ export default function RoomChats({ hostInfo, messageList, newChatMessages, hasN
       job: '프론트엔드',
     });
   };
-  const [userInfo, setUserInfo] = useState({
-    userId: 0,
-    nickName: '',
-    profileUrl: '',
-    userIntro: '',
-    job: '',
-  });
 
   //scrollToBottom
   const scrollRef = useRef(null);
@@ -76,7 +72,7 @@ export default function RoomChats({ hostInfo, messageList, newChatMessages, hasN
               .filter((i: Partial<ChatMessageType>) => i.chatType === 'MESSAGE' || i.chatType === 'IMAGE')
               .reverse()
               .map((chat: Partial<ChatMessageType>) => {
-                return chat.userName !== githubUser?.nickName ? (
+                return chat.userName !== myPageInfo?.nickName ? (
                   <div key={chat.chatId} className="mb-3 flex gap-4">
                     <img
                       src={chat.userProfileUrl ? S3_URL + chat.userProfileUrl : defaultImage}

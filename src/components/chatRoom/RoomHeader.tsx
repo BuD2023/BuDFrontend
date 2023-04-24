@@ -15,7 +15,12 @@ export default function RoomHeader({ newChatMessages, setHostInfo }: RoomHeaderP
   const { id } = useParams();
 
   //리액트 쿼리
-  const { data: chatRoomInfo } = useChatroomDetailQuery(Number(id));
+  const { data: chatRoomInfo, refetch } = useChatroomDetailQuery(Number(id));
+
+  // userList popUp
+  const [isUserList, setIsUserList] = useState(false);
+
+  const [test, setTest] = useState<number>();
 
   // 호스트 정보 넘기기
   useEffect(() => {
@@ -27,16 +32,29 @@ export default function RoomHeader({ newChatMessages, setHostInfo }: RoomHeaderP
 
   useEffect(() => {
     console.log(newChatMessages);
+
+    let prevNumMembers = 1;
+    newChatMessages.forEach((msg) => {
+      if (msg.hasOwnProperty('numberOfMembers') && msg.numberOfMembers !== prevNumMembers) {
+        prevNumMembers = msg.numberOfMembers;
+        console.log(msg.numberOfMembers);
+        refetch();
+      }
+    });
+
     if (newChatMessages.find((i) => i.chatType === 'EXPIRE')) {
       console.log('채팅방 폭파!!');
+      navigate('/coffeeChat');
     }
   }, [newChatMessages]);
 
   // 현재 채팅방 인원수 계산
   const numberOfMember = (newChatMessages.slice().reverse() as Partial<ChatMessageType[]>).find((i) => i?.chatType !== 'MESSAGE' && i?.chatType !== 'IMAGE')?.numberOfMembers;
 
-  // userList popUp
-  const [isUserList, setIsUserList] = useState(false);
+  useEffect(() => {
+    console.log(chatRoomInfo?.numberOfMembers);
+    refetch();
+  }, [chatRoomInfo?.numberOfMembers]);
 
   return (
     <>

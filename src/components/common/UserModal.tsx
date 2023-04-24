@@ -5,15 +5,15 @@ import { BsInfoCircle } from 'react-icons/bs';
 import { UserModalPropsType } from './_Common.interface';
 import { S3_URL } from '../../constant/union';
 import { useNewChatroomHostMutation } from '../../store/module/useChatroomQuery';
-import { accessToken } from '../../main';
-import { githubUserInfoAtom } from '../../store/recoil/userAtomFamily';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValueLoadable } from 'recoil';
+import { getMyPageInfo } from '../../store/recoil/user';
 
 export default function UserModal({ userModal, setUserModal, userInfo, hostInfo }: UserModalPropsType) {
   const { userId, nickName, profileUrl, userIntro, job } = userInfo;
 
-  // 리코일
-  const githubUser = useRecoilValue(githubUserInfoAtom(accessToken));
+  // 사용자 정보
+  const getMyPageInfoLodable = useRecoilValueLoadable(getMyPageInfo);
+  const myPageInfo: any = 'hasValue' === getMyPageInfoLodable.state ? getMyPageInfoLodable.contents : {};
 
   const cancelButtonRef = useRef(null);
   const navigate = useNavigate();
@@ -23,7 +23,7 @@ export default function UserModal({ userModal, setUserModal, userInfo, hostInfo 
 
   const handleAuthorizeHost = (userId: number) => {
     setUserModal(false);
-    if (hostInfo.nickName === githubUser?.nickName) {
+    if (hostInfo.nickName === myPageInfo?.nickName) {
       mutate(userId);
       console.log(`사용자가 ${nickName}에게 호스트를 위임했습니다.`);
     } else {
@@ -72,7 +72,7 @@ export default function UserModal({ userModal, setUserModal, userInfo, hostInfo 
                     onClick={() => handleAuthorizeHost(userId)}
                     ref={cancelButtonRef}
                   >
-                    {hostInfo.nickName === githubUser?.nickName ? `호스트 위임하기` : '프로필 보러가기'}
+                    {hostInfo.nickName === myPageInfo?.nickName ? `호스트 위임하기` : '프로필 보러가기'}
                   </button>
                 </div>
               </Dialog.Panel>
