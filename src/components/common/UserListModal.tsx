@@ -11,7 +11,7 @@ import { CommonUserListType } from '../myProfile/_MyProfile.interface';
 import { S3_URL } from '../../constant/union';
 import { getMyPageInfo } from '../../store/recoil/user';
 import { useRecoilValueLoadable } from 'recoil';
-import { useChatUserListQuery } from '../../store/module/useChatroomQuery';
+import { useChatUserListQuery, useMyChatroomListQuery } from '../../store/module/useChatroomQuery';
 import { chatroomUserListType } from '../chatRoom/_ChatRoom.interface';
 import { FcCheckmark, FcPortraitMode } from 'react-icons/fc';
 
@@ -85,6 +85,10 @@ export default function UserListModal({ isUserList, setIsUserList, type, follows
   useEffect(() => {
     setIsUserList(false);
   }, [follows === 0]);
+
+  useEffect(() => {
+    if (chatUserList) chatUserListRefetch();
+  }, [chatUserList]);
 
   return (
     <Transition.Root show={isUserList} as={Fragment}>
