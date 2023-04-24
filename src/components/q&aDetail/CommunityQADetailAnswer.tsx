@@ -12,6 +12,7 @@ import { useRecoilState, useRecoilValueLoadable } from 'recoil';
 import { getMyPageInfo } from '../../store/recoil/user';
 import { answerEdit } from '../../store/recoil/answerEdit';
 import ImagePeek from '../common/ImagePeek';
+import PicModal from '../common/PicModal';
 
 export default function CommunityQADetailAnswer({ isCommentOpen, setIsCommentOpen, answerPin, setAnswerPin, questionUserId }: CommunityQADetailAnswerProps) {
   const { id: postId } = useParams();
@@ -36,6 +37,14 @@ export default function CommunityQADetailAnswer({ isCommentOpen, setIsCommentOpe
   const { mutate: pinAnswerMutate } = usePinAnswerMutation(Number(answerId));
   const { mutate: likeAnswerMutate } = usePostQnaAnswerLikeMutation(Number(postId));
   const { mutate: deleteAnswerMutate } = useDeleteQnaAnswerMutation(Number(answerId), Number(postId));
+
+  // console.log(answerData?.imagesUrls);
+
+  // //사진 팝업모달
+  // const [isPicPopUp, setIsPicPopUp] = useState({
+  //   open: false,
+  //   pic: '',
+  // });
 
   const handleClickFollow = (e: React.MouseEvent<HTMLElement>, memberId: number) => {
     setUserId(memberId);
@@ -67,6 +76,7 @@ export default function CommunityQADetailAnswer({ isCommentOpen, setIsCommentOpe
 
   return (
     <>
+      {/* <PicModal isPicPopUp={isPicPopUp} setIsPicPopUp={setIsPicPopUp} /> */}
       {answerData &&
         answerData?.content.map((answer: QnaAnswerContentType, idx: number) => {
           return (
@@ -163,6 +173,9 @@ export default function CommunityQADetailAnswer({ isCommentOpen, setIsCommentOpe
                   <p className="text-base">{answer.content}</p>
                 </div>
               </div>
+              {/* {answerData.imagesUrls && answerData.imagesUrls.length > 0 && answerData.imagesUrls[0] !== 'https://budproject.s3.ap-northeast-2.amazonaws.com/null' && (
+                <ImagePeek setIsPicPopUp={setIsPicPopUp} imgPeek={answerData.imagesUrls as string[]} />
+              )} */}
               <div
                 className={
                   'flex h-[54px] w-full items-center gap-8 rounded-b-[20px] bg-[#a49c7c] p-4 text-base text-white dark:bg-[#383030] dark:dark:bg-[#2c2e34] ' +

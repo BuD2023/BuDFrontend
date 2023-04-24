@@ -52,7 +52,6 @@ export function useChatUserListQuery(chatroomId: number) {
     refetchOnMount: true,
     refetchOnReconnect: true,
     refetchOnWindowFocus: true,
-    retry: 3,
   });
 }
 

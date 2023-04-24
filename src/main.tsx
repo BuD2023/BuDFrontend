@@ -5,7 +5,7 @@ import './index.css';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { RecoilRoot } from 'recoil';
-import { lazy } from 'react'; // React.lazy와 Suspense를 import
+import App from './App';
 
 // 지현 토큰
 export var accessToken =
@@ -24,9 +24,6 @@ export const queryClient = new QueryClient({
     },
   },
 });
-
-// App 컴포넌트를 동적으로 로드
-const App = lazy(() => import('./App'));
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <BrowserRouter>

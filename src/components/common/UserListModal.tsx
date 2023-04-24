@@ -28,7 +28,8 @@ export default function UserListModal({ isUserList, setIsUserList, type, follows
   const { data: MyFollowsData, isLoading: followsIsLading, error: followsError, refetch: followsRefetch } = useMyFollowsQuery();
   const { data: UserFollowersData, isLoading: UserFollowersIsLoading, error: UserFollowersError, refetch: UserFollowersRefetch } = useUserFollowersQuery(Number(id));
   const { data: UserFollowsData, isLoading: UserFollowsIsLading, error: UserFollowsError, refetch: UserFollowsRefetch } = useUserFollowsQuery(Number(id));
-  const { data: chatUserList, refetch: chatUserListRefetch } = useChatUserListQuery(Number(id));
+  const { data: chatUserList, isLoading: chatUserIsLoading, refetch: chatUserListRefetch } = useChatUserListQuery(Number(id));
+  console.log(chatUserList);
 
   const [userId, setUserId] = useState(id ?? 0);
   const { mutate, isSuccess } = useFollowMutation(Number(userId));
@@ -110,7 +111,7 @@ export default function UserListModal({ isUserList, setIsUserList, type, follows
                 <div className="bg-white p-2 sm:p-6 sm:pb-4">
                   <div className="sm:flex sm:items-start">
                     {data !== undefined &&
-                      data.map((user: CommonUserListType) => (
+                      data.map((user: CommonUserListType | chatroomUserListType) => (
                         <div key={user.id} className="flex items-center justify-between">
                           <div
                             onClick={(e) => {
