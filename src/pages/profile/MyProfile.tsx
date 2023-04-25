@@ -98,7 +98,7 @@ export default function MyProfile() {
         />
         <MyProfileMenu postView={postView} setPostView={setPostView} />
         <ProfileSort postView={postView} setSortAndOrder={postView === 'scrap' ? setScrapSortAndOrder : setSortAndOrder} sortAndOrder={postView === 'scrap' ? scrapSortAndOrder : sortAndOrder} />
-        {profilePostData && postView !== 'scrap' && <FeedPostFormat userData={myProfileData} resultData={profilePostData.pages.flatMap((page) => page.content)} />}
+        {profilePostData && postView !== 'scrap' && <FeedPostFormat userData={myProfileData} resultData={profilePostData.pages.flatMap((page) => page.content)} refetch={profilePostRefetch} />}
         {myScrapsData && postView === 'scrap' && (
           <ScrapPostFormat
             refetch={myScrapsRefetch}

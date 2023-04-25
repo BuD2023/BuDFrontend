@@ -1,14 +1,19 @@
 import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
+import { UserInfoEditInitialType } from '../../pages/profile/MyProfileEdit';
+import { useCreateUserInfoMutation } from '../../store/module/useMyProfileQuery';
 import { useNotificationTokenMutation } from '../../store/module/useNotificationQuery';
+import { addUserInfo, UserInfoInitialValueType } from '../../store/recoil/addUserInfo';
 import { getFcmToken } from '../../utils/fcm';
+import { toFormDataOnUserInfo } from '../../utils/toFormData';
 import CheckBoxModal from '../common/CheckBoxModal';
 import ChangeJob from '../myProfileEdit/ChangeJob';
 import { SetNotificationType } from './_SignUp.interface';
 
 export default function SetJob() {
-  const [selectedJob, setSelectedJob] = useState('');
+  // const [selectedJob, setSelectedJob] = useState('');
   const navigate = useNavigate();
   const [checkModal, setCheckModal] = useState<boolean>(false);
   const [notification, setNotification] = useState<SetNotificationType>({ post: true, follow: true });
@@ -22,8 +27,12 @@ export default function SetJob() {
     }
   };
 
+  // 리코일
+  const [userInfo, setUserInfo] = useRecoilState(addUserInfo);
+
   // 리액트 쿼리
-  const { mutate, data } = useNotificationTokenMutation();
+  const { mutateAsync: notiTokenMutate } = useNotificationTokenMutation();
+  const { mutateAsync: createUserMutate } = useCreateUserInfoMutation();
 
   const getModalAnswer = (obj: SetNotificationType) => {
     setNotification(obj);
@@ -31,12 +40,15 @@ export default function SetJob() {
 
   const onClickHandler = async () => {
     setCheckModal(true);
+    console.log(userInfo);
   };
 
   const action = async () => {
+    const userResult = toFormDataOnUserInfo(userInfo);
     try {
       const fcmToken = await getNotificationToken();
-      mutate({ fcmToken: fcmToken as string, isFollowPushAvailable: notification.follow, isPostPushAvailable: notification.post });
+      await notiTokenMutate({ fcmToken: fcmToken as string, isFollowPushAvailable: notification.follow, isPostPushAvailable: notification.post });
+      await createUserMutate(userResult);
       navigate('/');
     } catch (err) {
       console.log(err);
@@ -53,7 +65,7 @@ export default function SetJob() {
             <h1 className="text-[26px] font-bold">관심있는 직무를</h1>
             <h1 className="text-[26px] font-bold">선택해주세요!</h1>
           </div>
-          <ChangeJob selectedJob={selectedJob} setSelectedJob={setSelectedJob} />
+          <ChangeJob selectedJob={userInfo} setSelectedJob={setUserInfo as (x: UserInfoInitialValueType | UserInfoEditInitialType) => void} />
           <div className="flex gap-4">
             <button
               onClick={() => navigate('/signUp/picture')}
@@ -64,7 +76,7 @@ export default function SetJob() {
             </button>
             <button
               onClick={onClickHandler}
-              disabled={!(selectedJob.length > 0)}
+              disabled={!(userInfo.job.length > 0)}
               type="button"
               className="rounded-full border-[2px] border-pointGreen bg-pointGreen py-2 px-5 text-lg text-white drop-shadow-2xl transition-all hover:border-white disabled:opacity-0  hover:dark:border-white"
             >

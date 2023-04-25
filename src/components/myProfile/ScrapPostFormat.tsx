@@ -34,6 +34,7 @@ export default function ScrapPostFormat({ refetch, userData, resultData, myProfi
     e.stopPropagation();
     await mutateAsync();
     myProfileRefetch();
+    refetch();
   };
 
   return (

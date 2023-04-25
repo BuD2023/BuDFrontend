@@ -28,18 +28,17 @@ export default function LogIn() {
     postFcmTokenMutation({
       fcmToken: fcmToken as string,
     });
+    // try {
+    //   const response = await customAxios({
+    //     method: 'get',
+    //     url: 'oauth2/authorization/github',
+    //   });
 
-    try {
-      const response = await customAxios({
-        method: 'get',
-        url: 'oauth2/authorization/github',
-      });
-
-      console.log(response);
-      return response;
-    } catch (error) {
-      console.error(error);
-    }
+    //   console.log(response);
+    //   return response;
+    // } catch (error) {
+    //   console.error(error);
+    // }
   }
 
   return (
