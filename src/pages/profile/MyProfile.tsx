@@ -12,19 +12,13 @@ import { S3_URL } from '../../constant/union';
 import { useMyProfileQuery, useMyScrapsQuery } from '../../store/module/useMyProfileQuery';
 import { useProfilePostQuery } from '../../store/module/useProfilePostQuery';
 import { MyProfileType, ScrapPostContentType } from '../../components/myProfile/_MyProfile.interface';
-import { useFollowMutation } from '../../store/module/useCommunityQuery';
-
 export default function MyProfile() {
   const initialPostView = useParams();
   const [postView, setPostView] = useState(initialPostView.filter ?? 'FEED');
   const navigate = useNavigate();
-  const [followIsSuccess, setFollowIsSuccess] = useState<boolean>(false);
 
   // 리액트 쿼리
   const { data: myProfileData, isLoading: myProfileIsLoading, error: myProfileError, refetch: MyProfileRefetch } = useMyProfileQuery();
-  useEffect(() => {
-    MyProfileRefetch();
-  }, [followIsSuccess]);
 
   const {
     data: myScrapsData,
@@ -36,9 +30,6 @@ export default function MyProfile() {
     hasNextPage: myScrapsHasNextPage,
     refetch: myScrapsRefetch,
   } = useMyScrapsQuery();
-  useEffect(() => {
-    myScrapsRefetch();
-  }, [myScrapsIsLoading]);
 
   const {
     data: profilePostData,
@@ -53,6 +44,7 @@ export default function MyProfile() {
 
   // 인피니티 스크롤
   const { ref, inView } = useInView();
+
   useEffect(() => {
     if (postView === 'scrap' && inView && myScrapsHasNextPage && !myScrapsIsFetching && !myScrapsIsFetchingNextPage) myScrapsFetchNextPage();
     if ((postView === 'qna' || postView === 'feed') && inView && profilePostHasNextPage && !profilePostIsFetching && !profilePostIsFetchingNextPage) profilePostFetchNextPage();
@@ -61,10 +53,11 @@ export default function MyProfile() {
   //페이지 리패칭
   useEffect(() => {
     if (postView === 'scrap') myScrapsRefetch();
-  }, [postView]);
+  }, [postView, myScrapsIsLoading, myProfileIsLoading]);
+
   useEffect(() => {
     if ((myProfileData && postView === 'feed') || postView === 'qna') profilePostRefetch();
-  }, [postView]);
+  }, [postView, profilePostIsLoading, myProfileIsLoading]);
 
   //에러처리
   if (myProfileError || myScrapsError || profilePostError) {
@@ -94,8 +87,8 @@ export default function MyProfile() {
         {profilePostData && postView !== 'scrap' && <FeedPostFormat userData={myProfileData} resultData={profilePostData.pages.flatMap((page) => page.content)} />}
         {myScrapsData && postView === 'scrap' && (
           <ScrapPostFormat
-            setFollowIsSuccess={setFollowIsSuccess}
             refetch={myScrapsRefetch}
+            myProfileRefetch={MyProfileRefetch}
             userData={myProfileData as MyProfileType}
             resultData={myScrapsData.pages.flatMap((page) => page.content) as ScrapPostContentType[]}
           />

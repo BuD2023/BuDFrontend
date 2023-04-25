@@ -24,24 +24,15 @@ export default function FeedPostFormat({ resultData, userData, refetch }: any) {
   });
 
   const [userId, setUserId] = useState<number>();
-  const [followSuccess, setFollowSuccess] = useState(false);
 
-  const { mutate, isSuccess } = useFollowMutation(Number(userId));
+  const { mutateAsync } = useFollowMutation(Number(userId));
 
-  const handleClickFollow = (e: React.MouseEvent<HTMLElement>, memberId: number) => {
+  const handleClickFollow = async (e: React.MouseEvent<HTMLElement>, memberId: number) => {
     setUserId(memberId);
     e.stopPropagation();
-    mutate();
+    await mutateAsync();
+    refetch();
   };
-
-  useEffect(() => {
-    if (followSuccess) {
-      console.log(isSuccess);
-      if (refetch && isSuccess) {
-        refetch();
-      }
-    }
-  }, [followSuccess, refetch, isSuccess]);
 
   return (
     <>
@@ -89,7 +80,6 @@ export default function FeedPostFormat({ resultData, userData, refetch }: any) {
                       <div
                         onClick={(e) => {
                           handleClickFollow(e, data.postRegisterMemberId);
-                          setFollowSuccess(true);
                         }}
                         className="flex h-full items-center justify-end gap-3"
                       >

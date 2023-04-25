@@ -10,9 +10,9 @@ import updateCommunityPostAxios from '../../apiFetcher/communityInfo/updateCommu
 import { OrderType, postType, SortType } from '../../components/community/_Community.interface';
 import { accessToken } from '../../main';
 import { useCommunityAnswerQuery, useCommunityDetailQuery } from './useCommunityDetailQuery';
-import { useMyFollowersQuery, useMyFollowsQuery, useMyProfileQuery, useMyScrapsQuery } from './useMyProfileQuery';
+import { useMyFollowersQuery, useMyFollowsQuery, useMyScrapsQuery } from './useMyProfileQuery';
 import { useProfilePostQuery } from './useProfilePostQuery';
-import { useUserFollowersQuery, useUserFollowsQuery, useUserProfileQuery } from './useUserProfileQuery';
+import { useUserProfileQuery } from './useUserProfileQuery';
 
 let refetchNew = '';
 export function useCommunityPostQuery(word?: string, sort?: SortType, order?: OrderType, size?: number, postType?: postType | 'ALL') {

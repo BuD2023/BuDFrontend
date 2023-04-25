@@ -34,12 +34,13 @@ export default function PostFormat({ inputValue, sortAndOrder }: PostFormatProps
     filter === 'all' ? 'ALL' : (filter as postType)
   );
   const [userId, setUserId] = useState<number>();
-  const { mutate, isSuccess } = useFollowMutation(Number(userId));
+  const { mutateAsync } = useFollowMutation(Number(userId));
 
-  const handleClickFollow = (e: React.MouseEvent<HTMLElement>, memberId: number) => {
+  const handleClickFollow = async (e: React.MouseEvent<HTMLElement>, memberId: number) => {
     setUserId(memberId);
     e.stopPropagation();
-    mutate();
+    await mutateAsync();
+    refetch();
   };
 
   let resultData = data?.pages.map((i) => i.content.map((j) => ({ ...j, imageUrls: j.imageUrls.map((j) => j !== null && S3_URL + j) }))).flat() as CommunityPostListContentType[];
@@ -55,17 +56,6 @@ export default function PostFormat({ inputValue, sortAndOrder }: PostFormatProps
     open: false,
     pic: '',
   });
-
-  const [followSuccess, setFollowSuccess] = useState(false);
-
-  useEffect(() => {
-    if (followSuccess) {
-      console.log(isSuccess);
-      if (refetch && isSuccess) {
-        refetch();
-      }
-    }
-  }, [followSuccess, refetch, isSuccess]);
 
   if (isLoading) {
     return (
@@ -125,7 +115,6 @@ export default function PostFormat({ inputValue, sortAndOrder }: PostFormatProps
                       <div
                         onClick={(e) => {
                           handleClickFollow(e, data.member.id);
-                          setFollowSuccess(true);
                         }}
                         className="flex h-full items-center justify-end gap-3"
                       >

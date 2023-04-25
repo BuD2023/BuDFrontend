@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { SwipeableList, SwipeableListItem } from '@sandstreamdev/react-swipeable-list';
 import '@sandstreamdev/react-swipeable-list/dist/styles.css';
@@ -12,26 +12,17 @@ import { timeForToday } from '../../utils/timeForToday';
 export default function NotificationContent() {
   const navigate = useNavigate();
 
-  const [deleteSuccess, setDeleteSuccess] = useState(false);
   //리액트 쿼리
   const { data: notificationData, refetch, hasNextPage, isFetching, isFetchingNextPage, fetchNextPage } = useNotificationListQuery();
-  const { mutate: deleteNotiMutation, isSuccess } = useNotificationdeleteMutation();
+  const { mutateAsync: deleteNotiMutateAsync } = useNotificationdeleteMutation();
   const { mutate: changeNotiStatMutation } = useNotificationStatusMutation();
 
   // 인피니티 스크롤
   const { ref, inView } = useInView({ threshold: 0.5 });
+
   useEffect(() => {
     if (inView && hasNextPage && !isFetching && !isFetchingNextPage) fetchNextPage();
   }, [inView]);
-
-  useEffect(() => {
-    if (deleteSuccess) {
-      console.log(isSuccess);
-      if (isSuccess) {
-        refetch();
-      }
-    }
-  }, [deleteSuccess, refetch, isSuccess]);
 
   const handleNotiClick = (pageType: pageType, pageId: number, notiId: string) => {
     changeNotiStatMutation(notiId);
@@ -140,9 +131,9 @@ export default function NotificationContent() {
                             </span>
                           </div>
                         ),
-                        action: () => {
-                          deleteNotiMutation(noti.notificationId);
-                          setDeleteSuccess(true);
+                        action: async () => {
+                          await deleteNotiMutateAsync(noti.notificationId);
+                          refetch();
                           console.log('Deleting item:', noti.notificationId);
                         },
                       }}

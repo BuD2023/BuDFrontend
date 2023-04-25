@@ -5,36 +5,22 @@ import { useRecoilValueLoadable } from 'recoil';
 import { useCommunityLikeMutation, useCommunityScrapMutation } from '../../store/module/useCommunityQuery';
 import { getMyPageInfo } from '../../store/recoil/user';
 import { LikeCommentScrapPropsType } from './_Common.interface';
-
 export default function LikeCommentScrap({ postType, likeCount, commentCount, postId, refetch, like, scrap }: LikeCommentScrapPropsType) {
   // 사용자 정보
   const getMyPageInfoLodable = useRecoilValueLoadable(getMyPageInfo);
   const myPageInfo: any = 'hasValue' === getMyPageInfoLodable.state ? getMyPageInfoLodable.contents : {};
-
-  const { mutate: likeMutate, isSuccess: likeIsSuccess } = useCommunityLikeMutation(postId, myPageInfo.id, postType);
-  const { mutate: scrapMutate, isSuccess: scrapIsSuccess } = useCommunityScrapMutation(postId, myPageInfo.id, postType);
-
-  const [likeSuccess, setLikeSuccess] = useState(false);
-  const [scrapSuccess, setScrapSuccess] = useState(false);
-
-  useEffect(() => {
-    if (likeSuccess || scrapSuccess) {
-      console.log(likeIsSuccess, scrapIsSuccess);
-      if (refetch && (likeIsSuccess || scrapIsSuccess)) {
-        refetch();
-      }
-    }
-  }, [likeSuccess, refetch, likeIsSuccess, scrapSuccess, scrapIsSuccess]);
+  const { mutateAsync: likeMutate } = useCommunityLikeMutation(postId, myPageInfo.id, postType);
+  const { mutateAsync: scrapMutate } = useCommunityScrapMutation(postId, myPageInfo.id, postType);
 
   return (
-    <div className="flex h-[54px] w-full items-center justify-between rounded-b-[20px] bg-[#a49c7c] p-4 text-base text-white dark:bg-[#2c2e34]">
+    <div className="flex h-[54px] w-full items-center justify-between rounded-b-[20px] bg-[#A49C7C] p-4 text-base text-white dark:bg-[#2C2E34]">
       <div className="flex gap-6">
         <div
           className="flex cursor-pointer items-center gap-2"
           onClick={async (e) => {
             e.stopPropagation();
-            likeMutate();
-            setLikeSuccess(true);
+            await likeMutate();
+            refetch && refetch();
           }}
         >
           {postType === 'FEED' ? (
@@ -44,7 +30,7 @@ export default function LikeCommentScrap({ postType, likeCount, commentCount, po
               <FcLike className="opacity-50 brightness-[5]" size="20px" />
             )
           ) : like ? (
-            <BsFillHandThumbsUpFill size="20px" className="text-[#fbceb1]" />
+            <BsFillHandThumbsUpFill size="20px" className="text-[#FBCEB1]" />
           ) : (
             <BsFillHandThumbsUpFill size="20px" className="text-white opacity-50" />
           )}
@@ -57,10 +43,10 @@ export default function LikeCommentScrap({ postType, likeCount, commentCount, po
       </div>
       <div
         className="flex cursor-pointer items-center justify-end gap-2"
-        onClick={(e) => {
+        onClick={async (e) => {
           e.stopPropagation();
-          scrapMutate();
-          setScrapSuccess(true);
+          await scrapMutate();
+          refetch && refetch();
         }}
       >
         <svg stroke="currentColor" fill="currentColor" strokeWidth="0" version="1" viewBox="0 0 48 48" enableBackground="new 0 0 48 48" height="20px" width="20px" xmlns="http://www.w3.org/2000/svg">

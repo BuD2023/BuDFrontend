@@ -8,38 +8,29 @@ import { S3_URL } from '../../constant/union';
 import { timeForToday } from '../../utils/timeForToday';
 import { useFollowMutation } from '../../store/module/useCommunityQuery';
 import { MyProfileType, ScrapPostContentType } from './_MyProfile.interface';
-
 interface ScrapPostFormatPropsType {
   refetch: () => void;
   userData: MyProfileType;
   resultData: ScrapPostContentType[];
-  setFollowIsSuccess: (x: boolean) => void;
+  myProfileRefetch: () => void;
 }
-
-export default function ScrapPostFormat({ refetch, userData, resultData, setFollowIsSuccess }: ScrapPostFormatPropsType) {
+export default function ScrapPostFormat({ refetch, userData, resultData, myProfileRefetch }: ScrapPostFormatPropsType) {
   const navigate = useNavigate();
   const [userId, setUserId] = useState<number>();
-
   //사진 팝업모달
   const [isPicPopUp, setIsPicPopUp] = useState({
     open: false,
     pic: '',
   });
-
   //리액트 쿼리
-  const { mutate, isSuccess } = useFollowMutation(Number(userId));
-
+  const { mutateAsync } = useFollowMutation(Number(userId));
   // follow 클릭
-  const handleClickFollow = (e: React.MouseEvent<HTMLElement>, memberId: number) => {
+  const handleClickFollow = async (e: React.MouseEvent<HTMLElement>, memberId: number) => {
     setUserId(memberId);
     e.stopPropagation();
-    mutate();
+    await mutateAsync();
+    myProfileRefetch();
   };
-
-  useEffect(() => {
-    setFollowIsSuccess(isSuccess);
-  }, [isSuccess]);
-
   return (
     <>
       <PicModal isPicPopUp={isPicPopUp} setIsPicPopUp={setIsPicPopUp} />

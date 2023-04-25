@@ -1,5 +1,8 @@
+import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { AiFillGithub } from 'react-icons/ai';
+import customAxios from '../../apiFetcher/customAxios';
+import { accessToken } from '../../main';
 import { useNotificationTokenMutation } from '../../store/module/useNotificationQuery';
 import { getFcmToken } from '../../utils/fcm';
 // import { onTokenRefresh } from ''
@@ -20,12 +23,59 @@ export default function LogIn() {
     getToken();
   });
 
-  function loginWithGithub() {
-    window.location.assign('http://34.64.224.24:8080/oauth2/authorization/github ');
+  const loginWithGithub = async () => {
+    const redirectUrl = 'http://34.64.224.24:8080/oauth2/authorization/github';
+    window.location.assign(redirectUrl);
     postFcmTokenMutation({
       fcmToken: fcmToken as string,
     });
-  }
+
+    const response = await customAxios({
+      method: 'get',
+      url: 'oauth2/authorization/github',
+      // url: redirectUrl,
+    });
+
+    const header = response.headers;
+    console.log(header);
+
+    // try {
+    //   const response = await customAxios({
+    //     method: 'get',
+    //     url: 'oauth2/authorization/github',
+    //     headers: {
+    //       Authorization: `Bearer ${accessToken}`,
+    //     },
+    //   });
+
+    //   const headers = response.headers;
+    //   console.log(headers);
+
+    //   return response.data;
+    // } catch (error) {
+    //   console.error(error);
+    // }
+  };
+
+  // const getGithubInfoAxios = async (token: string): Promise<githubInfoType> => {
+  //   return await customAxios({
+  //     method: 'get',
+  //     url: '/github',
+  //     headers: {
+  //       Authorization: `Bearer ${token}`,
+  //     },
+  //   });
+  // };
+
+  // const loginWithGithub = async (token: string) => {
+  //   return await customAxios({
+  //     method: 'get',
+  //     url: 'oauth2/authorization/github',
+  //     headers: {
+  //       Authorization: `Bearer ${token}`,
+  //     },
+  //   });
+  // };
 
   return (
     <section className="fixed inset-0 flex flex-col items-center justify-center bg-lightIvory dark:bg-darkNavy">
