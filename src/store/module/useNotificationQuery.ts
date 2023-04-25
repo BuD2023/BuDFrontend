@@ -7,6 +7,7 @@ import postNotificationTokenAxios from '../../apiFetcher/notificationInfo/postNo
 import { notificationDataType } from '../../components/notification/_Notification.interface';
 import deleteReadAllNotificationAxios from '../../apiFetcher/notificationInfo/deleteReadAllNotification';
 import getUnreadNotificationCount from '../../apiFetcher/notificationInfo/getUnreadNotificationCount';
+import putReadAllNotification from '../../apiFetcher/notificationInfo/putReadAllNotification';
 
 export function useNotificationListQuery() {
   return useInfiniteQuery(['NotificationList'], ({ pageParam = 0 }) => getNotificationListAxios(accessToken, pageParam), {
@@ -79,6 +80,17 @@ export function useDeleteReadAllNotificationMutation() {
     },
     onSuccess: () => {
       console.log('모든 읽은 알림 삭제가 완료되었습니다.');
+    },
+  });
+}
+
+export function useReadAllNotificationQuery() {
+  return useMutation(() => putReadAllNotification(accessToken), {
+    onError: (err) => {
+      console.log(err);
+    },
+    onSuccess: () => {
+      console.log('알림이 모두 읽음 상태로 변경되었습니다.');
     },
   });
 }
