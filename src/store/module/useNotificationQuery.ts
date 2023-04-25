@@ -5,7 +5,7 @@ import deleteNotificationAxios from '../../apiFetcher/notificationInfo/deleteNot
 import { accessToken } from '../../main';
 import postNotificationTokenAxios from '../../apiFetcher/notificationInfo/postNotificationToken';
 import { notificationDataType } from '../../components/notification/_Notification.interface';
-import getNewsDetailAxios from '../../apiFetcher/newsInfo/getNewsDetail';
+import deleteReadAllNotificationAxios from '../../apiFetcher/notificationInfo/deleteReadAllNotification';
 import getUnreadNotificationCount from '../../apiFetcher/notificationInfo/getUnreadNotificationCount';
 
 export function useNotificationListQuery() {
@@ -69,5 +69,16 @@ export function useUnreadNotificationCountQuery() {
     retry: 0,
     staleTime: 1000 * 60,
     cacheTime: 1000 * 60 * 5,
+  });
+}
+
+export function useDeleteReadAllNotificationMutation() {
+  return useMutation(() => deleteReadAllNotificationAxios(accessToken), {
+    onError: (err) => {
+      console.log(err);
+    },
+    onSuccess: () => {
+      console.log('모든 읽은 알림 삭제가 완료되었습니다.');
+    },
   });
 }
