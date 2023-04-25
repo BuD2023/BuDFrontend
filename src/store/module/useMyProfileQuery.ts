@@ -3,6 +3,7 @@ import getMyFollowerList from '../../apiFetcher/userInfo/getMyFollowerList';
 import getMyFollowList from '../../apiFetcher/userInfo/getMyFollowList';
 import getMyProfileInfo from '../../apiFetcher/userInfo/getMyProfile';
 import getMyScrapList from '../../apiFetcher/userInfo/getMyScrapList';
+import { OrderType } from '../../components/community/_Community.interface';
 import { accessToken } from '../../main';
 
 export function useMyProfileQuery() {
@@ -41,8 +42,8 @@ export function useMyFollowsQuery() {
   });
 }
 
-export function useMyScrapsQuery(sort?: string) {
-  return useInfiniteQuery(['myScraps', sort], ({ pageParam = 0 }) => getMyScrapList(accessToken, pageParam, sort), {
+export function useMyScrapsQuery(sort?: string, order?: OrderType) {
+  return useInfiniteQuery(['myScraps', sort, order], ({ pageParam = 0 }) => getMyScrapList(accessToken, pageParam, sort, order), {
     getNextPageParam: (prevData: any, allPages) => {
       const lastPage = prevData.last;
       const nextPage = allPages.length;

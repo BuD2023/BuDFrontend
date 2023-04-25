@@ -1,9 +1,10 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
 import getProfilePostList from '../../apiFetcher/userInfo/getProfilePostList';
+import { OrderType, SortType } from '../../components/community/_Community.interface';
 import { accessToken } from '../../main';
 
-export function useProfilePostQuery(userId: number, postType?: string, sort?: string) {
-  return useInfiniteQuery(['userProfile', userId, sort, postType], ({ pageParam = 0 }) => getProfilePostList(accessToken, userId, postType, pageParam, sort), {
+export function useProfilePostQuery(userId: number, postType?: string, sort?: SortType, order?: OrderType) {
+  return useInfiniteQuery(['userProfile', userId, sort, postType, order], ({ pageParam = 0 }) => getProfilePostList(accessToken, userId, postType, pageParam, sort, order), {
     getNextPageParam: (prevData, allPages) => {
       const maxPages = prevData.last;
       const nextPage = allPages.length;

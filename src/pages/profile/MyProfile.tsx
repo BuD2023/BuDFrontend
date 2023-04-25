@@ -12,11 +12,23 @@ import { S3_URL } from '../../constant/union';
 import { useMyProfileQuery, useMyScrapsQuery } from '../../store/module/useMyProfileQuery';
 import { useProfilePostQuery } from '../../store/module/useProfilePostQuery';
 import { MyProfileType, ScrapPostContentType } from '../../components/myProfile/_MyProfile.interface';
+import { OrderType, SortType } from '../../components/community/_Community.interface';
+import ProfileSort, { ProfilePostSortType } from '../../components/myProfile/ProfileSort';
 
 export default function MyProfile() {
   const initialPostView = useParams();
   const [postView, setPostView] = useState(initialPostView.filter ?? 'FEED');
   const navigate = useNavigate();
+
+  // 정렬
+  const [sortAndOrder, setSortAndOrder] = useState<{ sort: SortType | ProfilePostSortType; order: OrderType }>({
+    sort: 'DATE',
+    order: 'DESC',
+  });
+  const [scrapSortAndOrder, setScrapSortAndOrder] = useState<{ sort: SortType | ProfilePostSortType; order: OrderType }>({
+    sort: 'POST_DATE',
+    order: 'DESC',
+  });
 
   // 리액트 쿼리
   const { data: myProfileData, isLoading: myProfileIsLoading, error: myProfileError, refetch: MyProfileRefetch } = useMyProfileQuery();
@@ -30,7 +42,7 @@ export default function MyProfile() {
     fetchNextPage: myScrapsFetchNextPage,
     hasNextPage: myScrapsHasNextPage,
     refetch: myScrapsRefetch,
-  } = useMyScrapsQuery();
+  } = useMyScrapsQuery(postView !== 'scrap' ? 'POST_DATE' : scrapSortAndOrder.sort, scrapSortAndOrder.order);
 
   const {
     data: profilePostData,
@@ -41,7 +53,7 @@ export default function MyProfile() {
     fetchNextPage: profilePostFetchNextPage,
     hasNextPage: profilePostHasNextPage,
     refetch: profilePostRefetch,
-  } = useProfilePostQuery(Number(myProfileData?.id), postView === 'scrap' ? 'ALL' : postView.toUpperCase());
+  } = useProfilePostQuery(Number(myProfileData?.id), postView === 'scrap' ? 'ALL' : postView.toUpperCase(), postView === 'scrap' ? 'DATE' : (sortAndOrder.sort as SortType), sortAndOrder.order);
 
   // 인피니티 스크롤
   const { ref, inView } = useInView();
@@ -85,6 +97,7 @@ export default function MyProfile() {
           isLoading={myProfileIsLoading}
         />
         <MyProfileMenu postView={postView} setPostView={setPostView} />
+        <ProfileSort postView={postView} setSortAndOrder={postView === 'scrap' ? setScrapSortAndOrder : setSortAndOrder} sortAndOrder={postView === 'scrap' ? scrapSortAndOrder : sortAndOrder} />
         {profilePostData && postView !== 'scrap' && <FeedPostFormat userData={myProfileData} resultData={profilePostData.pages.flatMap((page) => page.content)} />}
         {myScrapsData && postView === 'scrap' && (
           <ScrapPostFormat
