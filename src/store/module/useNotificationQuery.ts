@@ -7,6 +7,7 @@ import postNotificationTokenAxios from '../../apiFetcher/notificationInfo/postNo
 import { notificationDataType } from '../../components/notification/_Notification.interface';
 import getNewsDetailAxios from '../../apiFetcher/newsInfo/getNewsDetail';
 import getUnreadNotificationCount from '../../apiFetcher/notificationInfo/getUnreadNotificationCount';
+import putReadAllNotification from '../../apiFetcher/notificationInfo/putReadAllNotification';
 
 export function useNotificationListQuery() {
   return useInfiniteQuery(['NotificationList'], ({ pageParam = 0 }) => getNotificationListAxios(accessToken, pageParam), {
@@ -69,5 +70,16 @@ export function useUnreadNotificationCountQuery() {
     retry: 0,
     staleTime: 1000 * 60,
     cacheTime: 1000 * 60 * 5,
+  });
+}
+
+export function useReadAllNotificationQuery() {
+  return useMutation(() => putReadAllNotification(accessToken), {
+    onError: (err) => {
+      console.log(err);
+    },
+    onSuccess: () => {
+      console.log('알림이 모두 읽음 상태로 변경되었습니다.');
+    },
   });
 }

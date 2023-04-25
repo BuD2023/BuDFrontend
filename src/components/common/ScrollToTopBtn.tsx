@@ -35,7 +35,7 @@ export default function ScrollToTopBtn() {
               behavior: 'smooth',
             })
           }
-          className="fixed bottom-[120px] right-8 z-10 cursor-pointer rounded-full bg-white p-2 text-pointGreen drop-shadow-md transition-all"
+          className="fixed bottom-[120px] right-8 z-10 cursor-pointer rounded-full bg-white p-2 text-pointGreen drop-shadow-md transition-all dark:text-sky"
         >
           <BiArrowToTop size={28} />
         </div>
