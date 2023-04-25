@@ -13,10 +13,10 @@ interface ScrapPostFormatPropsType {
   refetch: () => void;
   userData: MyProfileType;
   resultData: ScrapPostContentType[];
-  setFollowIsSuccess: (x: boolean) => void;
+  myProfileRefetch: () => void;
 }
 
-export default function ScrapPostFormat({ refetch, userData, resultData, setFollowIsSuccess }: ScrapPostFormatPropsType) {
+export default function ScrapPostFormat({ refetch, userData, resultData, myProfileRefetch }: ScrapPostFormatPropsType) {
   const navigate = useNavigate();
   const [userId, setUserId] = useState<number>();
 
@@ -27,18 +27,15 @@ export default function ScrapPostFormat({ refetch, userData, resultData, setFoll
   });
 
   //리액트 쿼리
-  const { mutate, isSuccess } = useFollowMutation(Number(userId));
+  const { mutateAsync } = useFollowMutation(Number(userId));
 
   // follow 클릭
-  const handleClickFollow = (e: React.MouseEvent<HTMLElement>, memberId: number) => {
+  const handleClickFollow = async (e: React.MouseEvent<HTMLElement>, memberId: number) => {
     setUserId(memberId);
     e.stopPropagation();
-    mutate();
+    await mutateAsync();
+    myProfileRefetch();
   };
-
-  useEffect(() => {
-    setFollowIsSuccess(isSuccess);
-  }, [isSuccess]);
 
   return (
     <>

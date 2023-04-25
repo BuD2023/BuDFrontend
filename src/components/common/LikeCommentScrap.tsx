@@ -11,20 +11,8 @@ export default function LikeCommentScrap({ postType, likeCount, commentCount, po
   const getMyPageInfoLodable = useRecoilValueLoadable(getMyPageInfo);
   const myPageInfo: any = 'hasValue' === getMyPageInfoLodable.state ? getMyPageInfoLodable.contents : {};
 
-  const { mutate: likeMutate, isSuccess: likeIsSuccess } = useCommunityLikeMutation(postId, myPageInfo.id, postType);
-  const { mutate: scrapMutate, isSuccess: scrapIsSuccess } = useCommunityScrapMutation(postId, myPageInfo.id, postType);
-
-  const [likeSuccess, setLikeSuccess] = useState(false);
-  const [scrapSuccess, setScrapSuccess] = useState(false);
-
-  useEffect(() => {
-    if (likeSuccess || scrapSuccess) {
-      console.log(likeIsSuccess, scrapIsSuccess);
-      if (refetch && (likeIsSuccess || scrapIsSuccess)) {
-        refetch();
-      }
-    }
-  }, [likeSuccess, refetch, likeIsSuccess, scrapSuccess, scrapIsSuccess]);
+  const { mutateAsync: likeMutate, isSuccess: likeIsSuccess } = useCommunityLikeMutation(postId, myPageInfo.id, postType);
+  const { mutateAsync: scrapMutate, isSuccess: scrapIsSuccess } = useCommunityScrapMutation(postId, myPageInfo.id, postType);
 
   return (
     <div className="flex h-[54px] w-full items-center justify-between rounded-b-[20px] bg-[#a49c7c] p-4 text-base text-white dark:bg-[#2c2e34]">
@@ -33,8 +21,8 @@ export default function LikeCommentScrap({ postType, likeCount, commentCount, po
           className="flex cursor-pointer items-center gap-2"
           onClick={async (e) => {
             e.stopPropagation();
-            likeMutate();
-            setLikeSuccess(true);
+            await likeMutate();
+            refetch && refetch();
           }}
         >
           {postType === 'FEED' ? (
@@ -57,10 +45,10 @@ export default function LikeCommentScrap({ postType, likeCount, commentCount, po
       </div>
       <div
         className="flex cursor-pointer items-center justify-end gap-2"
-        onClick={(e) => {
+        onClick={async (e) => {
           e.stopPropagation();
-          scrapMutate();
-          setScrapSuccess(true);
+          await scrapMutate();
+          refetch && refetch();
         }}
       >
         <svg stroke="currentColor" fill="currentColor" strokeWidth="0" version="1" viewBox="0 0 48 48" enableBackground="new 0 0 48 48" height="20px" width="20px" xmlns="http://www.w3.org/2000/svg">

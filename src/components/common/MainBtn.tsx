@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useCreateRoomMutation } from '../../store/module/useCoffeeChatQuery';
-import { useCreateAnswerMutation } from '../../store/module/useCommunityDetailQuery';
-import { usePostCommunityMutation, useUpdateCommunityMutation } from '../../store/module/useCommunityQuery';
+import { useAllChatroomQuery, useCreateRoomMutation } from '../../store/module/useCoffeeChatQuery';
+import { useCommunityAnswerQuery, useCreateAnswerMutation, useUpdateAnswerMutation } from '../../store/module/useCommunityDetailQuery';
+import { useCommunityPostQuery, usePostCommunityMutation, useUpdateCommunityMutation } from '../../store/module/useCommunityQuery';
 import { toFormData } from '../../utils/toFormData';
 import { postingInfoType } from '../community/_Community.interface';
 import { MainBtnPropsType } from './_Common.interface';
@@ -12,18 +12,22 @@ export default function MainBtn({ onSubmit, content, size }: MainBtnPropsType) {
 
   const [postId, setPostId] = useState<number>(0);
   //reactQuery - mutation
-  const { mutate: mutateCreateRoom } = useCreateRoomMutation();
-  const { mutate: mutateCreatePost } = usePostCommunityMutation();
-  const { mutate: mutateUpdatePost } = useUpdateCommunityMutation(postId);
-  const { mutate: mutateCreateQnaAnswer } = useCreateAnswerMutation();
+  const { mutateAsync: mutateCreateRoom } = useCreateRoomMutation();
+  const { mutateAsync: mutateCreatePost } = usePostCommunityMutation();
+  const { mutateAsync: mutateUpdatePost } = useUpdateCommunityMutation(postId);
+  const { mutateAsync: mutateCreateQnaAnswer } = useCreateAnswerMutation();
+  const { mutateAsync: mutateUpdateQnaAnswer } = useUpdateAnswerMutation(postId);
+  const { refetch: allChatroomRefetch } = useAllChatroomQuery();
+  const { refetch: communityPostRefetch } = useCommunityPostQuery();
+  const { refetch: communityAnswerRefetch } = useCommunityAnswerQuery(postId);
 
-  const handleSubitData = () => {
+  const handleSubitData = async () => {
     console.log(onSubmit);
     switch (onSubmit?.postTypeInfo) {
       case 'ROOM_CREATE':
         // 해쉬태그가 있다면
         if (onSubmit.hashTag && onSubmit?.hashTag.join('').length > 0) {
-          mutateCreateRoom({
+          await mutateCreateRoom({
             title: onSubmit.title as string,
             description: onSubmit.description as string,
             hashTag: onSubmit.hashTag as string[],
@@ -32,18 +36,20 @@ export default function MainBtn({ onSubmit, content, size }: MainBtnPropsType) {
         }
         // 해쉬태그가 없다면
         else {
-          mutateCreateRoom({
+          await mutateCreateRoom({
             title: onSubmit.title as string,
             description: onSubmit.description as string,
           });
           console.log('Chatroom : No Hashtag');
         }
+        await allChatroomRefetch();
+        navigate('/coffeeChat');
         break;
       case 'POST_UPDATE':
         setPostId(onSubmit.postId as number);
         // 게시글 업데이트 이미지 없음
         if (onSubmit.images && (onSubmit.images === null || onSubmit.images.length === 0)) {
-          mutateUpdatePost(
+          await mutateUpdatePost(
             toFormData({
               postTypeInfo: onSubmit.postTypeInfo as postingInfoType,
               postId: onSubmit.postId as number,
@@ -55,7 +61,7 @@ export default function MainBtn({ onSubmit, content, size }: MainBtnPropsType) {
           console.log('Post Update : No Image');
           // 게시글 업데이트 이미지 있음
         } else {
-          mutateUpdatePost(
+          await mutateUpdatePost(
             toFormData({
               postTypeInfo: onSubmit.postTypeInfo as postingInfoType,
               postId: onSubmit.postId as number,
@@ -67,11 +73,13 @@ export default function MainBtn({ onSubmit, content, size }: MainBtnPropsType) {
           );
           console.log('Post Update : Image contained');
         }
+        await communityPostRefetch();
+        navigate('/community/all');
         break;
       case 'POST_CREATE':
         // 게시글 생성 이미지 없음
         if (onSubmit.images === null) {
-          mutateCreatePost(
+          await mutateCreatePost(
             toFormData({
               postTypeInfo: onSubmit.postTypeInfo as postingInfoType,
               title: onSubmit.title as string,
@@ -82,7 +90,7 @@ export default function MainBtn({ onSubmit, content, size }: MainBtnPropsType) {
           console.log('Post Create : No Image');
           // 게시글 생성 이미지 있음
         } else {
-          mutateCreatePost(
+          await mutateCreatePost(
             toFormData({
               postTypeInfo: onSubmit.postTypeInfo as postingInfoType,
               title: onSubmit.title as string,
@@ -93,11 +101,14 @@ export default function MainBtn({ onSubmit, content, size }: MainBtnPropsType) {
           );
           console.log('Post Create : Image contained');
         }
+        await communityPostRefetch();
+        navigate('/community/all');
         break;
       case 'ANSWER_CREATE':
+        setPostId(onSubmit.postId as number);
         // 답변생성 이미지 없음
         if (onSubmit.images && onSubmit.images.length === 0) {
-          mutateCreateQnaAnswer(
+          await mutateCreateQnaAnswer(
             toFormData({
               postTypeInfo: onSubmit.postTypeInfo as postingInfoType,
               postId: String(onSubmit.postId),
@@ -107,7 +118,7 @@ export default function MainBtn({ onSubmit, content, size }: MainBtnPropsType) {
           console.log('Create Answer : No Image');
           // 답변생성 이미지 있음
         } else {
-          mutateCreateQnaAnswer(
+          await mutateCreateQnaAnswer(
             toFormData({
               postTypeInfo: onSubmit.postTypeInfo as postingInfoType,
               postId: String(onSubmit.postId),
@@ -117,31 +128,32 @@ export default function MainBtn({ onSubmit, content, size }: MainBtnPropsType) {
           );
           console.log('Create Answer : Image Contained');
         }
+        await communityAnswerRefetch();
         navigate(`/communityQADetail/${onSubmit.postId}`);
         break;
       case 'ANSWER_UPDATE':
+        setPostId(onSubmit.qnaAnswerId as number);
         // 답변 업데이트 이미지 없음
         if (onSubmit.images && onSubmit.images.length === 0) {
-          mutateCreateQnaAnswer(
+          await mutateUpdateQnaAnswer(
             toFormData({
               postTypeInfo: onSubmit.postTypeInfo as postingInfoType,
               content: onSubmit.content as string,
-              // qnaAnswerId: onSubmit.qnaAnswerId as number,
             })
           );
           console.log('Update Answer : No Image');
           // 답변 업데이트 이미지 있음
         } else {
-          mutateCreateQnaAnswer(
+          await mutateUpdateQnaAnswer(
             toFormData({
               postTypeInfo: onSubmit.postTypeInfo as postingInfoType,
               content: onSubmit.content as string,
-              // qnaAnswerId: onSubmit.qnaAnswerId as number,
               images: onSubmit.images,
             })
           );
           console.log('Update Answer : Image Contained');
         }
+        await communityAnswerRefetch();
         navigate(`/communityQADetail/${onSubmit.postId}`);
         break;
       default:

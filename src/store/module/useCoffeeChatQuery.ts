@@ -1,11 +1,11 @@
 import { useInfiniteQuery, useMutation, useQuery } from '@tanstack/react-query';
-import { useNavigate } from 'react-router-dom';
 import getAllChatroomListAxios from '../../apiFetcher/coffeeChatInfo/getAllChatroomList';
 import getSearchChatroomListAxios from '../../apiFetcher/coffeeChatInfo/getSearchChatroomList';
 import postChatroomAxios from '../../apiFetcher/coffeeChatInfo/postChatroom';
 import { postChatroomData } from '../../components/coffeeChat/_CoffeeChat.interface';
 import { accessToken } from '../../main';
 
+//모든 채팅방 불러오기
 export function useAllChatroomQuery() {
   return useInfiniteQuery(['coffeeChatList', 'all'], ({ pageParam = 0 }) => getAllChatroomListAxios(accessToken, pageParam), {
     getNextPageParam: (prevData, allPages) => {
@@ -40,16 +40,11 @@ export function useSearchChatroomQuery(keyword?: string, size?: number) {
 }
 
 export function useCreateRoomMutation() {
-  const { refetch } = useSearchChatroomQuery();
-  const navigate = useNavigate();
   return useMutation((data: postChatroomData) => postChatroomAxios(accessToken, data), {
     onError: (err) => {
       console.log(err);
     },
     onSuccess: async () => {
-      fetchNew = `newChatroom${Date.now()}`;
-      await refetch();
-      navigate('/coffeeChat');
       console.log('채팅방이 생성되었습니다.');
     },
   });

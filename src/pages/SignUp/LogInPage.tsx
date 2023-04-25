@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react';
 import { AiFillGithub } from 'react-icons/ai';
+import customAxios from '../../apiFetcher/customAxios';
+import { accessToken } from '../../main';
 import { useNotificationTokenMutation } from '../../store/module/useNotificationQuery';
 import { getFcmToken } from '../../utils/fcm';
 // import { onTokenRefresh } from ''
 
 export default function LogIn() {
   //리액트 쿼리
-  const { mutate: postFcmTokenMutation } = useNotificationTokenMutation();
+  const { mutateAsync: postFcmTokenMutation } = useNotificationTokenMutation();
 
   //useState
   const [fcmToken, setFcmToken] = useState<string>('');
@@ -20,11 +22,24 @@ export default function LogIn() {
     getToken();
   });
 
-  function loginWithGithub() {
-    window.location.assign('http://34.64.224.24:8080/oauth2/authorization/github ');
+  async function loginWithGithub() {
+    const redirectUrl = 'http://34.64.224.24:8080/oauth2/authorization/github';
+    window.location.assign(redirectUrl);
     postFcmTokenMutation({
       fcmToken: fcmToken as string,
     });
+
+    try {
+      const response = await customAxios({
+        method: 'get',
+        url: 'oauth2/authorization/github',
+      });
+
+      console.log(response);
+      return response;
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   return (

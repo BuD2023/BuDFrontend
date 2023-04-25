@@ -16,15 +16,7 @@ export default function Home() {
     navigate('/NotFound');
   }
 
-  // useEffect(() => {
-  //   fetch('http://34.64.224.24:8080/login/oauth2/code/github?code=bd9ae6533ee8948bb138&state=JvPOdFNmjGjmK9EvjNT7Z314rDIrfjBoOute13mYeok%3D')
-  //     .then((response) => {
-  //       console.log(response.headers.get('X-Refresh-Token'));
-  //       return response.json();
-  //     })
-  //     .then((data) => console.log(data))
-  //     .catch((error) => console.error(error));
-  // }, []);
+  useEffect(() => {}, []);
 
   return (
     <section>
