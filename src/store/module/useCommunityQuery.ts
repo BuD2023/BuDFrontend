@@ -1,5 +1,4 @@
 import { useInfiniteQuery, useMutation } from '@tanstack/react-query';
-import { useNavigate } from 'react-router-dom';
 import { deleteCommunityPostAxios } from '../../apiFetcher/communityInfo/deleteCommunityPost';
 import getCommunityPostAxios from '../../apiFetcher/communityInfo/getCommunityPost';
 import postCommunityLikeAxios from '../../apiFetcher/communityInfo/postCommunityLike';
@@ -14,9 +13,8 @@ import { useMyFollowersQuery, useMyFollowsQuery, useMyScrapsQuery } from './useM
 import { useProfilePostQuery } from './useProfilePostQuery';
 import { useUserProfileQuery } from './useUserProfileQuery';
 
-let refetchNew = '';
 export function useCommunityPostQuery(word?: string, sort?: SortType, order?: OrderType, size?: number, postType?: postType | 'ALL') {
-  return useInfiniteQuery(['Community', word, sort, order, postType, refetchNew], ({ pageParam = 0 }) => getCommunityPostAxios(accessToken, word, sort, order, pageParam, size, postType), {
+  return useInfiniteQuery(['Community', word, sort, order, postType], ({ pageParam = 0 }) => getCommunityPostAxios(accessToken, word, sort, order, pageParam, size, postType), {
     getNextPageParam: (prevData, allPages) => {
       const lastPage = prevData.last;
       const nextPage = (allPages.length + 1) as number;
@@ -31,49 +29,34 @@ export function useCommunityPostQuery(word?: string, sort?: SortType, order?: Or
 }
 
 export function usePostCommunityMutation() {
-  const { refetch } = useCommunityPostQuery();
-  const navigate = useNavigate();
   return useMutation((data: FormData) => postCommunityPostAxios(accessToken, data), {
     onError: (err) => {
       console.log(err);
     },
     onSuccess: async () => {
       console.log('게시글이 등록되었습니다.');
-      refetchNew = `newPost${Date.now()}`;
-      await refetch();
-      navigate('/community/all');
     },
   });
 }
 
 export function useUpdateCommunityMutation(postId: number) {
-  const { refetch } = useCommunityPostQuery();
-  const navigate = useNavigate();
   return useMutation((data: FormData) => updateCommunityPostAxios(accessToken, data, postId), {
     onError: (err) => {
       console.log(err);
     },
     onSuccess: async () => {
       console.log('게시글이 수정되었습니다.');
-      refetchNew = `updatePost${Date.now()}`;
-      await refetch();
-      navigate('/community/all');
     },
   });
 }
 
 export function useDeleteCommunityMutation(id: number) {
-  const { refetch } = useCommunityPostQuery();
-  const navigate = useNavigate();
   return useMutation(() => deleteCommunityPostAxios(accessToken, id), {
     onError: (err) => {
       console.log(err);
     },
     onSuccess: async () => {
       console.log('게시글 삭제 요청이 실행되었습니다.');
-      refetchNew = `deletePost${Date.now()}`;
-      await refetch();
-      navigate('/community/all');
     },
   });
 }

@@ -14,16 +14,20 @@ interface ScrapPostFormatPropsType {
   resultData: ScrapPostContentType[];
   myProfileRefetch: () => void;
 }
+
 export default function ScrapPostFormat({ refetch, userData, resultData, myProfileRefetch }: ScrapPostFormatPropsType) {
   const navigate = useNavigate();
   const [userId, setUserId] = useState<number>();
+
   //사진 팝업모달
   const [isPicPopUp, setIsPicPopUp] = useState({
     open: false,
     pic: '',
   });
+
   //리액트 쿼리
   const { mutateAsync } = useFollowMutation(Number(userId));
+
   // follow 클릭
   const handleClickFollow = async (e: React.MouseEvent<HTMLElement>, memberId: number) => {
     setUserId(memberId);
@@ -31,6 +35,7 @@ export default function ScrapPostFormat({ refetch, userData, resultData, myProfi
     await mutateAsync();
     myProfileRefetch();
   };
+
   return (
     <>
       <PicModal isPicPopUp={isPicPopUp} setIsPicPopUp={setIsPicPopUp} />

@@ -1,11 +1,28 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import ChangeNickName from '../../components/myProfileEdit/ChangeNickName';
+import customAxios from '../../apiFetcher/customAxios';
 
 export default function SignUp() {
   const [nickName, setNickName] = useState('');
   const navigate = useNavigate();
+
+  // useEffect(() => {
+  //   (async () => {
+  //     try {
+  //       const response = await customAxios({
+  //         method: 'get',
+  //         url: 'oauth2/authorization/github',
+  //       });
+
+  //       console.log(response);
+  //       return response;
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
+  //   })();
+  // }, []);
 
   return (
     <section>

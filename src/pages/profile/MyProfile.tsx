@@ -12,6 +12,7 @@ import { S3_URL } from '../../constant/union';
 import { useMyProfileQuery, useMyScrapsQuery } from '../../store/module/useMyProfileQuery';
 import { useProfilePostQuery } from '../../store/module/useProfilePostQuery';
 import { MyProfileType, ScrapPostContentType } from '../../components/myProfile/_MyProfile.interface';
+
 export default function MyProfile() {
   const initialPostView = useParams();
   const [postView, setPostView] = useState(initialPostView.filter ?? 'FEED');

@@ -33,6 +33,8 @@ export default function QAAnswerEdit() {
   // 보낼 게시글 전체 정보
   const [postInfo, setPostInfo] = useState<Partial<QnaAnswerType>>({
     postTypeInfo: 'ANSWER_UPDATE',
+    postId: Number(postId),
+    qnaAnswerId: Number(answerId),
     content: answerValue.content,
     images: answerValue.images,
   });

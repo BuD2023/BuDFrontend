@@ -11,10 +11,10 @@ import postQnaAnswerPinAxios from '../../apiFetcher/communityInfo/postQnaAnswerP
 import { accessToken } from '../../main';
 import postQnaAnswerLikeAxios from '../../apiFetcher/communityInfo/postQnaAnswerLike';
 import deleteQnaAnswerAxios from '../../apiFetcher/communityInfo/deleteQnaAnswer';
+import { updateQnaAnswerAxios } from '../../apiFetcher/communityInfo/updateQnaAnswer';
 
-let fetchNew = '';
 export function useCommunityDetailQuery(id: number) {
-  return useQuery(['CommunityDetail', id, fetchNew], () => getCommunityDetailAxios(accessToken, id), {
+  return useQuery(['CommunityDetail', id], () => getCommunityDetailAxios(accessToken, id), {
     enabled: false,
     refetchOnMount: true,
     refetchOnReconnect: true,
@@ -25,7 +25,7 @@ export function useCommunityDetailQuery(id: number) {
 
 //QnA 답변 조회
 export function useCommunityAnswerQuery(id: number) {
-  return useQuery(['CommunityAnswer', id, fetchNew], () => getQnaAnswerAxios(accessToken, id), {
+  return useQuery(['CommunityAnswer', id], () => getQnaAnswerAxios(accessToken, id), {
     enabled: false,
     refetchOnMount: true,
     refetchOnReconnect: true,
@@ -44,7 +44,18 @@ export function useCreateAnswerMutation() {
     },
     onSuccess: () => {
       console.log('QNA 답변이 게시되었습니다.');
-      fetchNew = `Qna${Date.now()}`;
+    },
+  });
+}
+
+//QnA 답변 수정
+export function useUpdateAnswerMutation(answerId: number) {
+  return useMutation((answer: FormData) => updateQnaAnswerAxios(accessToken, answerId, answer), {
+    onError: (err) => {
+      console.log(err);
+    },
+    onSuccess: () => {
+      console.log('QNA 답변이 수정되었습니다.');
     },
   });
 }
