@@ -103,7 +103,7 @@ export default function PostFormat({ inputValue, sortAndOrder }: PostFormatProps
                       }}
                       src={S3_URL + data.member.profileImg}
                       alt={data.title}
-                      className="w-[58px] rounded-full"
+                      className="aspect-square w-[58px] rounded-full object-cover"
                     />
                     <div className="pl-3">
                       <p className="text-xl font-bold">{data.member.username}</p>

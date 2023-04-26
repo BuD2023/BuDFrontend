@@ -12,10 +12,9 @@ import { accessToken } from '../../main';
 import postQnaAnswerLikeAxios from '../../apiFetcher/communityInfo/postQnaAnswerLike';
 import deleteQnaAnswerAxios from '../../apiFetcher/communityInfo/deleteQnaAnswer';
 import { updateQnaAnswerAxios } from '../../apiFetcher/communityInfo/updateQnaAnswer';
-import postCommentAxios from '../../apiFetcher/communityInfo/postComment';
-import putCommentEditAxios from '../../apiFetcher/communityInfo/putCommentEdit';
-import postCommentReplyAxios from '../../apiFetcher/communityInfo/postCommentReply';
-import { commentPropsType } from '../../components/community/_Community.interface';
+import { postFeedCommentReplyAxios, postQnaCommentReplyAxios } from '../../apiFetcher/communityInfo/postCommentReply';
+import { postFeedCommentAxios, postQnaCommentAxios } from '../../apiFetcher/communityInfo/postComment';
+import { putFeedCommentEditAxios, putQnaCommentEditAxios } from '../../apiFetcher/communityInfo/putCommentEdit';
 
 export function useCommunityDetailQuery(id: number) {
   return useQuery(['CommunityDetail', id], () => getCommunityDetailAxios(accessToken, id), {
@@ -265,9 +264,9 @@ export function useDeleteQnaAnswerMutation(answerId: number, questionId: number)
   });
 }
 
-// 댓글 작성
-export function useCommentMutation(postId: number) {
-  return useMutation((comment: string) => postCommentAxios(accessToken, postId, comment), {
+// 개발 피드 댓글 작성
+export function useFeedCommentMutation(postId: number) {
+  return useMutation((comment: string) => postFeedCommentAxios(accessToken, postId, comment), {
     onError: (err) => {
       console.log(err);
     },
@@ -277,9 +276,21 @@ export function useCommentMutation(postId: number) {
   });
 }
 
-// 댓글 수정
-export function useCommentEditMutation(commentId: number) {
-  return useMutation((content: string) => putCommentEditAxios(accessToken, commentId, content), {
+// QnA 피드 댓글 작성
+export function useQnaCommentMutation(answerId: number) {
+  return useMutation((comment: string) => postQnaCommentAxios(accessToken, answerId, comment), {
+    onError: (err) => {
+      console.log(err);
+    },
+    onSuccess: () => {
+      console.log('댓글이 작성되었습니다.');
+    },
+  });
+}
+
+// 개발 피드 댓글 수정
+export function useFeedCommentEditMutation(commentId: number) {
+  return useMutation((content: string) => putFeedCommentEditAxios(accessToken, commentId, content), {
     onError: (err) => {
       console.log(err);
     },
@@ -289,9 +300,33 @@ export function useCommentEditMutation(commentId: number) {
   });
 }
 
-// 대댓글 작성
-export function useCommentReplyMutation(commentId: number) {
-  return useMutation((comment: string) => postCommentReplyAxios(accessToken, commentId, comment), {
+// qna 피드 댓글 수정
+export function useQnaCommentEditMutation(commentId: number) {
+  return useMutation((content: string) => putQnaCommentEditAxios(accessToken, commentId, content), {
+    onError: (err) => {
+      console.log(err);
+    },
+    onSuccess: () => {
+      console.log('댓글이 수정되었습니다.');
+    },
+  });
+}
+
+// 개발 피드 대댓글 작성
+export function useFeedCommentReplyMutation(commentId: number) {
+  return useMutation((comment: string) => postFeedCommentReplyAxios(accessToken, commentId, comment), {
+    onError: (err) => {
+      console.log(err);
+    },
+    onSuccess: () => {
+      console.log('대댓글이 작성되었습니다.');
+    },
+  });
+}
+
+// qna 피드 대댓글 작성
+export function useQnaCommentReplyMutation(commentId: number) {
+  return useMutation((comment: string) => postQnaCommentReplyAxios(accessToken, commentId, comment), {
     onError: (err) => {
       console.log(err);
     },

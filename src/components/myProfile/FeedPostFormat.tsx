@@ -68,7 +68,7 @@ export default function FeedPostFormat({ resultData, userData, refetch }: any) {
                       }}
                       src={S3_URL + userData.profileUrl}
                       alt={userData.nickName}
-                      className="w-[58px] rounded-full"
+                      className="aspect-square w-[58px] rounded-full object-cover"
                     />
                     <div className="pl-3">
                       <p className="text-xl font-bold">{userData.nickName}</p>

@@ -60,6 +60,9 @@ export default function ChatRoom() {
       onStompError: (frame) => {
         console.error(frame);
       },
+      onDisconnect: () => {
+        allChatroomRefetch();
+      },
     });
     (client.current as StompJs.Client).activate();
   };
@@ -162,7 +165,6 @@ export default function ChatRoom() {
   useEffect(() => {
     if (newChatMessages.find((i) => i.chatType === 'EXPIRE')) {
       disconnect();
-      allChatroomRefetch();
       navigate('/coffeeChat');
       return;
     }

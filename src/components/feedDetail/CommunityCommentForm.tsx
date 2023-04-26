@@ -5,8 +5,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useRecoilValueLoadable } from 'recoil';
 import { S3_URL } from '../../constant/union';
 import {
-  useCommentMutation,
-  useCommentReplyMutation,
+  useFeedCommentMutation,
+  useFeedCommentReplyMutation,
   useDeleteFeedCommentMutation,
   useDeleteFeedCommentPinMutation,
   useDeleteQnACommentMutation,
@@ -17,6 +17,8 @@ import {
   useQnACommentLikeMutation,
   useQnACommentPinMutation,
   useQnACommentQuery,
+  useQnaCommentMutation,
+  useQnaCommentReplyMutation,
 } from '../../store/module/useCommunityDetailQuery';
 import { getMyPageInfo } from '../../store/recoil/user';
 import { CommunityCommentType } from '../community/_Community.interface';
@@ -46,8 +48,10 @@ export default function CommunityCommentForm({ type, answerId, questionUserId }:
   const { mutate: qnaCommentPinMutate } = useQnACommentPinMutation(commentId, Number(answerId));
   const { mutate: feedCommentLikeMutate } = useFeedCommentLikeMutation(commentId, Number(postId));
   const { mutate: qnaCommentLikeMutate } = useQnACommentLikeMutation(commentId, Number(answerId));
-  const { mutateAsync: commentMutateAsync } = useCommentMutation(answerId ? answerId : Number(postId));
-  const { mutateAsync: commentReplyMutateAsync } = useCommentReplyMutation(Number(commentId));
+  const { mutateAsync: feedCommentMutateAsync } = useFeedCommentMutation(Number(postId));
+  const { mutateAsync: qnaCommentMutateAsync } = useQnaCommentMutation(Number(answerId));
+  const { mutateAsync: feedCommentReplyMutateAsync } = useFeedCommentReplyMutation(Number(commentId));
+  const { mutateAsync: qnaCommentReplyMutateAsync } = useQnaCommentReplyMutation(Number(commentId));
 
   const data = type === 'FEED' ? feedData : QnAData;
 
@@ -67,10 +71,18 @@ export default function CommunityCommentForm({ type, answerId, questionUserId }:
       setComment('');
       inputRef.current?.blur();
 
-      if (isCommentReply) {
-        await commentReplyMutateAsync(comment);
-      } else {
-        await commentMutateAsync(comment);
+      if (type === 'FEED') {
+        if (isCommentReply) {
+          await feedCommentReplyMutateAsync(comment);
+        } else {
+          await feedCommentMutateAsync(comment);
+        }
+      } else if (type === 'QNA') {
+        if (isCommentReply) {
+          await qnaCommentReplyMutateAsync(comment);
+        } else {
+          await qnaCommentMutateAsync(comment);
+        }
       }
 
       if (type === 'FEED') {
