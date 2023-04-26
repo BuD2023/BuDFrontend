@@ -16,7 +16,7 @@ export default function MainBtn({ onSubmit, content, size }: MainBtnPropsType) {
 
   const [postId, setPostId] = useState<number>(0);
   //reactQuery - mutation
-  const { mutateAsync: mutateCreateRoom } = useCreateRoomMutation();
+  const { mutateAsync: mutateCreateRoom, data: chatroomUrl } = useCreateRoomMutation();
   const { mutateAsync: mutateCreatePost } = usePostCommunityMutation();
   const { mutateAsync: mutateUpdatePost } = useUpdateCommunityMutation(postId);
   const { mutateAsync: mutateCreateQnaAnswer } = useCreateAnswerMutation();
@@ -45,7 +45,7 @@ export default function MainBtn({ onSubmit, content, size }: MainBtnPropsType) {
         case 'ROOM_CREATE':
           // 해쉬태그가 있다면
           if (onSubmit.hashTag && onSubmit?.hashTag.join('').length > 0) {
-            await mutateCreateRoom({
+            const response = await mutateCreateRoom({
               title: onSubmit.title as string,
               description: onSubmit.description as string,
               hashTag: onSubmit.hashTag as string[],
@@ -54,11 +54,11 @@ export default function MainBtn({ onSubmit, content, size }: MainBtnPropsType) {
           }
           // 해쉬태그가 없다면
           else {
-            await mutateCreateRoom({
+            const response = await mutateCreateRoom({
               title: onSubmit.title as string,
               description: onSubmit.description as string,
             });
-            console.log('Chatroom : No Hashtag');
+            console.log('Chatroom : No Hashtag', response);
           }
           await allChatroomRefetch();
           navigate('/coffeeChat');

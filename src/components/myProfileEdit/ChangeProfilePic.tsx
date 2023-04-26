@@ -1,11 +1,8 @@
-import imageCompression from 'browser-image-compression';
 import { ChangeEvent, useRef, useState } from 'react';
 import { handleFileImage } from '../../utils/handleChangeImgFile';
-import { makeCompressedImg } from '../../utils/makeCompressedImg';
 import { ChangeProfilePicPropsType } from './_MyProfileEdit.interface';
 import { getRandomInt } from '../../utils/getRandomInt';
 import { S3_URL } from '../../constant/union';
-import actionImgCompress from '../../utils/imgCompress';
 
 export default function ChangeProfilePic({ profileImg, setProfileImg, userInfo, setUserInfo }: ChangeProfilePicPropsType) {
   const [randomNum, setRandomNum] = useState(getRandomInt(1, 32) as number);
@@ -26,12 +23,12 @@ export default function ChangeProfilePic({ profileImg, setProfileImg, userInfo, 
     }
   };
 
-  // async function urlToFile(url: string, filename?: string) {
-  //   const response = await fetch(url);
-  //   console.log(response);
-  //   return await response.blob();
-  //   // return new File([blob], filename, { type: 'image/png' });
-  // }
+  async function urlToFile(url: string, filename?: string) {
+    const response = await fetch(url);
+    console.log(response);
+    return await response.blob();
+    // return new File([blob], filename, { type: 'image/png' });
+  }
 
   const handleChangeProfileImg = async (e: ChangeEvent<HTMLInputElement>) => {
     const resultImage = await handleFileImage(e);
@@ -51,15 +48,15 @@ export default function ChangeProfilePic({ profileImg, setProfileImg, userInfo, 
         onClick={async (e) => {
           e.preventDefault();
           setIsLoading(true);
-          setTimeout(() => {
+          setTimeout(async () => {
             setCount(count - 1);
             handleDeletePreviewFile();
             setRandomNum(getRandomInt(1, 32) as number);
             setIsLoading(false);
+            const file = await urlToFile(profileImg as string);
+            console.log(file);
+            setUserInfo({ ...userInfo, file: file as Blob });
           }, 2000);
-          // const file = await urlToFile(profileImg as string);
-          // console.log(file);
-          // setUserInfo({ ...userInfo, file: file });
         }}
       >
         <p className="h-10 rounded-lg bg-greyBeige p-[0.25rem_0.75rem] text-[16px] font-semibold leading-8 transition-all hover:bg-darkIvory hover:text-white dark:bg-lightNavy hover:dark:bg-[#3D6374]">

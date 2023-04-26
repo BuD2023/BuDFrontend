@@ -1,13 +1,15 @@
-import { useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { BsChevronLeft } from 'react-icons/bs';
+import postIsIdUniqueAxios from '../../apiFetcher/userInfo/postIsIdUnique';
+import getIsIdUniqueAxios from '../../apiFetcher/userInfo/postIsIdUnique';
 import Header from '../../components/common/Header';
 import ChangeJob from '../../components/myProfileEdit/ChangeJob';
 import ChangeNickName from '../../components/myProfileEdit/ChangeNickName';
 import ChangeProfilePic from '../../components/myProfileEdit/ChangeProfilePic';
 import { S3_URL } from '../../constant/union';
+import { accessToken } from '../../main';
 import { useMyProfileQuery } from '../../store/module/useMyProfileQuery';
 import { UserInfoInitialValueType } from '../../store/recoil/addUserInfo';
-import { getMyPageInfo } from '../../store/recoil/user';
 
 export interface UserInfoEditInitialType {
   job: string;
@@ -42,6 +44,11 @@ export default function MyProfileEdit() {
     })();
   }, [isLoading]);
 
+  const checkIsUnique = async (e: ChangeEvent<HTMLInputElement>) => {
+    const response = await postIsIdUniqueAxios(accessToken, e.target.value as string);
+    console.log(response);
+  };
+
   return (
     <section className="flex min-h-[calc(100vh-160px)] flex-col gap-7 px-6 py-4 text-lightText dark:text-white">
       <Header type="withMainBtn" title="프로필 편집" icon={<BsChevronLeft />} onSubmit={userInfo} />
@@ -50,7 +57,10 @@ export default function MyProfileEdit() {
         <div className="mb-4 flex flex-col gap-4">
           <p>닉네임</p>
           <input
-            onChange={(e) => setUserInfo({ ...userInfo, nickname: e.target.value })}
+            onChange={async (e) => {
+              setUserInfo({ ...userInfo, nickname: e.target.value });
+              checkIsUnique(e);
+            }}
             type="text"
             value={nickname}
             className="h-[54px] w-full rounded-[20px] bg-midIvory p-2 px-4 focus:outline-none dark:bg-lightNavy"
