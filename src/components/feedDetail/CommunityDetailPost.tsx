@@ -73,7 +73,7 @@ export default function CommunityDetailPost(props: CommunityDetailPostProps) {
                   }}
                   src={S3_URL + (questionData?.member.profileImg as string)}
                   alt={questionData?.member.nickname}
-                  className="w-[58px] cursor-pointer rounded-full"
+                  className="aspect-square w-[58px] cursor-pointer rounded-full object-cover"
                 />
                 <div className="pl-3">
                   <p className="text-xl font-bold">{questionData?.member.nickname}</p>

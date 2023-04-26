@@ -149,23 +149,25 @@ export default function CommunityQADetailAnswer({ isCommentOpen, setIsCommentOpe
                       </div>
                     </div>
                   </div>
-                  <div className="text-end grow font-bold">
-                    <div onClick={(e) => handleClickFollow(e, answer.member.id)} className="flex h-full items-center justify-end ">
-                      <div className="flex cursor-pointer gap-3">
-                        {answer.follow ? (
-                          <>
-                            <FcCheckmark size={21} />
-                            <p>팔로잉</p>
-                          </>
-                        ) : (
-                          <>
-                            <FcPortraitMode />
-                            <p>팔로우</p>
-                          </>
-                        )}
+                  {answer.member.nickname !== myPageInfo.nickName && (
+                    <div className="text-end grow font-bold">
+                      <div onClick={(e) => handleClickFollow(e, answer.member.id)} className="flex h-full items-center justify-end ">
+                        <div className="flex cursor-pointer gap-3">
+                          {answer.follow ? (
+                            <>
+                              <FcCheckmark size={21} />
+                              <p>팔로잉</p>
+                            </>
+                          ) : (
+                            <>
+                              <FcPortraitMode />
+                              <p>팔로우</p>
+                            </>
+                          )}
+                        </div>
                       </div>
                     </div>
-                  </div>
+                  )}
                 </div>
                 <div className="w-full">
                   <p className="text-base">{answer.content}</p>
@@ -188,7 +190,6 @@ export default function CommunityQADetailAnswer({ isCommentOpen, setIsCommentOpe
                   id={String(answer.id)}
                   onClick={(e) => {
                     e.stopPropagation();
-                    console.log(e.currentTarget.id, answer.id);
                     if (Number(e.currentTarget.id) === answer.id) {
                       // answer 활성 댓글 선택
                       if (activeComment.includes(answer.id)) {
