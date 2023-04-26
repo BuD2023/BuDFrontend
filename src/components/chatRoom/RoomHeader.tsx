@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useChatroomDetailQuery, useChatUserListQuery } from '../../store/module/useChatroomQuery';
 import { ChatMessageType, InfoMessageType } from './_ChatRoom.interface';
 import UserListModal from '../common/UserListModal';
+import { useMyProfileQuery } from '../../store/module/useMyProfileQuery';
 
 interface RoomHeaderPropsType {
   newChatMessages: InfoMessageType[] | ChatMessageType[];
@@ -15,7 +16,7 @@ export default function RoomHeader({ newChatMessages, setHostInfo }: RoomHeaderP
   const { id } = useParams();
 
   //리액트 쿼리
-  const { data: chatRoomInfo, refetch } = useChatroomDetailQuery(Number(id));
+  const { data: chatRoomInfo, refetch: chatRoomInfoRefetch } = useChatroomDetailQuery(Number(id));
 
   // userList popUp
   const [isUserList, setIsUserList] = useState(false);
@@ -29,17 +30,6 @@ export default function RoomHeader({ newChatMessages, setHostInfo }: RoomHeaderP
   }, [chatRoomInfo?.hostId, chatRoomInfo?.hostName]);
 
   useEffect(() => {
-    console.log(newChatMessages);
-
-    let prevNumMembers = 1;
-    newChatMessages.forEach((msg) => {
-      if (msg.hasOwnProperty('numberOfMembers') && msg.numberOfMembers !== prevNumMembers && msg.chatType !== 'EXPIRE') {
-        prevNumMembers = msg.numberOfMembers;
-        console.log(msg);
-        refetch();
-      }
-    });
-
     if (newChatMessages.find((i) => i.chatType === 'EXPIRE')) {
       console.log('채팅방 폭파!!');
       return;
@@ -60,7 +50,12 @@ export default function RoomHeader({ newChatMessages, setHostInfo }: RoomHeaderP
     <>
       <UserListModal isUserList={isUserList} setIsUserList={setIsUserList} type="ChatUsers" />
       <div className="fixed top-0 left-0 mt-8 flex w-full items-center justify-between gap-2 px-4 py-2 text-xl font-bold">
-        <BsChevronLeft onClick={() => navigate('/coffeeChat')} className="shrink-0 cursor-pointer" />
+        <BsChevronLeft
+          onClick={() => {
+            navigate('/coffeeChat');
+          }}
+          className="shrink-0 cursor-pointer"
+        />
         <p className="truncate px-1">{chatRoomInfo?.title}</p>
         <div
           onClick={() => {

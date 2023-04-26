@@ -8,10 +8,11 @@ import postUserInfoEditAxios from '../../apiFetcher/userInfo/postUpdateUserInfo'
 import getUserLevelInfoAxios from '../../apiFetcher/userInfo/getUserLevelInfo';
 import { OrderType } from '../../components/community/_Community.interface';
 import { accessToken } from '../../main';
+import postIsIdUniqueAxios from '../../apiFetcher/userInfo/postIsIdUnique';
 
-export function useMyProfileQuery() {
+export function useMyProfileQuery(enabled: boolean = true) {
   return useQuery(['myProfile'], () => getMyProfileInfo(accessToken), {
-    // enabled: true,
+    enabled: enabled,
     refetchOnMount: true,
     refetchOnReconnect: true,
     refetchOnWindowFocus: true,
@@ -86,6 +87,18 @@ export function useUpdateUserInfoMutation() {
 
 export function useGetUserLevelInfoQuery() {
   return useQuery(['userLevelInfo'], () => getUserLevelInfoAxios(accessToken), {
+    // enabled: false,
+    refetchOnMount: true,
+    refetchOnReconnect: true,
+    refetchOnWindowFocus: true,
+    retry: 0,
+    staleTime: 1000 * 60,
+    cacheTime: 1000 * 60 * 5,
+  });
+}
+
+export function useGetIsIdUniqueQuery(data: string) {
+  return useQuery(['isUniqueId', data], () => postIsIdUniqueAxios(accessToken, data), {
     enabled: false,
     refetchOnMount: true,
     refetchOnReconnect: true,
