@@ -47,7 +47,7 @@ export default function RoomHeader({ newChatMessages, setHostInfo }: RoomHeaderP
   }, [chatRoomInfo?.numberOfMembers]);
 
   useEffect(() => {
-    refetch();
+    chatUserListRefetch();
   }, []);
 
   return (
