@@ -9,7 +9,7 @@ export default function ChangeJob({ selectedJob, setSelectedJob }: ChangeJobProp
   return (
     <div className="flex w-full flex-col items-center gap-4 text-xl font-bold">
       <button onClick={() => setIsClick(!isClick)} type="button" className="text-start mb-6 flex h-[54px] w-full items-center rounded-[20px] bg-midIvory p-2 px-4 text-[21px] dark:bg-lightNavy">
-        <span className="grow font-bold">{selectedJob}</span>
+        <span className="grow font-bold">{selectedJob.job}</span>
         <RxTriangleDown className="inline text-[#ffffff30]" />
       </button>
       <ul className={`w-full overflow-hidden rounded-[20px] bg-midIvory px-4 transition-all dark:bg-lightNavy ${isClick ? 'h-full py-2' : 'h-0'}`}>
@@ -18,7 +18,7 @@ export default function ChangeJob({ selectedJob, setSelectedJob }: ChangeJobProp
             <li key={job} className="my-3">
               <button
                 onClick={(e) => {
-                  setSelectedJob(e.currentTarget.innerText);
+                  setSelectedJob({ ...selectedJob, job: e.currentTarget.innerText });
                   setIsClick(false);
                 }}
                 type="button"

@@ -1,28 +1,26 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import ChangeNickName from '../../components/myProfileEdit/ChangeNickName';
-import customAxios from '../../apiFetcher/customAxios';
+import { useRecoilState } from 'recoil';
+import { addUserInfo } from '../../store/recoil/addUserInfo';
 
 export default function SignUp() {
-  const [nickName, setNickName] = useState('');
+  const [userInfo, setUserInfo] = useRecoilState(addUserInfo);
   const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   (async () => {
-  //     try {
-  //       const response = await customAxios({
-  //         method: 'get',
-  //         url: 'oauth2/authorization/github',
-  //       });
-
-  //       console.log(response);
-  //       return response;
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //   })();
-  // }, []);
+  useEffect(() => {
+    fetch(window.location.href, { method: 'GET' })
+      .then((response) => {
+        console.log(response.headers);
+        const refreshToken = response.headers.get('Authorization');
+        if (refreshToken) {
+          console.log(refreshToken);
+        }
+      })
+      .catch((error) => {
+        console.error('Error fetching data:', error);
+      });
+  }, []);
 
   return (
     <section>
@@ -32,11 +30,19 @@ export default function SignUp() {
             <h1 className="text-[26px]">마리포에서 사용할</h1>
             <h1 className="text-[26px]">닉네임을 알려주세요!</h1>
           </div>
-          <ChangeNickName nickName={nickName} setNickName={setNickName} />
+          <input
+            onChange={(e) => setUserInfo({ ...userInfo, nickname: e.target.value })}
+            type="text"
+            value={userInfo.nickname}
+            className="h-[54px] w-full rounded-[20px] bg-midIvory p-2 px-4 focus:outline-none dark:bg-lightNavy"
+          />
           <button
             type="button"
-            onClick={() => navigate('picture')}
-            disabled={!(nickName.length > 0)}
+            onClick={() => {
+              navigate('picture');
+              console.log(userInfo);
+            }}
+            disabled={!(userInfo.nickname.length > 0)}
             className="rounded-full border-[2px] border-pointGreen bg-pointGreen py-2 px-5 text-lg text-white drop-shadow-2xl transition-all hover:border-white disabled:opacity-0  hover:dark:border-white"
           >
             다음

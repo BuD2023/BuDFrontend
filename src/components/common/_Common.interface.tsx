@@ -97,6 +97,11 @@ export interface OnSubmitType {
   profileImg: string | ArrayBuffer | null;
   nickName: string;
   selectedJob: string;
+
+  introduceMessage: string;
+  file: Blob | null;
+  nickname: string;
+  job: string;
 }
 
 /** MainBtn 컴포넌트 props 타입 */

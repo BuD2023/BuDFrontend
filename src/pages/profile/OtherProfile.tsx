@@ -2,7 +2,9 @@ import { useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { useNavigate, useParams } from 'react-router-dom';
 import FooterMenu from '../../components/common/FooterMenu';
+import { OrderType, SortType } from '../../components/community/_Community.interface';
 import FeedPostFormat from '../../components/myProfile/FeedPostFormat';
+import ProfileSort, { ProfilePostSortType } from '../../components/myProfile/ProfileSort';
 import OtherProfileHeader from '../../components/otherProfile/OtherProfileHeader';
 import OtherProfileInfo from '../../components/otherProfile/OtherProfileInfo';
 import OtherProfileMenu from '../../components/otherProfile/OtherProfileMenu';
@@ -14,6 +16,13 @@ export default function OtherProfile() {
   const { id } = useParams();
   const navigate = useNavigate();
 
+  // 정렬
+  const [sortAndOrder, setSortAndOrder] = useState<{ sort: SortType | ProfilePostSortType; order: OrderType }>({
+    sort: 'DATE' as SortType,
+    order: 'DESC' as OrderType,
+  });
+
+  // 리액트 쿼리
   const { data, isLoading, error, refetch } = useUserProfileQuery(Number(id));
   const {
     data: profilePostData,
@@ -24,7 +33,7 @@ export default function OtherProfile() {
     fetchNextPage: profilePostFetchNextPage,
     hasNextPage: profilePostHasNextPage,
     refetch: profilePostRefetch,
-  } = useProfilePostQuery(Number(id), postView.toLocaleUpperCase());
+  } = useProfilePostQuery(Number(id), postView.toLocaleUpperCase(), sortAndOrder.sort as SortType, sortAndOrder.order);
 
   // 인피니티 스크롤
   const { ref, inView } = useInView();
@@ -43,7 +52,11 @@ export default function OtherProfile() {
 
   useEffect(() => {
     refetch();
-  }, []);
+  }, [isLoading]);
+
+  useEffect(() => {
+    profilePostRefetch();
+  }, [profilePostIsLoading]);
 
   return (
     <section>
@@ -65,6 +78,7 @@ export default function OtherProfile() {
           isLoading={isLoading}
         />
         <OtherProfileMenu id={id} postView={postView} setPostView={setPostView} />
+        <ProfileSort postView={postView} setSortAndOrder={setSortAndOrder} sortAndOrder={sortAndOrder} />
         {profilePostData && <FeedPostFormat refetch={profilePostRefetch} userData={data} resultData={profilePostData.pages.flatMap((page) => page.content)} />}
       </div>
       <div ref={ref} />
