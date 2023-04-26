@@ -1,13 +1,12 @@
 import customAxios from '../customAxios';
 
-const postIsIdUniqueAxios = async (token: string, data: string) => {
+const postIsIdUniqueAxios = async (token: string, data: string): Promise<boolean> => {
   return await customAxios({
-    method: 'post',
-    url: `/checkNickname`,
+    method: 'get',
+    url: `/checkNickname?nickname=${data}`,
     headers: {
       Authorization: `Bearer ${token}`,
     },
-    data: data,
   });
 };
 

@@ -27,9 +27,6 @@ export function useMyChatroomListQuery(chatRoomId: number, size?: number) {
 export function useChatroomDetailQuery(chatRoomId: number) {
   return useQuery(['chatroomInfo', chatRoomId], () => getChatroomInfoAxios(accessToken, chatRoomId), {
     enabled: false,
-    refetchOnMount: true,
-    refetchOnReconnect: true,
-    refetchOnWindowFocus: true,
     retry: 0,
     staleTime: 0,
     cacheTime: 1000 * 60 * 5,

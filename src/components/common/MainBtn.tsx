@@ -12,6 +12,7 @@ import { postingInfoType } from '../community/_Community.interface';
 import { MainBtnPropsType } from './_Common.interface';
 
 export default function MainBtn({ onSubmit, content, size }: MainBtnPropsType) {
+  console.log(onSubmit);
   const navigate = useNavigate();
 
   const [postId, setPostId] = useState<number>(0);
@@ -51,6 +52,8 @@ export default function MainBtn({ onSubmit, content, size }: MainBtnPropsType) {
               hashTag: onSubmit.hashTag as string[],
             });
             console.log('Chatroom : Hashtag Contained');
+            await allChatroomRefetch();
+            navigate(`/chatroom/${Number(response)}`);
           }
           // 해쉬태그가 없다면
           else {
@@ -59,9 +62,9 @@ export default function MainBtn({ onSubmit, content, size }: MainBtnPropsType) {
               description: onSubmit.description as string,
             });
             console.log('Chatroom : No Hashtag', response);
+            await allChatroomRefetch();
+            navigate(`/chatroom/${Number(response)}`);
           }
-          await allChatroomRefetch();
-          navigate('/coffeeChat');
           break;
         case 'POST_UPDATE':
           setPostId(onSubmit.postId as number);
@@ -182,7 +185,13 @@ export default function MainBtn({ onSubmit, content, size }: MainBtnPropsType) {
 
   return (
     <button
-      disabled={(onSubmit?.title?.trim().length === 0 || onSubmit?.description?.trim().length === 0 || onSubmit?.content?.trim().length === 0) as boolean}
+      disabled={
+        (onSubmit?.title?.trim().length === 0 ||
+          onSubmit?.description?.trim().length === 0 ||
+          onSubmit?.content?.trim().length === 0 ||
+          onSubmit?.nickname?.trim().length === 0 ||
+          onSubmit?.isUnique === false) as boolean
+      }
       onClick={handleSubitData}
       className={'flex cursor-pointer justify-center rounded-[50px] bg-greyBeige disabled:opacity-40 dark:bg-sky ' + `text-[${size}px]`}
     >

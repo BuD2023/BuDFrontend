@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useChatroomDetailQuery, useChatUserListQuery } from '../../store/module/useChatroomQuery';
 import { ChatMessageType, InfoMessageType } from './_ChatRoom.interface';
 import UserListModal from '../common/UserListModal';
+import { useMyProfileQuery } from '../../store/module/useMyProfileQuery';
 
 interface RoomHeaderPropsType {
   newChatMessages: InfoMessageType[] | ChatMessageType[];
@@ -15,7 +16,7 @@ export default function RoomHeader({ newChatMessages, setHostInfo }: RoomHeaderP
   const { id } = useParams();
 
   //리액트 쿼리
-  const { data: chatRoomInfo, refetch } = useChatroomDetailQuery(Number(id));
+  const { data: chatRoomInfo, refetch: chatRoomInfoRefetch } = useChatroomDetailQuery(Number(id));
 
   // userList popUp
   const [isUserList, setIsUserList] = useState(false);

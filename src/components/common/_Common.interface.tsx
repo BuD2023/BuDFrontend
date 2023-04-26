@@ -102,6 +102,7 @@ export interface OnSubmitType {
   file: Blob | null;
   nickname: string;
   job: string;
+  isUnique: boolean;
 }
 
 /** MainBtn 컴포넌트 props 타입 */
