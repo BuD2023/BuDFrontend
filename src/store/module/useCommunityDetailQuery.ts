@@ -12,6 +12,10 @@ import { accessToken } from '../../main';
 import postQnaAnswerLikeAxios from '../../apiFetcher/communityInfo/postQnaAnswerLike';
 import deleteQnaAnswerAxios from '../../apiFetcher/communityInfo/deleteQnaAnswer';
 import { updateQnaAnswerAxios } from '../../apiFetcher/communityInfo/updateQnaAnswer';
+import postCommentAxios from '../../apiFetcher/communityInfo/postComment';
+import putCommentEditAxios from '../../apiFetcher/communityInfo/putCommentEdit';
+import postCommentReplyAxios from '../../apiFetcher/communityInfo/postCommentReply';
+import { commentPropsType } from '../../components/community/_Community.interface';
 
 export function useCommunityDetailQuery(id: number) {
   return useQuery(['CommunityDetail', id], () => getCommunityDetailAxios(accessToken, id), {
@@ -257,6 +261,42 @@ export function useDeleteQnaAnswerMutation(answerId: number, questionId: number)
     onSuccess: () => {
       console.log('답변이 삭제되었습니다.');
       refetch();
+    },
+  });
+}
+
+// 댓글 작성
+export function useCommentMutation(postId: number) {
+  return useMutation((comment: string) => postCommentAxios(accessToken, postId, comment), {
+    onError: (err) => {
+      console.log(err);
+    },
+    onSuccess: () => {
+      console.log('댓글이 작성되었습니다.');
+    },
+  });
+}
+
+// 댓글 수정
+export function useCommentEditMutation(commentId: number) {
+  return useMutation((content: string) => putCommentEditAxios(accessToken, commentId, content), {
+    onError: (err) => {
+      console.log(err);
+    },
+    onSuccess: () => {
+      console.log('댓글이 수정되었습니다.');
+    },
+  });
+}
+
+// 대댓글 작성
+export function useCommentReplyMutation(commentId: number) {
+  return useMutation((comment: string) => postCommentReplyAxios(accessToken, commentId, comment), {
+    onError: (err) => {
+      console.log(err);
+    },
+    onSuccess: () => {
+      console.log('대댓글이 작성되었습니다.');
     },
   });
 }

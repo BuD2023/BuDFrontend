@@ -1,10 +1,12 @@
 import { SwipeableList, SwipeableListItem } from '@sandstreamdev/react-swipeable-list';
-import { useEffect, useState } from 'react';
-import { BsDot, BsFillPinAngleFill, BsFillTrashFill, BsHeartFill } from 'react-icons/bs';
+import { useEffect, useRef, useState } from 'react';
+import { BsArrowReturnRight, BsDot, BsFillPinAngleFill, BsFillTrashFill, BsHeartFill, BsX } from 'react-icons/bs';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useRecoilValueLoadable } from 'recoil';
 import { S3_URL } from '../../constant/union';
 import {
+  useCommentMutation,
+  useCommentReplyMutation,
   useDeleteFeedCommentMutation,
   useDeleteFeedCommentPinMutation,
   useDeleteQnACommentMutation,
@@ -22,7 +24,12 @@ import { CommunityFeedCommentFormPropsType } from './_FeedDetail.interface';
 
 export default function CommunityCommentForm({ type, answerId, questionUserId }: CommunityFeedCommentFormPropsType) {
   const { id: postId } = useParams();
-  const [commentId, setCommentId] = useState(0);
+  const [commentId, setCommentId] = useState<number>(0);
+  const [comment, setComment] = useState<string>('');
+  const [isCommentReply, setIsCommentReply] = useState<boolean>(false);
+  const [commentReplyNickname, setCommentReplyNickname] = useState<string>('');
+  const inputRef = useRef<HTMLInputElement>(null);
+
   const navigate = useNavigate();
 
   // 사용자 정보
@@ -39,15 +46,38 @@ export default function CommunityCommentForm({ type, answerId, questionUserId }:
   const { mutate: qnaCommentPinMutate } = useQnACommentPinMutation(commentId, Number(answerId));
   const { mutate: feedCommentLikeMutate } = useFeedCommentLikeMutation(commentId, Number(postId));
   const { mutate: qnaCommentLikeMutate } = useQnACommentLikeMutation(commentId, Number(answerId));
-  const [message, setMessage] = useState<string>('');
+  const { mutateAsync: commentMutateAsync } = useCommentMutation(answerId ? answerId : Number(postId));
+  const { mutateAsync: commentReplyMutateAsync } = useCommentReplyMutation(Number(commentId));
 
   const data = type === 'FEED' ? feedData : QnAData;
 
-  const pressEnterKey = (event: React.KeyboardEvent<HTMLInputElement>) => {
+  const scrollToBottom = (refetch: any) => {
+    Promise.all([refetch()]).then(() => {
+      window.scrollTo({
+        top: document.body.scrollHeight,
+        behavior: 'smooth',
+      });
+    });
+  };
+
+  const pressEnterKey = async (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
       if (event.nativeEvent.isComposing) return;
       event.preventDefault();
-      console.log('댓글 입력 완료 ^^');
+      setComment('');
+      inputRef.current?.blur();
+
+      if (isCommentReply) {
+        await commentReplyMutateAsync(comment);
+      } else {
+        await commentMutateAsync(comment);
+      }
+
+      if (type === 'FEED') {
+        scrollToBottom(feedRefetch);
+      } else {
+        scrollToBottom(qnaRefetch);
+      }
     }
   };
 
@@ -58,6 +88,12 @@ export default function CommunityCommentForm({ type, answerId, questionUserId }:
     } else {
       qnaCommentLikeMutate();
     }
+  };
+
+  const handleClickCommentReply = (commentId: number, commentReplyNickname: string) => {
+    setIsCommentReply(true);
+    setCommentId(commentId);
+    setCommentReplyNickname(commentReplyNickname);
   };
 
   // data?.pages.flatMap((comment: CommunityCommentType) =>
@@ -94,10 +130,9 @@ export default function CommunityCommentForm({ type, answerId, questionUserId }:
       return;
     } else {
       qnaRefetch();
+      return;
     }
   }, []);
-
-  console.log(answerId);
 
   return (
     <div className="flex min-h-[170px] w-full flex-col items-center gap-4 rounded-[20px] bg-midIvory dark:bg-midNavy">
@@ -111,108 +146,173 @@ export default function CommunityCommentForm({ type, answerId, questionUserId }:
             {data?.pages.flatMap((comment: CommunityCommentType) =>
               comment.content.map((content) => {
                 return (
-                  <SwipeableListItem
-                    key={content.commentId}
-                    swipeLeft={
-                      content.memberId === myPageInfo.id
-                        ? {
-                            content: (
-                              <div className="flex h-full w-full items-center justify-end bg-[#ff5232] p-4 text-white dark:bg-[#a51b0b]">
-                                <span className="flex items-center gap-2 text-lg">
-                                  삭제
-                                  <BsFillTrashFill />
-                                </span>
-                              </div>
-                            ),
-                            action: () => {
-                              console.log('Deleting item:', content.commentId);
-                              setCommentId(content.commentId);
-                              if (type === 'FEED') {
-                                deleteFeedCommentMutate();
-                              } else {
-                                deleteQnaCommentMutate();
-                              }
-                            },
-                          }
-                        : undefined
-                    }
-                    swipeRight={
-                      questionUserId === myPageInfo.id
-                        ? {
-                            content: (
-                              <div className="flex h-full w-full items-center justify-start bg-pointGreen p-4 text-white dark:bg-pointGreen">
-                                <span className="flex items-center gap-2 text-lg">
-                                  고정하기
-                                  <BsFillPinAngleFill />
-                                </span>
-                              </div>
-                            ),
-                            action: () => {
-                              console.log('Pin item:', content.commentId);
-                              setCommentId(content.commentId);
-                              if (content.isPinned) {
+                  <div key={content.commentId} className="flex flex-col gap-4">
+                    <SwipeableListItem
+                      swipeLeft={
+                        content.memberId === myPageInfo.id
+                          ? {
+                              content: (
+                                <div className="flex h-full w-full items-center justify-end bg-[#ff5232] p-4 text-white dark:bg-[#a51b0b]">
+                                  <span className="flex items-center gap-2 text-lg">
+                                    삭제
+                                    <BsFillTrashFill />
+                                  </span>
+                                </div>
+                              ),
+                              action: () => {
+                                console.log('Deleting item:', content.commentId);
+                                setCommentId(content.commentId);
                                 if (type === 'FEED') {
-                                  deleteFeedCommentPinMutate();
-                                  return;
+                                  deleteFeedCommentMutate();
                                 } else {
-                                  deleteQnaCommentPinMutate();
-                                  return;
+                                  deleteQnaCommentMutate();
                                 }
-                              }
-                              if (type === 'FEED') {
-                                feedCommentPinMutate();
-                              } else {
-                                qnaCommentPinMutate();
-                              }
-                            },
+                              },
+                            }
+                          : undefined
+                      }
+                      swipeRight={
+                        questionUserId === myPageInfo.id
+                          ? {
+                              content: (
+                                <div className="flex h-full w-full items-center justify-start bg-pointGreen p-4 text-white dark:bg-pointGreen">
+                                  <span className="flex items-center gap-2 text-lg">
+                                    고정하기
+                                    <BsFillPinAngleFill />
+                                  </span>
+                                </div>
+                              ),
+                              action: () => {
+                                console.log('Pin item:', content.commentId);
+                                setCommentId(content.commentId);
+                                if (content.isPinned) {
+                                  if (type === 'FEED') {
+                                    deleteFeedCommentPinMutate();
+                                    return;
+                                  } else {
+                                    deleteQnaCommentPinMutate();
+                                    return;
+                                  }
+                                }
+                                if (type === 'FEED') {
+                                  feedCommentPinMutate();
+                                } else {
+                                  qnaCommentPinMutate();
+                                }
+                              },
+                            }
+                          : undefined
+                      }
+                    >
+                      <li className="flex min-h-[60px] w-full gap-2 bg-midIvory px-4 dark:bg-midNavy">
+                        <img
+                          onClick={() => (content.memberName === myPageInfo.nickName ? navigate(`/myProfile/feed`) : navigate(`/otherProfile/${content.memberId}/feed`))}
+                          src={S3_URL + content.memberProfileUrl}
+                          className="h-[50px] w-[50px] shrink-0 cursor-pointer rounded-full object-cover"
+                        />
+                        <div className="flex h-full w-full flex-col justify-between gap-1">
+                          <div className="flex w-full justify-between">
+                            <div className="flex items-center gap-1">
+                              <div className="text-[15px] font-semibold">{content.memberName}</div>
+                              <BsDot className="opacity-70" />
+                              <div className="mr-2 text-[14px] opacity-70">{content.createdAt}</div>
+                              {content.isPinned && (
+                                <div className="itmes-center flex justify-center gap-1 rounded-2xl bg-greyBeige px-[5px] py-1 text-[14px] dark:bg-sky">
+                                  <BsFillPinAngleFill />
+                                  고정됨
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                          <div className="flex justify-between">
+                            <div className="text-[15px]">{content.content.replaceAll('"', '')}</div>
+                            <div onClick={() => handleClickLike(content.commentId)} className="flex cursor-pointer items-center justify-center gap-1">
+                              {content.isReaderLiked ? <BsHeartFill className="text-[#f44336]" /> : <BsHeartFill className="text-white opacity-50" />}
+                              <span className="text-[13px]">{content.numberOfLikes}</span>
+                            </div>
+                          </div>
+                          <div>
+                            <span onClick={() => handleClickCommentReply(content.commentId, content.memberName)} className="cursor-pointer text-[14px] opacity-60">
+                              답글 달기
+                            </span>
+                          </div>
+                        </div>
+                      </li>
+                    </SwipeableListItem>
+                    {content.reComments.length > 0 &&
+                      content.reComments.map((reComment: any) => (
+                        <SwipeableListItem
+                          key={reComment.commentId}
+                          swipeLeft={
+                            reComment.memberId === myPageInfo.id
+                              ? {
+                                  content: (
+                                    <div className="flex h-full w-full items-center justify-end bg-[#ff5232] p-4 text-white dark:bg-[#a51b0b]">
+                                      <span className="flex items-center gap-2 text-lg">
+                                        삭제
+                                        <BsFillTrashFill />
+                                      </span>
+                                    </div>
+                                  ),
+                                  action: () => {
+                                    console.log('Deleting item:', reComment.commentId);
+                                    setCommentId(reComment.commentId);
+                                    if (type === 'FEED') {
+                                      deleteFeedCommentMutate();
+                                    } else {
+                                      deleteQnaCommentMutate();
+                                    }
+                                  },
+                                }
+                              : undefined
                           }
-                        : undefined
-                    }
-                  >
-                    <li key={content.commentId} className="flex min-h-[60px] w-full gap-2 bg-midIvory px-4 dark:bg-midNavy">
-                      {/* {comment.isRef && <BsArrowReturnRight className="ml-4 text-[20px]" />} */}
-                      <img
-                        onClick={() => (content.memberName === myPageInfo.nickName ? navigate(`/myProfile/feed`) : navigate(`/otherProfile/${content.memberId}/feed`))}
-                        src={S3_URL + content.memberProfileUrl}
-                        className="h-[50px] w-[50px] shrink-0 cursor-pointer rounded-full object-cover"
-                      />
-                      <div className="flex h-full w-full flex-col justify-between gap-1">
-                        <div className="flex w-full justify-between">
-                          <div className="flex items-center gap-1">
-                            <div className="text-[15px] font-semibold">{content.memberName}</div>
-                            <BsDot className="opacity-70" />
-                            <div className="mr-2 text-[14px] opacity-70">{content.createdAt}</div>
-                            {content.isPinned && (
-                              <div className="itmes-center flex justify-center gap-1 rounded-2xl bg-greyBeige px-[5px] py-1 text-[14px] dark:bg-sky">
-                                <BsFillPinAngleFill />
-                                고정됨
+                        >
+                          <div key={reComment.commentId} className="flex w-full pl-8">
+                            <BsArrowReturnRight className="relative top-[10px] text-lightText opacity-60 dark:text-white" size={25} />
+                            <li className="flex min-h-[60px] w-full list-none gap-2 bg-midIvory px-4 dark:bg-midNavy">
+                              <img
+                                onClick={() => (reComment.memberName === myPageInfo.nickName ? navigate(`/myProfile/feed`) : navigate(`/otherProfile/${content.memberId}/feed`))}
+                                src={S3_URL + (reComment.memberProfileUrl ?? 'file/2023-04-25/d85de5cdbbdd440a9874020d3b250d5d_20230425205043366.jpeg')}
+                                className="h-[50px] w-[50px] shrink-0 cursor-pointer rounded-full object-cover"
+                              />
+                              <div className="flex h-full w-full flex-col gap-1">
+                                <div className="flex w-full justify-between">
+                                  <div className="flex items-center gap-1">
+                                    <div className="text-[15px] font-semibold">{reComment.memberName}</div>
+                                    <BsDot className="opacity-70" />
+                                    <div className="mr-2 text-[14px] opacity-70">{reComment.createdAt}</div>
+                                  </div>
+                                </div>
+                                <div className="flex justify-between">
+                                  <div className="text-[15px]">{reComment.content?.replaceAll('"', '')}</div>
+                                  <div onClick={() => handleClickLike(reComment.commentId)} className="flex cursor-pointer items-center justify-center gap-1">
+                                    {reComment.isReaderLiked ? <BsHeartFill className="text-[#f44336]" /> : <BsHeartFill className="text-white opacity-50" />}
+                                    <span className="text-[13px]">{reComment.numberOfLikes}</span>
+                                  </div>
+                                </div>
                               </div>
-                            )}
+                            </li>
                           </div>
-                        </div>
-                        <div className="flex justify-between">
-                          <div className="text-[15px]">{content.content}</div>
-                          <div onClick={() => handleClickLike(content.commentId)} className="flex cursor-pointer items-center justify-center gap-1">
-                            {content.isReaderLiked ? <BsHeartFill className="text-[#f44336]" /> : <BsHeartFill className="text-white" />}
-                            <span className="text-[13px]">{content.numberOfLikes}</span>
-                          </div>
-                        </div>
-                        <div>
-                          <span className="cursor-pointer text-[14px] opacity-60">답글 달기</span>
-                        </div>
-                      </div>
-                    </li>
-                  </SwipeableListItem>
+                        </SwipeableListItem>
+                      ))}
+                  </div>
                 );
               })
             )}
           </div>
         )}
       </SwipeableList>
-      <div className="fixed bottom-0 left-0 z-20 flex w-full items-center justify-start gap-4 bg-lightIvory p-3 dark:bg-darkNavy">
+      <div className="fixed bottom-0 left-0 z-20 w-full items-center justify-start gap-4 bg-lightIvory p-3 dark:bg-darkNavy">
+        {isCommentReply && (
+          <div className="flex justify-between px-1 pb-3 pt-1 text-sm tracking-wider text-lightText opacity-50 dark:text-white">
+            {commentReplyNickname}님에게 답글 남기는 중
+            <BsX onClick={() => setIsCommentReply(false)} size={20} className="cursor-pointer" />
+          </div>
+        )}
         <input
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
+          ref={inputRef}
+          value={comment}
+          onChange={(e) => setComment(e.target.value)}
           onKeyDown={pressEnterKey}
           type="text"
           className="mb-0.5 h-[40px] w-full grow rounded-[20px] bg-greyBeige px-4 py-2 focus:outline-none dark:bg-lightNavy"

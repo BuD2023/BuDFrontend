@@ -1,8 +1,7 @@
 import { Fragment, useEffect, useRef, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
-import { RiUserFollowFill } from 'react-icons/ri';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useMyFollowersQuery } from '../../store/module/useMyProfileQuery';
+import { useMyFollowersQuery, useMyProfileQuery } from '../../store/module/useMyProfileQuery';
 import { useMyFollowsQuery } from '../../store/module/useMyProfileQuery';
 import { useUserFollowersQuery, useUserFollowsQuery } from '../../store/module/useUserProfileQuery';
 import { useFollowMutation } from '../../store/module/useCommunityQuery';
@@ -11,7 +10,7 @@ import { CommonUserListType } from '../myProfile/_MyProfile.interface';
 import { S3_URL } from '../../constant/union';
 import { getMyPageInfo } from '../../store/recoil/user';
 import { useRecoilValueLoadable } from 'recoil';
-import { useChatUserListQuery, useMyChatroomListQuery } from '../../store/module/useChatroomQuery';
+import { useChatUserListQuery } from '../../store/module/useChatroomQuery';
 import { chatroomUserListType } from '../chatRoom/_ChatRoom.interface';
 import { FcCheckmark, FcPortraitMode } from 'react-icons/fc';
 
@@ -24,11 +23,12 @@ export default function UserListModal({ isUserList, setIsUserList, type, follows
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const { data: MyFollowersData, isLoading: followersIsLoading, error: followersError, refetch: followersRefetch } = useMyFollowersQuery();
-  const { data: MyFollowsData, isLoading: followsIsLading, error: followsError, refetch: followsRefetch } = useMyFollowsQuery();
-  const { data: UserFollowersData, isLoading: UserFollowersIsLoading, error: UserFollowersError, refetch: UserFollowersRefetch } = useUserFollowersQuery(Number(id));
-  const { data: UserFollowsData, isLoading: UserFollowsIsLading, error: UserFollowsError, refetch: UserFollowsRefetch } = useUserFollowsQuery(Number(id));
+  const { data: myFollowersData, isLoading: followersIsLoading, error: followersError, refetch: followersRefetch } = useMyFollowersQuery();
+  const { data: myFollowsData, isLoading: followsIsLading, error: followsError, refetch: followsRefetch } = useMyFollowsQuery();
+  const { data: userFollowersData, isLoading: UserFollowersIsLoading, error: UserFollowersError, refetch: UserFollowersRefetch } = useUserFollowersQuery(Number(id));
+  const { data: userFollowsData, isLoading: UserFollowsIsLading, error: UserFollowsError, refetch: UserFollowsRefetch } = useUserFollowsQuery(Number(id));
   const { data: chatUserList, isLoading: chatUserIsLoading, refetch: chatUserListRefetch } = useChatUserListQuery(Number(id));
+  const { data: myProfileInfoData, refetch: myProfileRefetch } = useMyProfileQuery();
 
   const [userId, setUserId] = useState(id ?? 0);
   const { mutate, isSuccess } = useFollowMutation(Number(userId));
@@ -36,16 +36,16 @@ export default function UserListModal({ isUserList, setIsUserList, type, follows
   let data: CommonUserListType[];
   switch (type) {
     case 'UserFollows':
-      data = UserFollowsData as CommonUserListType[];
+      data = userFollowsData as CommonUserListType[];
       break;
     case 'UserFollowers':
-      data = UserFollowersData as CommonUserListType[];
+      data = userFollowersData as CommonUserListType[];
       break;
     case 'MyFollows':
-      data = MyFollowsData as CommonUserListType[];
+      data = myFollowsData as CommonUserListType[];
       break;
     case 'MyFollowers':
-      data = MyFollowersData as CommonUserListType[];
+      data = myFollowersData as CommonUserListType[];
       break;
     case 'ChatUsers':
       data = chatUserList as chatroomUserListType[];
@@ -59,9 +59,11 @@ export default function UserListModal({ isUserList, setIsUserList, type, follows
     switch (type) {
       case 'MyFollows':
         followsRefetch();
+        myProfileRefetch();
         break;
       case 'MyFollowers':
         followersRefetch();
+        myProfileRefetch();
         break;
       case 'UserFollows':
         UserFollowsRefetch();

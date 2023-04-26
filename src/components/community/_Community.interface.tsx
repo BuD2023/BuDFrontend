@@ -174,6 +174,7 @@ export interface QnaAnswerType {
 }
 
 export interface CommentContentType {
+  reComments: any;
   commentId: number;
   content: string;
   createdAt: string;
@@ -202,4 +203,9 @@ export interface CommunityCommentType {
 export interface CommunitySortPropsType {
   sortAndOrder: SortAndOrderType;
   setSortAndOrder: ({}: SortAndOrderType) => void;
+}
+
+/**  */
+export interface commentPropsType {
+  content: string;
 }

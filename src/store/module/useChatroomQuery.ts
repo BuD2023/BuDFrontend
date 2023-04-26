@@ -26,6 +26,7 @@ export function useMyChatroomListQuery(chatRoomId: number, size?: number) {
 // 채팅방 상세정보
 export function useChatroomDetailQuery(chatRoomId: number) {
   return useQuery(['chatroomInfo', chatRoomId], () => getChatroomInfoAxios(accessToken, chatRoomId), {
+    enabled: false,
     refetchOnMount: true,
     refetchOnReconnect: true,
     refetchOnWindowFocus: true,

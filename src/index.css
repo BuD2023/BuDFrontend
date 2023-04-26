@@ -88,8 +88,6 @@ body {
   color: #ffffff;
 }
 
-
-
 select {
   -webkit-appearance:none; /* 크롬 화살표 없애기 */
   -moz-appearance:none; /* 파이어폭스 화살표 없애기 */
@@ -157,4 +155,16 @@ select {
   object-fit: cover;
   border-radius: 50%;
   margin-left: 16px;
+}
+
+.swipeable-list-item__content,
+.dark .swipeable-list-item__content {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  background-color: #E8E1C1 !important;
+}
+
+.dark .swipeable-list-item__content {
+  background-color: #233340 !important;
 }

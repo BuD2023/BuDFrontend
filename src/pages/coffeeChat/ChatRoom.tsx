@@ -12,6 +12,7 @@ import PicModal from '../../components/common/PicModal';
 import AlertModal from '../../components/common/AlertModal';
 import { ChatMessageType, InfoMessageType, myChatroomListContentType, myChatroomListType } from '../../components/chatRoom/_ChatRoom.interface';
 import { toFileURLs } from '../../utils/toFileURLs';
+import { useAllChatroomQuery } from '../../store/module/useCoffeeChatQuery';
 
 export default function ChatRoom() {
   const navigate = useNavigate();
@@ -22,6 +23,7 @@ export default function ChatRoom() {
 
   //리액트 쿼리
   const { isLoading, data: chatroomListData, hasNextPage, isFetching, isFetchingNextPage, fetchNextPage, refetch } = useMyChatroomListQuery(ROOM_NUM, CHAT_SIZE);
+  const { refetch: allChatroomRefetch } = useAllChatroomQuery();
 
   // 채팅 메세지 useState
   const [message, setMessage] = useState<string>('');
@@ -48,10 +50,6 @@ export default function ChatRoom() {
       // },
       debug: function (str) {
         console.log(str);
-        if (str.includes('DISCONNECT')) {
-          navigate('/coffeeChat');
-          return;
-        }
       },
       reconnectDelay: 5000,
       heartbeatIncoming: 4000,
@@ -68,6 +66,8 @@ export default function ChatRoom() {
 
   const disconnect = () => {
     (client.current as StompJs.Client).deactivate();
+    navigate('/coffeeChat');
+    return;
   };
 
   // 웹소켓 구독
@@ -159,10 +159,15 @@ export default function ChatRoom() {
 
   //채팅방 폭파(호스트 퇴장)
   const [alertModal, setAlertModal] = useState(false);
-  if (newChatMessages.find((i) => i.chatType === 'EXPIRE')) {
-    setAlertModal(true);
-    disconnect();
-  }
+  useEffect(() => {
+    if (newChatMessages.find((i) => i.chatType === 'EXPIRE')) {
+      disconnect();
+      allChatroomRefetch();
+      navigate('/coffeeChat');
+      return;
+    }
+  }, [newChatMessages]);
+
   const action = () => {
     navigate('/coffeeChat');
   };
