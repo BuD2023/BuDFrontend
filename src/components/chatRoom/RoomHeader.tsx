@@ -20,8 +20,6 @@ export default function RoomHeader({ newChatMessages, setHostInfo }: RoomHeaderP
   // userList popUp
   const [isUserList, setIsUserList] = useState(false);
 
-  const [test, setTest] = useState<number>();
-
   // 호스트 정보 넘기기
   useEffect(() => {
     setHostInfo({
@@ -35,15 +33,16 @@ export default function RoomHeader({ newChatMessages, setHostInfo }: RoomHeaderP
 
     let prevNumMembers = 1;
     newChatMessages.forEach((msg) => {
-      if (msg.hasOwnProperty('numberOfMembers') && msg.numberOfMembers !== prevNumMembers) {
+      if (msg.hasOwnProperty('numberOfMembers') && msg.numberOfMembers !== prevNumMembers && msg.chatType !== 'EXPIRE') {
         prevNumMembers = msg.numberOfMembers;
+        console.log(msg);
         refetch();
       }
     });
 
     if (newChatMessages.find((i) => i.chatType === 'EXPIRE')) {
       console.log('채팅방 폭파!!');
-      navigate('/coffeeChat');
+      return;
     }
   }, [newChatMessages]);
 
