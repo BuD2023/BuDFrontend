@@ -99,7 +99,7 @@ export default function ChatRoom() {
       (client.current as StompJs.Client).publish({
         destination: '/chats/image',
         body: JSON.stringify({
-          senderId: 8,
+          senderId: 4,
           chatroomId: ROOM_NUM,
           imageByte: imgPeek.image,
         }),
@@ -108,7 +108,7 @@ export default function ChatRoom() {
       (client.current as StompJs.Client).publish({
         destination: '/chats/message',
         body: JSON.stringify({
-          senderId: 8,
+          senderId: 4,
           chatroomId: ROOM_NUM,
           message: message,
         }),
@@ -183,7 +183,7 @@ export default function ChatRoom() {
       <AlertModal alertModal={alertModal} setAlertModal={setAlertModal} title="채팅방 종료" des="호스트가 채팅방을 퇴장함에 따라 채팅이 종료됩니다." action={action} />
       <PicModal isPicPopUp={isPicPopUp} setIsPicPopUp={setIsPicPopUp} />
       <RoomHeader newChatMessages={newChatMessages} setHostInfo={setHostInfo} />
-      <div className="fixed left-0 top-20 h-full w-full rounded-[20px] bg-midIvory dark:bg-midNavy"></div>
+      <div className="fixed left-0 top-[4.6rem] h-full w-full bg-midIvory dark:bg-midNavy"></div>
       <RoomChats
         hostInfo={hostInfo}
         messageList={messageList}

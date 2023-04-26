@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import CoffeeChatRoom from '../../components/coffeeChat/CoffeeChatRoom';
 import CoffeeTitle from '../../components/coffeeChat/CoffeeTitle';
 import AddBtn from '../../components/common/AddBtn';
@@ -11,7 +11,7 @@ export default function CoffeeChat() {
   return (
     <section>
       <ScrollToTopBtn />
-      <div className="relative mb-20 mt-9 flex h-full min-h-[calc(100vh-160px)] w-full flex-col items-center gap-4  p-4">
+      <div className="relative mb-20 mt-9 flex h-full min-h-[calc(100vh-160px)] w-full flex-col items-center gap-4 p-4">
         <AddBtn url="/roomCreate" text="방만들기" />
         <CoffeeTitle inputValue={inputValue} setInputValue={setInputValue} />
         <CoffeeChatRoom inputValue={inputValue} />

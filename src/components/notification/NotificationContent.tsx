@@ -8,6 +8,7 @@ import { notificationDetailType, pageType } from './_Notification.interface';
 import { NotiContent } from './_Notification.interface';
 import { useInView } from 'react-intersection-observer';
 import { timeForToday } from '../../utils/timeForToday';
+import { S3_URL } from '../../constant/union';
 
 export default function NotificationContent() {
   const navigate = useNavigate();
@@ -109,58 +110,77 @@ export default function NotificationContent() {
     return contentFn ? contentFn(senderNickName) : null;
   };
 
+  function getRandomInt(min: number, max: number) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
+  const randomPinNum = getRandomInt(2, 10);
+
   return (
-    <SwipeableList>
-      {() => (
+    <>
+      {notificationData && notificationData?.pages[0].content.length > 0 ? (
+        <SwipeableList>
+          {() => (
+            <>
+              <div className={'mt-9 flex h-full flex-col text-lightText dark:text-white'}>
+                {notificationData &&
+                  notificationData.pages
+                    .map((i) => i.content)
+                    .flat()
+                    .map((noti) => {
+                      return (
+                        <SwipeableListItem
+                          key={noti.notificationId + String(Date.now())}
+                          swipeLeft={{
+                            content: (
+                              <div className="flex h-full w-full items-center justify-end bg-[#ff5232] p-4 text-white dark:bg-[#a51b0b]">
+                                <span className="flex items-center gap-2 text-lg">
+                                  삭제
+                                  <BsFillTrashFill />
+                                </span>
+                              </div>
+                            ),
+                            action: async () => {
+                              await deleteNotiMutateAsync(noti.notificationId);
+                              refetch();
+                              console.log('Deleting item:', noti.notificationId);
+                            },
+                          }}
+                        >
+                          <li
+                            onClick={() => handleNotiClick(noti.pageType, noti.pageId, noti.notificationId)}
+                            key={noti.notificationId}
+                            className={`flex grow cursor-pointer items-center gap-3 bg-lightIvory px-8 pb-3 pt-6 dark:bg-darkNavy`}
+                          >
+                            <img
+                              onClick={(event) => handleImgClick(noti.senderId, event)}
+                              src={`https://picsum.photos/105/105`}
+                              alt={noti.senderNickName}
+                              className={'h-[65px] w-[65px] rounded-full ' + (noti.notificationStatus === 'UNREAD' ? '' : 'opacity-40')}
+                            />
+                            <div className={'flex flex-col gap-0.5 text-lg ' + (noti.notificationStatus === 'UNREAD' ? '' : 'opacity-50')}>
+                              {handleContent(noti.notificationDetailType, noti.senderNickName)}
+                              <p className="text-sm opacity-50">{timeForToday(noti.notifiedAt)}</p>
+                            </div>
+                          </li>
+                        </SwipeableListItem>
+                      );
+                    })}
+              </div>
+              <div ref={ref} />
+            </>
+          )}
+        </SwipeableList>
+      ) : (
         <>
-          <div className={'mt-9 flex h-full flex-col text-lightText dark:text-white'}>
-            {notificationData &&
-              notificationData.pages
-                .map((i) => i.content)
-                .flat()
-                .map((noti) => {
-                  return (
-                    <SwipeableListItem
-                      key={noti.notificationId + String(Date.now())}
-                      swipeLeft={{
-                        content: (
-                          <div className="flex h-full w-full items-center justify-end bg-[#ff5232] p-4 text-white dark:bg-[#a51b0b]">
-                            <span className="flex items-center gap-2 text-lg">
-                              삭제
-                              <BsFillTrashFill />
-                            </span>
-                          </div>
-                        ),
-                        action: async () => {
-                          await deleteNotiMutateAsync(noti.notificationId);
-                          refetch();
-                          console.log('Deleting item:', noti.notificationId);
-                        },
-                      }}
-                    >
-                      <li
-                        onClick={() => handleNotiClick(noti.pageType, noti.pageId, noti.notificationId)}
-                        key={noti.notificationId}
-                        className={`flex grow cursor-pointer items-center gap-3 bg-lightIvory px-8 pb-3 pt-6 dark:bg-darkNavy`}
-                      >
-                        <img
-                          onClick={(event) => handleImgClick(noti.senderId, event)}
-                          src={`https://picsum.photos/105/105`}
-                          alt={noti.senderNickName}
-                          className={'h-[65px] w-[65px] rounded-full ' + (noti.notificationStatus === 'UNREAD' ? '' : 'opacity-40')}
-                        />
-                        <div className={'flex flex-col gap-0.5 text-lg ' + (noti.notificationStatus === 'UNREAD' ? '' : 'opacity-50')}>
-                          {handleContent(noti.notificationDetailType, noti.senderNickName)}
-                          <p className="text-sm opacity-50">{timeForToday(noti.notifiedAt)}</p>
-                        </div>
-                      </li>
-                    </SwipeableListItem>
-                  );
-                })}
-          </div>
-          <div ref={ref} />
+          {notificationData && (
+            <div className="relative mt-8 flex min-h-[calc(100vh-164px)] w-full flex-col items-center justify-center gap-4 p-4 text-lightText dark:text-white">
+              <img src={S3_URL + 'levels/lv' + randomPinNum + 'L.png'} alt="notiImg" className="aspect-square w-[200px] opacity-75 brightness-[2] dark:opacity-70 dark:brightness-[1]" />
+              <span className="text-xl opacity-50">새 알림이 없어요!</span>
+            </div>
+          )}
         </>
       )}
-    </SwipeableList>
+    </>
   );
 }

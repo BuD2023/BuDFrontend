@@ -55,24 +55,30 @@ export default function UserModal({ userModal, setUserModal, userInfo, hostInfo 
                     <img className="h-[50px] w-[50px] rounded-full object-cover" src={S3_URL + profileUrl} alt={nickName} />
                     <div className="flex grow flex-col justify-between gap-1">
                       <div className="flex items-center gap-2">
-                        <p className="text-base font-bold text-black">{nickName}</p>
-                        <p className="text-xs text-black opacity-50">{job}</p>
+                        <p className="text-base font-bold text-lightText">{nickName}</p>
+                        <p className="text-xs text-lightText opacity-50">{job}</p>
                       </div>
-                      <p className="text-sm text-black">{userIntro}</p>
+                      <p className="text-sm text-lightText">{userIntro}</p>
                     </div>
-                    <p onClick={() => navigate(`/otherProfile/${userId}/feed`)} className="h-[18px] cursor-pointer items-center gap-1 text-sm opacity-60">
-                      <BsInfoCircle size={18} />
-                    </p>
                   </div>
                 </div>
-                <div className="bg-white px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+                <div className="flex flex-col gap-3 bg-white px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+                  {hostInfo.nickName === myPageInfo?.nickName && (
+                    <button
+                      type="button"
+                      className="inline-flex w-full justify-center rounded-full border border-[#d9d9d9] bg-white px-3 py-2 text-sm font-semibold text-lightText shadow-sm outline-none sm:mt-0 sm:w-auto"
+                      onClick={() => handleAuthorizeHost(userId)}
+                      ref={cancelButtonRef}
+                    >
+                      호스트 위임하기
+                    </button>
+                  )}
                   <button
                     type="button"
-                    className="mt-3 inline-flex w-full justify-center rounded-full bg-pointGreen px-3 py-2 text-sm font-semibold text-white shadow-sm outline-none ring-1 ring-inset sm:mt-0 sm:w-auto"
-                    onClick={() => handleAuthorizeHost(userId)}
-                    ref={cancelButtonRef}
+                    onClick={() => navigate(`/otherProfile/${userId}/feed`)}
+                    className="inline-flex w-full justify-center rounded-full border bg-pointGreen px-3 py-2 text-sm font-semibold text-white shadow-sm outline-none sm:mt-0 sm:w-auto"
                   >
-                    {hostInfo.nickName === myPageInfo?.nickName ? `호스트 위임하기` : '프로필 보러가기'}
+                    프로필 보러가기
                   </button>
                 </div>
               </Dialog.Panel>

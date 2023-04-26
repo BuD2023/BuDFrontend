@@ -45,17 +45,24 @@ export default function RoomHeader({ newChatMessages, setHostInfo }: RoomHeaderP
     chatUserListRefetch();
   }, [chatRoomInfo?.numberOfMembers]);
 
+  useEffect(() => {
+    refetch();
+  }, []);
+
   return (
     <>
       <UserListModal isUserList={isUserList} setIsUserList={setIsUserList} type="ChatUsers" />
-      <div className="fixed top-0 left-0 mt-8 flex w-full items-center justify-between gap-2 px-4 py-2 text-xl font-bold">
-        <BsChevronLeft onClick={() => navigate('/coffeeChat')} className="shrink-0 cursor-pointer" />
-        <p className="truncate px-1">{chatRoomInfo?.title}</p>
+      <div className="fixed top-0 left-0 flex w-full items-center justify-between gap-2 px-4 py-5 font-bold">
+        <div className="flex items-center gap-3 overflow-hidden">
+          <BsChevronLeft onClick={() => navigate('/coffeeChat')} className="shrink-0 cursor-pointer text-[26px]" />
+          <p className="truncate text-2xl">{chatRoomInfo?.title}</p>
+        </div>
         <div
           onClick={() => {
             setIsUserList(true);
+            chatUserListRefetch();
           }}
-          className="flex cursor-pointer items-center gap-1 font-normal opacity-70"
+          className="flex cursor-pointer items-center gap-1 text-xl font-normal opacity-70"
         >
           <BsFillPersonFill className="shrink-0" />
           <p className="text-sm ">{numberOfMember && numberOfMember > 0 ? numberOfMember : chatRoomInfo?.numberOfMembers}</p>

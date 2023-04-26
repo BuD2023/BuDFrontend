@@ -66,7 +66,7 @@ export default function CoffeeChatRoom({ inputValue }: CoffeeChatRoomPropsType) 
         chatRoomsResult.map((room, index) => (
           <div onClick={() => navigate(`/chatRoom/${room.chatRoomId}`)} key={room.title + String(index)} className="relative flex min-h-[250px] w-full flex-col">
             <div className="absolute inset-0 flex cursor-pointer flex-col justify-between rounded-2xl bg-midIvory p-6 dark:bg-midNavy">
-              <div className="text-[19px] font-semibold leading-6">{room.title}</div>
+              <div className="truncate text-[19px] font-semibold leading-7">{room.title}</div>
               <div className="flex w-full gap-2">
                 {room.hashTags.map((item, idx) => (
                   <div key={idx} className="flex items-center rounded-[40px] bg-greyBeige pl-2 pr-2.5 pt-1 pb-1.5 dark:bg-sky">

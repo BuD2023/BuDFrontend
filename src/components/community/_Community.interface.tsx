@@ -61,7 +61,7 @@ export interface CommunityPostListContentMemberType {
   addInfoYn: boolean;
   enabled: boolean;
   oauthAccessToken: string;
-  username: string;
+  nickname: string;
   password: null | string;
   credentialNonExpired: boolean;
   accountNonExpired: boolean;
