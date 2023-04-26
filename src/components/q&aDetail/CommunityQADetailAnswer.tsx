@@ -139,7 +139,7 @@ export default function CommunityQADetailAnswer({ isCommentOpen, setIsCommentOpe
                         e.stopPropagation();
                         navigate(`/otherProfile/${answer.member.id}/feed`);
                       }}
-                      className="w-[58px] cursor-pointer rounded-full"
+                      className="aspect-square w-[58px] cursor-pointer rounded-full object-cover"
                       src={S3_URL + answer.member.profileImg}
                     />
                     <div className="pl-3">
