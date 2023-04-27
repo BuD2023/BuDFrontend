@@ -30,14 +30,6 @@ export default function RoomChats({ hostInfo, messageList, newChatMessages, hasN
     pic: '',
   });
 
-  // 제일 최신 메세지로 스크롤
-  const scrollToNew = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    if (isFetching && isFetchingNextPage) {
-      scrollToNew.current?.scrollIntoView({ behavior: 'smooth' });
-    }
-  }, [messageList]);
-
   // 백엔드에서 받은 유저 정보에서 받아서 사용할 것들!
   const [userInfo, setUserInfo] = useState({
     userId: 0,
@@ -67,7 +59,6 @@ export default function RoomChats({ hostInfo, messageList, newChatMessages, hasN
       <PicModal isPicPopUp={isPicPopUp} setIsPicPopUp={setIsPicPopUp} />
       <div ref={scrollRef} className="fixed top-[4.6rem] left-0 z-10 flex h-[calc(100vh-145px)] w-full flex-col-reverse overflow-auto p-4">
         <ScrollToBottomBtn scrollToNew={scrollRef as RefObject<HTMLDivElement>} />
-        <div ref={scrollToNew} className="w-full"></div>
         <NewChatMessages
           newChatMessages={newChatMessages && (newChatMessages as Partial<ChatMessageType>[]).filter((i: Partial<ChatMessageType>) => i.chatType === 'MESSAGE' || i.chatType === 'IMAGE').reverse()}
           myPageInfo={myPageInfo}

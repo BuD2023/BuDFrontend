@@ -26,7 +26,7 @@ export default function EditDeleteBtn({ postId, setIsMenu }: EditDeleteBtnPropsT
           setIsMenu(false);
           await deletePostMutate();
           await refetch();
-          navigate('/community/all');
+          navigate(-1);
         }}
       >
         삭제하기

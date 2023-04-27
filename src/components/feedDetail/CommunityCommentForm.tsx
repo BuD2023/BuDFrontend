@@ -220,7 +220,7 @@ export default function CommunityCommentForm({ type, answerId, questionUserId }:
                         <img
                           onClick={() => (content.memberName === myPageInfo.nickName ? navigate(`/myProfile/feed`) : navigate(`/otherProfile/${content.memberId}/feed`))}
                           src={S3_URL + content.memberProfileUrl}
-                          className="h-[50px] w-[50px] shrink-0 cursor-pointer rounded-full object-cover"
+                          className="aspect-squre w-[50px] shrink-0 cursor-pointer rounded-full object-cover"
                         />
                         <div className="flex h-full w-full flex-col justify-between gap-1">
                           <div className="flex w-full justify-between">
@@ -285,7 +285,7 @@ export default function CommunityCommentForm({ type, answerId, questionUserId }:
                               <img
                                 onClick={() => (reComment.memberName === myPageInfo.nickName ? navigate(`/myProfile/feed`) : navigate(`/otherProfile/${content.memberId}/feed`))}
                                 src={S3_URL + (reComment.memberProfileUrl ?? 'file/2023-04-25/d85de5cdbbdd440a9874020d3b250d5d_20230425205043366.jpeg')}
-                                className="h-[50px] w-[50px] shrink-0 cursor-pointer rounded-full object-cover"
+                                className="aspect-square w-[50px] shrink-0 cursor-pointer rounded-full object-cover"
                               />
                               <div className="flex h-full w-full flex-col gap-1">
                                 <div className="flex w-full justify-between">

@@ -112,10 +112,10 @@ export default function UserListModal({ isUserList, setIsUserList, type, follows
             >
               <Dialog.Panel className="relative my-8 max-h-[50vh] w-full max-w-lg transform overflow-auto rounded-lg bg-white text-left shadow-xl transition-all">
                 <div className="bg-white p-2 sm:p-6 sm:pb-4">
-                  <div className="sm:flex sm:items-start">
+                  <div className="flex flex-col">
                     {data !== undefined &&
                       data.map((user: CommonUserListType | chatroomUserListType) => (
-                        <div key={user.id} className="flex items-center justify-between">
+                        <div key={user.id} className="flex w-full items-center justify-between">
                           <div
                             onClick={(e) => {
                               if (user.nickName === myPageInfo.nickName) {

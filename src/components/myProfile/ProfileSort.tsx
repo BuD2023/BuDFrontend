@@ -30,14 +30,15 @@ export default function ProfileSort({ setSortAndOrder, sortAndOrder, postView }:
       <div className="flex items-center gap-2">
         {(postView === 'scrap' ? scrapSort : postSort).map((sorting, idx) => (
           <li key={idx} onClick={() => setSortAndOrder({ ...sortAndOrder, sort: sorting })} className={`cursor-pointer ${sortAndOrder.sort === sorting ? '' : 'opacity-50'}`}>
-            · <span>{handleText(sorting)}</span>
+            <span>· {handleText(sorting)}</span>
           </li>
         ))}
       </div>
       <div className="flex items-center gap-2">
         {order.map((ordering, idx) => (
           <li key={idx} onClick={() => setSortAndOrder({ ...sortAndOrder, order: ordering })} className={`cursor-pointer ${sortAndOrder.order === ordering ? '' : 'opacity-50'}`}>
-            · <span>{handleText(ordering)}</span>
+            <span className="hidden xs:block ">· {handleText(ordering)}</span>
+            <span className="text-base xs:hidden">{handleText(ordering) === '오름차순' ? '▴' : '▾'}</span>
           </li>
         ))}
       </div>

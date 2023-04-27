@@ -31,7 +31,7 @@ export default function NewsFilter({ setFilter, setSort, sort, setOrder, order }
         ))}
       </div>
       <button onClick={() => setFilter(true)} className="cursor-pointer">
-        ✨키워드 필터
+        ✨키워드
       </button>
     </ul>
   );
