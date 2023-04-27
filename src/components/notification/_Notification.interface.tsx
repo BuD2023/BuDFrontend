@@ -1,5 +1,5 @@
 export interface NotiContent {
-  [key: string]: (senderId: string) => JSX.Element;
+  readonly [key: string]: (senderId: string) => JSX.Element;
 }
 
 /** NotificationListContentType에 사용하는 타입들 */
@@ -23,41 +23,41 @@ export type pageType = 'QNA' | 'FEED' | 'OTHER_PROFILE';
 
 /** NotificationListType에 사용하는 content 타입 */
 export interface NotificationListContentType {
-  senderNickName: string;
-  senderId: string;
-  notificationId: string;
-  notificationType: notificationType;
-  pageType: pageType;
-  pageId: number;
-  notificationDetailType: notificationDetailType;
-  notificationStatus: string;
-  notifiedAt: string;
+  readonly senderNickName: string;
+  readonly senderId: string;
+  readonly notificationId: string;
+  readonly notificationType: notificationType;
+  readonly pageType: pageType;
+  readonly pageId: number;
+  readonly notificationDetailType: notificationDetailType;
+  readonly notificationStatus: string;
+  readonly notifiedAt: string;
 }
 
 /** getNotificationListAxios - 알림 정보를 가져올 때 사용하는 response 타입 */
 export interface NotificationListType {
-  content: NotificationListContentType[];
-  pageable: string;
-  sort: {
-    sorted: boolean;
-    unsorted: boolean;
-    empty: boolean;
+  readonly content: NotificationListContentType[];
+  readonly pageable: string;
+  readonly sort: {
+    readonly sorted: boolean;
+    readonly unsorted: boolean;
+    readonly empty: boolean;
   };
-  number: number;
-  numberOfElements: number;
-  first: boolean;
-  last: boolean;
-  size: number;
-  empty: boolean;
+  readonly number: number;
+  readonly numberOfElements: number;
+  readonly first: boolean;
+  readonly last: boolean;
+  readonly size: number;
+  readonly empty: boolean;
 }
 
 /** postNotificationTokenAxios - 알림 토큰을 전송할 때 사용하는 request 타입 */
 export interface notificationDataType {
-  fcmToken: string;
-  isPostPushAvailable?: boolean;
-  isFollowPushAvailable?: boolean;
+  readonly fcmToken: string;
+  readonly isPostPushAvailable?: boolean;
+  readonly isFollowPushAvailable?: boolean;
 }
 
 export interface UnreadNotificationCountType {
-  unreadCount: number;
+  readonly unreadCount: number;
 }

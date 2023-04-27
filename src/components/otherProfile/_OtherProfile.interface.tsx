@@ -1,53 +1,53 @@
 /** getUserFollowList / getUserFollowerList - 타인 팔로우 / 팔로워 리스트 가져올 때 사용하는 response 타입 */
 export interface UserFollowListType {
-  description: string | null;
-  id: number;
-  isFollowing: boolean;
-  isReader: boolean;
-  nickName: string;
-  profileUrl: string | null;
-  userId: string;
+  readonly description: string | null;
+  readonly id: number;
+  readonly isFollowing: boolean;
+  readonly isReader: boolean;
+  readonly nickName: string;
+  readonly profileUrl: string | null;
+  readonly userId: string;
 }
 
 /** getUserProfileInfo - 타인 프로필 정보 가져올 때 사용하는 response 타입 */
 export interface UserProfileType {
-  id: number;
-  job: string;
-  userId: string;
-  nickName: string;
-  description: string;
-  level: number;
-  numberOfFollowers: number;
-  numberOfFollows: number;
-  numberOfPosts: number;
-  profileUrl: string;
-  isFollowing: boolean;
-  isReader: boolean;
+  readonly id: number;
+  readonly job: string;
+  readonly userId: string;
+  readonly nickName: string;
+  readonly description: string;
+  readonly level: number;
+  readonly numberOfFollowers: number;
+  readonly numberOfFollows: number;
+  readonly numberOfPosts: number;
+  readonly profileUrl: string;
+  readonly isFollowing: boolean;
+  readonly isReader: boolean;
 }
 
 /** OtherProfileHeader - 타인 프로필 헤더에 사용하는 props 타입 */
 export interface UserProfileHeaderPropsType {
-  userId: string;
-  job: string;
-  nickName: string;
-  description: string;
-  profileUrl: string;
-  isLoading: boolean;
+  readonly userId: string;
+  readonly job: string;
+  readonly nickName: string;
+  readonly description: string;
+  readonly profileUrl: string;
+  readonly isLoading: boolean;
 }
 
 /** OtherProfileInfo - 타인 프로필 정보에 사용하는 props 타입  */
 export interface OtherProfileInfoPropsType {
-  numberOfPosts: number;
-  numberOfFollowers: number;
-  numberOfFollows: number;
-  level: number;
-  isFollowing: boolean;
-  isLoading: boolean;
+  readonly numberOfPosts: number;
+  readonly numberOfFollowers: number;
+  readonly numberOfFollows: number;
+  readonly level: number;
+  readonly isFollowing: boolean;
+  readonly isLoading: boolean;
 }
 
 /** OtherProfileMenu - 타인 프로필 메뉴에 사용하는 props 타입 */
 export interface OtherProfileMenuPropsType {
-  postView: string;
+  readonly postView: string;
   setPostView: (x: string) => void;
-  id: string | undefined;
+  readonly id: string | undefined;
 }

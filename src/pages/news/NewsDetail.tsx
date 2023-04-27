@@ -7,6 +7,7 @@ import PicModal from '../../components/common/PicModal';
 import newsDefaultImg from '../../assets/newsDefaultImg.webp';
 import { useNavigate } from 'react-router-dom';
 import { timeForToday } from '../../utils/timeForToday';
+import ScrollToTopBtn from '../../components/common/ScrollToTopBtn';
 
 export default function NewsDetail() {
   const [isScroll, setIsScroll] = useState(false);
@@ -56,6 +57,7 @@ export default function NewsDetail() {
 
   return (
     <section className="flex h-full min-h-screen flex-col items-start gap-4 py-4">
+      <ScrollToTopBtn bottom="bottom-[50px]" />
       <PicModal isPicPopUp={isPicPopUp} setIsPicPopUp={setIsPicPopUp} />
       {data !== undefined && (
         <>

@@ -39,7 +39,7 @@ export default function CoffeeTitle({ setInputValue, inputValue }: CoffeeTitlePr
           <div>{`총 ${data?.numberOfChatRooms}개의 채팅방에서 ${data?.numberOfUsers}명이 대화중입니다.`}</div>
           <HiOutlineRefresh
             onClick={handleClickRefreshBtn}
-            className={`transform cursor-pointer transition-transform duration-500 ${chatroomStatusIsFetching || allChatroomIsFetching || isClicked ? 'animate-spin' : ''}`}
+            className={`transform cursor-pointer text-base transition-transform duration-500 ${chatroomStatusIsFetching || allChatroomIsFetching || isClicked ? 'animate-spin' : ''}`}
           />
         </div>
       )}

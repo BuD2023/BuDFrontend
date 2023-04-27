@@ -1,7 +1,7 @@
 /** notification의 useState 타입  */
 export interface NotificationType {
-  [key: string]: boolean;
-  all: boolean;
-  follow: boolean;
-  post: boolean;
+  readonly [key: string]: boolean;
+  readonly all: boolean;
+  readonly follow: boolean;
+  readonly post: boolean;
 }

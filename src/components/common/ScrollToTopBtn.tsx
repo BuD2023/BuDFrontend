@@ -2,7 +2,11 @@ import { throttle } from 'lodash';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { BiArrowToTop } from 'react-icons/bi';
 
-export default function ScrollToTopBtn() {
+interface ScrollToTopBtnPropsType {
+  bottom?: string;
+}
+
+export default function ScrollToTopBtn({ bottom }: ScrollToTopBtnPropsType) {
   const [showBtn, setShowBtn] = useState(false);
   const beforeScrollY = useRef(0);
 
@@ -35,7 +39,7 @@ export default function ScrollToTopBtn() {
               behavior: 'smooth',
             })
           }
-          className="fixed bottom-[120px] right-8 z-10 cursor-pointer rounded-full bg-white p-2 text-pointGreen drop-shadow-md transition-all dark:text-sky"
+          className={'fixed right-8 z-10 cursor-pointer rounded-full bg-white p-2 text-pointGreen drop-shadow-md transition-all dark:text-sky ' + (bottom ? bottom : 'bottom-[120px]')}
         >
           <BiArrowToTop size={28} />
         </div>

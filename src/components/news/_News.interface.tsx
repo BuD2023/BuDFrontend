@@ -1,30 +1,30 @@
 /** getNewsDetailAxios - 뉴스 디테일 가져올 때 사용하는 response 타입 */
 export interface NewsDetailType {
-  id: number;
-  registeredAt: string;
-  title: string;
-  link: string;
-  content: string;
-  summaryContent: string;
-  mainImgUrl: string;
-  company: string;
-  journalistOriginalNames: string[];
-  journalistNames: string[];
-  keywords: string[];
-  hitCount: number;
+  readonly id: number;
+  readonly registeredAt: string;
+  readonly title: string;
+  readonly link: string;
+  readonly content: string;
+  readonly summaryContent: string;
+  readonly mainImgUrl: string;
+  readonly company: string;
+  readonly journalistOriginalNames: string[];
+  readonly journalistNames: string[];
+  readonly keywords: string[];
+  readonly hitCount: number;
 }
 
 /** NewsPosts - 뉴스 리스트에 사용하는 props 타입 */
 export interface NewsPostsProps {
-  newsData?: NewsDetailType[];
-  isLoading: boolean;
+  readonly newsData?: NewsDetailType[];
+  readonly isLoading: boolean;
 }
 
 /** NewsKeywordFilter - 뉴스 키워드 필터링에 사용하는 props 타입 */
 export interface NewsKeywordFilterPropsType {
-  filter: boolean;
+  readonly filter: boolean;
   setFilter: (a: boolean) => void;
-  inputValue: string;
+  readonly inputValue: string;
   setInputValue: (x: string) => void;
 }
 
@@ -32,37 +32,37 @@ export interface NewsKeywordFilterPropsType {
 export interface INewsFilterPropsType {
   setFilter: (x: boolean) => void;
   setSort: (x: boolean) => void;
-  sort: boolean;
+  readonly sort: boolean;
   setOrder: (x: boolean) => void;
-  order: boolean;
+  readonly order: boolean;
 }
 
 /** getNewsListAxio - 전체 뉴스 리스트를 가져올 때 사용하는 response 타입 */
 export interface NewsListType {
-  content: NewsDetailType[];
-  pageable: {
-    sort: {
-      empty: boolean;
-      sorted: boolean;
-      unsorted: boolean;
+  readonly content: NewsDetailType[];
+  readonly pageable: {
+    readonly sort: {
+      readonly empty: boolean;
+      readonly sorted: boolean;
+      readonly unsorted: boolean;
     };
-    offset: number;
-    pageNumber: number;
-    pageSize: number;
-    paged: boolean;
-    unpaged: boolean;
+    readonly offset: number;
+    readonly pageNumber: number;
+    readonly pageSize: number;
+    readonly paged: boolean;
+    readonly unpaged: boolean;
   };
-  totalElements: number;
-  totalPages: number;
-  first: boolean;
-  last: boolean;
-  size: number;
-  number: number;
-  sort: {
-    empty: boolean;
-    sorted: boolean;
-    unsorted: boolean;
+  readonly totalElements: number;
+  readonly totalPages: number;
+  readonly first: boolean;
+  readonly last: boolean;
+  readonly size: number;
+  readonly number: number;
+  readonly sort: {
+    readonly empty: boolean;
+    readonly sorted: boolean;
+    readonly unsorted: boolean;
   };
-  numberOfElements: number;
-  empty: boolean;
+  readonly numberOfElements: number;
+  readonly empty: boolean;
 }

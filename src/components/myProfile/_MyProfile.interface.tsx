@@ -2,177 +2,176 @@ import { CommunityPostPageableType, MemberLevelType, PostSortType, PostStatusTyp
 
 /** 일반적인 userList 타입 */
 export interface CommonUserListType {
-  id: number;
-  description: string;
-  isFollowing: boolean;
-  nickName: string;
-  userId: string;
-  profileUrl: string;
+  readonly id: number;
+  readonly description: string;
+  readonly isFollowing: boolean;
+  readonly nickName: string;
+  readonly userId: string;
+  readonly profileUrl: string;
 }
 
 /** getMyFollowList / getMyFollowerList - 나의 팔로우 / 팔로워 리스트 가져올 때 사용하는 response 타입 */
 export interface MyFollowListType {
-  description: string | null;
-  id: number;
-  isFollowing: boolean;
-  nickName: string;
-  profileUrl: string | null;
-  userId: string;
+  readonly description: string | null;
+  readonly id: number;
+  readonly isFollowing: boolean;
+  readonly nickName: string;
+  readonly profileUrl: string | null;
+  readonly userId: string;
 }
 
 /** getMyFollowerList - 나의 팔로우 리스트 가져올 때 사용하는 response 타입 */
 
 /** getMyProfileInfo - 나의 프로필 정보 가져올 때 사용하는 response 타입 */
 export interface MyProfileType {
-  id: number;
-  job: string;
-  userId: string;
-  nickName: string;
-  description: string;
-  level: number;
-  numberOfFollowers: number;
-  numberOfFollows: number;
-  numberOfPosts: number;
-  profileUrl: string;
-  isFollowing: boolean;
-  isReader: boolean;
+  readonly id: number;
+  readonly job: string;
+  readonly userId: string;
+  readonly nickName: string;
+  readonly description: string;
+  readonly level: number;
+  readonly numberOfFollowers: number;
+  readonly numberOfFollows: number;
+  readonly numberOfPosts: number;
+  readonly profileUrl: string;
+  readonly isFollowing: boolean;
+  readonly isReader: boolean;
 }
 
 /** getMyScrapList - ScrapPostProps의 member 타입 */
 export interface memberType {
-  accountNonExpired: boolean;
-  accountNonLocked: boolean;
-  addInfoYn: boolean;
-  authorities: {
-    authority: string;
+  readonly accountNonExpired: boolean;
+  readonly accountNonLocked: boolean;
+  readonly addInfoYn: boolean;
+  readonly authorities: {
+    readonly authority: string;
   }[];
-  createdAt: string;
-  credentialNonExpired: boolean;
-  enabled: boolean;
-  id: number;
-  introduceMessage: null | string;
-  job: null | string;
-  level: Partial<MemberLevelType>;
-  nickName: string;
-  oauthAccessToken: string;
-  password: null | string;
-  profileImg: null | string;
-  status: string;
-  updatedAt: string;
-  userId: string;
-  username: string;
+  readonly createdAt: string;
+  readonly credentialNonExpired: boolean;
+  readonly enabled: boolean;
+  readonly id: number;
+  readonly introduceMessage: null | string;
+  readonly job: null | string;
+  readonly level: Partial<MemberLevelType>;
+  readonly nickName: string;
+  readonly oauthAccessToken: string;
+  readonly password: null | string;
+  readonly profileImg: null | string;
+  readonly status: string;
+  readonly updatedAt: string;
+  readonly userId: string;
+  readonly username: string;
 }
 
 /** getMyScrapList - ScrpListType의 content 타입 */
 export interface ScrapPostContentType {
-  createdAt: string;
-  id: number;
-  post: {
-    id: number;
-    commentCount: number;
-    content: string;
-    createdAt: string;
-    member: memberType;
-    title: string;
-    imageUrls: null[] | string[];
-    likeCount: number;
-    scrapCount: number;
-    hitCount: number;
-    postStatus: PostStatusType;
-    postType: postType;
-    updatedAt: string;
+  readonly createdAt: string;
+  readonly id: number;
+  readonly post: {
+    readonly id: number;
+    readonly commentCount: number;
+    readonly content: string;
+    readonly createdAt: string;
+    readonly member: memberType;
+    readonly title: string;
+    readonly imageUrls: null[] | string[];
+    readonly likeCount: number;
+    readonly scrapCount: number;
+    readonly hitCount: number;
+    readonly postStatus: PostStatusType;
+    readonly postType: postType;
+    readonly updatedAt: string;
   };
 }
 
 /** getMyScrapList - 나의 스크랩 리스트 가져올 때 사용하는 response 타입 */
 export interface ScrapListType {
-  content: ScrapPostContentType[];
-  empty: boolean;
-  first: boolean;
-  last: boolean;
-  number: number;
-  numberOfElements: number;
-  pageable: Partial<CommunityPostPageableType>;
-  size: number;
-  sort: PostSortType;
+  readonly content: ScrapPostContentType[];
+  readonly empty: boolean;
+  readonly first: boolean;
+  readonly last: boolean;
+  readonly number: number;
+  readonly numberOfElements: number;
+  readonly pageable: Partial<CommunityPostPageableType>;
+  readonly size: number;
+  readonly sort: PostSortType;
 }
 
 /** MyProfileHeader - 나의 프로필 헤더에 사용하는 props 타입 */
 export interface MyProfileHeaderPropsType {
-  userId: string;
-  nickName: string;
-  description: string;
-  profileUrl: string;
-  isLoading: boolean;
-  job: string;
+  readonly userId: string;
+  readonly nickName: string;
+  readonly description: string;
+  readonly profileUrl: string;
+  readonly isLoading: boolean;
+  readonly job: string;
 }
 
 /** MyProfileInfo - 나의 프로필 정보에 사용하는 props 타입 */
 export interface MyProfileInfoPropsType {
-  level: number;
-  followers: number;
-  follows: number;
-  posts: number;
-  isLoading: boolean;
+  readonly level: number;
+  readonly followers: number;
+  readonly follows: number;
+  readonly posts: number;
+  readonly isLoading: boolean;
 }
 
 /** MyProfileMenu - 나의 프로필 메뉴에 사용하는 props 타입 */
 export interface MyProfileMenuPropsType {
-  postView: string;
+  readonly postView: string;
   setPostView: React.Dispatch<React.SetStateAction<string>>;
 }
 
 /** getProfilePostList - 작성한 게시글 리스트 가져올 때 사용하는 response 타입 */
 export interface FeedPostType {
-  content: FeedPostContentPropsType[];
-  empty: boolean;
-  first: boolean;
-  last: boolean;
-  number: number;
-  numberOfElements: number;
-  pageable: {
-    offset: number;
-    pageNumber: number;
-    pageSize: number;
-    paged: boolean;
-    sort: {
-      empty: boolean;
-      sorted: boolean;
-      unsorted: boolean;
+  readonly content: FeedPostContentPropsType[];
+  readonly empty: boolean;
+  readonly last: boolean;
+  readonly number: number;
+  readonly numberOfElements: number;
+  readonly pageable: {
+    readonly offset: number;
+    readonly pageNumber: number;
+    readonly pageSize: number;
+    readonly paged: boolean;
+    readonly sort: {
+      readonly empty: boolean;
+      readonly sorted: boolean;
+      readonly unsorted: boolean;
     };
-    unpaged: boolean;
+    readonly unpaged: boolean;
   };
-  size: number;
-  sort: {
-    empty: boolean;
-    sorted: boolean;
-    unsorted: boolean;
+  readonly size: number;
+  readonly sort: {
+    readonly empty: boolean;
+    readonly sorted: boolean;
+    readonly unsorted: boolean;
   };
-  totalElements: number;
-  totalPages: number;
+  readonly totalElements: number;
+  readonly totalPages: number;
 }
 
 /** getProfilePostList - FeedPostType의 content 타입 */
 export interface FeedPostContentPropsType {
-  commentCount: number;
-  content: string;
-  createdAt: string;
-  follow: boolean;
-  hitCount: number;
-  postId: number;
-  imageUrls: null[] | string[];
-  like: boolean;
-  likeCount: number;
-  postStatus: PostStatusType;
-  postType: postType;
-  scrap: boolean;
-  scrapCount: number;
-  title: string;
-  updatedAt: string;
+  readonly commentCount: number;
+  readonly content: string;
+  readonly createdAt: string;
+  readonly follow: boolean;
+  readonly hitCount: number;
+  readonly postId: number;
+  readonly imageUrls: null[] | string[];
+  readonly like: boolean;
+  readonly likeCount: number;
+  readonly postStatus: PostStatusType;
+  readonly postType: postType;
+  readonly scrap: boolean;
+  readonly scrapCount: number;
+  readonly title: string;
+  readonly updatedAt: string;
 }
 
 /** FeedPostFormat - FeedPostFormat에 사용하는 props 타입 */
 export interface FeedPostFormatProps {
-  resultData: FeedPostContentPropsType[];
-  type: string;
+  readonly resultData: FeedPostContentPropsType[];
+  readonly type: string;
 }

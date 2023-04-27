@@ -46,7 +46,7 @@ export default function Header({ type, title, restart, icon, onSubmit, postId, c
 
   const [isMenu, setIsMenu] = useState<boolean>();
 
-  const { mutate: postGithub } = useGithubMutation();
+  const { mutate: postGithub, isLoading } = useGithubMutation();
 
   const [confirmModal, setConfirmModal] = useState(false);
   const getModalAnswer = () => {};
@@ -60,6 +60,17 @@ export default function Header({ type, title, restart, icon, onSubmit, postId, c
   // 사용자 정보
   const getMyPageInfoLodable = useRecoilValueLoadable(getMyPageInfo);
   const myPageInfo: any = 'hasValue' === getMyPageInfoLodable.state ? getMyPageInfoLodable.contents : {};
+
+  const [isClicked, setIsClicked] = useState<boolean>(false);
+
+  const handleClickRefreshBtn = () => {
+    postGithub();
+
+    setIsClicked(true);
+    setTimeout(() => {
+      setIsClicked(false);
+    }, 500);
+  };
 
   return (
     <div className={'fixed left-0 top-0 z-30 flex w-full items-center justify-between bg-lightIvory p-4 py-5 transition-all dark:bg-darkNavy ' + (visible ? '' : 'hidden')}>
@@ -78,7 +89,7 @@ export default function Header({ type, title, restart, icon, onSubmit, postId, c
         )}
         <div className="flex gap-2">
           <h1>{title}</h1>
-          {restart && <MdOutlineRestartAlt onClick={() => postGithub()} className="cursor-pointer" />}
+          {restart && <MdOutlineRestartAlt onClick={handleClickRefreshBtn} className={`transform cursor-pointer transition-transform duration-500 ${isLoading || isClicked ? 'animate-spin' : ''}`} />}
         </div>
       </div>
       {type === 'category' && (
