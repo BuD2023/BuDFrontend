@@ -7,7 +7,7 @@ export default function MyProfileHeader({ userId, nickName, description, profile
   const navigate = useNavigate();
   if (isLoading) {
     return (
-      <div className="h-[120px] w-full">
+      <div className="h-[134px] w-full">
         <div className="flex w-full justify-between gap-4">
           <div className="w-full"></div>
           <div className="h-[120px] w-[120px] shrink-0 rounded-full bg-greyBeige dark:bg-lightNavy"></div>

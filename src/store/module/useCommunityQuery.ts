@@ -77,7 +77,7 @@ export function useCommunityLikeMutation(postId: number, userId: number, postTyp
 }
 
 export function useCommunityScrapMutation(postId: number, userId: number, postType: string) {
-  const { refetch: myScrapRefetch } = useMyScrapsQuery('POST_DATE,DESC');
+  const { refetch: myScrapRefetch } = useMyScrapsQuery('POST_DATE');
   const { refetch: detailRefetch } = useCommunityDetailQuery(postId);
   const { refetch: myPageRefetch } = useProfilePostQuery(userId, postType);
   return useMutation(() => postCommunityScrapAxios(accessToken, postId), {

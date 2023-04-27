@@ -38,9 +38,8 @@ export default function ChatRoom() {
   const [newChatMessages, setNewChatMessages] = useState<InfoMessageType[] | ChatMessageType[]>([]);
   const [messageList, setMessageList] = useState<myChatroomListContentType[]>(chatroomListData?.pages.map((i: myChatroomListType) => i.content).flat() as myChatroomListContentType[]);
   useEffect(() => {
-    refetch();
     setMessageList(chatroomListData?.pages.map((i: myChatroomListType) => i.content).flat() as myChatroomListContentType[]);
-  }, [isLoading]);
+  }, [isLoading, isFetchingNextPage]);
 
   // webSocket
   const client = useRef({});

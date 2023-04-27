@@ -10,7 +10,7 @@ import { useRecoilValueLoadable } from 'recoil';
 import { getMyPageInfo } from '../../store/recoil/user';
 import { useFollowMutation } from '../../store/module/useCommunityQuery';
 
-export default function FeedPostFormat({ resultData, userData, refetch }: any) {
+export default function FeedPostFormat({ resultData, userData, refetch, profilePostIsLoading }: any) {
   const navigate = useNavigate();
 
   // 사용자 정보
@@ -33,6 +33,10 @@ export default function FeedPostFormat({ resultData, userData, refetch }: any) {
     await mutateAsync();
     refetch();
   };
+
+  if (profilePostIsLoading) {
+    return <div className="mb-6 flex h-[298px] w-full flex-col items-center justify-center gap-4 rounded-[20px] bg-midIvory dark:bg-midNavy"></div>;
+  }
 
   return (
     <>

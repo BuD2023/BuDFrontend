@@ -12,7 +12,8 @@ import { useProfilePostQuery } from '../../store/module/useProfilePostQuery';
 import { useUserProfileQuery } from '../../store/module/useUserProfileQuery';
 
 export default function OtherProfile() {
-  const [postView, setPostView] = useState<string>('feed');
+  const initialPostView = useParams();
+  const [postView, setPostView] = useState(initialPostView.filter ?? 'FEED');
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -79,7 +80,7 @@ export default function OtherProfile() {
         />
         <OtherProfileMenu id={id} postView={postView} setPostView={setPostView} />
         <ProfileSort postView={postView} setSortAndOrder={setSortAndOrder} sortAndOrder={sortAndOrder} />
-        {profilePostData && <FeedPostFormat refetch={profilePostRefetch} userData={data} resultData={profilePostData.pages.flatMap((page) => page.content)} />}
+        <FeedPostFormat profilePostIsLoading={profilePostIsLoading} refetch={profilePostRefetch} userData={data} resultData={profilePostData?.pages.flatMap((page) => page.content)} />
       </div>
       <div ref={ref} />
       <FooterMenu />

@@ -69,7 +69,7 @@ export default function MyProfile() {
   }, [postView, myScrapsIsLoading, myProfileIsLoading]);
 
   useEffect(() => {
-    if ((myProfileData && postView === 'feed') || postView === 'qna') profilePostRefetch();
+    if (myProfileData && (postView === 'feed' || postView === 'qna')) profilePostRefetch();
   }, [postView, profilePostIsLoading, myProfileIsLoading]);
 
   //에러처리
@@ -98,13 +98,16 @@ export default function MyProfile() {
         />
         <MyProfileMenu postView={postView} setPostView={setPostView} />
         <ProfileSort postView={postView} setSortAndOrder={postView === 'scrap' ? setScrapSortAndOrder : setSortAndOrder} sortAndOrder={postView === 'scrap' ? scrapSortAndOrder : sortAndOrder} />
-        {profilePostData && postView !== 'scrap' && <FeedPostFormat userData={myProfileData} resultData={profilePostData.pages.flatMap((page) => page.content)} refetch={profilePostRefetch} />}
-        {myScrapsData && postView === 'scrap' && (
+        {postView !== 'scrap' && (
+          <FeedPostFormat userData={myProfileData} resultData={profilePostData?.pages.flatMap((page) => page.content)} refetch={profilePostRefetch} profilePostIsLoading={profilePostIsLoading} />
+        )}
+        {postView === 'scrap' && (
           <ScrapPostFormat
+            myScrapsIsLoading={myScrapsIsLoading}
             refetch={myScrapsRefetch}
             myProfileRefetch={MyProfileRefetch}
             userData={myProfileData as MyProfileType}
-            resultData={myScrapsData.pages.flatMap((page) => page.content) as ScrapPostContentType[]}
+            resultData={myScrapsData?.pages.flatMap((page) => page.content) as ScrapPostContentType[]}
           />
         )}
       </div>

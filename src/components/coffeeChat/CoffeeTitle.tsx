@@ -35,7 +35,7 @@ export default function CoffeeTitle({ setInputValue, inputValue }: CoffeeTitlePr
       {isLoading ? (
         <div className="h-[40px] rounded-full bg-pointGreen dark:bg-sky"></div>
       ) : (
-        <div className="flex justify-evenly rounded-full bg-pointGreen py-3 text-center text-[16px] font-medium text-white dark:bg-sky">
+        <div className="flex h-[40px] items-center justify-evenly rounded-full bg-pointGreen px-4 text-center text-sm font-medium text-white dark:bg-sky">
           <div>{`총 ${data?.numberOfChatRooms}개의 채팅방에서 ${data?.numberOfUsers}명이 대화중입니다.`}</div>
           <HiOutlineRefresh
             onClick={handleClickRefreshBtn}

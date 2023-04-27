@@ -13,9 +13,10 @@ interface ScrapPostFormatPropsType {
   userData: MyProfileType;
   resultData: ScrapPostContentType[];
   myProfileRefetch: () => void;
+  myScrapsIsLoading: boolean;
 }
 
-export default function ScrapPostFormat({ refetch, userData, resultData, myProfileRefetch }: ScrapPostFormatPropsType) {
+export default function ScrapPostFormat({ refetch, userData, resultData, myProfileRefetch, myScrapsIsLoading }: ScrapPostFormatPropsType) {
   const navigate = useNavigate();
   const [userId, setUserId] = useState<number>();
 
@@ -36,6 +37,10 @@ export default function ScrapPostFormat({ refetch, userData, resultData, myProfi
     myProfileRefetch();
     refetch();
   };
+
+  if (myScrapsIsLoading) {
+    return <div className="mb-6 flex h-[298px] w-full flex-col items-center justify-center gap-4 rounded-[20px] bg-midIvory dark:bg-midNavy"></div>;
+  }
 
   return (
     <>

@@ -28,14 +28,6 @@ export default function RoomChats({ hostInfo, messageList, newChatMessages, hasN
     pic: '',
   });
 
-  // 제일 최신 메세지로 스크롤
-  const scrollToNew = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    if (isFetching && isFetchingNextPage) {
-      scrollToNew.current?.scrollIntoView({ behavior: 'smooth' });
-    }
-  }, [messageList]);
-
   // 백엔드에서 받은 유저 정보에서 받아서 사용할 것들!
   const [userInfo, setUserInfo] = useState({
     userId: 0,
@@ -65,7 +57,6 @@ export default function RoomChats({ hostInfo, messageList, newChatMessages, hasN
       <PicModal isPicPopUp={isPicPopUp} setIsPicPopUp={setIsPicPopUp} />
       <div ref={scrollRef} className="fixed top-[4.6rem] left-0 z-10 flex h-[calc(100vh-145px)] w-full flex-col-reverse overflow-auto p-4">
         <ScrollToBottomBtn scrollToNew={scrollRef as RefObject<HTMLDivElement>} />
-        <div ref={scrollToNew} className="w-full"></div>
         <>
           {newChatMessages &&
             (newChatMessages as Partial<ChatMessageType>[])
@@ -84,7 +75,7 @@ export default function RoomChats({ hostInfo, messageList, newChatMessages, hasN
                       <p className="mt-2 text-base font-semibold">{chat.userName}</p>
                       <div className="flex items-end gap-2">
                         {chat.chatType === 'MESSAGE' ? (
-                          <p className="max-w-[55vw] rounded-[10px] bg-white px-3 py-[0.65rem] text-sm text-black">{chat.message}</p>
+                          <p className="max-w-[55vw] rounded-[10px] bg-white p-2 text-sm text-black">{chat.message}</p>
                         ) : (
                           <div
                             onClick={() => {
@@ -93,12 +84,12 @@ export default function RoomChats({ hostInfo, messageList, newChatMessages, hasN
                                 pic: (S3_URL + chat?.message) as string,
                               });
                             }}
-                            className="flex cursor-pointer items-center justify-center overflow-hidden rounded-[10px] bg-white px-3 py-[0.65rem]"
+                            className="flex cursor-pointer items-center justify-center overflow-hidden rounded-[10px] bg-white p-2"
                           >
-                            <img src={S3_URL + chat?.message} className="max-h-[60vw] max-w-[50vw] object-cover" />
+                            <img src={S3_URL + chat?.message} className="max-h-[60vw] max-w-[50vw] rounded-[10px] object-cover" />
                           </div>
                         )}
-                        <div className="text-[14px] opacity-70">{chat.createdAt === '0초 전' ? '방금 전' : chat.createdAt}</div>
+                        <div className="whitespace-nowrap text-[14px] opacity-70">{chat.createdAt === '0초 전' ? '방금 전' : chat.createdAt}</div>
                       </div>
                     </div>
                   </div>
@@ -106,9 +97,9 @@ export default function RoomChats({ hostInfo, messageList, newChatMessages, hasN
                   <div key={chat.chatId} className="flex flex-col items-end gap-2">
                     <p className="mt-2 text-base font-semibold">{chat.userName}</p>
                     <div className="flex items-end gap-2">
-                      <div className="text-[14px] opacity-70">{chat.createdAt === '0초 전' ? '방금 전' : chat.createdAt}</div>
+                      <div className="whitespace-nowrap text-[14px] opacity-70">{chat.createdAt === '0초 전' ? '방금 전' : chat.createdAt}</div>
                       {chat.chatType === 'MESSAGE' ? (
-                        <p className="min-w-[50px] max-w-[60vw] rounded-[10px] bg-white px-3 py-[0.65rem] text-sm text-black">{chat.message}</p>
+                        <p className="min-w-[50px] max-w-[60vw] rounded-[10px] bg-white p-2 text-sm text-black">{chat.message}</p>
                       ) : (
                         <div
                           onClick={() => {
@@ -117,7 +108,7 @@ export default function RoomChats({ hostInfo, messageList, newChatMessages, hasN
                               pic: (S3_URL + chat?.message) as string,
                             });
                           }}
-                          className="flex cursor-pointer items-center justify-center rounded-[10px] bg-white px-3 py-[0.65rem]"
+                          className="flex cursor-pointer items-center justify-center rounded-[10px] bg-white p-2"
                         >
                           <img src={S3_URL + chat?.message} className="max-h-[70vw] max-w-[50vw] object-cover" />
                         </div>
@@ -142,7 +133,7 @@ export default function RoomChats({ hostInfo, messageList, newChatMessages, hasN
                     <p className="mt-2 text-base font-semibold">{chat.userName}</p>
                     <div className="flex items-end gap-2">
                       {chat.chatType === 'MESSAGE' ? (
-                        <p className="max-w-[55vw] rounded-[10px] bg-white px-3 py-[0.65rem] text-sm text-black">{chat.message}</p>
+                        <p className="max-w-[55vw] rounded-[10px] bg-white p-2 text-sm text-black">{chat.message}</p>
                       ) : (
                         <div
                           onClick={() => {
@@ -151,12 +142,12 @@ export default function RoomChats({ hostInfo, messageList, newChatMessages, hasN
                               pic: (S3_URL + chat?.message) as string,
                             });
                           }}
-                          className="flex cursor-pointer items-center justify-center overflow-hidden rounded-[10px] bg-white px-3 py-[0.65rem]"
+                          className="flex cursor-pointer items-center justify-center overflow-hidden rounded-[10px] bg-white p-2"
                         >
-                          <img src={S3_URL + chat?.message} className="max-h-[60vw] max-w-[50vw] object-cover" />
+                          <img src={S3_URL + chat?.message} className="max-h-[60vw] max-w-[50vw] rounded-[10px] object-cover" />
                         </div>
                       )}
-                      <div className="text-[14px] opacity-70">{chat.createdAt === '0초 전' ? '방금 전' : chat.createdAt}</div>
+                      <div className="whitespace-nowrap text-[14px] opacity-70">{chat.createdAt === '0초 전' ? '방금 전' : chat.createdAt}</div>
                     </div>
                   </div>
                 </div>
@@ -164,9 +155,9 @@ export default function RoomChats({ hostInfo, messageList, newChatMessages, hasN
                 <div key={chat.chatId} className="flex flex-col items-end gap-2">
                   <p className="mt-2 text-base font-semibold">{chat.userName}</p>
                   <div className="flex items-end gap-2">
-                    <div className="text-[14px] opacity-70">{chat.createdAt === '0초 전' ? '방금 전' : chat.createdAt}</div>
+                    <div className="whitespace-nowrap text-[14px] opacity-70">{chat.createdAt === '0초 전' ? '방금 전' : chat.createdAt}</div>
                     {chat.chatType === 'MESSAGE' ? (
-                      <p className="min-w-[50px] max-w-[60vw] rounded-[10px] bg-white px-3 py-[0.65rem] text-sm text-black">{chat.message}</p>
+                      <p className="min-w-[50px] max-w-[60vw] rounded-[10px] bg-white p-2 text-sm text-black">{chat.message}</p>
                     ) : (
                       <div
                         onClick={() => {
@@ -175,7 +166,7 @@ export default function RoomChats({ hostInfo, messageList, newChatMessages, hasN
                             pic: (S3_URL + chat?.message) as string,
                           });
                         }}
-                        className="flex cursor-pointer items-center justify-center rounded-[10px] bg-white px-3 py-[0.65rem]"
+                        className="flex cursor-pointer items-center justify-center rounded-[10px] bg-white p-2"
                       >
                         <img src={S3_URL + chat?.message} className="max-h-[70vw] max-w-[50vw] object-cover" />
                       </div>
