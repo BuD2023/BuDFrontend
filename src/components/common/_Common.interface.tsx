@@ -7,77 +7,77 @@ import { ScrapPostContentType } from '../myProfile/_MyProfile.interface';
 
 /** AddBtn - 컴포넌트 props 타입 */
 export interface AddBtnPropsType {
-  url: string;
-  text: string;
+  readonly url: string;
+  readonly text: string;
 }
 
 /** AlertModal - 컴포넌트 props 타입 */
 export interface AlertModalPropsType {
-  alertModal: boolean;
-  setAlertModal: (x: boolean) => void;
-  title: string;
-  des: string;
-  action?: () => void;
+  readonly alertModal: boolean;
+  readonly setAlertModal: (x: boolean) => void;
+  readonly title: string;
+  readonly des: string;
+  readonly action?: () => void;
 }
 
 /** CheckBoxModal - 컴포넌트 props 타입 */
 export interface CheckModalPropsType {
-  checkModal: boolean;
-  setCheckModal: (x: boolean) => void;
-  getModalAnswer: (x: SetNotificationType) => void;
-  action?: () => void;
+  readonly checkModal: boolean;
+  readonly setCheckModal: (x: boolean) => void;
+  readonly getModalAnswer: (x: SetNotificationType) => void;
+  readonly action?: () => void;
 }
 
 /** ConfirmModal 컴포넌트 props 타입 */
 export interface ConfirmModalPropsType {
-  confirmModal: boolean;
-  setConfirmModal: (x: boolean) => void;
-  getModalAnswer: (x: boolean) => void;
-  title: string;
-  des: string;
-  confirmBtn: string;
-  action?: () => void;
+  readonly confirmModal: boolean;
+  readonly setConfirmModal: (x: boolean) => void;
+  readonly getModalAnswer: (x: boolean) => void;
+  readonly title: string;
+  readonly des: string;
+  readonly confirmBtn: string;
+  readonly action?: () => void;
 }
 
 /** EditDeleteBtn 컴포넌트 props 타입 */
 export interface EditDeleteBtnPropsType {
-  postId: string;
-  setIsMenu: (x: boolean) => void;
+  readonly postId: string;
+  readonly setIsMenu: (x: boolean) => void;
 }
 
 /** Header 컴포넌트 props 타입 -  */
 export interface CommonHeaderType {
-  type?: string;
-  title?: string;
-  restart?: boolean;
-  icon?: ReactElement<IconType>;
-  onSubmit?: object;
-  postId?: string;
-  copyUrl?: string;
-  answerPin?: boolean;
-  questionUserId?: number;
+  readonly type?: string;
+  readonly title?: string;
+  readonly restart?: boolean;
+  readonly icon?: ReactElement<IconType>;
+  readonly onSubmit?: object;
+  readonly postId?: string;
+  readonly copyUrl?: string;
+  readonly answerPin?: boolean;
+  readonly questionUserId?: number;
 }
 
 /** ImagePeek - 이미지 미리보기 컴포넌트에 들어가는 props 타입 */
 export interface ImagePeekPropsType {
-  imgPeek: string[] | ArrayBuffer[] | null[];
-  setIsPicPopUp: (x: { open: boolean; pic: string }) => void;
+  readonly imgPeek: string[] | ArrayBuffer[] | null[];
+  readonly setIsPicPopUp: (x: { open: boolean; pic: string }) => void;
 }
 
 /** LikeCommentScrap 컴포넌트 props 타입 */
 export interface LikeCommentScrapPropsType {
-  postType: postType;
-  likeCount: number;
-  commentCount: number;
-  postId: number;
-  refetch?: () => void;
-  like: boolean;
-  scrap: boolean;
+  readonly postType: postType;
+  readonly likeCount: number;
+  readonly commentCount: number;
+  readonly postId: number;
+  readonly refetch?: () => void;
+  readonly like: boolean;
+  readonly scrap: boolean;
 }
 
 /** ScrapPostFormat 캄포넌트 props 타입 */
 export interface ScrapPostFormatPropsType {
-  resultData: ScrapPostContentType[];
+  readonly resultData: ScrapPostContentType[];
 }
 
 /** 글작성 및 수정, 채팅방 생성시 header에 mainBtn 컴포넌트로 들어오는 onSubmit 객체의 타입 */
@@ -107,59 +107,59 @@ export interface OnSubmitType {
 
 /** MainBtn 컴포넌트 props 타입 */
 export interface MainBtnPropsType {
-  content: string;
-  size: number;
-  onSubmit?: Partial<OnSubmitType>;
+  readonly content: string;
+  readonly size: number;
+  readonly onSubmit?: Partial<OnSubmitType>;
 }
 
 /** PicModal 컴포넌트 props 타입 */
 export interface PictureModalPropsType {
-  isPicPopUp: { open: boolean; pic: string };
-  setIsPicPopUp: ({}: { open: boolean; pic: string }) => void;
+  readonly isPicPopUp: { open: boolean; pic: string };
+  readonly setIsPicPopUp: ({}: { open: boolean; pic: string }) => void;
 }
 
 /** PostFormat 컴포넌트 props 타입 */
 export interface PostFormatPropsType {
-  inputValue: string;
-  sortAndOrder: SortAndOrderType;
+  readonly inputValue: string;
+  readonly sortAndOrder: SortAndOrderType;
 }
 
 /** QuestionModal 컴포넌트 props 타입 */
 export interface QuestionModalPropsType {
-  alertModal: boolean;
-  setAlertModal: (x: boolean) => void;
-  title: string;
-  des: string;
+  readonly alertModal: boolean;
+  readonly setAlertModal: (x: boolean) => void;
+  readonly title: string;
+  readonly des: string;
 }
 
 /** ScrollToBottomBtn 컴포넌트 props 타입 */
 export interface ScrollToBottomBtnPropsType {
-  scrollToNew: RefObject<HTMLDivElement>;
+  readonly scrollToNew: RefObject<HTMLDivElement>;
 }
 
 /** SearchBar 컴포넌트 props 타입 */
 export interface ISearchBarPropsType {
-  inputValue: string;
-  setInputValue: (x: string) => void;
+  readonly inputValue: string;
+  readonly setInputValue: (x: string) => void;
 }
 
 /** Toggle 컴포넌트 props 타입 */
 export interface TogglePropsType {
-  isOn: boolean;
+  readonly isOn: boolean;
 }
 
 /** UserListModal 컴포넌트 props 타입 */
 export interface UserListModalPropsType {
-  isUserList: boolean;
-  setIsUserList: (x: boolean) => void;
-  type: string;
-  follows?: number;
+  readonly isUserList: boolean;
+  readonly setIsUserList: (x: boolean) => void;
+  readonly type: string;
+  readonly follows?: number;
 }
 
 /** UserModal 컴포넌트 props 타입 */
 export interface UserModalPropsType {
-  hostInfo: { id: number | null; nickName: string };
-  userModal: boolean;
-  setUserModal: (x: boolean) => void;
-  userInfo: any;
+  readonly hostInfo: { id: number | null; nickName: string };
+  readonly userModal: boolean;
+  readonly setUserModal: (x: boolean) => void;
+  readonly userInfo: any;
 }

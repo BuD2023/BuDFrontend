@@ -1,41 +1,41 @@
 /** getAllChatroomListAxios - 모든 채팅방 리스트 response의 content 타입 */
 export interface ChatroomListContentType {
-  chatRoomId: number;
-  createdAt: string;
-  description: string;
-  hashTags: string[];
-  hostId: number;
-  hostName: string;
-  hostProfileUrl: null | string;
-  numberOfMembers: number;
-  title: string;
+  readonly chatRoomId: number;
+  readonly createdAt: string;
+  readonly description: string;
+  readonly hashTags: string[];
+  readonly hostId: number;
+  readonly hostName: string;
+  readonly hostProfileUrl: null | string;
+  readonly numberOfMembers: number;
+  readonly title: string;
 }
 
 /** getAllChatroomListAxios / getSearchChatroomListAxios - 채팅방 리스트 response 타입 */
 export interface ChatroomListType {
-  content: ChatroomListContentType[];
-  empty: boolean;
-  first: boolean;
-  last: boolean;
-  number: number;
-  numberOfElements: number;
-  pageable: {
-    offset: number;
-    pageNumber: number;
-    pageSize: number;
-    paged: boolean;
-    sort: {
-      empty: boolean;
-      sorted: boolean;
-      unsorted: boolean;
+  readonly content: ChatroomListContentType[];
+  readonly empty: boolean;
+  readonly first: boolean;
+  readonly last: boolean;
+  readonly number: number;
+  readonly numberOfElements: number;
+  readonly pageable: {
+    readonly offset: number;
+    readonly pageNumber: number;
+    readonly pageSize: number;
+    readonly paged: boolean;
+    readonly sort: {
+      readonly empty: boolean;
+      readonly sorted: boolean;
+      readonly unsorted: boolean;
     };
-    unpaged: boolean;
+    readonly unpaged: boolean;
   };
-  size: number;
-  sort: {
-    empty: boolean;
-    sorted: boolean;
-    unsorted: boolean;
+  readonly size: number;
+  readonly sort: {
+    readonly empty: boolean;
+    readonly sorted: boolean;
+    readonly unsorted: boolean;
   };
 }
 
@@ -48,11 +48,11 @@ export interface postChatroomData {
 
 /** CoffeeChatRoom 컴포넌트 props 타입 */
 export interface CoffeeChatRoomPropsType {
-  inputValue: string;
+  readonly inputValue: string;
 }
 
 /** CoffeeTitle 컴포넌트 props 타입 */
 export interface CoffeeTitlePropsType {
-  inputValue: string;
-  setInputValue: (x: string) => void;
+  readonly inputValue: string;
+  readonly setInputValue: (x: string) => void;
 }

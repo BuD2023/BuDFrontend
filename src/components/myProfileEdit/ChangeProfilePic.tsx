@@ -2,15 +2,13 @@ import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { handleFileImage } from '../../utils/handleChangeImgFile';
 import { ChangeProfilePicPropsType } from './_MyProfileEdit.interface';
 import { S3_URL } from '../../constant/union';
-import { useGetRandomImageQuery } from '../../store/module/useMyProfileQuery';
-import { makeCompressedImg } from '../../utils/makeCompressedImg';
-import { urlToFile } from '../../utils/urlToFile';
+import { useGetRandomImageMutation } from '../../store/module/useMyProfileQuery';
 
 export default function ChangeProfilePic({ profileImg, setProfileImg, userInfo, setUserInfo }: ChangeProfilePicPropsType) {
-  const [isLoading, setIsLoading] = useState(false);
-  const [count, setCount] = useState(3);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [count, setCount] = useState<number>(3);
 
-  const { data: randomImgQuery, refetch: newImg, isRefetching, isSuccess, isFetched } = useGetRandomImageQuery();
+  const { data: randomImg, mutateAsync: newImgMutate, isSuccess, isLoading: isLoadingImg } = useGetRandomImageMutation();
 
   const imgRef = useRef<HTMLInputElement>(null);
 
@@ -20,12 +18,12 @@ export default function ChangeProfilePic({ profileImg, setProfileImg, userInfo, 
 
   useEffect(() => {
     (async () => {
-      if (isSuccess && isFetched) {
-        setProfileImg(S3_URL + randomImgQuery);
+      if (isSuccess && randomImg) {
+        setProfileImg(S3_URL + randomImg);
         setUserInfo({ ...userInfo, file: null });
       }
     })();
-  }, [isRefetching, isSuccess]);
+  }, [isLoadingImg, isSuccess, randomImg]);
 
   const handleChangeProfileImg = async (e: ChangeEvent<HTMLInputElement>) => {
     const resultImage = await handleFileImage(e);
@@ -46,7 +44,7 @@ export default function ChangeProfilePic({ profileImg, setProfileImg, userInfo, 
           e.preventDefault();
           setIsLoading(true);
           setTimeout(async () => {
-            await newImg();
+            await newImgMutate();
             setCount(count - 1);
             setIsLoading(false);
           }, 2000);
