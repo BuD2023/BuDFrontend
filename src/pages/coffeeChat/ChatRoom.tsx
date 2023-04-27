@@ -13,6 +13,8 @@ import AlertModal from '../../components/common/AlertModal';
 import { ChatMessageType, InfoMessageType, myChatroomListContentType, myChatroomListType } from '../../components/chatRoom/_ChatRoom.interface';
 import { toFileURLs } from '../../utils/toFileURLs';
 import { useAllChatroomQuery } from '../../store/module/useCoffeeChatQuery';
+import { useMyProfileQuery } from '../../store/module/useMyProfileQuery';
+import ConfirmModal from '../../components/common/ConfirmModal';
 
 export default function ChatRoom() {
   const navigate = useNavigate();
@@ -23,6 +25,7 @@ export default function ChatRoom() {
 
   //리액트 쿼리
   const { isLoading, data: chatroomListData, hasNextPage, isFetching, isFetchingNextPage, fetchNextPage, refetch } = useMyChatroomListQuery(ROOM_NUM, CHAT_SIZE);
+  const { data } = useMyProfileQuery();
   const { refetch: allChatroomRefetch } = useAllChatroomQuery();
 
   // 채팅 메세지 useState
@@ -45,9 +48,6 @@ export default function ChatRoom() {
   const connect = () => {
     client.current = new StompJs.Client({
       brokerURL: SOCKET_URL, // 웹소켓 서버로 직접 접속
-      // connectHeaders: {
-      //   Authorization: `Bearer ${accessToken}`,
-      // },
       debug: function (str) {
         console.log(str);
       },
@@ -69,7 +69,6 @@ export default function ChatRoom() {
 
   const disconnect = () => {
     (client.current as StompJs.Client).deactivate();
-    navigate('/coffeeChat');
     return;
   };
 
@@ -99,7 +98,7 @@ export default function ChatRoom() {
       (client.current as StompJs.Client).publish({
         destination: '/chats/image',
         body: JSON.stringify({
-          senderId: 4,
+          senderId: data?.id,
           chatroomId: ROOM_NUM,
           imageByte: imgPeek.image,
         }),
@@ -108,7 +107,7 @@ export default function ChatRoom() {
       (client.current as StompJs.Client).publish({
         destination: '/chats/message',
         body: JSON.stringify({
-          senderId: 4,
+          senderId: data?.id,
           chatroomId: ROOM_NUM,
           message: message,
         }),
@@ -160,79 +159,96 @@ export default function ChatRoom() {
     }
   };
 
-  //채팅방 폭파(호스트 퇴장)
+  // 채팅방 폭파(호스트 퇴장)
+  const action = () => {
+    disconnect();
+    navigate('/coffeeChat');
+    console.log('action');
+  };
+
+  // 폭파되면 유저에게 알림메세지 띄우기
   const [alertModal, setAlertModal] = useState(false);
   useEffect(() => {
     if (newChatMessages.find((i) => i.chatType === 'EXPIRE')) {
-      disconnect();
-      navigate('/coffeeChat');
-      return;
+      setAlertModal(true);
     }
   }, [newChatMessages]);
 
-  const action = () => {
-    navigate('/coffeeChat');
-  };
+  // 폭파될 때 호스트에게는 confirm 모달창 띄우기
+  const [confirmModal, setConfirmModal] = useState(false);
+  const getModalAnswer = () => {};
+  const withdrawalText = `이 방의 호스트 ${data?.nickName}님이 퇴장하시면\n 채팅방이 삭제되며, 모든 유저는 퇴장조치됩니다.\n퇴장하기 전에 다른 유저에게 호스트를 위임해보세요!`;
 
   if (isLoading) {
     <div>Loading....</div>;
   }
 
   return (
-    <section>
-      <AlertModal alertModal={alertModal} setAlertModal={setAlertModal} title="채팅방 종료" des="호스트가 채팅방을 퇴장함에 따라 채팅이 종료됩니다." action={action} />
-      <PicModal isPicPopUp={isPicPopUp} setIsPicPopUp={setIsPicPopUp} />
-      <RoomHeader newChatMessages={newChatMessages} setHostInfo={setHostInfo} />
-      <div className="fixed left-0 top-[4.6rem] h-full w-full bg-midIvory dark:bg-midNavy"></div>
-      <RoomChats
-        hostInfo={hostInfo}
-        messageList={messageList}
-        newChatMessages={newChatMessages}
-        hasNextPage={hasNextPage as boolean}
-        isFetching={isFetching}
-        isFetchingNextPage={isFetchingNextPage}
-        fetchNextPage={fetchNextPage}
+    <>
+      <ConfirmModal
+        confirmModal={confirmModal}
+        setConfirmModal={setConfirmModal}
+        getModalAnswer={getModalAnswer}
+        title="채팅방 폭파 알림"
+        des={withdrawalText}
+        confirmBtn="그냥 퇴장할래요"
+        action={action}
       />
-      <div className={`fixed bottom-0 left-0 z-20 flex w-full ${imgPeek ? 'items-end' : 'items-center'} justify-start gap-4 bg-lightIvory p-3 dark:bg-darkNavy`}>
-        <BsCameraFill
-          size="40"
-          className="grow cursor-pointer "
-          onClick={() => {
-            imgRef?.current?.click();
-          }}
+      <AlertModal alertModal={alertModal} setAlertModal={setAlertModal} title="채팅방 종료" des="호스트가 채팅방을 퇴장함에 따라 채팅이 종료됩니다." action={action} />
+      <section>
+        <PicModal isPicPopUp={isPicPopUp} setIsPicPopUp={setIsPicPopUp} />
+        <RoomHeader newChatMessages={newChatMessages} setHostInfo={setHostInfo} setConfirmModal={setConfirmModal} userIdData={data?.id as number} />
+        <div className="fixed left-0 top-[4.6rem] h-full w-full bg-midIvory dark:bg-midNavy"></div>
+        <RoomChats
+          hostInfo={hostInfo}
+          messageList={messageList}
+          newChatMessages={newChatMessages}
+          hasNextPage={hasNextPage as boolean}
+          isFetching={isFetching}
+          isFetchingNextPage={isFetchingNextPage}
+          fetchNextPage={fetchNextPage}
         />
-        <input ref={imgRef} type="file" accept="image/*" onChange={handleImageUpload} className="hidden" />
-        {imgPeek.image.length > 0 || imgPeek.isLoading ? (
-          <div className="flex w-full grow rounded-[20px] bg-greyBeige px-4 py-2 dark:bg-lightNavy">
-            {imgPeek.isLoading ? (
-              <div className="flex h-[50vw] w-[50vw] shrink-0 cursor-pointer items-center justify-center rounded-lg bg-lightIvory text-[16px] dark:bg-darkNavy">이미지 준비중...</div>
-            ) : (
-              <img src={imgPeek.image} onClick={() => setIsPicPopUp({ open: true, pic: imgPeek.image })} className="h-[50vw] w-[50vw] shrink-0 cursor-pointer rounded-lg object-cover" />
-            )}
-            <div className="flex w-full flex-col items-end justify-end gap-2 text-[18px] font-semibold text-white">
-              <button onClick={() => setImgPeek({ isLoading: false, image: '' })} className="w-[50%] rounded-xl bg-darkIvory py-2 dark:bg-lightNavy">
-                취소
-              </button>
-              <button
-                onClick={() => {
-                  publish();
-                }}
-                className="w-[50%] rounded-xl bg-darkIvory py-2 dark:bg-lightNavy"
-              >
-                전송
-              </button>
-            </div>
-          </div>
-        ) : (
-          <input
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-            onKeyDown={pressEnterKey}
-            type="text"
-            className="mb-0.5 h-[40px] w-full grow rounded-[20px] bg-greyBeige px-4 py-2 focus:outline-none dark:bg-lightNavy"
+        <div className={`fixed bottom-0 left-0 z-20 flex w-full ${imgPeek ? 'items-end' : 'items-center'} justify-start gap-4 bg-lightIvory p-3 dark:bg-darkNavy`}>
+          <BsCameraFill
+            size="40"
+            className="grow cursor-pointer "
+            onClick={() => {
+              imgRef?.current?.click();
+            }}
           />
-        )}
-      </div>
-    </section>
+          <input ref={imgRef} type="file" accept="image/*" onChange={handleImageUpload} className="hidden" />
+          {imgPeek.image.length > 0 || imgPeek.isLoading ? (
+            <div className="flex w-full grow rounded-[20px] bg-greyBeige px-4 py-2 dark:bg-lightNavy">
+              {imgPeek.isLoading ? (
+                <div className="flex h-[50vw] w-[50vw] shrink-0 cursor-pointer items-center justify-center rounded-lg bg-lightIvory text-[16px] dark:bg-darkNavy">이미지 준비중...</div>
+              ) : (
+                <img src={imgPeek.image} onClick={() => setIsPicPopUp({ open: true, pic: imgPeek.image })} className="h-[50vw] w-[50vw] shrink-0 cursor-pointer rounded-lg object-cover" />
+              )}
+              <div className="flex w-full flex-col items-end justify-end gap-2 text-[18px] font-semibold text-white">
+                <button onClick={() => setImgPeek({ isLoading: false, image: '' })} className="w-[50%] rounded-xl bg-darkIvory py-2 dark:bg-lightNavy">
+                  취소
+                </button>
+                <button
+                  onClick={() => {
+                    publish();
+                  }}
+                  className="w-[50%] rounded-xl bg-darkIvory py-2 dark:bg-lightNavy"
+                >
+                  전송
+                </button>
+              </div>
+            </div>
+          ) : (
+            <input
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              onKeyDown={pressEnterKey}
+              type="text"
+              className="mb-0.5 h-[40px] w-full grow rounded-[20px] bg-greyBeige px-4 py-2 focus:outline-none dark:bg-lightNavy"
+            />
+          )}
+        </div>
+      </section>
+    </>
   );
 }

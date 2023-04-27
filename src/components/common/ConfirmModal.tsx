@@ -1,15 +1,15 @@
-import { Fragment, useRef } from 'react';
+import { Fragment, useRef, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { ExclamationTriangleIcon } from '@heroicons/react/24/outline';
 import { ConfirmModalPropsType } from './_Common.interface';
 
 export default function ConfirmModal({ confirmModal, setConfirmModal, getModalAnswer, title, des, confirmBtn, action }: ConfirmModalPropsType) {
-  // const [open, setOpen] = useState(true)
+  const [open, setOpen] = useState(true);
   const cancelButtonRef = useRef(null);
 
   return (
     <Transition.Root show={confirmModal} as={Fragment}>
-      <Dialog as="div" className="relative z-50" initialFocus={cancelButtonRef} onClose={setConfirmModal}>
+      <Dialog as="div" className="relative z-50" initialFocus={cancelButtonRef} onClose={setOpen}>
         <Transition.Child as={Fragment} enter="ease-out duration-300" enterFrom="opacity-0" enterTo="opacity-100" leave="ease-in duration-200" leaveFrom="opacity-100" leaveTo="opacity-0">
           {/* 배경색 회색 */}
           <div className="fixed inset-0 bg-black bg-opacity-75 transition-opacity" />

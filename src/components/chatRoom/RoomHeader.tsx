@@ -9,9 +9,11 @@ import { useMyProfileQuery } from '../../store/module/useMyProfileQuery';
 interface RoomHeaderPropsType {
   newChatMessages: InfoMessageType[] | ChatMessageType[];
   setHostInfo: (x: { id: number; nickName: string }) => void;
+  setConfirmModal: (x: boolean) => void;
+  userIdData: number;
 }
 
-export default function RoomHeader({ newChatMessages, setHostInfo }: RoomHeaderPropsType) {
+export default function RoomHeader({ newChatMessages, setHostInfo, setConfirmModal, userIdData }: RoomHeaderPropsType) {
   const navigate = useNavigate();
   const { id } = useParams();
 
@@ -47,7 +49,7 @@ export default function RoomHeader({ newChatMessages, setHostInfo }: RoomHeaderP
   }, [chatRoomInfo?.numberOfMembers]);
 
   useEffect(() => {
-    chatUserListRefetch();
+    chatRoomInfoRefetch();
   }, []);
 
   return (
@@ -55,7 +57,12 @@ export default function RoomHeader({ newChatMessages, setHostInfo }: RoomHeaderP
       <UserListModal isUserList={isUserList} setIsUserList={setIsUserList} type="ChatUsers" />
       <div className="fixed top-0 left-0 flex w-full items-center justify-between gap-2 px-4 py-5 font-bold">
         <div className="flex items-center gap-3 overflow-hidden">
-          <BsChevronLeft onClick={() => navigate('/coffeeChat')} className="shrink-0 cursor-pointer text-[26px]" />
+          <BsChevronLeft
+            onClick={() => {
+              chatRoomInfo?.hostId === userIdData ? setConfirmModal(true) : navigate('/coffeeChat');
+            }}
+            className="shrink-0 cursor-pointer text-[26px]"
+          />
           <p className="truncate text-2xl">{chatRoomInfo?.title}</p>
         </div>
         <div

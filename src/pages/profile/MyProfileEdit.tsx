@@ -27,8 +27,10 @@ export default function MyProfileEdit() {
   //리액트 쿼리
   const [nicknameData, setNicknameData] = useState('');
   const { data, isLoading, refetch } = useMyProfileQuery(false);
-  const { data: isUniqueId, isLoading: isChecking, refetch: isUniqueRefetch } = useGetIsIdUniqueQuery(nicknameData);
-  const validation = String(data?.nickName) === String(inputRef.current?.value) ? true : isUniqueId;
+  const { data: isUniqueId, refetch: isUniqueRefetch, isRefetching, isSuccess } = useGetIsIdUniqueQuery(nicknameData);
+  const validation = (nickName: string) => {
+    return nickName === data?.nickName ? true : isUniqueId;
+  };
 
   //useStates
   const [validate, setValidate] = useState<boolean>(false);
@@ -38,28 +40,27 @@ export default function MyProfileEdit() {
     file: data?.profileUrl,
     nickname: data?.nickName,
     introduceMessage: data?.description,
-    isUnique: validation as boolean,
+    isUnique: validation(nicknameData) as boolean,
   } as UserInfoEditInitialType);
-  console.log(userInfo);
 
   useEffect(() => {
-    isUniqueRefetch();
-    setUserInfo({
-      ...userInfo,
-      isUnique: validation as boolean,
-    } as UserInfoEditInitialType);
-  }, [userInfo.nickname]);
+    if (isSuccess) {
+      console.log(isUniqueId);
+      setUserInfo({ ...userInfo, isUnique: validation(nicknameData) as boolean });
+    }
+  }, [isSuccess, isRefetching]);
 
   useEffect(() => {
     (async () => {
-      refetch();
-      setUserInfo({
-        job: data?.job,
-        file: data?.profileUrl,
-        nickname: data?.nickName,
-        introduceMessage: data?.description,
-        isUnique: validation as boolean,
-      } as UserInfoEditInitialType);
+      await refetch();
+      data &&
+        setUserInfo({
+          job: data?.job,
+          file: data?.profileUrl,
+          nickname: data?.nickName,
+          introduceMessage: data?.description,
+          isUnique: validation(data?.nickName as string) as boolean,
+        } as UserInfoEditInitialType);
       setProfileImg(S3_URL + (data?.profileUrl as string));
     })();
   }, [isLoading]);
@@ -76,6 +77,7 @@ export default function MyProfileEdit() {
             onChange={debounce(async (e) => {
               setNicknameData(e.target.value);
               setUserInfo({ ...userInfo, nickname: e.target.value });
+              await isUniqueRefetch();
             }, 300)}
             onFocus={() => setValidate(true)}
             onBlur={() => setValidate(false)}
@@ -83,7 +85,7 @@ export default function MyProfileEdit() {
             defaultValue={userInfo.nickname}
             className="h-[54px] w-full rounded-[20px] bg-midIvory p-2 px-4 focus:outline-none dark:bg-lightNavy"
           />
-          {validation ? (
+          {validation(nicknameData) ? (
             <>{validate && userInfo.nickname && (userInfo?.nickname as string).length > 0 && <div className="mt-[-10px] ml-4 text-[16px] font-medium text-pointGreen">사용 가능한 닉네임입니다</div>}</>
           ) : (
             <>

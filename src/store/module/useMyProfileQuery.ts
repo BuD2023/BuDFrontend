@@ -99,12 +99,6 @@ export function useGetUserLevelInfoQuery() {
 
 export function useGetIsIdUniqueQuery(data: string) {
   return useQuery(['isUniqueId', data], () => postIsIdUniqueAxios(accessToken, data), {
-    enabled: false,
-    refetchOnMount: true,
-    refetchOnReconnect: true,
-    refetchOnWindowFocus: true,
-    retry: 0,
-    staleTime: 1000 * 60,
-    cacheTime: 1000 * 60 * 5,
+    enabled: true,
   });
 }

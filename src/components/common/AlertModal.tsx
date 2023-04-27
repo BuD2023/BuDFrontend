@@ -2,13 +2,17 @@ import { Fragment, useRef, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { ExclamationTriangleIcon } from '@heroicons/react/24/outline';
 import { AlertModalPropsType } from './_Common.interface';
+import { useNavigate } from 'react-router-dom';
 
 export default function AlertModal({ alertModal, setAlertModal, title, des, action }: AlertModalPropsType) {
-  const cancelButtonRef = useRef(null);
+  const navigate = useNavigate();
+  const tmp = (x: boolean) => {
+    return;
+  };
 
   return (
     <Transition.Root show={alertModal} as={Fragment}>
-      <Dialog as="div" className="relative z-50" initialFocus={cancelButtonRef} onClose={setAlertModal}>
+      <Dialog as="div" className="relative z-50" onClose={tmp}>
         <Transition.Child as={Fragment} enter="ease-out duration-300" enterFrom="opacity-0" enterTo="opacity-100" leave="ease-in duration-200" leaveFrom="opacity-100" leaveTo="opacity-0">
           {/* 배경색 회색 */}
           <div className="fixed inset-0 bg-black bg-opacity-75 transition-opacity" />
@@ -48,11 +52,6 @@ export default function AlertModal({ alertModal, setAlertModal, title, des, acti
                       setAlertModal(false);
                       action && action();
                     }}
-                    onFocus={() => {
-                      setAlertModal(false);
-                      action && action();
-                    }}
-                    ref={cancelButtonRef}
                   >
                     확인
                   </button>

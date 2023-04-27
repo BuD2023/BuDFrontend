@@ -36,7 +36,7 @@ export default function MainBtn({ onSubmit, content, size }: MainBtnPropsType) {
         await mutateUpdateUserInfo(resultData);
         await myProfileRefetch();
         alert('회원 프로필 정보가 변경되었습니다.');
-        navigate('/');
+        navigate('/myProfile/feed');
       } catch (err) {
         if (((err as AxiosError).response?.data as { errorCode: string; message: string }).errorCode === 'ALREADY_USING_NICKNAME') alert('이미 사용중인 닉네임입니다.');
         console.log(err);
