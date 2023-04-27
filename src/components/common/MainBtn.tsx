@@ -32,8 +32,17 @@ export default function MainBtn({ onSubmit, content, size }: MainBtnPropsType) {
     if (onSubmit?.postTypeInfo === undefined) {
       try {
         console.log(onSubmit);
-        const resultData = toFormDataOnUserInfo(onSubmit as UserInfoInitialValueType | UserInfoEditInitialType);
-        await mutateUpdateUserInfo(resultData);
+        if (onSubmit?.file === null) {
+          const resultData = toFormDataOnUserInfo({
+            nickname: onSubmit.nickname,
+            introduceMessage: onSubmit.introduceMessage,
+            job: onSubmit.job,
+          } as UserInfoEditInitialType);
+          await mutateUpdateUserInfo(resultData);
+        } else {
+          const resultData = toFormDataOnUserInfo(onSubmit as UserInfoInitialValueType | UserInfoEditInitialType);
+          await mutateUpdateUserInfo(resultData);
+        }
         await myProfileRefetch();
         alert('회원 프로필 정보가 변경되었습니다.');
         navigate('/myProfile/feed');

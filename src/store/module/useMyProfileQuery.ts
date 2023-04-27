@@ -9,6 +9,7 @@ import getUserLevelInfoAxios from '../../apiFetcher/userInfo/getUserLevelInfo';
 import { OrderType } from '../../components/community/_Community.interface';
 import { accessToken } from '../../main';
 import postIsIdUniqueAxios from '../../apiFetcher/userInfo/postIsIdUnique';
+import postRandomImageAxios from '../../apiFetcher/userInfo/postRandomImage';
 
 export function useMyProfileQuery(enabled: boolean = true) {
   return useQuery(['myProfile'], () => getMyProfileInfo(accessToken), {
@@ -99,6 +100,12 @@ export function useGetUserLevelInfoQuery() {
 
 export function useGetIsIdUniqueQuery(data: string) {
   return useQuery(['isUniqueId', data], () => postIsIdUniqueAxios(accessToken, data), {
+    enabled: true,
+  });
+}
+
+export function useGetRandomImageQuery() {
+  return useQuery(['randomImage'], () => postRandomImageAxios(accessToken), {
     enabled: true,
   });
 }

@@ -3,7 +3,7 @@ import imageCompression from 'browser-image-compression';
 //이미지 압축
 const actionImgCompress = async (fileSrc: File) => {
   const options = {
-    maxSizeMB: 0.1,
+    maxSizeMB: 0.6,
     maxWidthOrHeight: 1000,
     useWebWorker: true,
   };

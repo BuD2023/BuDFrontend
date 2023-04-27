@@ -1,6 +1,5 @@
 import { Route, Routes } from 'react-router-dom';
 import './firebase-messaging-sw.js';
-import '../public/firebase-messaging-sw.js';
 import CoffeeChat from './pages/coffeeChat/CoffeeChat';
 import MyProfile from './pages/profile/MyProfile';
 import ChatRoom from './pages/coffeeChat/ChatRoom';

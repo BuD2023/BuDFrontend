@@ -1,23 +1,19 @@
-import { ChangeEvent, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { BsChevronLeft } from 'react-icons/bs';
-import postIsIdUniqueAxios from '../../apiFetcher/userInfo/postIsIdUnique';
-import getIsIdUniqueAxios from '../../apiFetcher/userInfo/postIsIdUnique';
 import Header from '../../components/common/Header';
 import ChangeJob from '../../components/myProfileEdit/ChangeJob';
-import ChangeNickName from '../../components/myProfileEdit/ChangeNickName';
 import ChangeProfilePic from '../../components/myProfileEdit/ChangeProfilePic';
 import { S3_URL } from '../../constant/union';
-import { accessToken } from '../../main';
 import { useGetIsIdUniqueQuery, useMyProfileQuery } from '../../store/module/useMyProfileQuery';
 import { UserInfoInitialValueType } from '../../store/recoil/addUserInfo';
-import { debounce, isFunction } from 'lodash';
+import { debounce } from 'lodash';
 
 export interface UserInfoEditInitialType {
   job: string;
-  file: string;
+  file?: Blob | string | null;
   nickname: string;
   introduceMessage: string;
-  isUnique: boolean;
+  isUnique?: boolean;
 }
 
 export default function MyProfileEdit() {

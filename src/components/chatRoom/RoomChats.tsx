@@ -8,6 +8,8 @@ import ScrollToBottomBtn from '../common/ScrollToBottomBtn';
 import { ChatMessageType, RoomChatsPropsType } from './_ChatRoom.interface';
 import { useRecoilValueLoadable } from 'recoil';
 import { getMyPageInfo } from '../../store/recoil/user';
+import NewChatMessages from './NewChatMessages';
+import MessageList from './MessageList';
 
 export default function RoomChats({ hostInfo, messageList, newChatMessages, hasNextPage, isFetching, isFetchingNextPage, fetchNextPage }: RoomChatsPropsType) {
   // 사용자 정보
@@ -66,125 +68,13 @@ export default function RoomChats({ hostInfo, messageList, newChatMessages, hasN
       <div ref={scrollRef} className="fixed top-[4.6rem] left-0 z-10 flex h-[calc(100vh-145px)] w-full flex-col-reverse overflow-auto p-4">
         <ScrollToBottomBtn scrollToNew={scrollRef as RefObject<HTMLDivElement>} />
         <div ref={scrollToNew} className="w-full"></div>
-        <>
-          {newChatMessages &&
-            (newChatMessages as Partial<ChatMessageType>[])
-              .filter((i: Partial<ChatMessageType>) => i.chatType === 'MESSAGE' || i.chatType === 'IMAGE')
-              .reverse()
-              .map((chat: Partial<ChatMessageType>) => {
-                return chat.userName !== myPageInfo?.nickName ? (
-                  <div key={chat.chatId} className="mb-3 flex gap-4">
-                    <img
-                      src={chat.userProfileUrl ? S3_URL + chat.userProfileUrl : defaultImage}
-                      alt={chat.userName}
-                      className="h-[50px] w-[50px] cursor-pointer rounded-full object-cover"
-                      onClick={() => handleClickUserImg(chat.userName as string, chat.userProfileUrl as string, chat.userId as number)}
-                    />
-                    <div className="flex flex-col gap-2">
-                      <p className="mt-2 text-base font-semibold">{chat.userName}</p>
-                      <div className="flex items-end gap-2">
-                        {chat.chatType === 'MESSAGE' ? (
-                          <p className="max-w-[55vw] rounded-[10px] bg-white px-3 py-[0.65rem] text-sm text-black">{chat.message}</p>
-                        ) : (
-                          <div
-                            onClick={() => {
-                              setIsPicPopUp({
-                                open: true,
-                                pic: (S3_URL + chat?.message) as string,
-                              });
-                            }}
-                            className="flex cursor-pointer items-center justify-center overflow-hidden rounded-[10px] bg-white px-3 py-[0.65rem]"
-                          >
-                            <img src={S3_URL + chat?.message} className="max-h-[60vw] max-w-[50vw] object-cover" />
-                          </div>
-                        )}
-                        <div className="text-[14px] opacity-70">{chat.createdAt === '0초 전' ? '방금 전' : chat.createdAt}</div>
-                      </div>
-                    </div>
-                  </div>
-                ) : (
-                  <div key={chat.chatId} className="flex flex-col items-end gap-2">
-                    <p className="mt-2 text-base font-semibold">{chat.userName}</p>
-                    <div className="flex items-end gap-2">
-                      <div className="text-[14px] opacity-70">{chat.createdAt === '0초 전' ? '방금 전' : chat.createdAt}</div>
-                      {chat.chatType === 'MESSAGE' ? (
-                        <p className="min-w-[50px] max-w-[60vw] rounded-[10px] bg-white px-3 py-[0.65rem] text-sm text-black">{chat.message}</p>
-                      ) : (
-                        <div
-                          onClick={() => {
-                            setIsPicPopUp({
-                              open: true,
-                              pic: (S3_URL + chat?.message) as string,
-                            });
-                          }}
-                          className="flex cursor-pointer items-center justify-center rounded-[10px] bg-white px-3 py-[0.65rem]"
-                        >
-                          <img src={S3_URL + chat?.message} className="max-h-[70vw] max-w-[50vw] object-cover" />
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                );
-              })}
-        </>
-        <>
-          {messageList &&
-            messageList.map((chat) => {
-              return chat.userName !== myPageInfo?.nickName ? (
-                <div key={chat.chatId} className="mb-3 flex gap-4">
-                  <img
-                    src={chat.userProfileUrl ? S3_URL + chat.userProfileUrl : defaultImage}
-                    alt={chat.userName}
-                    className="h-[50px] w-[50px] cursor-pointer rounded-full object-cover"
-                    onClick={() => handleClickUserImg(chat.userName as string, chat.userProfileUrl as string, chat.userId as number)}
-                  />
-                  <div className="flex flex-col gap-2">
-                    <p className="mt-2 text-base font-semibold">{chat.userName}</p>
-                    <div className="flex items-end gap-2">
-                      {chat.chatType === 'MESSAGE' ? (
-                        <p className="max-w-[55vw] rounded-[10px] bg-white px-3 py-[0.65rem] text-sm text-black">{chat.message}</p>
-                      ) : (
-                        <div
-                          onClick={() => {
-                            setIsPicPopUp({
-                              open: true,
-                              pic: (S3_URL + chat?.message) as string,
-                            });
-                          }}
-                          className="flex cursor-pointer items-center justify-center overflow-hidden rounded-[10px] bg-white px-3 py-[0.65rem]"
-                        >
-                          <img src={S3_URL + chat?.message} className="max-h-[60vw] max-w-[50vw] object-cover" />
-                        </div>
-                      )}
-                      <div className="text-[14px] opacity-70">{chat.createdAt === '0초 전' ? '방금 전' : chat.createdAt}</div>
-                    </div>
-                  </div>
-                </div>
-              ) : (
-                <div key={chat.chatId} className="flex flex-col items-end gap-2">
-                  <p className="mt-2 text-base font-semibold">{chat.userName}</p>
-                  <div className="flex items-end gap-2">
-                    <div className="text-[14px] opacity-70">{chat.createdAt === '0초 전' ? '방금 전' : chat.createdAt}</div>
-                    {chat.chatType === 'MESSAGE' ? (
-                      <p className="min-w-[50px] max-w-[60vw] rounded-[10px] bg-white px-3 py-[0.65rem] text-sm text-black">{chat.message}</p>
-                    ) : (
-                      <div
-                        onClick={() => {
-                          setIsPicPopUp({
-                            open: true,
-                            pic: (S3_URL + chat?.message) as string,
-                          });
-                        }}
-                        className="flex cursor-pointer items-center justify-center rounded-[10px] bg-white px-3 py-[0.65rem]"
-                      >
-                        <img src={S3_URL + chat?.message} className="max-h-[70vw] max-w-[50vw] object-cover" />
-                      </div>
-                    )}
-                  </div>
-                </div>
-              );
-            })}
-        </>
+        <NewChatMessages
+          newChatMessages={newChatMessages && (newChatMessages as Partial<ChatMessageType>[]).filter((i: Partial<ChatMessageType>) => i.chatType === 'MESSAGE' || i.chatType === 'IMAGE').reverse()}
+          myPageInfo={myPageInfo}
+          handleClickUserImg={handleClickUserImg}
+          setIsPicPopUp={setIsPicPopUp}
+        />
+        <MessageList messageList={messageList && messageList} myPageInfo={myPageInfo} handleClickUserImg={handleClickUserImg} setIsPicPopUp={setIsPicPopUp} />
         <div ref={observerRef}></div>
       </div>
     </>

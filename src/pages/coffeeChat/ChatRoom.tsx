@@ -29,7 +29,7 @@ export default function ChatRoom() {
   const myPageInfo: any = 'hasValue' === getMyPageInfoLodable.state ? getMyPageInfoLodable.contents : {};
 
   //리액트 쿼리
-  const { isLoading, data: chatroomListData, hasNextPage, isFetching, isFetchingNextPage, fetchNextPage, refetch } = useMyChatroomListQuery(ROOM_NUM, CHAT_SIZE);
+  const { isLoading, data: chatroomListData, hasNextPage, isFetching, isFetchingNextPage, fetchNextPage } = useMyChatroomListQuery(ROOM_NUM, CHAT_SIZE);
   const { refetch: allChatroomRefetch } = useAllChatroomQuery();
   const { refetch: chatroomStatusRefetch } = useChatroomStatusQuery();
 
@@ -37,10 +37,10 @@ export default function ChatRoom() {
   const [message, setMessage] = useState<string>('');
   const [newChatMessages, setNewChatMessages] = useState<InfoMessageType[] | ChatMessageType[]>([]);
   const [messageList, setMessageList] = useState<myChatroomListContentType[]>(chatroomListData?.pages.map((i: myChatroomListType) => i.content).flat() as myChatroomListContentType[]);
+
   useEffect(() => {
-    refetch();
     setMessageList(chatroomListData?.pages.map((i: myChatroomListType) => i.content).flat() as myChatroomListContentType[]);
-  }, [isLoading]);
+  }, [isLoading, isFetchingNextPage]);
 
   // webSocket
   const client = useRef({});

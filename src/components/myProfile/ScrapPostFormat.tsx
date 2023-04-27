@@ -73,6 +73,7 @@ export default function ScrapPostFormat({ refetch, userData, resultData, myProfi
                       alt={data.title}
                       className="aspect-square w-[58px] rounded-full object-cover"
                     />
+
                     <div className="pl-3">
                       <p className="text-xl font-bold">{data.postRegisterMemberNickname}</p>
                       <p className="text-[17px] opacity-50">{timeForToday(data.createdAt)}</p>

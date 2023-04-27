@@ -1,5 +1,4 @@
 import { useState } from 'react';
-
 import { FcGlobe } from 'react-icons/fc';
 import AddBtn from '../../components/common/AddBtn';
 import FooterMenu from '../../components/common/FooterMenu';
@@ -9,7 +8,7 @@ import ScrollToTopBtn from '../../components/common/ScrollToTopBtn';
 import SearchBar from '../../components/common/SearchBar';
 import CommunityFilter from '../../components/community/CommunityFilter';
 import CommunitySort from '../../components/community/CommunitySort';
-import { postType, SortAndOrderType } from '../../components/community/_Community.interface';
+import { SortAndOrderType } from '../../components/community/_Community.interface';
 
 export default function Community() {
   // 커뮤니티 글 검색

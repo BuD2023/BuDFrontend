@@ -13,8 +13,9 @@ import { useMyFollowersQuery, useMyFollowsQuery, useMyScrapsQuery } from './useM
 import { useProfilePostQuery } from './useProfilePostQuery';
 import { useUserProfileQuery } from './useUserProfileQuery';
 
+let fetchNew = '';
 export function useCommunityPostQuery(word?: string, sort?: SortType, order?: OrderType, size?: number, postType?: postType | 'ALL') {
-  return useInfiniteQuery(['Community', word, sort, order, postType], ({ pageParam = 0 }) => getCommunityPostAxios(accessToken, word, sort, order, pageParam, size, postType), {
+  return useInfiniteQuery(['Community', word, sort, order, postType, fetchNew], ({ pageParam = 0 }) => getCommunityPostAxios(accessToken, word, sort, order, pageParam, size, postType), {
     getNextPageParam: (prevData, allPages) => {
       const lastPage = prevData.last;
       const nextPage = (allPages.length + 1) as number;
@@ -35,6 +36,7 @@ export function usePostCommunityMutation() {
     },
     onSuccess: async () => {
       console.log('게시글이 등록되었습니다.');
+      fetchNew = 'NewPost:' + String(Date.now()) + String(Math.random());
     },
   });
 }
@@ -46,6 +48,7 @@ export function useUpdateCommunityMutation(postId: number) {
     },
     onSuccess: async () => {
       console.log('게시글이 수정되었습니다.');
+      fetchNew = 'UpdatePost:' + String(Date.now()) + String(Math.random());
     },
   });
 }
@@ -57,6 +60,7 @@ export function useDeleteCommunityMutation(id: number) {
     },
     onSuccess: async () => {
       console.log('게시글 삭제 요청이 실행되었습니다.');
+      fetchNew = 'DeletePost:' + String(Date.now()) + String(Math.random());
     },
   });
 }

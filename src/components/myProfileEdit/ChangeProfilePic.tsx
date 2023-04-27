@@ -1,15 +1,16 @@
-import { ChangeEvent, useRef, useState } from 'react';
+import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { handleFileImage } from '../../utils/handleChangeImgFile';
 import { ChangeProfilePicPropsType } from './_MyProfileEdit.interface';
-import { getRandomInt } from '../../utils/getRandomInt';
 import { S3_URL } from '../../constant/union';
+import { useGetRandomImageQuery } from '../../store/module/useMyProfileQuery';
+import { makeCompressedImg } from '../../utils/makeCompressedImg';
+import { urlToFile } from '../../utils/urlToFile';
 
 export default function ChangeProfilePic({ profileImg, setProfileImg, userInfo, setUserInfo }: ChangeProfilePicPropsType) {
-  const [randomNum, setRandomNum] = useState(getRandomInt(1, 32) as number);
   const [isLoading, setIsLoading] = useState(false);
   const [count, setCount] = useState(3);
 
-  const defaultImg = `profiles/basic/${randomNum}.png`;
+  const { data: randomImgQuery, refetch: newImg, isRefetching, isSuccess, isFetched } = useGetRandomImageQuery();
 
   const imgRef = useRef<HTMLInputElement>(null);
 
@@ -17,18 +18,14 @@ export default function ChangeProfilePic({ profileImg, setProfileImg, userInfo, 
     imgRef?.current?.click();
   };
 
-  const handleDeletePreviewFile = () => {
-    if (imgRef.current) {
-      setProfileImg(S3_URL + defaultImg);
-    }
-  };
-
-  async function urlToFile(url: string, filename?: string) {
-    const response = await fetch(url);
-    console.log(response);
-    return await response.blob();
-    // return new File([blob], filename, { type: 'image/png' });
-  }
+  useEffect(() => {
+    (async () => {
+      if (isSuccess && isFetched) {
+        setProfileImg(S3_URL + randomImgQuery);
+        setUserInfo({ ...userInfo, file: null });
+      }
+    })();
+  }, [isRefetching, isSuccess]);
 
   const handleChangeProfileImg = async (e: ChangeEvent<HTMLInputElement>) => {
     const resultImage = await handleFileImage(e);
@@ -49,13 +46,9 @@ export default function ChangeProfilePic({ profileImg, setProfileImg, userInfo, 
           e.preventDefault();
           setIsLoading(true);
           setTimeout(async () => {
+            await newImg();
             setCount(count - 1);
-            handleDeletePreviewFile();
-            setRandomNum(getRandomInt(1, 32) as number);
             setIsLoading(false);
-            const file = await urlToFile(profileImg as string);
-            console.log(file);
-            setUserInfo({ ...userInfo, file: file as Blob });
           }, 2000);
         }}
       >
