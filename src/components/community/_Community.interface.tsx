@@ -14,198 +14,198 @@ export type SortType = 'HIT' | 'LIKE' | 'DATE';
 export type OrderType = 'DESC' | 'ASC';
 
 export interface SortAndOrderType {
-  sort: SortType;
-  order: OrderType;
+  readonly sort: SortType;
+  readonly order: OrderType;
 }
 /** 게시물 정렬 boolean 값 타입 */
 export interface PostSortType {
-  sorted: boolean;
-  unsorted: boolean;
-  empty: boolean;
+  readonly sorted: boolean;
+  readonly unsorted: boolean;
+  readonly empty: boolean;
 }
 /** 멤버 레벨 타입. 속성 다 없을 수 있으니, Partial<MemberLevelType> 쓰기 권장*/
 export interface MemberLevelType {
-  createdAt: string;
-  updatedAt: string;
-  id: number;
-  levelNumber: number;
-  levelCode: string;
-  levelStartCommitCount: number;
-  nextLevelStartCommitCount: number;
-  imagePath: string;
-  blankImagePath: null;
+  readonly createdAt: string;
+  readonly updatedAt: string;
+  readonly id: number;
+  readonly levelNumber: number;
+  readonly levelCode: string;
+  readonly levelStartCommitCount: number;
+  readonly nextLevelStartCommitCount: number;
+  readonly imagePath: string;
+  readonly blankImagePath: null;
 }
 
 /** Pageable 타입. Partial<CommunityPostPageableType> 쓰기 권장 */
 export interface CommunityPostPageableType {
-  sort: PostSortType;
-  offset: number;
-  pageNumber: number;
-  pageSize: number;
-  paged: boolean;
-  unpaged: boolean;
+  readonly sort: PostSortType;
+  readonly offset: number;
+  readonly pageNumber: number;
+  readonly pageSize: number;
+  readonly paged: boolean;
+  readonly unpaged: boolean;
 }
 
 /** getCommunityPostAxios - 커뮤니티 post 불러올때 response의 content 안의 member(유저정보) 타입 */
 export interface CommunityPostListContentMemberType {
-  createdAt: string;
-  updatedAt: string;
-  id: number;
-  userId: string;
-  level: Partial<MemberLevelType>;
-  nickName: string;
-  profileImg: null | string;
-  job: null | string;
-  status: string;
-  introduceMessage: null | string;
-  addInfoYn: boolean;
-  enabled: boolean;
-  oauthAccessToken: string;
-  nickname: string;
-  password: null | string;
-  credentialNonExpired: boolean;
-  accountNonExpired: boolean;
-  accountNonLocked: boolean;
-  authorities: {
-    authority: string;
+  readonly createdAt: string;
+  readonly updatedAt: string;
+  readonly id: number;
+  readonly userId: string;
+  readonly level: Partial<MemberLevelType>;
+  readonly nickName: string;
+  readonly profileImg: null | string;
+  readonly job: null | string;
+  readonly status: string;
+  readonly introduceMessage: null | string;
+  readonly addInfoYn: boolean;
+  readonly enabled: boolean;
+  readonly oauthAccessToken: string;
+  readonly nickname: string;
+  readonly password: null | string;
+  readonly credentialNonExpired: boolean;
+  readonly accountNonExpired: boolean;
+  readonly accountNonLocked: boolean;
+  readonly authorities: {
+    readonly authority: string;
   }[];
 }
 
 /** getCommunityPostAxios - 커뮤니티 post 불러올때 response의 content 타입 */
 export interface CommunityPostListContentType {
-  follow: boolean;
-  scrap: boolean;
-  like: boolean;
-  id: number;
-  member: CommunityPostListContentMemberType;
-  title: string;
-  imageUrls: string[];
-  content: string;
-  commentCount: number;
-  likeCount: number;
-  scrapCount: number;
-  hitCount: number;
-  postStatus: PostStatusType;
-  postType: postType;
-  createdAt: string;
-  updatedAt: string;
+  readonly follow: boolean;
+  readonly scrap: boolean;
+  readonly like: boolean;
+  readonly id: number;
+  readonly member: CommunityPostListContentMemberType;
+  readonly title: string;
+  readonly imageUrls: string[];
+  readonly content: string;
+  readonly commentCount: number;
+  readonly likeCount: number;
+  readonly scrapCount: number;
+  readonly hitCount: number;
+  readonly postStatus: PostStatusType;
+  readonly postType: postType;
+  readonly createdAt: string;
+  readonly updatedAt: string;
 }
 
 /** getCommunityPostAxios - 커뮤니티 post 불러올때 response 타입 */
 export interface CommunityPostListType {
-  content: CommunityPostListContentType[];
-  pageable: CommunityPostPageableType;
-  totalElements: number;
-  totalPages: number;
-  last: boolean;
-  size: number;
-  number: number;
-  sort: PostSortType;
-  numberOfElements: number;
-  first: boolean;
-  empty: boolean;
+  readonly content: CommunityPostListContentType[];
+  readonly pageable: CommunityPostPageableType;
+  readonly totalElements: number;
+  readonly totalPages: number;
+  readonly last: boolean;
+  readonly size: number;
+  readonly number: number;
+  readonly sort: PostSortType;
+  readonly numberOfElements: number;
+  readonly first: boolean;
+  readonly empty: boolean;
 }
 
 /** getCommunityDetailAxios - 커뮤니티 디테일 게시물에 대한 response의 member 타입*/
 export interface CommunityDetailListContentMemberType {
-  createdAt: string;
-  updatedAt: string;
-  id: number;
-  userId: string;
-  level: Partial<MemberLevelType>;
-  nickname: string;
-  profileImg: null | string;
-  job: null | string;
-  status: string;
-  introduceMessage: null | string;
-  addInfoYn: boolean;
-  enabled: boolean;
-  oauthAccessToken: string;
-  username: string;
-  password: null | string;
-  credentialNonExpired: boolean;
-  accountNonExpired: boolean;
-  accountNonLocked: boolean;
-  authorities: {
-    authority: string;
+  readonly createdAt: string;
+  readonly updatedAt: string;
+  readonly id: number;
+  readonly userId: string;
+  readonly level: Partial<MemberLevelType>;
+  readonly nickname: string;
+  readonly profileImg: null | string;
+  readonly job: null | string;
+  readonly status: string;
+  readonly introduceMessage: null | string;
+  readonly addInfoYn: boolean;
+  readonly enabled: boolean;
+  readonly oauthAccessToken: string;
+  readonly username: string;
+  readonly password: null | string;
+  readonly credentialNonExpired: boolean;
+  readonly accountNonExpired: boolean;
+  readonly accountNonLocked: boolean;
+  readonly authorities: {
+    readonly authority: string;
   }[];
 }
 
 /** getCommunityDetailAxios - 커뮤니티 디테일 게시물에 대한 response 타입*/
 export interface getCommunityDetailType {
-  follow: boolean;
-  id: number;
-  title: string;
-  member: CommunityDetailListContentMemberType;
-  imageUrls: null[] | string[];
-  content: string;
-  commentCount: number;
-  like: boolean;
-  likeCount: number;
-  scrap: boolean;
-  scrapCount: number;
-  hitCount: number;
-  postStatus: PostStatusType;
-  postType: postType;
-  createdAt: string;
-  updatedAt: string;
+  readonly follow: boolean;
+  readonly id: number;
+  readonly title: string;
+  readonly member: CommunityDetailListContentMemberType;
+  readonly imageUrls: null[] | string[];
+  readonly content: string;
+  readonly commentCount: number;
+  readonly like: boolean;
+  readonly likeCount: number;
+  readonly scrap: boolean;
+  readonly scrapCount: number;
+  readonly hitCount: number;
+  readonly postStatus: PostStatusType;
+  readonly postType: postType;
+  readonly createdAt: string;
+  readonly updatedAt: string;
 }
 
 /** CommunityPostAxios - 커뮤니티 게시글 수정시 넘겨주는 폼데이터로 변환하기 전 데이터 타입
  * Partial<CommunityPostType>과 같은 형태로 사용해야 함
  */
 export interface CommunityPostType {
-  postTypeInfo: postingInfoType;
-  title: string;
-  content: string;
-  images: null | string[] | Blob[];
-  postType: postType;
-  postId: number;
+  readonly postTypeInfo: postingInfoType;
+  readonly title: string;
+  readonly content: string;
+  readonly images: null | string[] | Blob[];
+  readonly postType: postType;
+  readonly postId: number;
 }
 
 /** postQnaAnswerAxios - QNA 답변 작성 혹은 수정시 넘겨주는 데이터, 폼데이터로 변경하기 전 상태.
  * Partial<QnaAnswerType>과 같이 사용해야 함/*/
 export interface QnaAnswerType {
-  postTypeInfo: postingInfoType;
-  postId: number;
-  qnaAnswerId: number;
-  content: string;
-  images: null | Blob[] | string[];
+  readonly postTypeInfo: postingInfoType;
+  readonly postId: number;
+  readonly qnaAnswerId: number;
+  readonly content: string;
+  readonly images: null | Blob[] | string[];
 }
 
 export interface CommentContentType {
-  reComments: any;
-  commentId: number;
-  content: string;
-  createdAt: string;
-  isPinned: boolean;
-  isReader: boolean;
-  isReaderLiked: boolean;
-  memberId: number;
-  memberName: string;
-  memberProfileUrl: string | null;
-  numberOfLikes: number;
+  readonly reComments: any;
+  readonly commentId: number;
+  readonly content: string;
+  readonly createdAt: string;
+  readonly isPinned: boolean;
+  readonly isReader: boolean;
+  readonly isReaderLiked: boolean;
+  readonly memberId: number;
+  readonly memberName: string;
+  readonly memberProfileUrl: string | null;
+  readonly numberOfLikes: number;
 }
 
 export interface CommunityCommentType {
-  content: CommentContentType[];
-  empty: boolean;
-  first: boolean;
-  last: boolean;
-  number: number;
-  numberOfElements: number;
-  pageable: Partial<CommunityPostPageableType>;
-  size: number;
-  sort: PostSortType;
+  readonly content: CommentContentType[];
+  readonly empty: boolean;
+  readonly first: boolean;
+  readonly last: boolean;
+  readonly number: number;
+  readonly numberOfElements: number;
+  readonly pageable: Partial<CommunityPostPageableType>;
+  readonly size: number;
+  readonly sort: PostSortType;
 }
 
 /** CommunitySort - 커뮤니티 정렬할 때 사용하는 props 타입 */
 export interface CommunitySortPropsType {
-  sortAndOrder: SortAndOrderType;
-  setSortAndOrder: ({}: SortAndOrderType) => void;
+  readonly sortAndOrder: SortAndOrderType;
+  readonly setSortAndOrder: ({}: SortAndOrderType) => void;
 }
 
 /**  */
 export interface commentPropsType {
-  content: string;
+  readonly content: string;
 }

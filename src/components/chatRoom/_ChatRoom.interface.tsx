@@ -3,92 +3,92 @@ export type chatType = 'IMAGE' | 'MESSAGE' | 'ENTER' | 'EXIT' | 'EXPIRE';
 
 /** 실시간으로 유저의 채팅방 등 퇴장, 혹은 호스트의 퇴장을 알려주는 메세지 타입 */
 export interface InfoMessageType {
-  chatroomId: number;
-  chatType: chatType;
-  numberOfMembers: number;
+  readonly chatroomId: number;
+  readonly chatType: chatType;
+  readonly numberOfMembers: number;
 }
 
 /** 실시간 채팅 메세지 타입 */
 export interface ChatMessageType {
-  chatId: number;
-  chatType: chatType;
-  chatroomId: number;
-  createdAt: string;
-  message: string;
-  userProfileUrl?: string;
-  numberOfMembers: number;
-  userId: number;
-  userName: string;
+  readonly chatId: number;
+  readonly chatType: chatType;
+  readonly chatroomId: number;
+  readonly createdAt: string;
+  readonly message: string;
+  readonly userProfileUrl?: string;
+  readonly numberOfMembers: number;
+  readonly userId: number;
+  readonly userName: string;
 }
 
 /** getAllMyChatroomListAxios - 내 채팅방의 메세지 리스트 가져올 때 response의 content 타입 */
 export interface myChatroomListContentType {
-  chatroomId: null | number;
-  chatId: number;
-  message: string;
-  chatType: chatType;
-  createdAt: string;
-  userProfileUrl: string;
-  userName: string;
-  userId: number;
+  readonly chatroomId: null | number;
+  readonly chatId: number;
+  readonly message: string;
+  readonly chatType: chatType;
+  readonly createdAt: string;
+  readonly userProfileUrl: string;
+  readonly userName: string;
+  readonly userId: number;
 }
 
 /** getAllMyChatroomListAxios - 내 채팅방의 메세지 리스트 가져올 때 response 타입 */
 export interface myChatroomListType {
-  content: myChatroomListContentType[];
-  pageable: string;
-  hasNext: boolean;
-  sort: {
-    orders: string;
-    empty: boolean;
-    sorted: boolean;
-    unsorted: boolean;
+  readonly content: myChatroomListContentType[];
+  readonly pageable: string;
+  readonly hasNext: boolean;
+  readonly sort: {
+    readonly orders: string;
+    readonly empty: boolean;
+    readonly sorted: boolean;
+    readonly unsorted: boolean;
   };
-  size: number;
-  number: number;
-  first: boolean;
-  numberOfElements: number;
-  last: boolean;
-  empty: boolean;
+  readonly size: number;
+  readonly number: number;
+  readonly first: boolean;
+  readonly numberOfElements: number;
+  readonly last: boolean;
+  readonly empty: boolean;
 }
 
 /** getChatroomInfoAxios - 채팅방 기본 정보 */
 export interface chatroomInfoType {
-  chatRoomId: number;
-  title: string;
-  numberOfMembers: number;
-  description: string;
-  hashTags: string[];
-  createdAt: string;
-  hostName: string;
-  hostProfileUrl: string;
-  hostId: number;
+  readonly chatRoomId: number;
+  readonly title: string;
+  readonly numberOfMembers: number;
+  readonly description: string;
+  readonly hashTags: string[];
+  readonly createdAt: string;
+  readonly hostName: string;
+  readonly hostProfileUrl: string;
+  readonly hostId: number;
 }
 
 /** getChatUserListAxios - 채팅방의 유저리스트 정보 */
 export interface chatroomUserListType {
-  id: number;
-  userId: string;
-  nickName: string;
-  description: string;
-  isReader: boolean;
-  isFollowing: boolean;
-  profileUrl: string;
+  readonly id: number;
+  readonly userId: string;
+  readonly nickName: string;
+  readonly description: string;
+  readonly isReader: boolean;
+  readonly isFollowing: boolean;
+  readonly profileUrl: string;
 }
 
 /** getChatroomStatusAxios - 채팅방 헤더에 들어갈 간략한 정보 */
 export interface chatroomsStatusType {
-  numberOfChatRooms: number;
-  numberOfUsers: number;
+  readonly numberOfChatRooms: number;
+  readonly numberOfUsers: number;
 }
 
 /** RoomChats 컴포넌트의 props 타입 */
 export interface RoomChatsPropsType {
-  hostInfo: { id: number; nickName: string };
-  messageList: myChatroomListContentType[];
-  newChatMessages: Partial<ChatMessageType>[];
-  hasNextPage: boolean;
-  isFetching: boolean;
-  isFetchingNextPage: boolean;
-  fetchNextPage: () => void;
+  readonly hostInfo: { id: number; nickName: string };
+  readonly messageList: myChatroomListContentType[];
+  readonly newChatMessages: Partial<ChatMessageType>[];
+  readonly hasNextPage: boolean;
+  readonly isFetching: boolean;
+  readonly isFetchingNextPage: boolean;
+  readonly fetchNextPage: () => void;
 }

@@ -104,8 +104,13 @@ export function useGetIsIdUniqueQuery(data: string) {
   });
 }
 
-export function useGetRandomImageQuery() {
-  return useQuery(['randomImage'], () => postRandomImageAxios(accessToken), {
-    enabled: true,
+export function useGetRandomImageMutation() {
+  return useMutation(['randomImage'], () => postRandomImageAxios(accessToken), {
+    onError: (err) => {
+      console.log(err);
+    },
+    onSuccess: () => {
+      console.log('모든 읽은 알림 삭제가 완료되었습니다.');
+    },
   });
 }
