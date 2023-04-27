@@ -30,7 +30,6 @@ export default function ChatRoom() {
 
   //리액트 쿼리
   const { isLoading, data: chatroomListData, hasNextPage, isFetching, isFetchingNextPage, fetchNextPage, refetch } = useMyChatroomListQuery(ROOM_NUM, CHAT_SIZE);
-  const { data } = useMyProfileQuery();
   const { refetch: allChatroomRefetch } = useAllChatroomQuery();
   const { refetch: chatroomStatusRefetch } = useChatroomStatusQuery();
 
@@ -184,7 +183,7 @@ export default function ChatRoom() {
   // 폭파될 때 호스트에게는 confirm 모달창 띄우기
   const [confirmModal, setConfirmModal] = useState(false);
   const getModalAnswer = () => {};
-  const withdrawalText = `이 방의 호스트 ${data?.nickName}님이 퇴장하시면\n 채팅방이 삭제되며, 모든 유저는 퇴장조치됩니다.\n퇴장하기 전에 다른 유저에게 호스트를 위임해보세요!`;
+  const withdrawalText = `이 방의 호스트 ${myPageInfo?.nickName}님이 퇴장하시면\n 채팅방이 삭제되며, 모든 유저는 퇴장조치됩니다.\n퇴장하기 전에 다른 유저에게 호스트를 위임해보세요!`;
 
   if (isLoading) {
     <div>Loading....</div>;
@@ -204,7 +203,7 @@ export default function ChatRoom() {
       <AlertModal alertModal={alertModal} setAlertModal={setAlertModal} title="채팅방 종료" des="호스트가 채팅방을 퇴장함에 따라 채팅이 종료됩니다." action={action} />
       <section>
         <PicModal isPicPopUp={isPicPopUp} setIsPicPopUp={setIsPicPopUp} />
-        <RoomHeader newChatMessages={newChatMessages} setHostInfo={setHostInfo} setConfirmModal={setConfirmModal} userIdData={data?.id as number} />
+        <RoomHeader newChatMessages={newChatMessages} setHostInfo={setHostInfo} setConfirmModal={setConfirmModal} userIdData={myPageInfo?.id as number} />
         <div className="fixed left-0 top-[4.6rem] h-full w-full bg-midIvory dark:bg-midNavy"></div>
         <RoomChats
           hostInfo={hostInfo}
