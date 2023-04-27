@@ -2,7 +2,6 @@ import { useNavigate } from 'react-router-dom';
 import { NewsPostsProps } from './_News.interface';
 import newsDefaultImg from '../../assets/newsDefaultImg.webp';
 import { timeForToday } from '../../utils/timeForToday';
-import LazyLoad from 'react-lazyload';
 
 export default function NewsPosts({ newsData, isLoading }: NewsPostsProps) {
   const navigate = useNavigate();
@@ -32,9 +31,7 @@ export default function NewsPosts({ newsData, isLoading }: NewsPostsProps) {
         newsData?.map((data, idx) => (
           <li onClick={() => navigate(`/newsDetail/${data.id}`)} key={idx} className="mb-4 flex h-[115px] cursor-pointer items-center gap-1 rounded-[20px] bg-midIvory dark:bg-midNavy">
             <div className="shrink-0">
-              <LazyLoad height={200} offset={100}>
-                <img src={(data.mainImgUrl ?? '').length > 0 ? data.mainImgUrl : newsDefaultImg} alt={data.title} className="h-[115px] w-[115px] rounded-[20px] object-cover" />
-              </LazyLoad>
+              <img src={(data.mainImgUrl ?? '').length > 0 ? data.mainImgUrl : newsDefaultImg} alt={data.title} className="h-[115px] w-[115px] rounded-[20px] object-cover" />
             </div>
             <div className="w-full overflow-hidden pl-3 pr-5">
               <h1 dangerouslySetInnerHTML={{ __html: data.title }} className="mb-2 truncate text-base font-bold"></h1>
