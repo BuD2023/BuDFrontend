@@ -6,14 +6,15 @@ import React, { useEffect, useRef, useState } from 'react';
 import * as StompJs from '@stomp/stompjs';
 import { accessToken } from '../../main';
 import { SOCKET_URL } from '../../constant/union';
-import { useMyChatroomListQuery } from '../../store/module/useChatroomQuery';
+import { useChatroomStatusQuery, useMyChatroomListQuery } from '../../store/module/useChatroomQuery';
 import { makeCompressedImg } from '../../utils/makeCompressedImg';
 import PicModal from '../../components/common/PicModal';
 import AlertModal from '../../components/common/AlertModal';
 import { ChatMessageType, InfoMessageType, myChatroomListContentType, myChatroomListType } from '../../components/chatRoom/_ChatRoom.interface';
 import { toFileURLs } from '../../utils/toFileURLs';
 import { useAllChatroomQuery } from '../../store/module/useCoffeeChatQuery';
-import { useMyProfileQuery } from '../../store/module/useMyProfileQuery';
+import { useRecoilValueLoadable } from 'recoil';
+import { getMyPageInfo } from '../../store/recoil/user';
 import ConfirmModal from '../../components/common/ConfirmModal';
 
 export default function ChatRoom() {
@@ -23,10 +24,15 @@ export default function ChatRoom() {
   const CHAT_SIZE = 10;
   const [hostInfo, setHostInfo] = useState<{ id: number; nickName: string }>({ id: 0, nickName: '' });
 
+  // 사용자 정보
+  const getMyPageInfoLodable = useRecoilValueLoadable(getMyPageInfo);
+  const myPageInfo: any = 'hasValue' === getMyPageInfoLodable.state ? getMyPageInfoLodable.contents : {};
+
   //리액트 쿼리
   const { isLoading, data: chatroomListData, hasNextPage, isFetching, isFetchingNextPage, fetchNextPage, refetch } = useMyChatroomListQuery(ROOM_NUM, CHAT_SIZE);
   const { data } = useMyProfileQuery();
   const { refetch: allChatroomRefetch } = useAllChatroomQuery();
+  const { refetch: chatroomStatusRefetch } = useChatroomStatusQuery();
 
   // 채팅 메세지 useState
   const [message, setMessage] = useState<string>('');
@@ -62,6 +68,7 @@ export default function ChatRoom() {
       },
       onDisconnect: () => {
         allChatroomRefetch();
+        chatroomStatusRefetch();
       },
     });
     (client.current as StompJs.Client).activate();
@@ -98,7 +105,7 @@ export default function ChatRoom() {
       (client.current as StompJs.Client).publish({
         destination: '/chats/image',
         body: JSON.stringify({
-          senderId: data?.id,
+          senderId: myPageInfo.id,
           chatroomId: ROOM_NUM,
           imageByte: imgPeek.image,
         }),
@@ -107,7 +114,7 @@ export default function ChatRoom() {
       (client.current as StompJs.Client).publish({
         destination: '/chats/message',
         body: JSON.stringify({
-          senderId: data?.id,
+          senderId: myPageInfo.id,
           chatroomId: ROOM_NUM,
           message: message,
         }),

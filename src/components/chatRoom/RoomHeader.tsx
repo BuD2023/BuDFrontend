@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import { useChatroomDetailQuery, useChatUserListQuery } from '../../store/module/useChatroomQuery';
 import { ChatMessageType, InfoMessageType } from './_ChatRoom.interface';
 import UserListModal from '../common/UserListModal';
-import { useMyProfileQuery } from '../../store/module/useMyProfileQuery';
 
 interface RoomHeaderPropsType {
   newChatMessages: InfoMessageType[] | ChatMessageType[];

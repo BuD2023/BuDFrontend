@@ -1,3 +1,5 @@
+const { transform } = require('lodash');
+
 module.exports = {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   darkMode: 'class',
@@ -26,6 +28,15 @@ module.exports = {
     extend: {
       gridTemplateRows: {
         7: 'repeat(7, minmax(0, 1fr))',
+      },
+      keyframes: {
+        spin: {
+          '0%': { transform: 'rotate(0deg)' },
+          '100%': { transform: 'rotate360deg)' },
+        },
+      },
+      animation: {
+        'animate-spin': 'spin 1s linear infinite',
       },
     },
   },
