@@ -3,4 +3,6 @@ export interface CommunityFeedCommentFormPropsType {
   readonly type: string;
   readonly answerId?: number;
   readonly questionUserId?: number;
+  readonly commentCount?: number;
+  readonly refetch?: any;
 }

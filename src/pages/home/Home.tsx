@@ -24,17 +24,17 @@ export default function Home() {
     if (codeParams && localStorage.getItem('accessToken') === null) {
       const getAccessToken = async () => {
         try {
-          const response = await axios.get(BASE_URL + 'token', {
-            params: {
-              code: codeParams,
-            },
-          });
-          const data = response.headers;
-          console.log(data);
-          if (data.access_token) {
-            localStorage.setItem('accessToken', data.access_token);
-            setRerender(!rerender);
-          }
+          // const response = await axios.get(BASE_URL + 'token', {
+          //   params: {
+          //     code: codeParams,
+          //   },
+          // });
+          // const data = response.headers;
+          // console.log(data);
+          // if (data.access_token) {
+          //   localStorage.setItem('accessToken', data.access_token);
+          //   setRerender(!rerender);
+          // }
         } catch (error) {
           console.error('Error:', error);
         }

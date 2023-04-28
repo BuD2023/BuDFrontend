@@ -14,12 +14,13 @@ import LazyLoadImage from '../../utils/LazyLoadImage';
 
 interface CommunityDetailPostProps {
   setQuestionUserId?: any;
+  setCommentCount?: any;
 }
 
-export default function CommunityDetailPost(props: CommunityDetailPostProps) {
+export default function CommunityDetailPost({ setQuestionUserId, setCommentCount }: CommunityDetailPostProps) {
   const { id: questionId } = useParams();
   const navigate = useNavigate();
-  const { data: questionData, isLoading: questionIsLoading, error: questionError, refetch } = useCommunityDetailQuery(Number(questionId));
+  const { data: questionData, isLoading: questionIsLoading, error: questionError, refetch, isRefetching, isSuccess } = useCommunityDetailQuery(Number(questionId));
 
   // 사용자 정보
   const getMyPageInfoLodable = useRecoilValueLoadable(getMyPageInfo);
@@ -29,8 +30,9 @@ export default function CommunityDetailPost(props: CommunityDetailPostProps) {
   const { mutate } = useFollowMutation(Number(userId), Number(questionId));
 
   useEffect(() => {
-    props.setQuestionUserId && props.setQuestionUserId(questionData?.member.id);
-  }, [questionData?.member.id]);
+    setQuestionUserId && setQuestionUserId(questionData?.member.id);
+    setCommentCount && isSuccess && setCommentCount(questionData?.commentCount);
+  }, [questionData?.member.id, isRefetching]);
 
   const handleClickFollow = (e: React.MouseEvent<HTMLElement>, memberId: number, memberNickname?: string) => {
     if (memberNickname === myPageInfo.nickName) return;

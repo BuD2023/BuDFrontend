@@ -9,7 +9,7 @@ import updateCommunityPostAxios from '../../apiFetcher/communityInfo/updateCommu
 import { OrderType, postType, SortType } from '../../components/community/_Community.interface';
 import { accessToken } from '../../main';
 import { useCommunityAnswerQuery, useCommunityDetailQuery } from './useCommunityDetailQuery';
-import { useMyFollowersQuery, useMyFollowsQuery, useMyScrapsQuery } from './useMyProfileQuery';
+import { useMyFollowersQuery, useMyFollowsQuery, useMyProfileQuery, useMyScrapsQuery } from './useMyProfileQuery';
 import { useProfilePostQuery } from './useProfilePostQuery';
 import { useUserProfileQuery } from './useUserProfileQuery';
 
@@ -30,6 +30,7 @@ export function useCommunityPostQuery(word?: string, sort?: SortType, order?: Or
 }
 
 export function usePostCommunityMutation() {
+  const { refetch } = useMyProfileQuery();
   return useMutation((data: FormData) => postCommunityPostAxios(accessToken, data), {
     onError: (err) => {
       console.log(err);
@@ -37,6 +38,7 @@ export function usePostCommunityMutation() {
     onSuccess: async () => {
       console.log('게시글이 등록되었습니다.');
       fetchNew = 'NewPost:' + String(Date.now()) + String(Math.random());
+      refetch();
     },
   });
 }
@@ -54,6 +56,7 @@ export function useUpdateCommunityMutation(postId: number) {
 }
 
 export function useDeleteCommunityMutation(id: number) {
+  const { refetch } = useMyProfileQuery();
   return useMutation(() => deleteCommunityPostAxios(accessToken, id), {
     onError: (err) => {
       console.log(err);
@@ -61,6 +64,7 @@ export function useDeleteCommunityMutation(id: number) {
     onSuccess: async () => {
       console.log('게시글 삭제 요청이 실행되었습니다.');
       fetchNew = 'DeletePost:' + String(Date.now()) + String(Math.random());
+      refetch();
     },
   });
 }
