@@ -4,9 +4,10 @@ interface LazyLoadImagePropsType {
   src: string;
   alt: string;
   className?: string;
+  onClick?: () => void;
 }
 
-const LazyLoadImage = ({ src, alt, className }: LazyLoadImagePropsType) => {
+const LazyLoadImage = ({ src, alt, className, onClick }: LazyLoadImagePropsType) => {
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const imageRef = useRef<HTMLImageElement>(null);
 
@@ -19,7 +20,7 @@ const LazyLoadImage = ({ src, alt, className }: LazyLoadImagePropsType) => {
         }
       },
       {
-        rootMargin: '100px 0px 100px 0px',
+        rootMargin: '50px 0px 50px 0px',
       }
     );
 
@@ -34,7 +35,7 @@ const LazyLoadImage = ({ src, alt, className }: LazyLoadImagePropsType) => {
     };
   }, []);
 
-  return <img ref={imageRef} src={isVisible ? src : ''} alt={alt} className={className} />;
+  return <img ref={imageRef} src={isVisible ? src : ''} alt={alt} className={className} onClick={onClick && onClick} />;
 };
 
 export default LazyLoadImage;
