@@ -25,7 +25,7 @@ import LazyLoadImage from '../../utils/LazyLoadImage';
 import { CommunityCommentType } from '../community/_Community.interface';
 import { CommunityFeedCommentFormPropsType } from './_FeedDetail.interface';
 
-export default function CommunityCommentForm({ type, answerId, questionUserId }: CommunityFeedCommentFormPropsType) {
+export default function CommunityCommentForm({ type, answerId, questionUserId, commentCount, refetch }: CommunityFeedCommentFormPropsType) {
   const { id: postId } = useParams();
   const [commentId, setCommentId] = useState<number>(0);
   const [comment, setComment] = useState<string>('');
@@ -39,8 +39,8 @@ export default function CommunityCommentForm({ type, answerId, questionUserId }:
   const getMyPageInfoLodable = useRecoilValueLoadable(getMyPageInfo);
   const myPageInfo: any = 'hasValue' === getMyPageInfoLodable.state ? getMyPageInfoLodable.contents : {};
 
-  const { data: feedData, isLoading: feedIsLoading, error: feedError, refetch: feedRefetch } = useFeedCommentQuery(Number(postId));
-  const { data: QnAData, isLoading: QnAIsLoading, error: QnAError, refetch: qnaRefetch } = useQnACommentQuery(Number(answerId));
+  const { data: feedData, isLoading: feedIsLoading, error: feedError, refetch: feedCommentRefetch } = useFeedCommentQuery(Number(postId));
+  const { data: QnAData, isLoading: QnAIsLoading, error: QnAError, refetch: qnaCommentRefetch } = useQnACommentQuery(Number(answerId));
   const { mutate: deleteFeedCommentMutate } = useDeleteFeedCommentMutation(commentId, Number(postId));
   const { mutate: deleteQnaCommentMutate } = useDeleteQnACommentMutation(commentId, Number(answerId));
   const { mutate: deleteFeedCommentPinMutate } = useDeleteFeedCommentPinMutation(Number(postId));
@@ -87,9 +87,11 @@ export default function CommunityCommentForm({ type, answerId, questionUserId }:
       }
 
       if (type === 'FEED') {
-        scrollToBottom(feedRefetch);
+        await refetch();
+        feedCommentRefetch();
       } else {
-        scrollToBottom(qnaRefetch);
+        qnaCommentRefetch();
+        refetch();
       }
     }
   };
@@ -139,10 +141,10 @@ export default function CommunityCommentForm({ type, answerId, questionUserId }:
 
   useEffect(() => {
     if (type === 'FEED') {
-      feedRefetch();
+      feedCommentRefetch();
       return;
     } else {
-      qnaRefetch();
+      qnaCommentRefetch();
       return;
     }
   }, []);
@@ -151,7 +153,7 @@ export default function CommunityCommentForm({ type, answerId, questionUserId }:
     <div className="flex min-h-[170px] w-full flex-col items-center gap-4 rounded-[20px] bg-midIvory dark:bg-midNavy">
       <div className="flex h-[55px] w-full items-center border-b border-b-darkIvory border-opacity-30 p-5 text-[20px] font-bold dark:border-darkNavy dark:border-b-lightNavy dark:border-opacity-30">
         <div>댓글</div>
-        <div className="ml-2 text-[18px] font-bold opacity-50">{data?.pages.flatMap((comment) => comment.numberOfElements)}</div>
+        <div className="ml-2 text-[18px] font-bold opacity-50">{commentCount}</div>
       </div>
       <SwipeableList>
         {() => (
@@ -288,7 +290,7 @@ export default function CommunityCommentForm({ type, answerId, questionUserId }:
                                 onClick={() => (reComment.memberName === myPageInfo.nickName ? navigate(`/myProfile/feed`) : navigate(`/otherProfile/${content.memberId}/feed`))}
                                 src={S3_URL + (reComment.memberProfileUrl ?? 'file/2023-04-25/d85de5cdbbdd440a9874020d3b250d5d_20230425205043366.jpeg')}
                                 alt={reComment.memberName}
-                                className="aspect-square w-[50px] shrink-0 cursor-pointer rounded-full object-cover"
+                                className="h-[50px] w-[50px] shrink-0 cursor-pointer rounded-full object-cover"
                               ></LazyLoadImage>
                               <div className="flex h-full w-full flex-col gap-1">
                                 <div className="flex w-full justify-between">
