@@ -81,6 +81,7 @@ export default function QAAnswerCreate() {
                       }}
                       key={idx}
                       src={img as string}
+                      alt={img as string}
                       className="pre-img h-[120px] w-[120px] cursor-pointer rounded-[20px] object-cover"
                     />
                   ))}

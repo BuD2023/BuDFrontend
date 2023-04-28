@@ -41,8 +41,8 @@ export default function CommunityCommentForm({ type, answerId, questionUserId, c
 
   const { data: feedData, isLoading: feedIsLoading, error: feedError, refetch: feedCommentRefetch } = useFeedCommentQuery(Number(postId));
   const { data: QnAData, isLoading: QnAIsLoading, error: QnAError, refetch: qnaCommentRefetch } = useQnACommentQuery(Number(answerId));
-  const { mutate: deleteFeedCommentMutate } = useDeleteFeedCommentMutation(commentId, Number(postId));
-  const { mutate: deleteQnaCommentMutate } = useDeleteQnACommentMutation(commentId, Number(answerId));
+  const { mutateAsync: deleteFeedCommentMutateAsync } = useDeleteFeedCommentMutation(commentId, Number(postId));
+  const { mutateAsync: deleteQnaCommentMutateAysnc } = useDeleteQnACommentMutation(commentId, Number(answerId));
   const { mutate: deleteFeedCommentPinMutate } = useDeleteFeedCommentPinMutation(Number(postId));
   const { mutate: deleteQnaCommentPinMutate } = useDeleteQnACommentPinMutation(Number(answerId));
   const { mutate: feedCommentPinMutate } = useFeedCommentPinMutation(commentId, Number(postId));
@@ -87,7 +87,7 @@ export default function CommunityCommentForm({ type, answerId, questionUserId, c
       }
 
       if (type === 'FEED') {
-        await refetch();
+        refetch();
         feedCommentRefetch();
       } else {
         qnaCommentRefetch();
@@ -174,13 +174,15 @@ export default function CommunityCommentForm({ type, answerId, questionUserId, c
                                   </span>
                                 </div>
                               ),
-                              action: () => {
+                              action: async () => {
                                 console.log('Deleting item:', content.commentId);
                                 setCommentId(content.commentId);
                                 if (type === 'FEED') {
-                                  deleteFeedCommentMutate();
+                                  await deleteFeedCommentMutateAsync();
+                                  refetch();
                                 } else {
-                                  deleteQnaCommentMutate();
+                                  await deleteQnaCommentMutateAysnc();
+                                  refetch();
                                 }
                               },
                             }
@@ -270,13 +272,15 @@ export default function CommunityCommentForm({ type, answerId, questionUserId, c
                                       </span>
                                     </div>
                                   ),
-                                  action: () => {
+                                  action: async () => {
                                     console.log('Deleting item:', reComment.commentId);
                                     setCommentId(reComment.commentId);
                                     if (type === 'FEED') {
-                                      deleteFeedCommentMutate();
+                                      await deleteFeedCommentMutateAsync();
+                                      refetch();
                                     } else {
-                                      deleteQnaCommentMutate();
+                                      await deleteQnaCommentMutateAysnc();
+                                      refetch();
                                     }
                                   },
                                 }

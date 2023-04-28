@@ -15,7 +15,7 @@ import ImagePeek from '../common/ImagePeek';
 import PicModal from '../common/PicModal';
 import LazyLoadImage from '../../utils/LazyLoadImage';
 
-export default function CommunityQADetailAnswer({ isCommentOpen, setIsCommentOpen, answerPin, setAnswerPin, questionUserId }: CommunityQADetailAnswerProps) {
+export default function CommunityQADetailAnswer({ isCommentOpen, setIsCommentOpen, answerPin, setAnswerPin, questionUserId, setIsActiveComment }: CommunityQADetailAnswerProps) {
   const { id: postId } = useParams();
   const navigate = useNavigate();
   const [isMenu, setIsMenu] = useState<boolean>();
@@ -72,6 +72,16 @@ export default function CommunityQADetailAnswer({ isCommentOpen, setIsCommentOpe
   useEffect(() => {
     refetch();
   }, []);
+
+  useEffect(() => {
+    if (setIsActiveComment) {
+      if (activeComment.length > 0) {
+        setIsActiveComment(true);
+      } else {
+        setIsActiveComment(false);
+      }
+    }
+  }, [activeComment]);
 
   return (
     <>
