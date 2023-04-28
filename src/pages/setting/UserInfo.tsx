@@ -32,10 +32,10 @@ export default function UserInfo() {
         <li className="b-4 flex flex-col gap-4 rounded-3xl bg-midIvory p-5 dark:bg-midNavy">
           <p className="flex gap-2 text-[22px] font-bold">
             <BsFire />
-            현재 커밋 개수
+            현재 총 커밋 개수
           </p>
           {/* 수정해야 함 */}
-          <p className="py-2 text-xl">{githubInfo?.commits.length}</p>
+          <p className="py-2 text-xl">{githubInfo?.todayCommitCount}</p>
         </li>
         <li className="b-4 flex flex-col gap-4 rounded-3xl bg-midIvory p-5 dark:bg-midNavy">
           <p className="flex gap-2 text-[22px] font-bold">

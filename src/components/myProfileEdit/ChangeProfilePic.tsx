@@ -9,7 +9,7 @@ export default function ChangeProfilePic({ profileImg, setProfileImg, userInfo, 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [count, setCount] = useState<number>(3);
 
-  const { data: randomImg, mutateAsync: newImgMutate, isSuccess, isLoading: isLoadingImg } = useGetRandomImageMutation();
+  const { data: randomImg, isSuccess, isLoading: isLoadingImg, refetch: newImgRefetch, isRefetching } = useGetRandomImageMutation();
 
   const imgRef = useRef<HTMLInputElement>(null);
 
@@ -24,7 +24,7 @@ export default function ChangeProfilePic({ profileImg, setProfileImg, userInfo, 
         setUserInfo({ ...userInfo, file: randomImg as string });
       }
     })();
-  }, [isLoadingImg, isSuccess, randomImg]);
+  }, [isLoadingImg, isSuccess, isRefetching]);
 
   const handleChangeProfileImg = async (e: ChangeEvent<HTMLInputElement>) => {
     const resultImage = await handleFileImage(e);
@@ -46,7 +46,7 @@ export default function ChangeProfilePic({ profileImg, setProfileImg, userInfo, 
           e.preventDefault();
           setIsLoading(true);
           setTimeout(async () => {
-            await newImgMutate();
+            await newImgRefetch();
             setPictureSet && setPictureSet(true);
             setCount(count - 1);
             setIsLoading(false);

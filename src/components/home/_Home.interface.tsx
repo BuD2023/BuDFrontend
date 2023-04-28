@@ -11,6 +11,7 @@ export interface githubInfoType {
   readonly thisWeekCommitCount: number;
   readonly todayCommitCount: number;
   readonly imagePath: string;
+  readonly totalCommitCount: number;
 }
 
 /** HomeTitle - 홈 타이틀에 사용하는 props 타입 */

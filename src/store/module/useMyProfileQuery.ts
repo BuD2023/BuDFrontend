@@ -9,7 +9,7 @@ import getUserLevelInfoAxios from '../../apiFetcher/userInfo/getUserLevelInfo';
 import { OrderType } from '../../components/community/_Community.interface';
 import { accessToken } from '../../main';
 import postIsIdUniqueAxios from '../../apiFetcher/userInfo/postIsIdUnique';
-import postRandomImageAxios from '../../apiFetcher/userInfo/postRandomImage';
+import getRandomImageAxios from '../../apiFetcher/userInfo/getRandomImage';
 
 export function useMyProfileQuery(enabled: boolean = true) {
   return useQuery(['myProfile'], () => getMyProfileInfo(accessToken), {
@@ -105,12 +105,7 @@ export function useGetIsIdUniqueQuery(data: string) {
 }
 
 export function useGetRandomImageMutation() {
-  return useMutation(['randomImage'], () => postRandomImageAxios(accessToken), {
-    onError: (err) => {
-      console.log(err);
-    },
-    onSuccess: () => {
-      console.log('랜덤이미지가 생성되었습니다.');
-    },
+  return useQuery(['randomImage'], () => getRandomImageAxios(accessToken), {
+    enabled: false,
   });
 }

@@ -6,7 +6,7 @@ import ChatRoom from './pages/coffeeChat/ChatRoom';
 import NotFound from './pages/NotFound';
 import NewsDetail from './pages/news/NewsDetail';
 import Notification from './pages/notification/Notification';
-import { useLayoutEffect } from 'react';
+import { useEffect, useLayoutEffect } from 'react';
 import LogInPage from './pages/SignUp/LogInPage';
 import SetPicture from './components/SignUp/SetPicture';
 import SetJob from './components/SignUp/SetJob';
@@ -40,16 +40,18 @@ function App() {
   }, []);
 
   // FCM 메시지 수신 이벤트 핸들링
-  onMessage(firebaseMessaging, (payload: any) => {
-    const title = payload.notification?.title;
-    const options = {
-      body: payload.notification?.body,
-    };
-    console.log('Message received. title : ', title, 'options : ', options);
-    navigator.serviceWorker.ready.then((registration) => {
-      registration.showNotification(title as string, options);
+  useEffect(() => {
+    onMessage(firebaseMessaging, (payload: any) => {
+      const title = payload.notification?.title;
+      const options = {
+        body: payload.notification?.body,
+      };
+      console.log('Message received. title : ', title, 'options : ', options);
+      navigator.serviceWorker.ready.then((registration) => {
+        registration.showNotification(title as string, options);
+      });
     });
-  });
+  }, []);
   // onBackgroundMessage(firebaseMessaging, (payload) => {
   //   const title = payload.notification?.title;
   //   const options = {

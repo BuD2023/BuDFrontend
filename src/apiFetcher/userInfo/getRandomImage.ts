@@ -1,8 +1,8 @@
 import customAxios from '../customAxios';
 
-const postRandomImageAxios = async (token: string): Promise<string> => {
+const getRandomImageAxios = async (token: string): Promise<string> => {
   return await customAxios({
-    method: 'post',
+    method: 'get',
     url: `/member/random-image`,
     headers: {
       Authorization: `Bearer ${token}`,
@@ -10,4 +10,4 @@ const postRandomImageAxios = async (token: string): Promise<string> => {
   });
 };
 
-export default postRandomImageAxios;
+export default getRandomImageAxios;
