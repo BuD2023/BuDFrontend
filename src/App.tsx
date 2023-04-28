@@ -6,11 +6,10 @@ import ChatRoom from './pages/coffeeChat/ChatRoom';
 import NotFound from './pages/NotFound';
 import NewsDetail from './pages/news/NewsDetail';
 import Notification from './pages/notification/Notification';
-import { useEffect, useLayoutEffect } from 'react';
+import { useLayoutEffect } from 'react';
 import LogInPage from './pages/SignUp/LogInPage';
 import SetPicture from './components/SignUp/SetPicture';
 import SetJob from './components/SignUp/SetJob';
-import Test3 from './pages/Test3';
 import Home from './pages/home/Home.js';
 import SignUp from './pages/SignUp/SignUp.js';
 import News from './pages/news/News.js';
@@ -95,8 +94,6 @@ function App() {
 
         <Route path="/notification" element={<Notification />} />
         <Route path="*" element={<NotFound />} />
-
-        <Route path="/test3" element={<Test3 />} />
       </Routes>
     </RecoilRoot>
   );

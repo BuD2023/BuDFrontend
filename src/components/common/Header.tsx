@@ -14,7 +14,7 @@ import { useUnreadNotificationCountQuery } from '../../store/module/useNotificat
 import { useRecoilValueLoadable } from 'recoil';
 import { getMyPageInfo } from '../../store/recoil/user';
 
-export default function Header({ type, title, restart, icon, onSubmit, postId, copyUrl, answerPin, questionUserId }: CommonHeaderType) {
+export default function Header({ type, title, restart, isLoading, icon, onSubmit, postId, copyUrl, answerPin, questionUserId }: CommonHeaderType) {
   const [visible, setVisible] = useState(true);
   const beforeScrollY = useRef(0);
   const navigate = useNavigate();
@@ -46,8 +46,6 @@ export default function Header({ type, title, restart, icon, onSubmit, postId, c
 
   const [isMenu, setIsMenu] = useState<boolean>();
 
-  const { mutate: postGithub, isLoading } = useGithubMutation();
-
   const [confirmModal, setConfirmModal] = useState(false);
   const getModalAnswer = () => {};
   const withdrawalText = '작성한 내용이 저장되지 않습니다.\n정말 페이지를 이동하시겠습니까?';
@@ -64,7 +62,7 @@ export default function Header({ type, title, restart, icon, onSubmit, postId, c
   const [isClicked, setIsClicked] = useState<boolean>(false);
 
   const handleClickRefreshBtn = () => {
-    postGithub();
+    if (restart) restart();
 
     setIsClicked(true);
     setTimeout(() => {

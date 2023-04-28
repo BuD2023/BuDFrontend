@@ -49,7 +49,8 @@ export interface EditDeleteBtnPropsType {
 export interface CommonHeaderType {
   readonly type?: string;
   readonly title?: string;
-  readonly restart?: boolean;
+  readonly restart?: () => void;
+  readonly isLoading?: boolean;
   readonly icon?: ReactElement<IconType>;
   readonly onSubmit?: object;
   readonly postId?: string;

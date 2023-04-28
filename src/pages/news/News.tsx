@@ -21,7 +21,7 @@ export default function News() {
   const inputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
 
-  const { data, isLoading, error, isFetching, isFetchingNextPage, fetchNextPage, hasNextPage } = useNewsQuery(inputValue, sort, order, inputValue);
+  const { data, isLoading, error, isFetching, isFetchingNextPage, fetchNextPage, hasNextPage, refetch } = useNewsQuery(inputValue, sort, order, inputValue);
 
   if (error) {
     navigate('/NotFound');
@@ -39,7 +39,7 @@ export default function News() {
       <NewsKeywordFilter filter={filter} setFilter={setFilter} inputValue={inputValue} setInputValue={setInputValue} />
       <section>
         <div className="mt-9 flex min-h-[calc(100vh-160px)] flex-col gap-4 p-4 text-lightText dark:text-white">
-          <Header type="category" title="IT 소식" icon={<FcNews />} />
+          <Header type="category" title="IT 소식" icon={<FcNews />} restart={refetch} isLoading={isLoading} />
           <SearchBar inputValue={inputValue} setInputValue={setInputValue} />
           <div className="flex justify-between gap-4 text-[18px] font-bold">
             <div className="flex h-[56px] w-full flex-col items-center justify-center rounded-xl bg-greyBeige px-4 dark:bg-midNavy">

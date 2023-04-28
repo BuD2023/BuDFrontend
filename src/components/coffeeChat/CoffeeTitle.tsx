@@ -1,6 +1,4 @@
-import { useState } from 'react';
 import { FcIcons8Cup } from 'react-icons/fc';
-import { HiOutlineRefresh } from 'react-icons/hi';
 import { useNavigate } from 'react-router-dom';
 import { useChatroomStatusQuery } from '../../store/module/useChatroomQuery';
 import { useAllChatroomQuery } from '../../store/module/useCoffeeChatQuery';
@@ -13,16 +11,6 @@ export default function CoffeeTitle({ setInputValue, inputValue }: CoffeeTitlePr
 
   const { isLoading, data, isError, refetch: chatroomStatusRefetch, isFetching: chatroomStatusIsFetching } = useChatroomStatusQuery();
   const { refetch: allChatroomRefetch, isFetching: allChatroomIsFetching } = useAllChatroomQuery();
-  const [isClicked, setIsClicked] = useState<boolean>(false);
-
-  const handleClickRefreshBtn = () => {
-    allChatroomRefetch();
-
-    setIsClicked(true);
-    setTimeout(() => {
-      setIsClicked(false);
-    }, 500);
-  };
 
   if (isError) {
     navigate('/NotFound');
@@ -30,17 +18,22 @@ export default function CoffeeTitle({ setInputValue, inputValue }: CoffeeTitlePr
 
   return (
     <div className="flex w-full flex-col gap-4 text-[26px] font-bold">
-      <Header type="category" title="커피챗" icon={<FcIcons8Cup />} />
+      <Header
+        type="category"
+        title="커피챗"
+        icon={<FcIcons8Cup />}
+        restart={() => {
+          chatroomStatusRefetch();
+          allChatroomRefetch();
+        }}
+        isLoading={chatroomStatusIsFetching || allChatroomIsFetching}
+      />
       <SearchBar inputValue={inputValue} setInputValue={setInputValue} />
       {isLoading ? (
         <div className="h-[40px] rounded-full bg-pointGreen dark:bg-sky"></div>
       ) : (
-        <div className="flex h-[40px] items-center justify-evenly rounded-full bg-pointGreen px-4 text-center text-sm font-medium text-white dark:bg-sky">
+        <div className="flex h-[40px] items-center justify-evenly rounded-full bg-pointGreen px-4 text-center text-[15px] font-medium text-white dark:bg-sky">
           <div>{`총 ${data?.numberOfChatRooms}개의 채팅방에서 ${data?.numberOfUsers}명이 대화중입니다.`}</div>
-          <HiOutlineRefresh
-            onClick={handleClickRefreshBtn}
-            className={`transform cursor-pointer text-base transition-transform duration-500 ${chatroomStatusIsFetching || allChatroomIsFetching || isClicked ? 'animate-spin' : ''}`}
-          />
         </div>
       )}
     </div>
