@@ -90,7 +90,7 @@ export default function PostFormat({ inputValue, sortAndOrder }: PostFormatProps
               className="mb-6 flex cursor-pointer flex-col items-center gap-4 rounded-[20px] bg-midIvory dark:bg-midNavy"
             >
               <div className="flex w-full flex-col gap-4 p-4 text-lightText dark:text-white">
-                <div className="flex w-full">
+                <div className="flex w-full justify-between">
                   <div className="flex gap-1">
                     <img
                       onClick={(e) => {
@@ -111,7 +111,7 @@ export default function PostFormat({ inputValue, sortAndOrder }: PostFormatProps
                     </div>
                   </div>
                   {data.member.nickname !== myPageInfo.nickName && (
-                    <div className="text-end grow font-bold">
+                    <div className="text-end font-bold">
                       <div
                         onClick={(e) => {
                           handleClickFollow(e, data.member.id);

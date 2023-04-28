@@ -37,7 +37,9 @@ export default function ChangeProfilePic({ profileImg, setProfileImg, userInfo, 
     <>
       <div className="profile_img m-auto mt-4 h-[200px] w-[200px]">
         <input ref={imgRef} type="file" accept="image/*" onChange={(e) => handleChangeProfileImg(e)} className="hidden" />
-        {profileImg && <img src={profileImg.toString()} className="pre-img absolute h-[200px] w-[200px] cursor-pointer rounded-[100px] object-cover" onClick={handleProfileImgClick} />}
+        {profileImg && (
+          <img src={profileImg.toString()} className="pre-img absolute h-[200px] w-[200px] cursor-pointer rounded-[100px] object-cover" onClick={handleProfileImgClick} alt={'profileImage'} />
+        )}
       </div>
       <button
         className="flex items-center justify-center text-sm transition-all disabled:opacity-0"

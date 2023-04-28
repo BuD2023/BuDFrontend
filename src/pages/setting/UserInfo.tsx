@@ -2,7 +2,6 @@ import { BsChevronLeft, BsFillTrophyFill, BsFire, BsGithub, BsQuote } from 'reac
 import { RiLeafFill } from 'react-icons/ri';
 import Header from '../../components/common/Header';
 import LevelImgList from '../../components/setting/LevelImgList';
-import { userInfos } from '../../store/dummy';
 import { useGithubQuery } from '../../store/module/useGithubQuery';
 import { useMyProfileQuery } from '../../store/module/useMyProfileQuery';
 
