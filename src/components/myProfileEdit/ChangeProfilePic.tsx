@@ -3,8 +3,9 @@ import { handleFileImage } from '../../utils/handleChangeImgFile';
 import { ChangeProfilePicPropsType } from './_MyProfileEdit.interface';
 import { S3_URL } from '../../constant/union';
 import { useGetRandomImageMutation } from '../../store/module/useMyProfileQuery';
+import { UserInfoEditInitialType } from '../../pages/profile/MyProfileEdit';
 
-export default function ChangeProfilePic({ profileImg, setProfileImg, userInfo, setUserInfo }: ChangeProfilePicPropsType) {
+export default function ChangeProfilePic({ profileImg, setProfileImg, userInfo, setUserInfo, setPictureSet }: ChangeProfilePicPropsType) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [count, setCount] = useState<number>(3);
 
@@ -20,7 +21,7 @@ export default function ChangeProfilePic({ profileImg, setProfileImg, userInfo, 
     (async () => {
       if (isSuccess && randomImg) {
         setProfileImg(S3_URL + randomImg);
-        setUserInfo({ ...userInfo, file: null });
+        setUserInfo({ ...userInfo, file: randomImg as string });
       }
     })();
   }, [isLoadingImg, isSuccess, randomImg]);
@@ -29,6 +30,7 @@ export default function ChangeProfilePic({ profileImg, setProfileImg, userInfo, 
     const resultImage = await handleFileImage(e);
     setProfileImg(resultImage.url[0]);
     setUserInfo({ ...userInfo, file: resultImage.file[0] as Blob });
+    setPictureSet && setPictureSet(true);
   };
 
   return (
@@ -45,13 +47,14 @@ export default function ChangeProfilePic({ profileImg, setProfileImg, userInfo, 
           setIsLoading(true);
           setTimeout(async () => {
             await newImgMutate();
+            setPictureSet && setPictureSet(true);
             setCount(count - 1);
             setIsLoading(false);
           }, 2000);
         }}
       >
-        <p className="h-10 rounded-lg bg-greyBeige p-[0.25rem_0.75rem] text-[16px] font-semibold leading-8 transition-all hover:bg-darkIvory hover:text-white dark:bg-lightNavy hover:dark:bg-[#3D6374]">
-          {isLoading ? '이미지 뽑는중..🎁' : `기본이미지 뽑기(${count}회)`}
+        <p className="flex h-12 items-center justify-center rounded-lg bg-greyBeige p-4 text-[16px] font-semibold leading-8 transition-all hover:bg-darkIvory hover:text-white dark:bg-lightNavy hover:dark:bg-[#3D6374]">
+          {isLoading ? '이미지 뽑는중..🎁' : `랜덤 기본이미지 뽑기(${count}회)`}
         </p>
       </button>
     </>

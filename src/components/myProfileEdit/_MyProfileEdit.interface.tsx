@@ -1,5 +1,4 @@
 import { UserInfoEditInitialType } from '../../pages/profile/MyProfileEdit';
-import { UserInfoInitialValueType } from '../../store/recoil/addUserInfo';
 
 /** ChangeIntroduction - 나의 프로필 소개글 수정할 때 사용하는 props 타입 */
 export interface ChangeIntroductionPropsType {
@@ -9,8 +8,8 @@ export interface ChangeIntroductionPropsType {
 
 /** ChangeJob - 나의 프로필 관심 직무 수정할 때 사용하는 props 타입 */
 export interface ChangeJobPropsType {
-  readonly selectedJob: UserInfoInitialValueType | UserInfoEditInitialType;
-  setSelectedJob: (x: UserInfoInitialValueType | UserInfoEditInitialType) => void;
+  readonly selectedJob: UserInfoEditInitialType;
+  setSelectedJob: (x: UserInfoEditInitialType) => void;
 }
 
 /** ChangeNickName - 나의 프로필 닉네임 수정할 때 사용하는 props 타입 */
@@ -23,6 +22,7 @@ export interface ChangeNickNamePropsType {
 export interface ChangeProfilePicPropsType {
   readonly profileImg: string | Blob | ArrayBuffer | null;
   setProfileImg: (x: string | Blob | ArrayBuffer | null) => void;
-  readonly userInfo: UserInfoInitialValueType | UserInfoEditInitialType;
-  setUserInfo: (x: UserInfoInitialValueType | UserInfoEditInitialType) => void;
+  readonly userInfo: UserInfoEditInitialType;
+  setUserInfo: (x: UserInfoEditInitialType) => void;
+  setPictureSet?: (x: boolean) => void;
 }

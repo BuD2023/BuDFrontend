@@ -6,7 +6,6 @@ import { useAllChatroomQuery, useCreateRoomMutation } from '../../store/module/u
 import { useCommunityAnswerQuery, useCreateAnswerMutation, useUpdateAnswerMutation } from '../../store/module/useCommunityDetailQuery';
 import { useCommunityPostQuery, usePostCommunityMutation, useUpdateCommunityMutation } from '../../store/module/useCommunityQuery';
 import { useMyProfileQuery, useUpdateUserInfoMutation } from '../../store/module/useMyProfileQuery';
-import { UserInfoInitialValueType } from '../../store/recoil/addUserInfo';
 import { toFormData, toFormDataOnUserInfo } from '../../utils/toFormData';
 import { postingInfoType } from '../community/_Community.interface';
 import { MainBtnPropsType } from './_Common.interface';
@@ -40,7 +39,7 @@ export default function MainBtn({ onSubmit, content, size }: MainBtnPropsType) {
           } as UserInfoEditInitialType);
           await mutateUpdateUserInfo(resultData);
         } else {
-          const resultData = toFormDataOnUserInfo(onSubmit as UserInfoInitialValueType | UserInfoEditInitialType);
+          const resultData = toFormDataOnUserInfo(onSubmit as UserInfoEditInitialType);
           await mutateUpdateUserInfo(resultData);
         }
         await myProfileRefetch();

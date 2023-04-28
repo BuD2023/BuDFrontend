@@ -1,6 +1,5 @@
 import { OnSubmitType } from '../components/common/_Common.interface';
 import { UserInfoEditInitialType } from '../pages/profile/MyProfileEdit';
-import { UserInfoInitialValueType } from '../store/recoil/addUserInfo';
 
 export function toFormData(obj: Partial<OnSubmitType>) {
   const formData = new FormData();
@@ -39,7 +38,7 @@ export function toFormData(obj: Partial<OnSubmitType>) {
   return formData;
 }
 
-export function toFormDataOnUserInfo(userInfo: UserInfoInitialValueType | UserInfoEditInitialType) {
+export function toFormDataOnUserInfo(userInfo: UserInfoEditInitialType) {
   const formData = new FormData();
   if (userInfo.file) {
     let imgType;
@@ -60,10 +59,13 @@ export function toFormDataOnUserInfo(userInfo: UserInfoInitialValueType | UserIn
     const file = new File([userInfo.file], name + type, { type: imgType });
     formData.append(`file`, file);
   }
+  if (userInfo.imagePath) {
+    formData.append('imagePath', userInfo.imagePath as string);
+  }
   formData.append('nickname', userInfo.nickname);
   formData.append('job', userInfo.job);
   if ((userInfo as UserInfoEditInitialType).introduceMessage) {
-    formData.append('introduceMessage', (userInfo as UserInfoEditInitialType).introduceMessage);
+    formData.append('introduceMessage', (userInfo as UserInfoEditInitialType).introduceMessage as string);
   }
   for (let x of (formData as FormData).entries()) {
     console.log(x);

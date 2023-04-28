@@ -1,19 +1,26 @@
 import { useState } from 'react';
 import { MdManageAccounts } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
+import { useDeleteAccountMutation } from '../../store/module/useSettingQuery';
 import AlertModal from '../common/AlertModal';
 import ConfirmModal from '../common/ConfirmModal';
 
 export default function Account() {
+  const navigate = useNavigate();
+
+  //리액트 쿼리
+  const { mutateAsync } = useDeleteAccountMutation();
+
   // confirm 모달창
   const [confirmModal, setConfirmModal] = useState(false);
-  const getModalAnswer = () => {};
+  const getModalAnswer = async () => {
+    await mutateAsync();
+    navigate('/logIn');
+  };
   const withdrawalText = '회원님에 대한 모든 정보가 삭제됩니다.\n이 동작은 되돌릴 수 없습니다.\n정말 탈퇴하시겠습니까?';
 
   // allert 모달창
   const [alertModal, setAlertModal] = useState(false);
-
-  const navigate = useNavigate();
 
   return (
     <>

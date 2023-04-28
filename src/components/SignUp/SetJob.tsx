@@ -5,7 +5,7 @@ import { useRecoilState } from 'recoil';
 import { UserInfoEditInitialType } from '../../pages/profile/MyProfileEdit';
 import { useCreateUserInfoMutation } from '../../store/module/useMyProfileQuery';
 import { useNotificationTokenMutation } from '../../store/module/useNotificationQuery';
-import { addUserInfo, UserInfoInitialValueType } from '../../store/recoil/addUserInfo';
+import { addUserInfo } from '../../store/recoil/addUserInfo';
 import { getFcmToken } from '../../utils/fcm';
 import { toFormDataOnUserInfo } from '../../utils/toFormData';
 import CheckBoxModal from '../common/CheckBoxModal';
@@ -52,7 +52,8 @@ export default function SetJob() {
       navigate('/');
     } catch (err) {
       console.log(err);
-      navigate('/');
+      alert(err);
+      navigate('/signUp');
     }
   };
 
@@ -65,7 +66,7 @@ export default function SetJob() {
             <h1 className="text-[26px] font-bold">관심있는 직무를</h1>
             <h1 className="text-[26px] font-bold">선택해주세요!</h1>
           </div>
-          <ChangeJob selectedJob={userInfo} setSelectedJob={setUserInfo as (x: UserInfoInitialValueType | UserInfoEditInitialType) => void} />
+          <ChangeJob selectedJob={userInfo} setSelectedJob={setUserInfo as (x: UserInfoEditInitialType) => void} />
           <div className="flex gap-4">
             <button
               onClick={() => navigate('/signUp/picture')}

@@ -1,17 +1,10 @@
 import { atom } from 'recoil';
+import { UserInfoEditInitialType } from '../../pages/profile/MyProfileEdit';
 
-export interface UserInfoInitialValueType {
-  file?: Blob | null;
-  nickname: string;
-  job: string;
-  // introduceMessage?: string;
-}
-
-const initialValue: UserInfoInitialValueType = {
+const initialValue: UserInfoEditInitialType = {
   file: null,
   nickname: '',
   job: '',
-  // introduceMessage: '',
 };
 
 export const addUserInfo = atom({

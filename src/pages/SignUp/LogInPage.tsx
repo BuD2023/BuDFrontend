@@ -4,7 +4,8 @@ import { AiFillGithub } from 'react-icons/ai';
 import customAxios from '../../apiFetcher/customAxios';
 import { useNotificationTokenMutation } from '../../store/module/useNotificationQuery';
 import { getFcmToken } from '../../utils/fcm';
-// import { onTokenRefresh } from ''
+
+const CLIENT_ID = import.meta.env.VITE_BUDS_CLIENT_ID;
 
 export default function LogIn() {
   //리액트 쿼리
@@ -20,10 +21,10 @@ export default function LogIn() {
       setFcmToken(token as string);
     };
     getToken();
-  });
+  }, []);
 
   async function loginWithGithub() {
-    const redirectUrl = 'http://34.64.224.24:8080/oauth2/authorization/github';
+    const redirectUrl = 'https://github.com/login/oauth/authorize?client_id=' + CLIENT_ID;
     window.location.assign(redirectUrl);
     postFcmTokenMutation({
       fcmToken: fcmToken as string,

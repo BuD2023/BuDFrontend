@@ -1,12 +1,23 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useRecoilState } from 'recoil';
 import { addUserInfo } from '../../store/recoil/addUserInfo';
+import { debounce } from 'lodash';
+import { useGetIsIdUniqueQuery } from '../../store/module/useMyProfileQuery';
+import { UserInfoEditInitialType } from '../profile/MyProfileEdit';
 
 export default function SignUp() {
-  const [userInfo, setUserInfo] = useRecoilState(addUserInfo);
   const navigate = useNavigate();
+
+  //Recoil
+  const [userInfo, setUserInfo] = useRecoilState<UserInfoEditInitialType>(addUserInfo);
+
+  //useState
+  const [validate, setValidate] = useState<boolean>(false);
+
+  //react query
+  const { data: isUniqueId, refetch: isUniqueRefetch } = useGetIsIdUniqueQuery(userInfo.nickname);
 
   useEffect(() => {
     fetch(window.location.href, { method: 'GET' })
@@ -31,18 +42,32 @@ export default function SignUp() {
             <h1 className="text-[26px]">닉네임을 알려주세요!</h1>
           </div>
           <input
-            onChange={(e) => setUserInfo({ ...userInfo, nickname: e.target.value })}
+            onChange={debounce(async (e) => {
+              setUserInfo({ ...userInfo, nickname: e.target.value });
+              await isUniqueRefetch();
+            }, 300)}
+            onFocus={() => setValidate(true)}
+            onBlur={() => setValidate(false)}
             type="text"
-            value={userInfo.nickname}
+            placeholder="닉네임"
             className="h-[54px] w-full rounded-[20px] bg-midIvory p-2 px-4 focus:outline-none dark:bg-lightNavy"
           />
+          {isUniqueId ? (
+            <>{validate && userInfo.nickname && (userInfo?.nickname as string).length > 0 && <div className="mt-[-10px] ml-4 text-[16px] font-medium text-pointGreen">사용 가능한 닉네임입니다</div>}</>
+          ) : (
+            <>
+              {validate && userInfo.nickname && (userInfo?.nickname as string).length > 0 && (
+                <div className="mt-[-10px] ml-4 text-[16px] font-medium text-[#dc2214]">{'이미 사용중인 유저가 있습니다'}</div>
+              )}
+            </>
+          )}
           <button
             type="button"
             onClick={() => {
               navigate('picture');
               console.log(userInfo);
             }}
-            disabled={!(userInfo.nickname.length > 0)}
+            disabled={userInfo.nickname.length === 0 || isUniqueId === false}
             className="rounded-full border-[2px] border-pointGreen bg-pointGreen py-2 px-5 text-lg text-white drop-shadow-2xl transition-all hover:border-white disabled:opacity-0  hover:dark:border-white"
           >
             다음

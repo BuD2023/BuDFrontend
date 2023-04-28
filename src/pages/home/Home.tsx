@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import FooterMenu from '../../components/common/FooterMenu';
@@ -7,46 +7,45 @@ import HomeCommitCalendar from '../../components/home/HomeCommitCalendar';
 import HomeCommitSection from '../../components/home/HomeCommitSection';
 import HomeLevelSection from '../../components/home/HomeLevelSection';
 import HomeTitle from '../../components/home/HomeTitle';
+import { BASE_URL } from '../../constant/union';
 import { useGithubQuery } from '../../store/module/useGithubQuery';
 
 export default function Home() {
   const { data, isLoading, error } = useGithubQuery();
   const navigate = useNavigate();
 
+  // 토큰 get
+  const [rerender, setRerender] = useState(false);
+  useEffect(() => {
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const codeParams = urlParams.get('code');
+    console.log(codeParams);
+    if (codeParams && localStorage.getItem('accessToken') === null) {
+      const getAccessToken = async () => {
+        try {
+          const response = await axios.get(BASE_URL + 'token', {
+            params: {
+              code: codeParams,
+            },
+          });
+          const data = response.headers;
+          console.log(data);
+          if (data.access_token) {
+            localStorage.setItem('accessToken', data.access_token);
+            setRerender(!rerender);
+          }
+        } catch (error) {
+          console.error('Error:', error);
+        }
+      };
+      getAccessToken();
+    }
+  }, []);
+
   if (error) {
     navigate('/NotFound');
   }
-  useEffect(() => {
-    fetch(window.location.href, { method: 'GET' })
-      .then((response) => {
-        console.log(response.headers);
-        const refreshToken = response.headers.get('Authorization');
-        if (refreshToken) {
-          console.log(refreshToken);
-        }
-      })
-      .catch((error) => {
-        console.error('Error fetching data:', error);
-      });
-  }, []);
-
-  // useEffect(() => {
-  //   axios
-  //     .post('/login', data)
-  //     .then((response) => {
-  //       const { accessToken } = response.data;
-  //       console.log(accessToken);
-
-  //       // API 요청하는 콜마다 헤더에 accessToken 담아 보내도록 설정
-  //       axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
-
-  //       // accessToken을 localStorage, cookie 등에 저장하지 않는다!
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //       // ... 에러 처리
-  //     });
-  // }, []);
 
   return (
     <section>

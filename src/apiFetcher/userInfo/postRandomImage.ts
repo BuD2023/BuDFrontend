@@ -1,6 +1,6 @@
 import customAxios from '../customAxios';
 
-const postRandomImageAxios = async (token: string) => {
+const postRandomImageAxios = async (token: string): Promise<string> => {
   return await customAxios({
     method: 'post',
     url: `/member/random-image`,

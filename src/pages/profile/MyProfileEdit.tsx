@@ -5,14 +5,15 @@ import ChangeJob from '../../components/myProfileEdit/ChangeJob';
 import ChangeProfilePic from '../../components/myProfileEdit/ChangeProfilePic';
 import { S3_URL } from '../../constant/union';
 import { useGetIsIdUniqueQuery, useMyProfileQuery } from '../../store/module/useMyProfileQuery';
-import { UserInfoInitialValueType } from '../../store/recoil/addUserInfo';
+
 import { debounce } from 'lodash';
 
 export interface UserInfoEditInitialType {
   job: string;
   file?: Blob | string | null;
+  imagePath?: string;
   nickname: string;
-  introduceMessage: string;
+  introduceMessage?: string;
   isUnique?: boolean;
 }
 
@@ -65,7 +66,7 @@ export default function MyProfileEdit() {
     <section className="flex min-h-[calc(100vh-160px)] flex-col gap-7 px-6 py-4 text-lightText dark:text-white">
       <Header type="withMainBtn" title="프로필 편집" icon={<BsChevronLeft />} onSubmit={userInfo} />
       <div className="mt-9 flex h-full flex-col gap-7 p-4 px-2 text-xl font-bold">
-        <ChangeProfilePic profileImg={profileImg} setProfileImg={setProfileImg} userInfo={userInfo} setUserInfo={setUserInfo as (x: UserInfoInitialValueType | UserInfoEditInitialType) => void} />
+        <ChangeProfilePic profileImg={profileImg} setProfileImg={setProfileImg} userInfo={userInfo} setUserInfo={setUserInfo as (x: UserInfoEditInitialType) => void} />
         <div className="mb-4 flex flex-col gap-4">
           <p>닉네임</p>
           <input
@@ -102,7 +103,7 @@ export default function MyProfileEdit() {
         </div>
         <div className="flex flex-col gap-4">
           <p>직무</p>
-          <ChangeJob selectedJob={userInfo as UserInfoEditInitialType} setSelectedJob={setUserInfo as (x: UserInfoInitialValueType | UserInfoEditInitialType) => void} />
+          <ChangeJob selectedJob={userInfo as UserInfoEditInitialType} setSelectedJob={setUserInfo as (x: UserInfoEditInitialType) => void} />
         </div>
       </div>
     </section>

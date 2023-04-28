@@ -110,7 +110,7 @@ export function useGetRandomImageMutation() {
       console.log(err);
     },
     onSuccess: () => {
-      console.log('모든 읽은 알림 삭제가 완료되었습니다.');
+      console.log('랜덤이미지가 생성되었습니다.');
     },
   });
 }
