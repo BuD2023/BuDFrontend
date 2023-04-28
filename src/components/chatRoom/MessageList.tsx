@@ -1,5 +1,6 @@
 import React from 'react';
 import { S3_URL } from '../../constant/union';
+import LazyLoadImage from '../../utils/LazyLoadImage';
 import { myChatroomListContentType } from './_ChatRoom.interface';
 
 interface MessageListPropsType {
@@ -15,7 +16,7 @@ export default function MessageList({ messageList, myPageInfo, handleClickUserIm
       {messageList?.map((chat) => {
         return chat.userName !== myPageInfo?.nickName ? (
           <div key={chat.chatId} className="mb-3 flex gap-4">
-            <img
+            <LazyLoadImage
               src={S3_URL + chat.userProfileUrl}
               alt={chat.userName}
               className="h-[50px] w-[50px] cursor-pointer rounded-full object-cover"
@@ -36,7 +37,7 @@ export default function MessageList({ messageList, myPageInfo, handleClickUserIm
                     }}
                     className="flex cursor-pointer items-center justify-center overflow-hidden rounded-[10px] bg-white px-3 py-[0.65rem]"
                   >
-                    <img src={S3_URL + chat?.message} className="max-h-[60vw] max-w-[50vw] object-cover" />
+                    <LazyLoadImage src={S3_URL + chat?.message} className="max-h-[60vw] max-w-[50vw] object-cover" alt={'image'} />
                   </div>
                 )}
                 <div className="text-[14px] opacity-70">{chat.createdAt === '0초 전' ? '방금 전' : chat.createdAt}</div>
@@ -60,7 +61,7 @@ export default function MessageList({ messageList, myPageInfo, handleClickUserIm
                   }}
                   className="flex cursor-pointer items-center justify-center rounded-[10px] bg-white px-3 py-[0.65rem]"
                 >
-                  <img src={S3_URL + chat?.message} className="max-h-[70vw] max-w-[50vw] object-cover" />
+                  <LazyLoadImage src={S3_URL + chat?.message} className="max-h-[70vw] max-w-[50vw] object-cover" alt={'image'} />
                 </div>
               )}
             </div>

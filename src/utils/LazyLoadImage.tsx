@@ -20,7 +20,7 @@ const LazyLoadImage = ({ src, alt, className, onClick }: LazyLoadImagePropsType)
         }
       },
       {
-        rootMargin: '100px 0px 100px 0px',
+        rootMargin: '50px 0px 50px 0px',
       }
     );
 

@@ -7,6 +7,7 @@ import { useInView } from 'react-intersection-observer';
 import { ChatroomListContentType, CoffeeChatRoomPropsType } from './_CoffeeChat.interface';
 import { S3_URL } from '../../constant/union';
 import { timeForToday } from '../../utils/timeForToday';
+import LazyLoadImage from '../../utils/LazyLoadImage';
 
 export default function CoffeeChatRoom({ inputValue }: CoffeeChatRoomPropsType) {
   //리액트 쿼리 - useQuery
@@ -77,7 +78,7 @@ export default function CoffeeChatRoom({ inputValue }: CoffeeChatRoomPropsType) 
               <div className="leading-5">{room.description}</div>
               <div className="flex w-full items-center justify-between text-[16px]">
                 <div className="flex gap-2">
-                  <img src={room.hostProfileUrl ? S3_URL + room.hostProfileUrl : DefaultImage} className="h-[60px] w-[60px] rounded-full object-cover" />
+                  <LazyLoadImage src={room.hostProfileUrl ? S3_URL + room.hostProfileUrl : DefaultImage} alt={'host profileImage'} className={'h-[60px] w-[60px] rounded-full object-cover'} />
                   <div className="flex flex-col justify-center gap-1.5">
                     <div className="font-bold">Host</div>
                     <div className="text-[18px]">{room.hostName}</div>
