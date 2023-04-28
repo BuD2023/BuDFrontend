@@ -1,6 +1,6 @@
 import { FcCheckmark, FcPortraitMode } from 'react-icons/fc';
 import { useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import LikeCommentScrap from '../common/LikeCommentScrap';
 import ImagePeek from '../common/ImagePeek';
 import PicModal from '../common/PicModal';
@@ -8,6 +8,7 @@ import { S3_URL } from '../../constant/union';
 import { timeForToday } from '../../utils/timeForToday';
 import { useFollowMutation } from '../../store/module/useCommunityQuery';
 import { MyProfileType, ScrapPostContentType } from './_MyProfile.interface';
+import LazyLoadImage from '../../utils/LazyLoadImage';
 interface ScrapPostFormatPropsType {
   refetch: () => void;
   userData: MyProfileType;
@@ -63,7 +64,7 @@ export default function ScrapPostFormat({ refetch, userData, resultData, myProfi
               <div className="flex w-full flex-col gap-4 p-4 text-lightText dark:text-white">
                 <div className="flex w-full">
                   <div className="flex gap-1">
-                    <img
+                    <LazyLoadImage
                       onClick={(e) => {
                         e.stopPropagation();
                         if (data.id === userData.id) {
@@ -77,8 +78,7 @@ export default function ScrapPostFormat({ refetch, userData, resultData, myProfi
                       src={S3_URL + data.postRegisterMemberProfileImg}
                       alt={data.title}
                       className="aspect-square w-[58px] rounded-full object-cover"
-                    />
-
+                    ></LazyLoadImage>
                     <div className="pl-3">
                       <p className="text-xl font-bold">{data.postRegisterMemberNickname}</p>
                       <p className="text-[17px] opacity-50">{timeForToday(data.createdAt)}</p>

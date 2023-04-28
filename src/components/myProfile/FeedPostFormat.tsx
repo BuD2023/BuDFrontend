@@ -9,6 +9,7 @@ import { timeForToday } from '../../utils/timeForToday';
 import { useRecoilValueLoadable } from 'recoil';
 import { getMyPageInfo } from '../../store/recoil/user';
 import { useFollowMutation } from '../../store/module/useCommunityQuery';
+import LazyLoadImage from '../../utils/LazyLoadImage';
 
 export default function FeedPostFormat({ resultData, userData, refetch, profilePostIsLoading }: any) {
   const navigate = useNavigate();
@@ -59,7 +60,7 @@ export default function FeedPostFormat({ resultData, userData, refetch, profileP
               <div className="flex w-full flex-col gap-4 p-4 text-lightText dark:text-white">
                 <div className="flex w-full">
                   <div className="flex gap-1">
-                    <img
+                    <LazyLoadImage
                       onClick={(e) => {
                         e.stopPropagation();
                         if (userData.id !== myPageInfo.id) {
@@ -73,7 +74,7 @@ export default function FeedPostFormat({ resultData, userData, refetch, profileP
                       src={S3_URL + userData.profileUrl}
                       alt={userData.nickName}
                       className="aspect-square w-[58px] rounded-full object-cover"
-                    />
+                    ></LazyLoadImage>
                     <div className="pl-3">
                       <p className="text-xl font-bold">{userData.nickName}</p>
                       <p className="text-[17px] opacity-50">{timeForToday(data.createdAt)}</p>

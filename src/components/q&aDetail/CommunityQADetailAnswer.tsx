@@ -13,6 +13,7 @@ import { getMyPageInfo } from '../../store/recoil/user';
 import { answerEdit } from '../../store/recoil/answerEdit';
 import ImagePeek from '../common/ImagePeek';
 import PicModal from '../common/PicModal';
+import LazyLoadImage from '../../utils/LazyLoadImage';
 
 export default function CommunityQADetailAnswer({ isCommentOpen, setIsCommentOpen, answerPin, setAnswerPin, questionUserId }: CommunityQADetailAnswerProps) {
   const { id: postId } = useParams();
@@ -134,14 +135,15 @@ export default function CommunityQADetailAnswer({ isCommentOpen, setIsCommentOpe
               <div className="flex w-full flex-col gap-4 bg-midIvory p-4 py-8 dark:bg-midNavy">
                 <div className="flex w-full">
                   <div className="flex gap-1">
-                    <img
+                    <LazyLoadImage
                       onClick={(e) => {
                         e.stopPropagation();
                         navigate(`/otherProfile/${answer.member.id}/feed`);
                       }}
                       className="aspect-square w-[58px] cursor-pointer rounded-full object-cover"
                       src={S3_URL + answer.member.profileImg}
-                    />
+                      alt={answer.member.nickname}
+                    ></LazyLoadImage>
                     <div className="pl-3">
                       <div className="flex flex-col gap-1">
                         <p className="text-xl font-bold">{answer.member.nickname}</p>

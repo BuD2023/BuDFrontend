@@ -10,6 +10,7 @@ import { postType } from '../community/_Community.interface';
 import { timeForToday } from '../../utils/timeForToday';
 import { useRecoilValueLoadable } from 'recoil';
 import { getMyPageInfo } from '../../store/recoil/user';
+import LazyLoadImage from '../../utils/LazyLoadImage';
 
 interface CommunityDetailPostProps {
   setQuestionUserId?: any;
@@ -62,7 +63,7 @@ export default function CommunityDetailPost(props: CommunityDetailPostProps) {
           <div className="flex w-full flex-col gap-4 p-4 text-lightText dark:text-white">
             <div className="flex w-full">
               <div className="flex gap-1">
-                <img
+                <LazyLoadImage
                   onClick={(e) => {
                     e.stopPropagation();
                     if (questionData?.member.nickname === myPageInfo.nickName) {
@@ -74,7 +75,7 @@ export default function CommunityDetailPost(props: CommunityDetailPostProps) {
                   src={S3_URL + (questionData?.member.profileImg as string)}
                   alt={questionData?.member.nickname}
                   className="aspect-square w-[58px] cursor-pointer rounded-full object-cover"
-                />
+                ></LazyLoadImage>
                 <div className="pl-3">
                   <p className="text-xl font-bold">{questionData?.member.nickname}</p>
                   <p className="text-[17px] opacity-50">{timeForToday(questionData?.createdAt as string)}</p>
