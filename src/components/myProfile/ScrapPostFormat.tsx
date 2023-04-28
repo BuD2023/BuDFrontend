@@ -62,7 +62,7 @@ export default function ScrapPostFormat({ refetch, userData, resultData, myProfi
               className="mb-6 flex cursor-pointer flex-col items-center gap-4 rounded-[20px] bg-midIvory dark:bg-midNavy"
             >
               <div className="flex w-full flex-col gap-4 p-4 text-lightText dark:text-white">
-                <div className="flex w-full">
+                <div className="flex w-full justify-between">
                   <div className="flex gap-1">
                     <LazyLoadImage
                       onClick={(e) => {
@@ -78,14 +78,28 @@ export default function ScrapPostFormat({ refetch, userData, resultData, myProfi
                       src={S3_URL + data.postRegisterMemberProfileImg}
                       alt={data.title}
                       className="aspect-square w-[58px] rounded-full object-cover"
-                    ></LazyLoadImage>
+                    />
                     <div className="pl-3">
-                      <p className="text-xl font-bold">{data.postRegisterMemberNickname}</p>
+                      <p
+                        className="cursor-pointer text-xl font-bold"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          if (data.id === userData.id) {
+                            navigate(`/myProfile/feed`);
+                            return;
+                          } else {
+                            navigate(`/otherProfile/${data.postRegisterMemberId}/feed`);
+                            return;
+                          }
+                        }}
+                      >
+                        {data.postRegisterMemberNickname}
+                      </p>
                       <p className="text-[17px] opacity-50">{timeForToday(data.createdAt)}</p>
                     </div>
                   </div>
                   {data.postRegisterMemberId !== userData.id && (
-                    <div className="text-end grow font-bold">
+                    <div className="text-end font-bold">
                       <div
                         onClick={(e) => {
                           handleClickFollow(e, data.postRegisterMemberId);

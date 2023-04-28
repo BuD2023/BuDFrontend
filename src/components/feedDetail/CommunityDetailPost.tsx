@@ -63,7 +63,7 @@ export default function CommunityDetailPost({ setQuestionUserId, setCommentCount
       {questionData && (
         <>
           <div className="flex w-full flex-col gap-4 p-4 text-lightText dark:text-white">
-            <div className="flex w-full">
+            <div className="flex w-full justify-between">
               <div className="flex gap-1">
                 <LazyLoadImage
                   onClick={(e) => {
@@ -77,14 +77,26 @@ export default function CommunityDetailPost({ setQuestionUserId, setCommentCount
                   src={S3_URL + (questionData?.member.profileImg as string)}
                   alt={questionData?.member.nickname}
                   className="aspect-square w-[58px] cursor-pointer rounded-full object-cover"
-                ></LazyLoadImage>
-                <div className="pl-3">
-                  <p className="text-xl font-bold">{questionData?.member.nickname}</p>
+                />
+                <div className="flex flex-col gap-1.5 pl-3">
+                  <p
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      if (questionData?.member.nickname === myPageInfo.nickName) {
+                        navigate(`/myProfile/feed`);
+                      } else {
+                        navigate(`/otherProfile/${questionData?.member.id}/feed`);
+                      }
+                    }}
+                    className="cursor-pointer text-xl font-bold"
+                  >
+                    {questionData?.member.nickname}
+                  </p>
                   <p className="text-[17px] opacity-50">{timeForToday(questionData?.createdAt as string)}</p>
                 </div>
               </div>
               {questionData?.member.nickname !== myPageInfo.nickName && (
-                <div className="text-end grow font-bold">
+                <div className="text-end font-bold">
                   <div onClick={(e) => handleClickFollow(e, Number(questionData?.member.id), questionData?.member.nickname)} className="flex h-full cursor-pointer items-center justify-end gap-3">
                     {questionData?.follow ? (
                       <>

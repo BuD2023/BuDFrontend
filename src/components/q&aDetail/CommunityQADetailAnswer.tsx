@@ -133,7 +133,7 @@ export default function CommunityQADetailAnswer({ isCommentOpen, setIsCommentOpe
                 )}
               </div>
               <div className="flex w-full flex-col gap-4 bg-midIvory p-4 py-8 dark:bg-midNavy">
-                <div className="flex w-full">
+                <div className="flex w-full justify-between">
                   <div className="flex gap-1">
                     <LazyLoadImage
                       onClick={(e) => {
@@ -143,16 +143,24 @@ export default function CommunityQADetailAnswer({ isCommentOpen, setIsCommentOpe
                       className="aspect-square w-[58px] cursor-pointer rounded-full object-cover"
                       src={S3_URL + answer.member.profileImg}
                       alt={answer.member.nickname}
-                    ></LazyLoadImage>
+                    />
                     <div className="pl-3">
                       <div className="flex flex-col gap-1">
-                        <p className="text-xl font-bold">{answer.member.nickname}</p>
+                        <p
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            navigate(`/otherProfile/${answer.member.id}/feed`);
+                          }}
+                          className="cursor-pointer text-xl font-bold"
+                        >
+                          {answer.member.nickname}
+                        </p>
                         <p className="text-[17px] opacity-50">{timeForToday(answer.createdAt)}</p>
                       </div>
                     </div>
                   </div>
                   {answer.member.nickname !== myPageInfo.nickName && (
-                    <div className="text-end grow font-bold">
+                    <div className="text-end font-bold">
                       <div onClick={(e) => handleClickFollow(e, answer.member.id)} className="flex h-full items-center justify-end ">
                         <div className="flex cursor-pointer gap-3">
                           {answer.follow ? (

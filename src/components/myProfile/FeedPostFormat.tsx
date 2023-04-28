@@ -58,7 +58,7 @@ export default function FeedPostFormat({ resultData, userData, refetch, profileP
               className="mb-6 flex cursor-pointer flex-col items-center gap-4 rounded-[20px] bg-midIvory dark:bg-midNavy"
             >
               <div className="flex w-full flex-col gap-4 p-4 text-lightText dark:text-white">
-                <div className="flex w-full">
+                <div className="flex w-full justify-between">
                   <div className="flex gap-1">
                     <LazyLoadImage
                       onClick={(e) => {
@@ -74,14 +74,28 @@ export default function FeedPostFormat({ resultData, userData, refetch, profileP
                       src={S3_URL + userData.profileUrl}
                       alt={userData.nickName}
                       className="aspect-square w-[58px] rounded-full object-cover"
-                    ></LazyLoadImage>
+                    />
                     <div className="pl-3">
-                      <p className="text-xl font-bold">{userData.nickName}</p>
+                      <p
+                        className="cursor-pointer text-xl font-bold"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          if (userData.id !== myPageInfo.id) {
+                            navigate(`/otherProfile/${userData.id}/feed`);
+                            return;
+                          } else {
+                            navigate(`/myProfile/feed`);
+                            return;
+                          }
+                        }}
+                      >
+                        {userData.nickName}
+                      </p>
                       <p className="text-[17px] opacity-50">{timeForToday(data.createdAt)}</p>
                     </div>
                   </div>
                   {userData.nickName !== myPageInfo.nickName && (
-                    <div className="text-end grow font-bold">
+                    <div className="text-end font-bold">
                       <div
                         onClick={(e) => {
                           handleClickFollow(e, data.postRegisterMemberId);
