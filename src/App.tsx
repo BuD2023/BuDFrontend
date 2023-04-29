@@ -37,8 +37,6 @@ function App() {
 
   const navigate = useNavigate();
 
-  const logInStatus = localStorage.getItem('logInStatus');
-
   const user = useRecoilValue(loginUserInfo);
   const [rerender, setRerender] = useState(false);
   const logInStatus = localStorage.getItem('logInStatus');

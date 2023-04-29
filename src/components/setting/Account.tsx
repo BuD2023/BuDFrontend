@@ -28,13 +28,6 @@ export default function Account() {
     navigate('/logIn');
   };
 
-  const logoutAction = () => {
-    window.localStorage.removeItem('userInfo');
-    window.localStorage.removeItem('accessToken');
-    window.localStorage.setItem('logInStatus', 'false');
-    navigate('/logIn');
-  };
-
   return (
     <>
       <AlertModal alertModal={alertModal} setAlertModal={setAlertModal} title="로그아웃 알림" des="로그아웃됩니다!" action={logoutAction} />
