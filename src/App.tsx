@@ -25,7 +25,7 @@ import OtherProfile from './pages/profile/OtherProfile.js';
 import MyProfileEdit from './pages/profile/MyProfileEdit.js';
 import Setting from './pages/setting/Setting.js';
 import UserInfo from './pages/setting/UserInfo.js';
-import { RecoilRoot, useRecoilState } from 'recoil';
+import { RecoilRoot, useRecoilState, useRecoilValue } from 'recoil';
 import { onMessage } from 'firebase/messaging';
 import { firebaseMessaging } from './utils/fcm.js';
 import { loginUserInfo } from './store/recoil/user.js';
@@ -35,10 +35,11 @@ import { getAccessToken } from './utils/getAccessToken.js';
 function App() {
   const $html = document.querySelector('html');
 
-  const { data } = useMyProfileQuery();
-
   const navigate = useNavigate();
-  const [user, setUser] = useRecoilState(loginUserInfo);
+
+  const logInStatus = localStorage.getItem('logInStatus');
+
+  const user = useRecoilValue(loginUserInfo);
   const [rerender, setRerender] = useState(false);
   console.log(user);
 
@@ -61,21 +62,22 @@ function App() {
       const token = localStorage.getItem('accessToken');
       console.log(JSON.parse(token as string));
     }
+    if (!user && logInStatus === 'false' && !logInStatus) navigate('logIn');
   }, []);
 
-  // FCM 메시지 수신 이벤트 핸들링
-  useEffect(() => {
-    onMessage(firebaseMessaging, (payload: any) => {
-      const title = payload.notification?.title;
-      const options = {
-        body: payload.notification?.body,
-      };
-      console.log('Message received. title : ', title, 'options : ', options);
-      navigator.serviceWorker.ready.then((registration) => {
-        registration.showNotification(title as string, options);
-      });
-    });
-  }, []);
+  // // FCM 메시지 수신 이벤트 핸들링
+  // useEffect(() => {
+  //   onMessage(firebaseMessaging, (payload: any) => {
+  //     const title = payload.notification?.title;
+  //     const options = {
+  //       body: payload.notification?.body,
+  //     };
+  //     console.log('Message received. title : ', title, 'options : ', options);
+  //     navigator.serviceWorker.ready.then((registration) => {
+  //       registration.showNotification(title as string, options);
+  //     });
+  //   });
+  // }, []);
 
   return (
     <RecoilRoot>

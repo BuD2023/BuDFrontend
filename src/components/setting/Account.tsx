@@ -21,10 +21,16 @@ export default function Account() {
 
   // allert 모달창
   const [alertModal, setAlertModal] = useState(false);
+  const logoutAction = () => {
+    window.localStorage.removeItem('userInfo');
+    window.localStorage.removeItem('accessToken');
+    window.localStorage.setItem('logInStatus', 'false');
+    navigate('/logIn');
+  };
 
   return (
     <>
-      <AlertModal alertModal={alertModal} setAlertModal={setAlertModal} title="로그아웃 알림" des="로그아웃됩니다!" />
+      <AlertModal alertModal={alertModal} setAlertModal={setAlertModal} title="로그아웃 알림" des="로그아웃됩니다!" action={logoutAction} />
       <ConfirmModal confirmModal={confirmModal} setConfirmModal={setConfirmModal} getModalAnswer={getModalAnswer} title="회원 탈퇴" des={withdrawalText} confirmBtn="탈퇴하기" />
       <div className="mb-4 flex flex-col gap-4 rounded-3xl bg-midIvory p-5 dark:bg-midNavy">
         <div className="flex items-center gap-3 text-[22px] font-semibold dark:border-[#ffffff50]">
