@@ -71,6 +71,7 @@ export default function NewsDetail() {
                 });
               }}
               src={data.mainImgUrl.length > 0 ? data.mainImgUrl : newsDefaultImg}
+              alt={data.mainImgUrl}
               className="h-full w-full cursor-pointer object-cover"
             />
             <div className={`absolute ${isScroll ? 'top-0' : 'top-[50%]'} flex min-h-screen w-full cursor-pointer justify-center transition-all duration-500`}>

@@ -35,12 +35,10 @@ import { getAccessToken } from './utils/getAccessToken.js';
 function App() {
   const $html = document.querySelector('html');
 
-  const { data } = useMyProfileQuery();
-
   const navigate = useNavigate();
   const [user, setUser] = useRecoilState(loginUserInfo);
   const [rerender, setRerender] = useState(false);
-  console.log(user);
+  const logInStatus = localStorage.getItem('logInStatus');
 
   //테마 변경
   useLayoutEffect(() => {
@@ -61,6 +59,7 @@ function App() {
       const token = localStorage.getItem('accessToken');
       console.log(JSON.parse(token as string));
     }
+    if (!user && logInStatus === 'false' && !logInStatus) navigate('logIn');
   }, []);
 
   // FCM 메시지 수신 이벤트 핸들링

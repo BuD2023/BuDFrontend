@@ -129,7 +129,7 @@ export default function UserListModal({ isUserList, setIsUserList, type, follows
                             }}
                             className="my-2 flex cursor-pointer items-center gap-3 px-4"
                           >
-                            <img src={S3_URL + user.profileUrl} className="h-[50px] w-[50px] rounded-full object-cover" />
+                            <img src={S3_URL + user.profileUrl} alt={user.profileUrl} className="h-[50px] w-[50px] rounded-full object-cover" />
                             <div className=" text-[16px] font-semibold">{user.nickName}</div>
                           </div>
                           <div

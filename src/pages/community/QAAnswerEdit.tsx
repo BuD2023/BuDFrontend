@@ -96,6 +96,7 @@ export default function QAAnswerEdit() {
                         });
                       }}
                       key={idx}
+                      alt={img as string}
                       src={img as string}
                       className="pre-img h-[120px] w-[120px] cursor-pointer rounded-[20px] object-cover"
                     />

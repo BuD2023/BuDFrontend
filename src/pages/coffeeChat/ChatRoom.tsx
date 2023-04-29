@@ -230,7 +230,12 @@ export default function ChatRoom() {
               {imgPeek.isLoading ? (
                 <div className="flex h-[50vw] w-[50vw] shrink-0 cursor-pointer items-center justify-center rounded-lg bg-lightIvory text-[16px] dark:bg-darkNavy">이미지 준비중...</div>
               ) : (
-                <img src={imgPeek.image} onClick={() => setIsPicPopUp({ open: true, pic: imgPeek.image })} className="h-[50vw] w-[50vw] shrink-0 cursor-pointer rounded-lg object-cover" />
+                <img
+                  src={imgPeek.image}
+                  alt={imgPeek.image}
+                  onClick={() => setIsPicPopUp({ open: true, pic: imgPeek.image })}
+                  className="h-[50vw] w-[50vw] shrink-0 cursor-pointer rounded-lg object-cover"
+                />
               )}
               <div className="flex w-full flex-col items-end justify-end gap-2 text-[18px] font-semibold text-white">
                 <button onClick={() => setImgPeek({ isLoading: false, image: '' })} className="w-[50%] rounded-xl bg-darkIvory py-2 dark:bg-lightNavy">

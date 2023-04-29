@@ -17,24 +17,23 @@ export default function Home() {
   const { data, isLoading, error } = useGithubQuery();
   const navigate = useNavigate();
 
+  const { data: userProfileData, isLoading: profileIsLoading } = useMyProfileQuery();
+
   // 토큰 get
   const [rerender, setRerender] = useState(false);
   const [userInfo, setUserInfo] = useRecoilState(loginUserInfo);
   console.log(userInfo);
 
-  const { data: userProfileData } = useMyProfileQuery();
   const token = localStorage.getItem('accessToken');
-  const logInStatus = localStorage.getItem('logInStatus');
 
   useEffect(() => {
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     const codeParams = urlParams.get('code');
     console.log(codeParams);
-    if (codeParams && localStorage.getItem('accessToken') === null) {
+    if (codeParams && !localStorage.getItem('accessToken')) {
       getAccessToken(codeParams, setRerender, rerender);
     } else {
-      const token = localStorage.getItem('accessToken');
       console.log(JSON.parse(token as string));
     }
   }, []);
@@ -43,15 +42,15 @@ export default function Home() {
     if (token) {
       setUserInfo((prev: any) => ({
         ...prev,
-        ...data,
+        ...userProfileData,
       }));
-    } else {
-      if (logInStatus === 'false') navigate('/logIn');
     }
-  }, []);
+  }, [profileIsLoading]);
 
   if (error) {
-    navigate('/NotFound');
+    setTimeout(() => {
+      window.location.reload();
+    }, 1000);
   }
 
   return (
