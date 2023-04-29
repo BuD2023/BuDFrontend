@@ -168,3 +168,16 @@ select {
 .dark .swipeable-list-item__content {
   background-color: #233340 !important;
 }
+
+@keyframes flip {
+  0% {
+    transform: rotateY(0deg);
+  }
+  100% {
+    transform: rotateY(180deg);
+  }
+}
+
+.animate-flip {
+  animation: flip 1s linear infinite;
+}
