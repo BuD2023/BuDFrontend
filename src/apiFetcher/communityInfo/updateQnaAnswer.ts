@@ -5,7 +5,7 @@ export const updateQnaAnswerAxios = async (token: string, answerId: number, answ
     method: 'post',
     url: `/posts/qna-answers/${answerId}`,
     headers: {
-      Authorization: `Bearer ${token}`,
+      Authorization: token,
       'Content-Type': 'multipart/form-data',
       charset: 'utf-8',
     },

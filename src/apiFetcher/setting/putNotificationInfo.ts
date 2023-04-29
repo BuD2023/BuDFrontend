@@ -6,7 +6,7 @@ const putNotificationInfoAxios = async (token: string, userId: number, body: any
     method: 'put',
     url: `/users/${userId}/notification-info`,
     headers: {
-      Authorization: `Bearer ${token}`,
+      Authorization: token,
       'Content-Type': 'application/json',
     },
     data: {

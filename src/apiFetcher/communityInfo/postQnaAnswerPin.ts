@@ -5,7 +5,7 @@ export const postQnaAnswerPinAxios = async (token: string, answerId: number) => 
     method: 'post',
     url: `/posts/qna-answers/${answerId}/pin`,
     headers: {
-      Authorization: `Bearer ${token}`,
+      Authorization: token,
       'Content-Type': 'application/json',
       charset: 'utf-8',
     },

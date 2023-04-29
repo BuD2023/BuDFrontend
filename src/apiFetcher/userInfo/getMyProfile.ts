@@ -6,7 +6,8 @@ const getMyProfileInfo = async (token: string): Promise<MyProfileType> => {
     method: 'get',
     url: `/users`,
     headers: {
-      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+      Authorization: token,
     },
   });
 };

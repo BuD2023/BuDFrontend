@@ -7,7 +7,7 @@ const getChatroomStatusAxios = async (token: string): Promise<chatroomsStatusTyp
     url: `/chatrooms/status`,
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
+      Authorization: token,
     },
   })) as chatroomsStatusType;
   return response;

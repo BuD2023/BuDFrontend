@@ -7,7 +7,7 @@ const getProfilePostList = async (token: string, userId: number, postType: strin
     method: 'get',
     url: `/users/${userId}/posts?size=5&page=${page}&sort=${sort},${order}&postType=${postType}`,
     headers: {
-      Authorization: `Bearer ${token}`,
+      Authorization: token,
     },
   });
 };

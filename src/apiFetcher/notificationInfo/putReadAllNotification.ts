@@ -5,7 +5,7 @@ const putReadAllNotification = async (token: string) => {
     method: 'put',
     url: `/notifications`,
     headers: {
-      Authorization: `Bearer ${token}`,
+      Authorization: token,
       'Content-Type': 'application/json',
     },
   });

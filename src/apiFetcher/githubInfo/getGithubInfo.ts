@@ -6,7 +6,7 @@ const getGithubInfoAxios = async (token: string): Promise<githubInfoType> => {
     method: 'get',
     url: '/github',
     headers: {
-      Authorization: `Bearer ${token}`,
+      Authorization: token,
     },
   });
 };

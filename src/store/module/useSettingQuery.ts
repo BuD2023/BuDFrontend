@@ -1,11 +1,13 @@
 import { useMutation } from '@tanstack/react-query';
+import { useRecoilValue } from 'recoil';
 import postDeleteAccountAxios from '../../apiFetcher/setting/postDeleteAccount';
 import putNotificationInfoAxios from '../../apiFetcher/setting/putNotificationInfo';
-import { accessToken } from '../../main';
+import { loginUserInfo } from '../recoil/user';
 
 // 설정 > 알림 설정 > 알림 푸쉬 설정 변경
 export function usePutNotificationInfoMutation(userId: number, body: any) {
-  return useMutation(() => putNotificationInfoAxios(accessToken, userId, body), {
+  const loginUser = useRecoilValue(loginUserInfo);
+  return useMutation(() => putNotificationInfoAxios(loginUser?.token as string, userId, body), {
     onError: (err) => {
       console.log(err);
     },
@@ -17,7 +19,8 @@ export function usePutNotificationInfoMutation(userId: number, body: any) {
 
 // 회원탈퇴
 export function useDeleteAccountMutation() {
-  return useMutation(() => postDeleteAccountAxios(accessToken), {
+  const loginUser = useRecoilValue(loginUserInfo);
+  return useMutation(() => postDeleteAccountAxios(loginUser?.token as string), {
     onError: (err) => {
       console.log(err);
     },

@@ -7,12 +7,15 @@ import postCreateUserInfoAxios from '../../apiFetcher/userInfo/postCreateUserInf
 import postUserInfoEditAxios from '../../apiFetcher/userInfo/postUpdateUserInfo';
 import getUserLevelInfoAxios from '../../apiFetcher/userInfo/getUserLevelInfo';
 import { OrderType } from '../../components/community/_Community.interface';
-import { accessToken } from '../../main';
 import postIsIdUniqueAxios from '../../apiFetcher/userInfo/postIsIdUnique';
 import getRandomImageAxios from '../../apiFetcher/userInfo/getRandomImage';
+import { loginUserInfo } from '../recoil/user';
+import { useRecoilValue } from 'recoil';
 
 export function useMyProfileQuery(enabled: boolean = true) {
-  return useQuery(['myProfile'], () => getMyProfileInfo(accessToken), {
+  //리코일
+  const loginUser = useRecoilValue(loginUserInfo);
+  return useQuery(['myProfile'], () => getMyProfileInfo(loginUser?.token as string), {
     enabled: enabled,
     refetchOnMount: true,
     refetchOnReconnect: true,
@@ -24,7 +27,9 @@ export function useMyProfileQuery(enabled: boolean = true) {
 }
 
 export function useMyFollowersQuery() {
-  return useQuery(['myFollowers'], () => getMyFollowerList(accessToken), {
+  //리코일
+  const loginUser = useRecoilValue(loginUserInfo);
+  return useQuery(['myFollowers'], () => getMyFollowerList(loginUser?.token as string), {
     enabled: false,
     refetchOnMount: true,
     refetchOnReconnect: true,
@@ -36,7 +41,9 @@ export function useMyFollowersQuery() {
 }
 
 export function useMyFollowsQuery() {
-  return useQuery(['myFollows'], () => getMyFollowList(accessToken), {
+  //리코일
+  const loginUser = useRecoilValue(loginUserInfo);
+  return useQuery(['myFollows'], () => getMyFollowList(loginUser?.token as string), {
     enabled: false,
     refetchOnMount: true,
     refetchOnReconnect: true,
@@ -48,7 +55,9 @@ export function useMyFollowsQuery() {
 }
 
 export function useMyScrapsQuery(sort?: string, order?: OrderType) {
-  return useInfiniteQuery(['myScraps', sort, order], ({ pageParam = 0 }) => getMyScrapList(accessToken, pageParam, sort, order), {
+  //리코일
+  const loginUser = useRecoilValue(loginUserInfo);
+  return useInfiniteQuery(['myScraps', sort, order], ({ pageParam = 0 }) => getMyScrapList(loginUser?.token as string, pageParam, sort, order), {
     getNextPageParam: (prevData: any, allPages) => {
       const lastPage = prevData.last;
       const nextPage = allPages.length;
@@ -65,7 +74,9 @@ export function useMyScrapsQuery(sort?: string, order?: OrderType) {
 }
 
 export function useCreateUserInfoMutation() {
-  return useMutation((data: FormData) => postCreateUserInfoAxios(data), {
+  //리코일
+  const loginUser = useRecoilValue(loginUserInfo);
+  return useMutation((data: FormData) => postCreateUserInfoAxios(loginUser?.token as string, data), {
     onError: (err) => {
       console.log(err);
     },
@@ -76,7 +87,9 @@ export function useCreateUserInfoMutation() {
 }
 
 export function useUpdateUserInfoMutation() {
-  return useMutation((data: FormData) => postUserInfoEditAxios(accessToken, data), {
+  //리코일
+  const loginUser = useRecoilValue(loginUserInfo);
+  return useMutation((data: FormData) => postUserInfoEditAxios(loginUser?.token as string, data), {
     onError: (err) => {
       console.log(err);
     },
@@ -87,7 +100,9 @@ export function useUpdateUserInfoMutation() {
 }
 
 export function useGetUserLevelInfoQuery() {
-  return useQuery(['userLevelInfo'], () => getUserLevelInfoAxios(accessToken), {
+  //리코일
+  const loginUser = useRecoilValue(loginUserInfo);
+  return useQuery(['userLevelInfo'], () => getUserLevelInfoAxios(loginUser?.token as string), {
     // enabled: false,
     refetchOnMount: true,
     refetchOnReconnect: true,
@@ -99,13 +114,17 @@ export function useGetUserLevelInfoQuery() {
 }
 
 export function useGetIsIdUniqueQuery(data: string) {
-  return useQuery(['isUniqueId', data], () => postIsIdUniqueAxios(accessToken, data), {
+  //리코일
+  const loginUser = useRecoilValue(loginUserInfo);
+  return useQuery(['isUniqueId', data], () => postIsIdUniqueAxios(loginUser?.token as string, data), {
     enabled: true,
   });
 }
 
 export function useGetRandomImageMutation() {
-  return useQuery(['randomImage'], () => getRandomImageAxios(accessToken), {
+  //리코일
+  const loginUser = useRecoilValue(loginUserInfo);
+  return useQuery(['randomImage'], () => getRandomImageAxios(loginUser?.token as string), {
     enabled: false,
   });
 }

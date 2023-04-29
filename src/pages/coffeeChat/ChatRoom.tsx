@@ -4,7 +4,6 @@ import RoomChats from '../../components/chatRoom/RoomChats';
 import RoomHeader from '../../components/chatRoom/RoomHeader';
 import React, { useEffect, useRef, useState } from 'react';
 import * as StompJs from '@stomp/stompjs';
-import { accessToken } from '../../main';
 import { SOCKET_URL } from '../../constant/union';
 import { useChatroomStatusQuery, useMyChatroomListQuery } from '../../store/module/useChatroomQuery';
 import { makeCompressedImg } from '../../utils/makeCompressedImg';
@@ -13,11 +12,14 @@ import AlertModal from '../../components/common/AlertModal';
 import { ChatMessageType, InfoMessageType, myChatroomListContentType, myChatroomListType } from '../../components/chatRoom/_ChatRoom.interface';
 import { toFileURLs } from '../../utils/toFileURLs';
 import { useAllChatroomQuery } from '../../store/module/useCoffeeChatQuery';
-import { useRecoilValueLoadable } from 'recoil';
-import { getMyPageInfo } from '../../store/recoil/user';
+import { useRecoilValue, useRecoilValueLoadable } from 'recoil';
+import { getMyPageInfo, loginUserInfo } from '../../store/recoil/user';
 import ConfirmModal from '../../components/common/ConfirmModal';
 
 export default function ChatRoom() {
+  //리코일
+  const loginUser = useRecoilValue(loginUserInfo);
+
   const navigate = useNavigate();
   const { id } = useParams();
   const ROOM_NUM = Number(id);
@@ -86,7 +88,7 @@ export default function ChatRoom() {
         setNewChatMessages((_chatMessages) => [..._chatMessages, JSON.parse(body)]);
       },
       {
-        Authorization: `Bearer ${accessToken}`,
+        Authorization: loginUser?.token as string,
       }
     ),
       console.log(`Subscribed to chatroom ${ROOM_NUM}`);

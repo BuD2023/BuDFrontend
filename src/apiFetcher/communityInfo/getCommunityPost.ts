@@ -15,7 +15,7 @@ const getCommunityPostAxios = async (
     method: 'get',
     url: `/posts?keyword=${word}&sort=${sort}&order=${order}&page=${page}&size=${size}&postType=${postType}`,
     headers: {
-      Authorization: `Bearer ${token}`,
+      Authorization: token,
       'Content-Type': 'application/json',
       charset: 'utf-8',
     },

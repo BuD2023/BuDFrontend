@@ -6,7 +6,7 @@ const getMyScrapList = async (token: string, page: number = 0, sort: string = 'P
     method: 'get',
     url: `/users/posts/scraps?page=${page}&sort=${sort},${order}`,
     headers: {
-      Authorization: `Bearer ${token}`,
+      Authorization: token,
     },
   })) as ScrapListType;
   return response;

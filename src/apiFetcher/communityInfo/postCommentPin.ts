@@ -5,7 +5,7 @@ export const postFeedCommentPinAxios = async (token: string, postId: number) => 
     method: 'post',
     url: `/posts/comments/${postId}/pin`,
     headers: {
-      Authorization: `Bearer ${token}`,
+      Authorization: token,
       'Content-Type': 'application/json',
       charset: 'utf-8',
     },
@@ -17,7 +17,7 @@ export const postQnACommentPinAxios = async (token: string, commentId: number) =
     method: 'post',
     url: `/posts/qna-answers/qna-comments/${commentId}/pin`,
     headers: {
-      Authorization: `Bearer ${token}`,
+      Authorization: token,
       'Content-Type': 'application/json',
       charset: 'utf-8',
     },

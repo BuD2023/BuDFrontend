@@ -5,7 +5,7 @@ const deletReadAlleNotificationAxios = async (token: string) => {
     method: 'delete',
     url: `/notifications`,
     headers: {
-      Authorization: `Bearer ${token}`,
+      Authorization: token,
       'Content-Type': 'application/json',
     },
   });

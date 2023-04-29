@@ -5,7 +5,7 @@ const postUserInfoEditAxios = async (token: string, data: FormData) => {
     method: 'post',
     url: `/member/modifyInfo`,
     headers: {
-      Authorization: `Bearer ${token}`,
+      Authorization: token,
       'Content-Type': 'multipart/form-data',
     },
     data: data,

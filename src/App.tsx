@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, useNavigate } from 'react-router-dom';
 import './firebase-messaging-sw.js';
 import CoffeeChat from './pages/coffeeChat/CoffeeChat';
 import MyProfile from './pages/profile/MyProfile';
@@ -6,7 +6,7 @@ import ChatRoom from './pages/coffeeChat/ChatRoom';
 import NotFound from './pages/NotFound';
 import NewsDetail from './pages/news/NewsDetail';
 import Notification from './pages/notification/Notification';
-import { useEffect, useLayoutEffect } from 'react';
+import { useEffect, useLayoutEffect, useState } from 'react';
 import LogInPage from './pages/SignUp/LogInPage';
 import SetPicture from './components/SignUp/SetPicture';
 import SetJob from './components/SignUp/SetJob';
@@ -25,17 +25,41 @@ import OtherProfile from './pages/profile/OtherProfile.js';
 import MyProfileEdit from './pages/profile/MyProfileEdit.js';
 import Setting from './pages/setting/Setting.js';
 import UserInfo from './pages/setting/UserInfo.js';
-import { RecoilRoot } from 'recoil';
+import { RecoilRoot, useRecoilState } from 'recoil';
 import { onMessage } from 'firebase/messaging';
 import { firebaseMessaging } from './utils/fcm.js';
+import { loginUserInfo } from './store/recoil/user.js';
+import { useMyProfileQuery } from './store/module/useMyProfileQuery.js';
+import { getAccessToken } from './utils/getAccessToken.js';
 
 function App() {
   const $html = document.querySelector('html');
+
+  const { data } = useMyProfileQuery();
+
+  const navigate = useNavigate();
+  const [user, setUser] = useRecoilState(loginUserInfo);
+  const [rerender, setRerender] = useState(false);
+  console.log(user);
 
   //테마 변경
   useLayoutEffect(() => {
     if (localStorage.getItem('theme') === 'dark') {
       $html?.classList.add('dark');
+    }
+  }, []);
+
+  // 토큰 설정
+  useEffect(() => {
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const codeParams = urlParams.get('code');
+    console.log(codeParams);
+    if (codeParams && localStorage.getItem('accessToken') === null) {
+      getAccessToken(codeParams, setRerender, rerender);
+    } else {
+      const token = localStorage.getItem('accessToken');
+      console.log(JSON.parse(token as string));
     }
   }, []);
 
@@ -52,17 +76,6 @@ function App() {
       });
     });
   }, []);
-  // onBackgroundMessage(firebaseMessaging, (payload) => {
-  //   const title = payload.notification?.title;
-  //   const options = {
-  //     body: payload.notification?.body,
-  //   };
-
-  //   console.log('Background message received. title : ', title, 'options : ', options);
-  //   navigator.serviceWorker.ready.then((registration) => {
-  //     registration.showNotification(title as string, options);
-  //   });
-  // });
 
   return (
     <RecoilRoot>

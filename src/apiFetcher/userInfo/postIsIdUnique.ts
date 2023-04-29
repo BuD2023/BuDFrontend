@@ -5,7 +5,7 @@ const postIsIdUniqueAxios = async (token: string, data: string): Promise<boolean
     method: 'get',
     url: `/checkNickname?nickname=${data}`,
     headers: {
-      Authorization: `Bearer ${token}`,
+      Authorization: token,
     },
   });
 };

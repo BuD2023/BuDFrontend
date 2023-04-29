@@ -6,7 +6,7 @@ const getUserProfileInfo = async (token: string, id: number): Promise<UserProfil
     method: 'get',
     url: `/users/${id}`,
     headers: {
-      Authorization: `Bearer ${token}`,
+      Authorization: token,
     },
   });
 };

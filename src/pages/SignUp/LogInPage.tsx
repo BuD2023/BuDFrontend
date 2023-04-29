@@ -24,6 +24,7 @@ export default function LogIn() {
   }, []);
 
   async function loginWithGithub() {
+    localStorage.setItem('logInStatus', 'true');
     const redirectUrl = 'https://github.com/login/oauth/authorize?client_id=' + CLIENT_ID;
     window.location.assign(redirectUrl);
     postFcmTokenMutation({

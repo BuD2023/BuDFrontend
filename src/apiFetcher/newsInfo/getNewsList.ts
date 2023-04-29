@@ -6,7 +6,7 @@ const getNewsListAxios = async (token: string, page: number = 0, inputKeyword: s
     method: 'get',
     url: `/news?size=10&page=${page}&keyword=${filterKeywords.length > 0 ? filterKeywords : inputKeyword}&sort=${sort ? 'DATE' : 'HIT'}&order=${order ? 'ASC' : 'DESC'}`,
     headers: {
-      Authorization: `Bearer ${token}`,
+      Authorization: token,
     },
   });
 };

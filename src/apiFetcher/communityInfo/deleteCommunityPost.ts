@@ -5,7 +5,7 @@ export const deleteCommunityPostAxios = async (token: string, id: number): Promi
     method: 'delete',
     url: `/posts/${id}`,
     headers: {
-      Authorization: `Bearer ${token}`,
+      Authorization: token,
       'Content-Type': 'application/json',
       charset: 'utf-8',
     },

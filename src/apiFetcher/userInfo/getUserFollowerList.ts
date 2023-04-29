@@ -6,7 +6,7 @@ const getUserFollowerList = async (token: string, id: number): Promise<UserFollo
     method: 'get',
     url: `/users/${id}/followers`,
     headers: {
-      Authorization: `Bearer ${token}`,
+      Authorization: token,
     },
   });
 };

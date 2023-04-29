@@ -5,7 +5,7 @@ export const postQnaAnswerAxios = async (token: string, answerPost: FormData) =>
     method: 'post',
     url: `/posts/qna-answers`,
     headers: {
-      Authorization: `Bearer ${token}`,
+      Authorization: token,
       'Content-Type': 'multipart/form-data',
       charset: 'utf-8',
     },

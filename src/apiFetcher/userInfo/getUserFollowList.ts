@@ -6,7 +6,7 @@ const getUserFollowList = async (token: string, id: number): Promise<UserFollowL
     method: 'get',
     url: `/users/${id}/follows`,
     headers: {
-      Authorization: `Bearer ${token}`,
+      Authorization: token,
     },
   });
 };

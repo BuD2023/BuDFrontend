@@ -6,7 +6,7 @@ export const getQnaAnswerAxios = async (token: string, postId: number): Promise<
     method: 'get',
     url: `/posts/qna-answers?postId=${Number(postId)}&page=0`,
     headers: {
-      Authorization: `Bearer ${token}`,
+      Authorization: token,
       'Content-Type': 'application/json',
       charset: 'utf-8',
     },

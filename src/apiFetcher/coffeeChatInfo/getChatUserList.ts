@@ -7,7 +7,7 @@ const getChatUserListAxios = async (token: string, chatroomId: number): Promise<
     url: `/chatrooms/${chatroomId}/users`,
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
+      Authorization: token,
     },
   })) as chatroomUserListType[];
   return response;

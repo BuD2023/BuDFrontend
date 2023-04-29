@@ -7,7 +7,7 @@ export const getFeedCommentAxios = async (token: string, page: number = 0, postI
     method: 'get',
     url: `/posts/${postId}/comments?page=${page}`,
     headers: {
-      Authorization: `Bearer ${token}`,
+      Authorization: token,
       'Content-Type': 'application/json',
       charset: 'utf-8',
     },
@@ -20,7 +20,7 @@ export const getQnACommentAxios = async (token: string, page: number = 0, postId
     method: 'get',
     url: `/posts/qna-answers/${postId}/qna-comments?page=${page}`,
     headers: {
-      Authorization: `Bearer ${token}`,
+      Authorization: token,
       'Content-Type': 'application/json',
       charset: 'utf-8',
     },

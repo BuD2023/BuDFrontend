@@ -5,7 +5,7 @@ const postDeleteAccountAxios = async (token: string) => {
     method: 'post',
     url: `/member/withdraw`,
     headers: {
-      Authorization: `Bearer ${token}`,
+      Authorization: token,
       'Content-Type': 'application/json',
     },
   });

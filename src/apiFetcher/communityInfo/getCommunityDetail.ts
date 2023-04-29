@@ -6,7 +6,7 @@ export const getCommunityDetailAxios = async (token: string, id: number | string
     method: 'get',
     url: `/posts/${Number(id)}`,
     headers: {
-      Authorization: `Bearer ${token}`,
+      Authorization: token,
       'Content-Type': 'application/json',
       charset: 'utf-8',
     },

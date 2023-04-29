@@ -5,7 +5,7 @@ const getRandomImageAxios = async (token: string): Promise<string> => {
     method: 'get',
     url: `/member/random-image`,
     headers: {
-      Authorization: `Bearer ${token}`,
+      Authorization: token,
     },
   });
 };

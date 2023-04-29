@@ -6,7 +6,7 @@ const getNewsDetailAxios = async (token: string, id: number): Promise<NewsDetail
     method: 'get',
     url: `/news/detail/${String(id)}`,
     headers: {
-      Authorization: `Bearer ${token}`,
+      Authorization: token,
     },
   });
 };

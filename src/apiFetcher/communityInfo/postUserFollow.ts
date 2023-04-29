@@ -5,7 +5,7 @@ const postUserFollow = async (token: string, id: number) => {
     method: 'post',
     url: `/users/${id}/follows`,
     headers: {
-      Authorization: `Bearer ${token}`,
+      Authorization: token,
     },
   });
 };

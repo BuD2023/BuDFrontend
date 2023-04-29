@@ -7,7 +7,7 @@ const getAllChatroomListAxios = async (token: string, page: number = 0): Promise
     url: `/chatrooms/?page=${page}`,
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
+      Authorization: token,
     },
   })) as ChatroomListType;
   return response;

@@ -5,7 +5,7 @@ const postCommunityScrapAxios = async (token: string, postId: number) => {
     method: 'post',
     url: `/posts/${postId}/scrap`,
     headers: {
-      Authorization: `Bearer ${token}`,
+      Authorization: token,
       'Content-Type': 'multipart/form-data',
       charset: 'utf-8',
     },

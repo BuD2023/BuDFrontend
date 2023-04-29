@@ -1,10 +1,12 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
+import { useRecoilValue } from 'recoil';
 import getProfilePostList from '../../apiFetcher/userInfo/getProfilePostList';
 import { OrderType, SortType } from '../../components/community/_Community.interface';
-import { accessToken } from '../../main';
+import { loginUserInfo } from '../recoil/user';
 
 export function useProfilePostQuery(userId: number, postType?: string, sort?: SortType, order?: OrderType) {
-  return useInfiniteQuery(['userProfile', userId, sort, postType, order], ({ pageParam = 0 }) => getProfilePostList(accessToken, userId, postType, pageParam, sort, order), {
+  const loginUser = useRecoilValue(loginUserInfo);
+  return useInfiniteQuery(['userProfile', userId, sort, postType, order], ({ pageParam = 0 }) => getProfilePostList(loginUser?.token as string, userId, postType, pageParam, sort, order), {
     getNextPageParam: (prevData, allPages) => {
       const maxPages = prevData.last;
       const nextPage = allPages.length;

@@ -5,7 +5,7 @@ export const putFeedCommentEditAxios = async (token: string, commentId: number, 
     method: 'put',
     url: `/posts/comments/${commentId}/modify`,
     headers: {
-      Authorization: `Bearer ${token}`,
+      Authorization: token,
       'Content-Type': 'application/json',
       charset: 'utf-8',
     },
@@ -18,7 +18,7 @@ export const putQnaCommentEditAxios = async (token: string, commentId: number, c
     method: 'put',
     url: `/posts/qna-answers/comments/${commentId}/modify`,
     headers: {
-      Authorization: `Bearer ${token}`,
+      Authorization: token,
       'Content-Type': 'application/json',
       charset: 'utf-8',
     },

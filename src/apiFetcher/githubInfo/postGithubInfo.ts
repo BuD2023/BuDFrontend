@@ -5,7 +5,7 @@ const postGithubInfo = async (token: string) => {
     method: 'post',
     url: '/github',
     headers: {
-      Authorization: `Bearer ${token}`,
+      Authorization: token,
     },
   });
 };

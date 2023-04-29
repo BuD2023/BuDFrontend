@@ -1,4 +1,5 @@
 import { useInfiniteQuery, useMutation } from '@tanstack/react-query';
+import { useRecoilValue } from 'recoil';
 import { deleteCommunityPostAxios } from '../../apiFetcher/communityInfo/deleteCommunityPost';
 import getCommunityPostAxios from '../../apiFetcher/communityInfo/getCommunityPost';
 import postCommunityLikeAxios from '../../apiFetcher/communityInfo/postCommunityLike';
@@ -7,7 +8,7 @@ import postCommunityScrapAxios from '../../apiFetcher/communityInfo/postCommunit
 import postUserFollow from '../../apiFetcher/communityInfo/postUserFollow';
 import updateCommunityPostAxios from '../../apiFetcher/communityInfo/updateCommunityPost';
 import { OrderType, postType, SortType } from '../../components/community/_Community.interface';
-import { accessToken } from '../../main';
+import { loginUserInfo } from '../recoil/user';
 import { useCommunityAnswerQuery, useCommunityDetailQuery } from './useCommunityDetailQuery';
 import { useMyFollowersQuery, useMyFollowsQuery, useMyProfileQuery, useMyScrapsQuery } from './useMyProfileQuery';
 import { useProfilePostQuery } from './useProfilePostQuery';
@@ -15,23 +16,31 @@ import { useUserProfileQuery } from './useUserProfileQuery';
 
 let fetchNew = '';
 export function useCommunityPostQuery(word?: string, sort?: SortType, order?: OrderType, size?: number, postType?: postType | 'ALL') {
-  return useInfiniteQuery(['Community', word, sort, order, postType, fetchNew], ({ pageParam = 0 }) => getCommunityPostAxios(accessToken, word, sort, order, pageParam, size, postType), {
-    getNextPageParam: (prevData, allPages) => {
-      const lastPage = prevData.last;
-      const nextPage = (allPages.length + 1) as number;
-      return lastPage ? undefined : nextPage;
-    },
-    refetchInterval: 1000 * 60,
-    refetchOnMount: true,
-    refetchOnReconnect: true,
-    refetchOnWindowFocus: true,
-    staleTime: 30000,
-  });
+  //리코일
+  const loginUser = useRecoilValue(loginUserInfo);
+  return useInfiniteQuery(
+    ['Community', word, sort, order, postType, fetchNew],
+    ({ pageParam = 0 }) => getCommunityPostAxios(loginUser?.token as string, word, sort, order, pageParam, size, postType),
+    {
+      getNextPageParam: (prevData, allPages) => {
+        const lastPage = prevData.last;
+        const nextPage = (allPages.length + 1) as number;
+        return lastPage ? undefined : nextPage;
+      },
+      refetchInterval: 1000 * 60,
+      refetchOnMount: true,
+      refetchOnReconnect: true,
+      refetchOnWindowFocus: true,
+      staleTime: 30000,
+    }
+  );
 }
 
 export function usePostCommunityMutation() {
+  //리코일
+  const loginUser = useRecoilValue(loginUserInfo);
   const { refetch } = useMyProfileQuery();
-  return useMutation((data: FormData) => postCommunityPostAxios(accessToken, data), {
+  return useMutation((data: FormData) => postCommunityPostAxios(loginUser?.token as string, data), {
     onError: (err) => {
       console.log(err);
     },
@@ -44,7 +53,9 @@ export function usePostCommunityMutation() {
 }
 
 export function useUpdateCommunityMutation(postId: number) {
-  return useMutation((data: FormData) => updateCommunityPostAxios(accessToken, data, postId), {
+  //리코일
+  const loginUser = useRecoilValue(loginUserInfo);
+  return useMutation((data: FormData) => updateCommunityPostAxios(loginUser?.token as string, data, postId), {
     onError: (err) => {
       console.log(err);
     },
@@ -56,8 +67,10 @@ export function useUpdateCommunityMutation(postId: number) {
 }
 
 export function useDeleteCommunityMutation(id: number) {
+  //리코일
+  const loginUser = useRecoilValue(loginUserInfo);
   const { refetch } = useMyProfileQuery();
-  return useMutation(() => deleteCommunityPostAxios(accessToken, id), {
+  return useMutation(() => deleteCommunityPostAxios(loginUser?.token as string, id), {
     onError: (err) => {
       console.log(err);
     },
@@ -70,9 +83,11 @@ export function useDeleteCommunityMutation(id: number) {
 }
 
 export function useCommunityLikeMutation(postId: number, userId: number, postType: string) {
+  //리코일
+  const loginUser = useRecoilValue(loginUserInfo);
   const { refetch: detailRefetch } = useCommunityDetailQuery(postId);
   const { refetch: myPageRefetch } = useProfilePostQuery(userId, postType);
-  return useMutation(() => postCommunityLikeAxios(accessToken, postId), {
+  return useMutation(() => postCommunityLikeAxios(loginUser?.token as string, postId), {
     onError: (err) => {
       console.log(err);
     },
@@ -85,10 +100,12 @@ export function useCommunityLikeMutation(postId: number, userId: number, postTyp
 }
 
 export function useCommunityScrapMutation(postId: number, userId: number, postType: string) {
+  //리코일
+  const loginUser = useRecoilValue(loginUserInfo);
   const { refetch: myScrapRefetch } = useMyScrapsQuery('POST_DATE');
   const { refetch: detailRefetch } = useCommunityDetailQuery(postId);
   const { refetch: myPageRefetch } = useProfilePostQuery(userId, postType);
-  return useMutation(() => postCommunityScrapAxios(accessToken, postId), {
+  return useMutation(() => postCommunityScrapAxios(loginUser?.token as string, postId), {
     onError: (err) => {
       console.log(err);
     },
@@ -102,13 +119,15 @@ export function useCommunityScrapMutation(postId: number, userId: number, postTy
 }
 
 export function useFollowMutation(userId: number, postId?: number) {
+  //리코일
+  const loginUser = useRecoilValue(loginUserInfo);
   const { refetch: myFollowersRefetch } = useMyFollowersQuery();
   const { refetch: myFollowsRefetch } = useMyFollowsQuery();
   const { refetch: userProfileRefetch } = useUserProfileQuery(userId);
   const { refetch: detailRefetch } = useCommunityDetailQuery(Number(postId));
   const { refetch: myScrapRefetch } = useMyScrapsQuery();
   const { refetch: qnaAnswerRefetch } = useCommunityAnswerQuery(Number(postId));
-  return useMutation(() => postUserFollow(accessToken, userId), {
+  return useMutation(() => postUserFollow(loginUser?.token as string, userId), {
     onError: (err) => {
       console.log(err);
     },

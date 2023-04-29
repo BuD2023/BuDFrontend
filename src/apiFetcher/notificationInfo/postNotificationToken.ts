@@ -6,7 +6,7 @@ const postNotificationTokenAxios = async (token: string, notificationData: notif
     method: 'post',
     url: `/notification-info`,
     headers: {
-      Authorization: `Bearer ${token}`,
+      Authorization: token,
       'Content-Type': 'application/json',
     },
     data: notificationData,

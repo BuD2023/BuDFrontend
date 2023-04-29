@@ -1,13 +1,16 @@
 import { useInfiniteQuery, useMutation, useQuery } from '@tanstack/react-query';
+import { useRecoilValue } from 'recoil';
 import getAllChatroomListAxios from '../../apiFetcher/coffeeChatInfo/getAllChatroomList';
 import getSearchChatroomListAxios from '../../apiFetcher/coffeeChatInfo/getSearchChatroomList';
 import postChatroomAxios from '../../apiFetcher/coffeeChatInfo/postChatroom';
 import { postChatroomData } from '../../components/coffeeChat/_CoffeeChat.interface';
-import { accessToken } from '../../main';
+import { loginUserInfo } from '../recoil/user';
 
 //모든 채팅방 불러오기
 export function useAllChatroomQuery() {
-  return useInfiniteQuery(['coffeeChatList', 'all'], ({ pageParam = 0 }) => getAllChatroomListAxios(accessToken, pageParam), {
+  //리코일
+  const loginUser = useRecoilValue(loginUserInfo);
+  return useInfiniteQuery(['coffeeChatList', 'all'], ({ pageParam = 0 }) => getAllChatroomListAxios(loginUser?.token as string, pageParam), {
     getNextPageParam: (prevData, allPages) => {
       const lastPage = prevData.last;
       const nextPage = allPages.length + 1;
@@ -23,7 +26,9 @@ export function useAllChatroomQuery() {
 }
 let fetchNew = '';
 export function useSearchChatroomQuery(keyword?: string, size?: number) {
-  return useInfiniteQuery(['coffeeChatList', 'search', keyword, fetchNew], ({ pageParam = 0 }) => getSearchChatroomListAxios(accessToken, keyword, pageParam, size), {
+  //리코일
+  const loginUser = useRecoilValue(loginUserInfo);
+  return useInfiniteQuery(['coffeeChatList', 'search', keyword, fetchNew], ({ pageParam = 0 }) => getSearchChatroomListAxios(loginUser?.token as string, keyword, pageParam, size), {
     getNextPageParam: (prevData, allPages) => {
       const lastPage = prevData.last;
       const nextPage = allPages.length + 1;
@@ -40,7 +45,9 @@ export function useSearchChatroomQuery(keyword?: string, size?: number) {
 }
 
 export function useCreateRoomMutation() {
-  return useMutation((data: postChatroomData) => postChatroomAxios(accessToken, data), {
+  //리코일
+  const loginUser = useRecoilValue(loginUserInfo);
+  return useMutation((data: postChatroomData) => postChatroomAxios(loginUser?.token as string, data), {
     onError: (err) => {
       console.log(err);
     },

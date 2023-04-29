@@ -5,7 +5,7 @@ const getUserLevelInfoAxios = async (token: string): Promise<string[]> => {
     method: 'get',
     url: `/member/getLevelImage`,
     headers: {
-      Authorization: `Bearer ${token}`,
+      Authorization: token,
     },
   });
 };

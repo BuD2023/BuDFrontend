@@ -5,7 +5,7 @@ const deleteQnaAnswerAxios = async (token: string, answerId: number) => {
     method: 'delete',
     url: `/posts/qna-answers/${answerId}`,
     headers: {
-      Authorization: `Bearer ${token}`,
+      Authorization: token,
       'Content-Type': 'application/json',
     },
   });

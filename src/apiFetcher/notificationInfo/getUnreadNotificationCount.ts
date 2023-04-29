@@ -7,7 +7,7 @@ const getNotificationListAxios = async (token: string): Promise<UnreadNotificati
     url: `/notifications/unread-count`,
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
+      Authorization: token,
     },
   });
 };

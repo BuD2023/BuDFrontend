@@ -7,7 +7,7 @@ const getNotificationListAxios = async (token: string, pageParam: number): Promi
     url: `/notifications?page=${pageParam}`,
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
+      Authorization: token,
     },
   })) as NotificationListType;
   return response;

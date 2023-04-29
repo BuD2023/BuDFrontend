@@ -1,10 +1,4 @@
 import axios, { AxiosInstance, AxiosError } from 'axios';
-import { accessToken } from '../main';
-
-export const basicHeaders = {
-  Authorization: accessToken,
-  'Content-Type': 'application/json',
-};
 
 const customAxios: AxiosInstance = axios.create({
   withCredentials: true,

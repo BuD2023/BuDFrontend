@@ -6,7 +6,7 @@ const postNewChatroomHostAxios = async (token: string, chatroomId: number, userI
     url: `/chatrooms/${chatroomId}/users/${userId}`,
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
+      Authorization: token,
     },
   });
   return response;

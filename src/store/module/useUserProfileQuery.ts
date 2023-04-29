@@ -1,11 +1,13 @@
 import { useQuery } from '@tanstack/react-query';
 import getUserFollowList from '../../apiFetcher/userInfo/getUserFollowList';
 import getUserFollowerList from '../../apiFetcher/userInfo/getUserFollowerList';
-import { accessToken } from '../../main';
 import getUserProfileInfo from '../../apiFetcher/userInfo/getUserProfile';
+import { useRecoilValue } from 'recoil';
+import { loginUserInfo } from '../recoil/user';
 
 export function useUserProfileQuery(id: number) {
-  return useQuery(['userProfile', id], () => getUserProfileInfo(accessToken, id), {
+  const loginUser = useRecoilValue(loginUserInfo);
+  return useQuery(['userProfile', id], () => getUserProfileInfo(loginUser?.token as string, id), {
     enabled: false,
     refetchOnMount: true,
     refetchOnReconnect: true,
@@ -17,7 +19,8 @@ export function useUserProfileQuery(id: number) {
 }
 
 export function useUserFollowsQuery(id: number) {
-  return useQuery(['userFollows', id], () => getUserFollowList(accessToken, id), {
+  const loginUser = useRecoilValue(loginUserInfo);
+  return useQuery(['userFollows', id], () => getUserFollowList(loginUser?.token as string, id), {
     enabled: false,
     refetchOnMount: true,
     refetchOnReconnect: true,
@@ -29,7 +32,8 @@ export function useUserFollowsQuery(id: number) {
 }
 
 export function useUserFollowersQuery(id: number) {
-  return useQuery(['userFollowers', id], () => getUserFollowerList(accessToken, id), {
+  const loginUser = useRecoilValue(loginUserInfo);
+  return useQuery(['userFollowers', id], () => getUserFollowerList(loginUser?.token as string, id), {
     enabled: false,
     refetchOnMount: true,
     refetchOnReconnect: true,

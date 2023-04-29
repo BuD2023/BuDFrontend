@@ -1,10 +1,13 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
+import { useRecoilValue } from 'recoil';
 import getGithubInfoAxios from '../../apiFetcher/githubInfo/getGithubInfo';
 import postGithubInfoAxios from '../../apiFetcher/githubInfo/postGithubInfo';
-import { accessToken } from '../../main';
+import { loginUserInfo } from '../recoil/user';
 
 export function useGithubQuery() {
-  return useQuery(['githubInfo'], () => getGithubInfoAxios(accessToken), {
+  //리코일
+  const loginUser = useRecoilValue(loginUserInfo);
+  return useQuery(['githubInfo'], () => getGithubInfoAxios(loginUser?.token as string), {
     refetchOnMount: true,
     refetchOnReconnect: true,
     refetchOnWindowFocus: true,
@@ -15,7 +18,9 @@ export function useGithubQuery() {
 }
 
 export function useGithubMutation() {
-  return useMutation(() => postGithubInfoAxios(accessToken), {
+  //리코일
+  const loginUser = useRecoilValue(loginUserInfo);
+  return useMutation(() => postGithubInfoAxios(loginUser?.token as string), {
     onError: (err) => {
       console.log(err);
     },

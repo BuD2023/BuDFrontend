@@ -7,7 +7,7 @@ const getChatroomInfoAxios = async (token: string, page: number = 0): Promise<ch
     url: `/chatrooms/${page}`,
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
+      Authorization: token,
     },
   })) as chatroomInfoType;
   return response;
