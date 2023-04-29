@@ -8,6 +8,8 @@ import { useLocalStorageToken } from '../../utils/localStorageToken';
 export const getMyPageInfo = selector({
   key: 'getMyPageInfo',
   get: async () => {
+    const savedData = localStorage.getItem('accessToken');
+    const result = JSON.parse(savedData as string);
     try {
       return (await getMyProfileInfo('Bearer ' + accessToken)) || [];
     } catch (error) {

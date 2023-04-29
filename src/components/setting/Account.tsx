@@ -21,6 +21,12 @@ export default function Account() {
 
   // allert 모달창
   const [alertModal, setAlertModal] = useState(false);
+  const logoutAction = () => {
+    window.localStorage.removeItem('userInfo');
+    window.localStorage.removeItem('accessToken');
+    window.localStorage.setItem('logInStatus', 'false');
+    navigate('/logIn');
+  };
 
   const logoutAction = () => {
     window.localStorage.removeItem('userInfo');
