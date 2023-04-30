@@ -33,8 +33,13 @@ export function useDeleteAccountMutation() {
 
 // 로그인 유저 체크
 export function useLogInCheckQuery(token?: string) {
+  let refetchNew = '';
+  if (token) {
+    console.log(token);
+    refetchNew = token;
+  }
   const loginUser = useRecoilValue(loginUserInfo);
-  return useQuery(['checkLogInUser', token], () => gdtLogInCheckAxios((token as string) ? (token as string) : (loginUser?.token as string)), {
+  return useQuery(['checkLogInUser', refetchNew], () => gdtLogInCheckAxios((token as string) ? (token as string) : (loginUser?.token as string)), {
     enabled: false,
   });
 }

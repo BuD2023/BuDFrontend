@@ -15,28 +15,14 @@ import { getAccessToken } from '../../utils/getAccessToken';
 
 export default function Home() {
   const { data, isLoading, error } = useGithubQuery();
-  const navigate = useNavigate();
 
   const { data: userProfileData, isLoading: profileIsLoading } = useMyProfileQuery();
 
   // 토큰 get
-  // const [rerender, setRerender] = useState(false);
   const [userInfo, setUserInfo] = useRecoilState(loginUserInfo);
   console.log(userInfo);
 
   const token = localStorage.getItem('accessToken');
-
-  // useEffect(() => {
-  //   const queryString = window.location.search;
-  //   const urlParams = new URLSearchParams(queryString);
-  //   const codeParams = urlParams.get('code');
-  //   console.log(codeParams);
-  //   if (codeParams && !localStorage.getItem('accessToken')) {
-  //     getAccessToken(codeParams, setRerender, rerender);
-  //   } else {
-  //     console.log(JSON.parse(token as string));
-  //   }
-  // }, []);
 
   useEffect(() => {
     if (token) {
@@ -46,12 +32,6 @@ export default function Home() {
       }));
     }
   }, [profileIsLoading]);
-
-  if (error) {
-    setTimeout(() => {
-      window.location.reload();
-    }, 1000);
-  }
 
   return (
     <section>

@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { BASE_URL } from '../constant/union';
 
-export const getAccessToken = async (codeParams: string, setRerender: (x: boolean) => void, rerender: boolean) => {
+export const getAccessToken = async (codeParams: string) => {
   try {
     const response = await axios.get(BASE_URL + 'token', {
       params: {
@@ -14,11 +14,7 @@ export const getAccessToken = async (codeParams: string, setRerender: (x: boolea
       userName: data.jwt_user_information as string,
     };
     console.log(result);
-    if (data.authorization) {
-      localStorage.setItem('accessToken', JSON.stringify(result));
-      setRerender(!rerender);
-    }
-    return result.token;
+    return result;
   } catch (error) {
     console.error('Error:', error);
   }

@@ -2,9 +2,10 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { AiFillGithub } from 'react-icons/ai';
 import { useNavigate } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
-import { BASE_URL } from '../../constant/union';
-import { useNotificationTokenMutation } from '../../store/module/useNotificationQuery';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import customAxios from '../../apiFetcher/customAxios';
+import postNotificationTokenAxios from '../../apiFetcher/notificationInfo/postNotificationToken';
+import gdtLogInCheckAxios from '../../apiFetcher/setting/getLogInCheck';
 import { useLogInCheckQuery } from '../../store/module/useSettingQuery';
 import { loginUserInfo } from '../../store/recoil/user';
 import { getFcmToken } from '../../utils/fcm';
@@ -12,12 +13,11 @@ import { getAccessToken } from '../../utils/getAccessToken';
 
 export default function LogInLoadingPage() {
   const navigate = useNavigate();
-  const [rerender, setRerender] = useState(false);
-  const userInfo = useRecoilValue(loginUserInfo);
+  const [userInfo, setUserInfo] = useRecoilState(loginUserInfo);
+  console.log(userInfo);
 
   //리액트 쿼리
-  const { mutateAsync: postFcmTokenMutation } = useNotificationTokenMutation();
-  const { data, refetch, isRefetching, isFetched, isError } = useLogInCheckQuery();
+  const { refetch, isError } = useLogInCheckQuery();
 
   //useState
   const [fcmToken, setFcmToken] = useState<string>('');
@@ -37,47 +37,27 @@ export default function LogInLoadingPage() {
     const codeParams = urlParams.get('code');
     console.log(codeParams);
     (async () => {
-      let userToken;
-      if (codeParams && localStorage.getItem('accessToken') === null) {
-        userToken = await getAccessToken(codeParams, setRerender, rerender);
-        console.log(userToken);
+      if (codeParams && !localStorage.getItem('accessToken')) {
+        const userToken = await getAccessToken(codeParams);
+        if (userToken) {
+          const isCheckResponse = await gdtLogInCheckAxios(userToken.token as string);
+          setUserInfo(userToken);
+          if (isCheckResponse?.isAddInfo && isCheckResponse?.isAddInfo === true) {
+            await postNotificationTokenAxios(userToken.token, {
+              fcmToken: fcmToken as string,
+            });
+            navigate('/');
+          } else navigate('/signUp');
+        }
       } else {
         const token = localStorage.getItem('accessToken');
         console.log(JSON.parse(token as string));
+        refetch();
       }
-      await useLogInCheckQuery(userToken as string).refetch();
     })();
   }, []);
 
-  useEffect(() => {
-    (async () => {
-      if (isFetched) {
-        console.log('fetched');
-        if (data?.isAddInfo && data?.isAddInfo === true) {
-          await postFcmTokenMutation({
-            fcmToken: fcmToken as string,
-          });
-          navigate('/');
-        } else navigate('/signUp');
-      }
-    })();
-  }, [isRefetching]);
-
-  // useEffect(() => {
-  //   (async () => {
-  //     if (userInfo) {
-
-  //     }
-  //   })();
-  // }, [userInfo]);
-
-  // useEffect(() => {
-  //   if (isSuccess) {
-  //     data?.isAddInfo && data.isAddInfo === true ? navigate('/') : navigate('/signUp');
-  //   }
-  // }, [isRefetching]);
-
-  if (useLogInCheckQuery().isError) console.log('error');
+  if (isError) console.log('error');
 
   return (
     <section className="fixed inset-0 flex flex-col items-center justify-center bg-lightIvory dark:bg-darkNavy">
