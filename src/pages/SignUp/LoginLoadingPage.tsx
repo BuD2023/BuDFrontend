@@ -40,13 +40,21 @@ export default function LogInLoadingPage() {
             fcmToken: fcmToken as string,
           });
           if (isCheckResponse?.isAddInfo && isCheckResponse?.isAddInfo === true) {
-            navigate('/');
-          } else navigate('/signUp');
+            setTimeout(() => {
+              navigate('/');
+            }, 1000);
+          } else {
+            setTimeout(() => {
+              navigate('/signUp');
+            }, 1000);
+          }
         }
       } else {
         console.log(userInfo);
         await refetch();
-        navigate('/');
+        setTimeout(() => {
+          navigate('/');
+        }, 1000);
       }
     })();
   }, []);
