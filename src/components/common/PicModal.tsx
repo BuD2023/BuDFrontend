@@ -27,7 +27,7 @@ export default function PicModal({ isPicPopUp, setIsPicPopUp }: PictureModalProp
               <Dialog.Panel className="relative my-8 w-full max-w-lg transform overflow-auto rounded-lg bg-white text-left shadow-xl transition-all">
                 <div className="bg-white p-2 sm:p-6 sm:pb-4">
                   <div className="sm:flex sm:items-start">
-                    <img src={isPicPopUp.pic as string} className="w-full object-contain" />
+                    <img src={isPicPopUp.pic as string} alt={isPicPopUp.pic as string} className="w-full object-contain" />
                   </div>
                 </div>
               </Dialog.Panel>

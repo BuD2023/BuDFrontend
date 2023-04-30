@@ -23,6 +23,7 @@ export type pageType = 'QNA' | 'FEED' | 'OTHER_PROFILE';
 
 /** NotificationListType에 사용하는 content 타입 */
 export interface NotificationListContentType {
+  readonly senderProfileImage: string;
   readonly senderNickName: string;
   readonly senderId: string;
   readonly notificationId: string;

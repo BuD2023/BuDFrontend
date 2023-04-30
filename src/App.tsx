@@ -67,7 +67,7 @@ function App() {
   const MyProfileEdit = React.lazy(() => import('./pages/profile/MyProfileEdit'));
   const Setting = React.lazy(() => import('./pages/setting/Setting'));
   const UserInfo = React.lazy(() => import('./pages/setting/UserInfo'));
-  const Notification = React.lazy(() => import('./pages/notification/Notification'));
+  // const Notification = React.lazy(() => import('./pages/notification/Notification'));
   const NotFound = React.lazy(() => import('./pages/NotFound'));
   const LogInPage = React.lazy(() => import('./pages/SignUp/LogInPage'));
   const LogInLoadingPage = React.lazy(() => import('./pages/SignUp/LoginLoadingPage'));

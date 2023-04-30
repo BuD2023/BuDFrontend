@@ -159,9 +159,9 @@ export default function NotificationContent() {
                           >
                             <img
                               onClick={(event) => handleImgClick(noti.senderId, event)}
-                              src={`https://picsum.photos/105/105`}
-                              alt={noti.senderNickName}
-                              className={'h-[65px] w-[65px] rounded-full ' + (noti.notificationStatus === 'UNREAD' ? '' : 'opacity-40')}
+                              src={S3_URL + noti.senderProfileImage}
+                              alt={noti.senderProfileImage}
+                              className={'h-[65px] w-[65px] shrink-0 rounded-full object-cover ' + (noti.notificationStatus === 'UNREAD' ? '' : 'opacity-40')}
                             />
 
                             <div className={'flex flex-col gap-0.5 text-lg ' + (noti.notificationStatus === 'UNREAD' ? '' : 'opacity-50')}>

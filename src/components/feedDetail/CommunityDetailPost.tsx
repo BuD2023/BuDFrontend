@@ -11,6 +11,7 @@ import { timeForToday } from '../../utils/timeForToday';
 import { useRecoilValue } from 'recoil';
 import { loginUserInfo } from '../../store/recoil/user';
 import LazyLoadImage from '../../utils/LazyLoadImage';
+import PicModal from '../common/PicModal';
 
 interface CommunityDetailPostProps {
   setQuestionUserId?: any;
@@ -59,6 +60,7 @@ export default function CommunityDetailPost({ setQuestionUserId, setCommentCount
 
   return (
     <div className="mb-6 flex w-full flex-col items-center gap-4 rounded-[20px] bg-midIvory dark:bg-midNavy">
+      <PicModal isPicPopUp={isPicPopUp} setIsPicPopUp={setIsPicPopUp} />
       {questionData && (
         <>
           <div className="flex w-full flex-col gap-4 p-4 text-lightText dark:text-white">
