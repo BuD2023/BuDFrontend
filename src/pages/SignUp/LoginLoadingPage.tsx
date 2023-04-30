@@ -1,11 +1,9 @@
-import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { AiFillGithub } from 'react-icons/ai';
 import { useNavigate } from 'react-router-dom';
-import { useRecoilState, useRecoilValue } from 'recoil';
-import customAxios from '../../apiFetcher/customAxios';
+import { useRecoilState } from 'recoil';
 import postNotificationTokenAxios from '../../apiFetcher/notificationInfo/postNotificationToken';
-import gdtLogInCheckAxios from '../../apiFetcher/setting/getLogInCheck';
+import getLogInCheckAxios from '../../apiFetcher/setting/getLogInCheck';
 import { useLogInCheckQuery } from '../../store/module/useSettingQuery';
 import { loginUserInfo } from '../../store/recoil/user';
 import { getFcmToken } from '../../utils/fcm';
@@ -14,7 +12,6 @@ import { getAccessToken } from '../../utils/getAccessToken';
 export default function LogInLoadingPage() {
   const navigate = useNavigate();
   const [userInfo, setUserInfo] = useRecoilState(loginUserInfo);
-  console.log(userInfo);
 
   //리액트 쿼리
   const { refetch, isError } = useLogInCheckQuery();
@@ -37,10 +34,10 @@ export default function LogInLoadingPage() {
     const codeParams = urlParams.get('code');
     console.log(codeParams);
     (async () => {
-      if (codeParams && !localStorage.getItem('accessToken')) {
+      if (codeParams && !userInfo) {
         const userToken = await getAccessToken(codeParams);
         if (userToken) {
-          const isCheckResponse = await gdtLogInCheckAxios(userToken.token as string);
+          const isCheckResponse = await getLogInCheckAxios(userToken.token as string);
           setUserInfo(userToken);
           if (isCheckResponse?.isAddInfo && isCheckResponse?.isAddInfo === true) {
             await postNotificationTokenAxios(userToken.token, {
@@ -50,9 +47,9 @@ export default function LogInLoadingPage() {
           } else navigate('/signUp');
         }
       } else {
-        const token = localStorage.getItem('accessToken');
-        console.log(JSON.parse(token as string));
-        refetch();
+        console.log(userInfo);
+        await refetch();
+        navigate('/');
       }
     })();
   }, []);

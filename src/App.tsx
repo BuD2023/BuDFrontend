@@ -1,12 +1,12 @@
 import { Route, Routes, useNavigate } from 'react-router-dom';
-import './firebase-messaging-sw.js';
+// import './firebase-messaging-sw.js';
 import CoffeeChat from './pages/coffeeChat/CoffeeChat';
 import MyProfile from './pages/profile/MyProfile';
 import ChatRoom from './pages/coffeeChat/ChatRoom';
 import NotFound from './pages/NotFound';
 import NewsDetail from './pages/news/NewsDetail';
 import Notification from './pages/notification/Notification';
-import { useEffect, useLayoutEffect, useState } from 'react';
+import { useEffect, useLayoutEffect } from 'react';
 import LogInPage from './pages/SignUp/LogInPage';
 import SetPicture from './components/SignUp/SetPicture';
 import SetJob from './components/SignUp/SetJob';
@@ -25,12 +25,8 @@ import OtherProfile from './pages/profile/OtherProfile.js';
 import MyProfileEdit from './pages/profile/MyProfileEdit.js';
 import Setting from './pages/setting/Setting.js';
 import UserInfo from './pages/setting/UserInfo.js';
-import { RecoilRoot, useRecoilState, useRecoilValue } from 'recoil';
-import { onMessage } from 'firebase/messaging';
-import { firebaseMessaging } from './utils/fcm.js';
+import { RecoilRoot, useRecoilValue } from 'recoil';
 import { loginUserInfo } from './store/recoil/user.js';
-import { useMyProfileQuery } from './store/module/useMyProfileQuery.js';
-import { getAccessToken } from './utils/getAccessToken.js';
 import LogInLoadingPage from './pages/SignUp/LoginLoadingPage.js';
 
 function App() {
@@ -38,8 +34,10 @@ function App() {
 
   const navigate = useNavigate();
 
+  // 리코일
   const user = useRecoilValue(loginUserInfo);
-  // const [rerender, setRerender] = useState(false);
+
+  // logIn status
   const logInStatus = localStorage.getItem('logInStatus');
 
   //테마 변경
@@ -52,21 +50,8 @@ function App() {
   // 토큰 설정
   useEffect(() => {
     if (!user && logInStatus === 'false' && !logInStatus) navigate('logIn');
+    // requestPermission();
   }, []);
-
-  // // FCM 메시지 수신 이벤트 핸들링
-  // useEffect(() => {
-  //   onMessage(firebaseMessaging, (payload: any) => {
-  //     const title = payload.notification?.title;
-  //     const options = {
-  //       body: payload.notification?.body,
-  //     };
-  //     console.log('Message received. title : ', title, 'options : ', options);
-  //     navigator.serviceWorker.ready.then((registration) => {
-  //       registration.showNotification(title as string, options);
-  //     });
-  //   });
-  // }, []);
 
   return (
     <RecoilRoot>

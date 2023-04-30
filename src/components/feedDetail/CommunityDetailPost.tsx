@@ -8,8 +8,8 @@ import { S3_URL } from '../../constant/union';
 import { useFollowMutation } from '../../store/module/useCommunityQuery';
 import { postType } from '../community/_Community.interface';
 import { timeForToday } from '../../utils/timeForToday';
-import { useRecoilValueLoadable } from 'recoil';
-import { getMyPageInfo } from '../../store/recoil/user';
+import { useRecoilValue } from 'recoil';
+import { loginUserInfo } from '../../store/recoil/user';
 import LazyLoadImage from '../../utils/LazyLoadImage';
 
 interface CommunityDetailPostProps {
@@ -22,9 +22,8 @@ export default function CommunityDetailPost({ setQuestionUserId, setCommentCount
   const navigate = useNavigate();
   const { data: questionData, isLoading: questionIsLoading, error: questionError, refetch, isRefetching, isSuccess } = useCommunityDetailQuery(Number(questionId));
 
-  // 사용자 정보
-  const getMyPageInfoLodable = useRecoilValueLoadable(getMyPageInfo);
-  const myPageInfo: any = 'hasValue' === getMyPageInfoLodable.state ? getMyPageInfoLodable.contents : {};
+  // 사용자 정보 Recoil
+  const logInUserInfo = useRecoilValue(loginUserInfo);
 
   const [userId, setUserId] = useState<number>();
   const { mutate } = useFollowMutation(Number(userId), Number(questionId));
@@ -35,7 +34,7 @@ export default function CommunityDetailPost({ setQuestionUserId, setCommentCount
   }, [questionData?.member.id, isRefetching]);
 
   const handleClickFollow = (e: React.MouseEvent<HTMLElement>, memberId: number, memberNickname?: string) => {
-    if (memberNickname === myPageInfo.nickName) return;
+    if (memberNickname === logInUserInfo?.nickName) return;
     setUserId(memberId);
     e.stopPropagation();
     mutate();
@@ -68,7 +67,7 @@ export default function CommunityDetailPost({ setQuestionUserId, setCommentCount
                 <LazyLoadImage
                   onClick={(e) => {
                     e.stopPropagation();
-                    if (questionData?.member.nickname === myPageInfo.nickName) {
+                    if (questionData?.member.nickname === logInUserInfo?.nickName) {
                       navigate(`/myProfile/feed`);
                     } else {
                       navigate(`/otherProfile/${questionData?.member.id}/feed`);
@@ -82,7 +81,7 @@ export default function CommunityDetailPost({ setQuestionUserId, setCommentCount
                   <p
                     onClick={(e) => {
                       e.stopPropagation();
-                      if (questionData?.member.nickname === myPageInfo.nickName) {
+                      if (questionData?.member.nickname === logInUserInfo?.nickName) {
                         navigate(`/myProfile/feed`);
                       } else {
                         navigate(`/otherProfile/${questionData?.member.id}/feed`);
@@ -95,7 +94,7 @@ export default function CommunityDetailPost({ setQuestionUserId, setCommentCount
                   <p className="text-[17px] opacity-50">{timeForToday(questionData?.createdAt as string)}</p>
                 </div>
               </div>
-              {questionData?.member.nickname !== myPageInfo.nickName && (
+              {questionData?.member.nickname !== logInUserInfo?.nickName && (
                 <div className="text-end font-bold">
                   <div onClick={(e) => handleClickFollow(e, Number(questionData?.member.id), questionData?.member.nickname)} className="flex h-full cursor-pointer items-center justify-end gap-3">
                     {questionData?.follow ? (

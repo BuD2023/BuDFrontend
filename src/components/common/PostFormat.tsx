@@ -11,15 +11,14 @@ import { S3_URL } from '../../constant/union';
 import { PostFormatPropsType } from './_Common.interface';
 import { CommunityPostListContentType, postType } from '../community/_Community.interface';
 import { timeForToday } from '../../utils/timeForToday';
-import { useRecoilValueLoadable } from 'recoil';
-import { getMyPageInfo } from '../../store/recoil/user';
+import { useRecoilValue } from 'recoil';
+import { loginUserInfo } from '../../store/recoil/user';
 
 export default function PostFormat({ inputValue, sortAndOrder }: PostFormatPropsType) {
   const { filter } = useParams();
 
-  // 사용자 정보
-  const getMyPageInfoLodable = useRecoilValueLoadable(getMyPageInfo);
-  const myPageInfo: any = 'hasValue' === getMyPageInfoLodable.state ? getMyPageInfoLodable.contents : {};
+  // 사용자 정보 Recoil
+  const logInUserInfo = useRecoilValue(loginUserInfo);
 
   const { sort, order } = sortAndOrder;
   const navigate = useNavigate();
@@ -95,7 +94,7 @@ export default function PostFormat({ inputValue, sortAndOrder }: PostFormatProps
                     <img
                       onClick={(e) => {
                         e.stopPropagation();
-                        if (data.member.nickname === myPageInfo.nickName) {
+                        if (data.member.nickname === logInUserInfo?.nickName) {
                           navigate(`/myProfile/feed`);
                         } else {
                           navigate(`/otherProfile/${data.member.id}/feed`);
@@ -110,7 +109,7 @@ export default function PostFormat({ inputValue, sortAndOrder }: PostFormatProps
                       <p className="text-[17px] opacity-50">{timeForToday(data.createdAt)}</p>
                     </div>
                   </div>
-                  {data.member.nickname !== myPageInfo.nickName && (
+                  {data.member.nickname !== logInUserInfo?.nickName && (
                     <div className="text-end font-bold">
                       <div
                         onClick={(e) => {

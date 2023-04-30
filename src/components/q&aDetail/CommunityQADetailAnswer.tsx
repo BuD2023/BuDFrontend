@@ -8,8 +8,8 @@ import CommunityCommentForm from '../feedDetail/CommunityCommentForm';
 import { CommunityQADetailAnswerProps, QnaAnswerContentType } from './_Q&ADetail.interface';
 import { S3_URL } from '../../constant/union';
 import { timeForToday } from '../../utils/timeForToday';
-import { useRecoilState, useRecoilValueLoadable } from 'recoil';
-import { getMyPageInfo } from '../../store/recoil/user';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { loginUserInfo } from '../../store/recoil/user';
 import { answerEdit } from '../../store/recoil/answerEdit';
 import ImagePeek from '../common/ImagePeek';
 import PicModal from '../common/PicModal';
@@ -24,10 +24,8 @@ export default function CommunityQADetailAnswer({ isCommentOpen, setIsCommentOpe
 
   // recoil
   const [_, setAnswerEditValue] = useRecoilState(answerEdit);
-
   // 사용자 정보
-  const getMyPageInfoLodable = useRecoilValueLoadable(getMyPageInfo);
-  const myPageInfo: any = 'hasValue' === getMyPageInfoLodable.state ? getMyPageInfoLodable.contents : {};
+  const logInUserInfo = useRecoilValue(loginUserInfo);
 
   const [userId, setUserId] = useState<number>();
   const [answerId, setAnswerId] = useState<number>();
@@ -97,12 +95,12 @@ export default function CommunityQADetailAnswer({ isCommentOpen, setIsCommentOpe
                 </div>
                 {!answerPin && (
                   <div className="flex items-center gap-4">
-                    {myPageInfo.id === questionUserId && (
+                    {logInUserInfo?.id === questionUserId && (
                       <span onClick={() => handleClickPinAnswer(answer.id)} className="cursor-pointer rounded-lg bg-pointGreen py-2 px-2.5 text-base text-white dark:bg-sky">
                         채택하기
                       </span>
                     )}
-                    {myPageInfo.nickName === answer.member.nickname && (
+                    {logInUserInfo?.nickName === answer.member.nickname && (
                       <BsThreeDots
                         id={String(answer.id)}
                         className="cursor-pointer text-[24px]"
@@ -169,7 +167,7 @@ export default function CommunityQADetailAnswer({ isCommentOpen, setIsCommentOpe
                       </div>
                     </div>
                   </div>
-                  {answer.member.nickname !== myPageInfo.nickName && (
+                  {answer.member.nickname !== logInUserInfo?.nickName && (
                     <div className="text-end font-bold">
                       <div onClick={(e) => handleClickFollow(e, answer.member.id)} className="flex h-full items-center justify-end ">
                         <div className="flex cursor-pointer gap-3">

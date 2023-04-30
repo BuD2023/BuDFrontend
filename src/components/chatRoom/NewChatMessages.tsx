@@ -1,20 +1,23 @@
 import React from 'react';
+import { useRecoilValue } from 'recoil';
 import { S3_URL } from '../../constant/union';
+import { loginUserInfo } from '../../store/recoil/user';
 import LazyLoadImage from '../../utils/LazyLoadImage';
 import { ChatMessageType } from './_ChatRoom.interface';
 
 interface NewChatMessagesPropsType {
   newChatMessages: Partial<ChatMessageType>[];
-  myPageInfo: any;
   handleClickUserImg: (userName: string, userProfileUrl: string, userId: number) => void;
   setIsPicPopUp: (x: { open: boolean; pic: string }) => void;
 }
 
-export default function NewChatMessages({ newChatMessages, myPageInfo, handleClickUserImg, setIsPicPopUp }: NewChatMessagesPropsType) {
+export default function NewChatMessages({ newChatMessages, handleClickUserImg, setIsPicPopUp }: NewChatMessagesPropsType) {
+  const logInUserInfo = useRecoilValue(loginUserInfo);
+
   return (
     <>
       {newChatMessages?.map((chat: Partial<ChatMessageType>) => {
-        return chat.userName !== myPageInfo?.nickName ? (
+        return chat.userName !== logInUserInfo?.userName ? (
           <div key={chat.chatId} className="mb-3 flex gap-4">
             <LazyLoadImage
               src={S3_URL + chat.userProfileUrl}

@@ -1,21 +1,13 @@
 import { RefObject, useEffect, useRef, useState } from 'react';
 import PicModal from '../common/PicModal';
 import UserModal from '../common/UserModal';
-import defaultImage from '../../assets/DefaultProfileImage.webp';
 import { useInView } from 'react-intersection-observer';
-import { S3_URL } from '../../constant/union';
 import ScrollToBottomBtn from '../common/ScrollToBottomBtn';
 import { ChatMessageType, RoomChatsPropsType } from './_ChatRoom.interface';
-import { useRecoilValueLoadable } from 'recoil';
-import { getMyPageInfo } from '../../store/recoil/user';
 import NewChatMessages from './NewChatMessages';
 import MessageList from './MessageList';
 
 export default function RoomChats({ hostInfo, messageList, newChatMessages, hasNextPage, isFetching, isFetchingNextPage, fetchNextPage }: RoomChatsPropsType) {
-  // 사용자 정보
-  const getMyPageInfoLodable = useRecoilValueLoadable(getMyPageInfo);
-  const myPageInfo: any = 'hasValue' === getMyPageInfoLodable.state ? getMyPageInfoLodable.contents : {};
-
   const [userModal, setUserModal] = useState(false);
 
   // 인피니티 스크롤
@@ -68,11 +60,10 @@ export default function RoomChats({ hostInfo, messageList, newChatMessages, hasN
         <div ref={scrollToNew} className="w-full"></div>
         <NewChatMessages
           newChatMessages={newChatMessages && (newChatMessages as Partial<ChatMessageType>[]).filter((i: Partial<ChatMessageType>) => i.chatType === 'MESSAGE' || i.chatType === 'IMAGE').reverse()}
-          myPageInfo={myPageInfo}
           handleClickUserImg={handleClickUserImg}
           setIsPicPopUp={setIsPicPopUp}
         />
-        <MessageList messageList={messageList && messageList} myPageInfo={myPageInfo} handleClickUserImg={handleClickUserImg} setIsPicPopUp={setIsPicPopUp} />
+        <MessageList messageList={messageList && messageList} handleClickUserImg={handleClickUserImg} setIsPicPopUp={setIsPicPopUp} />
         <div ref={observerRef}></div>
       </div>
     </>

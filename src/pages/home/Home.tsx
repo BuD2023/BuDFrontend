@@ -7,14 +7,12 @@ import HomeCommitCalendar from '../../components/home/HomeCommitCalendar';
 import HomeCommitSection from '../../components/home/HomeCommitSection';
 import HomeLevelSection from '../../components/home/HomeLevelSection';
 import HomeTitle from '../../components/home/HomeTitle';
-import { BASE_URL } from '../../constant/union';
 import { useGithubQuery } from '../../store/module/useGithubQuery';
 import { useMyProfileQuery } from '../../store/module/useMyProfileQuery';
 import { loginUserInfo } from '../../store/recoil/user';
-import { getAccessToken } from '../../utils/getAccessToken';
 
 export default function Home() {
-  const { data, isLoading, error } = useGithubQuery();
+  const { data, isLoading } = useGithubQuery();
 
   const { data: userProfileData, isLoading: profileIsLoading } = useMyProfileQuery();
 

@@ -1,19 +1,17 @@
 import { Fragment, useRef } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { BsInfoCircle } from 'react-icons/bs';
 import { UserModalPropsType } from './_Common.interface';
 import { S3_URL } from '../../constant/union';
 import { useNewChatroomHostMutation } from '../../store/module/useChatroomQuery';
-import { useRecoilValueLoadable } from 'recoil';
-import { getMyPageInfo } from '../../store/recoil/user';
+import { useRecoilValue } from 'recoil';
+import { loginUserInfo } from '../../store/recoil/user';
 
 export default function UserModal({ userModal, setUserModal, userInfo, hostInfo }: UserModalPropsType) {
   const { userId, nickName, profileUrl, userIntro, job } = userInfo;
 
-  // 사용자 정보
-  const getMyPageInfoLodable = useRecoilValueLoadable(getMyPageInfo);
-  const myPageInfo: any = 'hasValue' === getMyPageInfoLodable.state ? getMyPageInfoLodable.contents : {};
+  // 사용자 정보 Recoil
+  const logInUserInfo = useRecoilValue(loginUserInfo);
 
   const cancelButtonRef = useRef(null);
   const navigate = useNavigate();
@@ -23,7 +21,7 @@ export default function UserModal({ userModal, setUserModal, userInfo, hostInfo 
 
   const handleAuthorizeHost = (userId: number) => {
     setUserModal(false);
-    if (hostInfo.nickName === myPageInfo?.nickName) {
+    if (hostInfo.nickName === logInUserInfo?.nickName) {
       mutate(userId);
       console.log(`사용자가 ${nickName}에게 호스트를 위임했습니다.`);
     } else {
@@ -63,7 +61,7 @@ export default function UserModal({ userModal, setUserModal, userInfo, hostInfo 
                   </div>
                 </div>
                 <div className="flex flex-col gap-3 bg-white px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-                  {hostInfo.nickName === myPageInfo?.nickName && (
+                  {hostInfo.nickName === logInUserInfo?.nickName && (
                     <button
                       type="button"
                       className="inline-flex w-full justify-center rounded-full border border-[#d9d9d9] bg-white px-3 py-2 text-sm font-semibold text-lightText shadow-sm outline-none sm:mt-0 sm:w-auto"

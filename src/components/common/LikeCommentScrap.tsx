@@ -1,16 +1,17 @@
-import { useEffect, useState } from 'react';
 import { BsFillHandThumbsUpFill } from 'react-icons/bs';
 import { FcLike, FcSms, FcVoicePresentation } from 'react-icons/fc';
-import { useRecoilValueLoadable } from 'recoil';
+import { useRecoilValue } from 'recoil';
 import { useCommunityLikeMutation, useCommunityScrapMutation } from '../../store/module/useCommunityQuery';
-import { getMyPageInfo } from '../../store/recoil/user';
+import { loginUserInfo } from '../../store/recoil/user';
 import { LikeCommentScrapPropsType } from './_Common.interface';
+
 export default function LikeCommentScrap({ postType, likeCount, commentCount, postId, refetch, like, scrap }: LikeCommentScrapPropsType) {
-  // 사용자 정보
-  const getMyPageInfoLodable = useRecoilValueLoadable(getMyPageInfo);
-  const myPageInfo: any = 'hasValue' === getMyPageInfoLodable.state ? getMyPageInfoLodable.contents : {};
-  const { mutateAsync: likeMutate } = useCommunityLikeMutation(postId, myPageInfo.id, postType);
-  const { mutateAsync: scrapMutate } = useCommunityScrapMutation(postId, myPageInfo.id, postType);
+  // 사용자 정보 Recoil
+  const logInUserInfo = useRecoilValue(loginUserInfo);
+
+  // 리액트 쿼리
+  const { mutateAsync: likeMutate } = useCommunityLikeMutation(postId, logInUserInfo?.id as number, postType);
+  const { mutateAsync: scrapMutate } = useCommunityScrapMutation(postId, logInUserInfo?.id as number, postType);
 
   return (
     <div className="flex h-[54px] w-full items-center justify-between rounded-b-[20px] bg-[#A49C7C] p-4 text-base text-white dark:bg-[#2C2E34]">

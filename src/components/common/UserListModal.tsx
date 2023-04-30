@@ -8,27 +8,26 @@ import { useFollowMutation } from '../../store/module/useCommunityQuery';
 import { UserListModalPropsType } from './_Common.interface';
 import { CommonUserListType } from '../myProfile/_MyProfile.interface';
 import { S3_URL } from '../../constant/union';
-import { getMyPageInfo } from '../../store/recoil/user';
-import { useRecoilValueLoadable } from 'recoil';
+import { loginUserInfo } from '../../store/recoil/user';
+import { useRecoilValue } from 'recoil';
 import { useChatUserListQuery } from '../../store/module/useChatroomQuery';
 import { chatroomUserListType } from '../chatRoom/_ChatRoom.interface';
 import { FcCheckmark, FcPortraitMode } from 'react-icons/fc';
 
 export default function UserListModal({ isUserList, setIsUserList, type, follows }: UserListModalPropsType) {
-  // 사용자 정보
-  const getMyPageInfoLodable = useRecoilValueLoadable(getMyPageInfo);
-  const myPageInfo: any = 'hasValue' === getMyPageInfoLodable.state ? getMyPageInfoLodable.contents : {};
+  // 사용자 정보 Recoil
+  const logInUserInfo = useRecoilValue(loginUserInfo);
 
   const cancelButtonRef = useRef(null);
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const { data: myFollowersData, isLoading: followersIsLoading, error: followersError, refetch: followersRefetch } = useMyFollowersQuery();
-  const { data: myFollowsData, isLoading: followsIsLading, error: followsError, refetch: followsRefetch } = useMyFollowsQuery();
-  const { data: userFollowersData, isLoading: UserFollowersIsLoading, error: UserFollowersError, refetch: UserFollowersRefetch } = useUserFollowersQuery(Number(id));
-  const { data: userFollowsData, isLoading: UserFollowsIsLading, error: UserFollowsError, refetch: UserFollowsRefetch } = useUserFollowsQuery(Number(id));
-  const { data: chatUserList, isLoading: chatUserIsLoading, refetch: chatUserListRefetch } = useChatUserListQuery(Number(id));
-  const { data: myProfileInfoData, refetch: myProfileRefetch } = useMyProfileQuery();
+  const { data: myFollowersData, refetch: followersRefetch } = useMyFollowersQuery();
+  const { data: myFollowsData, refetch: followsRefetch } = useMyFollowsQuery();
+  const { data: userFollowersData, refetch: UserFollowersRefetch } = useUserFollowersQuery(Number(id));
+  const { data: userFollowsData, refetch: UserFollowsRefetch } = useUserFollowsQuery(Number(id));
+  const { data: chatUserList, refetch: chatUserListRefetch } = useChatUserListQuery(Number(id));
+  const { refetch: myProfileRefetch } = useMyProfileQuery();
 
   const [userId, setUserId] = useState(id ?? 0);
   const { mutate, isSuccess } = useFollowMutation(Number(userId));
@@ -118,7 +117,7 @@ export default function UserListModal({ isUserList, setIsUserList, type, follows
                         <div key={user.id} className="flex w-full items-center justify-between">
                           <div
                             onClick={(e) => {
-                              if (user.nickName === myPageInfo.nickName) {
+                              if (user.nickName === logInUserInfo?.nickName) {
                                 navigate('/myProfile/feed');
                                 e.stopPropagation;
                                 return;
@@ -134,7 +133,7 @@ export default function UserListModal({ isUserList, setIsUserList, type, follows
                           </div>
                           <div
                             onClick={() => handleClickFollow(user.id)}
-                            className={`mr-4 flex cursor-pointer items-center gap-1 text-[14px] font-semibold ` + (user.nickName === myPageInfo.nickName ? 'hidden' : '')}
+                            className={`mr-4 flex cursor-pointer items-center gap-1 text-[14px] font-semibold ` + (user.nickName === logInUserInfo?.nickName ? 'hidden' : '')}
                           >
                             {user.isFollowing ? (
                               <>

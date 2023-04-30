@@ -1,33 +1,22 @@
-import axios from 'axios';
-import { atom, selector } from 'recoil';
-import getMyProfileInfo from '../../apiFetcher/userInfo/getMyProfile';
-import { githubInfoType } from '../../components/home/_Home.interface';
-import { accessToken } from '../../main';
-import { useLocalStorageToken } from '../../utils/localStorageToken';
+import { atom } from 'recoil';
 
-export const getMyPageInfo = selector({
-  key: 'getMyPageInfo',
-  get: async () => {
-    const savedData = localStorage.getItem('accessToken');
-    const result = JSON.parse(savedData as string);
-    try {
-      return (await getMyProfileInfo('Bearer ' + accessToken)) || [];
-    } catch (error) {
-      console.log(`Error: \n${error}`);
-      return [];
-    }
-  },
-});
 export interface userInfoInitialType {
   token: string;
   userName: string;
-  profileInfo?: githubInfoType;
+  description: string;
+  id: number;
+  job: string;
+  level: number;
+  nickName: string;
+  numberOfFollowers: number;
+  numberOfPosts: number;
+  profileUrl: string;
+  userId: string;
 }
 
 export const loginUserInfo = atom({
   key: 'loginUserInfo',
-  // default: useLocalStorageToken() || null,
-  default: undefined as undefined | userInfoInitialType,
+  default: undefined as undefined | Partial<userInfoInitialType>,
   effects: [
     ({ setSelf, onSet }) => {
       const savedData = localStorage.getItem('accessToken');
