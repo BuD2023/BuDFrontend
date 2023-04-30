@@ -31,6 +31,7 @@ import { firebaseMessaging } from './utils/fcm.js';
 import { loginUserInfo } from './store/recoil/user.js';
 import { useMyProfileQuery } from './store/module/useMyProfileQuery.js';
 import { getAccessToken } from './utils/getAccessToken.js';
+import LogInLoadingPage from './pages/SignUp/LoginLoadingPage.js';
 
 function App() {
   const $html = document.querySelector('html');
@@ -82,6 +83,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/logIn" element={<LogInPage />} />
+        <Route path="/logInLoading" element={<LogInLoadingPage />} />
         <Route path="/signUp" element={<SignUp />} />
         <Route path="/signUp/picture" element={<SetPicture />} />
         <Route path="/signUp/job" element={<SetJob />} />
