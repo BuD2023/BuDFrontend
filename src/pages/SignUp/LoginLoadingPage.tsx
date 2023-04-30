@@ -81,7 +81,9 @@ export default function LogInLoadingPage() {
 
   return (
     <section className="fixed inset-0 flex flex-col items-center justify-center bg-lightIvory dark:bg-darkNavy">
-      <div className="animate-flip transform text-[150px] font-bold underline transition-transform duration-500">🌲</div>
+      <div className="loadingTree animate-flip relative transform transition-transform duration-500">
+        <img src="../../public/loadingTree.png" alt="loadingTree" />
+      </div>
       <div className="mt-8 text-[30px] font-bold text-lightText dark:text-white">
         <span className="text-pointGreen">{`< `}</span>
         <span>My Little Forest</span>

@@ -16,7 +16,9 @@ export default function LogIn() {
 
   return (
     <section className="fixed inset-0 flex flex-col items-center justify-center bg-lightIvory dark:bg-darkNavy">
-      <div className="text-[150px] font-bold underline">🌲</div>
+      <div className="loadingTree relative">
+        <img src="../../public/loadingTree.png" alt="loadingTree" />
+      </div>
       <div className="mt-8 text-[30px] font-bold text-lightText dark:text-white">
         <span className="text-pointGreen">{`< `}</span>
         <span>My Little Forest</span>

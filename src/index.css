@@ -174,10 +174,24 @@ select {
     transform: rotateY(0deg);
   }
   100% {
-    transform: rotateY(180deg);
+    transform: rotateY(360deg);
   }
 }
 
 .animate-flip {
-  animation: flip 1s linear infinite;
+  animation: flip 3s linear infinite;
+}
+
+.loadingTree::after {
+  content: "";
+  position: absolute;
+  bottom: 7px;
+  left: 0;
+  width: 100%;
+  border-bottom: 18px solid #392F31;
+  z-index: -1;
+}
+
+.dark .loadingTree::after {
+  border-bottom: 18px solid #fff;
 }
