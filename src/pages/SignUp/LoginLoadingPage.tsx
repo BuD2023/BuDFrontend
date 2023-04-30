@@ -16,13 +16,12 @@ export default function LogInLoadingPage() {
   //리액트 쿼리
   const { refetch, isError } = useLogInCheckQuery();
 
-  //useState
-  const [fcmToken, setFcmToken] = useState<string>('');
+  let fcmToken: any;
 
   // 토큰 발급
   const getToken = async () => {
     const token = await getFcmToken();
-    setFcmToken(token as string);
+    fcmToken = token;
   };
 
   useEffect(() => {
