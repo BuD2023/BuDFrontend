@@ -74,8 +74,8 @@ export default function PostEdit() {
                 <span className="grow text-[18px] font-semibold">{postInfo.postType === 'QNA' ? 'Q & A 피드' : '개발 피드'}</span>
                 <RxTriangleDown className="text-[40px] opacity-50" />
               </button>
-              <ul className={`w-full overflow-hidden rounded-[20px] bg-midIvory px-4 transition-all dark:bg-lightNavy ${isClick ? 'h-0' : 'h-[124px] py-2'}`}>
-                <div className="scroll max-h-[45vh] overflow-auto">
+              <div className={`w-full overflow-hidden rounded-[20px] bg-midIvory px-4 transition-all dark:bg-lightNavy ${isClick ? 'h-0' : 'h-[124px] py-2'}`}>
+                <ul className="scroll max-h-[45vh] overflow-auto">
                   {postTypes.map((postType) => (
                     <li key={postType} className="my-3">
                       <button
@@ -91,8 +91,8 @@ export default function PostEdit() {
                       </button>
                     </li>
                   ))}
-                </div>
-              </ul>
+                </ul>
+              </div>
             </div>
             <div className="flex w-full items-center gap-2">
               <input
@@ -125,6 +125,7 @@ export default function PostEdit() {
                       }}
                       key={idx}
                       src={img as string}
+                      alt={img as string}
                       className="pre-img h-[120px] w-[120px] cursor-pointer rounded-[20px] object-cover"
                     />
                   ))}
