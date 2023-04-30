@@ -37,11 +37,9 @@ function App() {
 
   const navigate = useNavigate();
 
-  const logInStatus = localStorage.getItem('logInStatus');
-
   const user = useRecoilValue(loginUserInfo);
   const [rerender, setRerender] = useState(false);
-  console.log(user);
+  const logInStatus = localStorage.getItem('logInStatus');
 
   //테마 변경
   useLayoutEffect(() => {

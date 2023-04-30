@@ -11,7 +11,7 @@ export const getMyPageInfo = selector({
     const savedData = localStorage.getItem('accessToken');
     const result = JSON.parse(savedData as string);
     try {
-      return (await getMyProfileInfo(result.token)) || [];
+      return (await getMyProfileInfo('Bearer ' + accessToken)) || [];
     } catch (error) {
       console.log(`Error: \n${error}`);
       return [];
