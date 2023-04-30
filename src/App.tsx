@@ -1,5 +1,5 @@
 import { Route, Routes, useNavigate } from 'react-router-dom';
-// import './firebase-messaging-sw.js';
+import './firebase-messaging-sw.js';
 import CoffeeChat from './pages/coffeeChat/CoffeeChat';
 import MyProfile from './pages/profile/MyProfile';
 import ChatRoom from './pages/coffeeChat/ChatRoom';
@@ -28,6 +28,8 @@ import UserInfo from './pages/setting/UserInfo.js';
 import { RecoilRoot, useRecoilValue } from 'recoil';
 import { loginUserInfo } from './store/recoil/user.js';
 import LogInLoadingPage from './pages/SignUp/LoginLoadingPage.js';
+import customAxios from './apiFetcher/customAxios.js';
+import { getFcmToken } from './utils/fcm.js';
 
 function App() {
   const $html = document.querySelector('html');
@@ -36,9 +38,6 @@ function App() {
 
   // 리코일
   const user = useRecoilValue(loginUserInfo);
-
-  // logIn status
-  const logInStatus = localStorage.getItem('logInStatus');
 
   //테마 변경
   useLayoutEffect(() => {
@@ -49,9 +48,27 @@ function App() {
 
   // 토큰 설정
   useEffect(() => {
-    if (!user && logInStatus === 'false' && !logInStatus) navigate('logIn');
+    if (!user) navigate('/logIn');
     // requestPermission();
-  }, []);
+    // (async () => {
+    //   // 토큰 받기
+    //   const token = await getFcmToken();
+    //   if (user?.token) {
+    //     console.log('토큰 있다!!!' + user.token);
+    //     // 토큰 서버에 보내기
+    //     await customAxios({
+    //       method: 'post',
+    //       url: `/notification-info`,
+    //       headers: {
+    //         Authorization: user?.token,
+    //         'Content-Type': 'application/json',
+    //       },
+    //       // 나중에수정
+    //       data: { fcmToken: token },
+    //     });
+    //   }
+    // })();
+  }, [user]);
 
   return (
     <RecoilRoot>

@@ -19,14 +19,11 @@ export default function LogInLoadingPage() {
   //useState
   const [fcmToken, setFcmToken] = useState<string>('');
 
-  //fcm토큰 발급
-  useEffect(() => {
-    const getToken = async () => {
-      const token = await getFcmToken();
-      setFcmToken(token as string);
-    };
-    getToken();
-  }, []);
+  // 토큰 발급
+  const getToken = async () => {
+    const token = await getFcmToken();
+    setFcmToken(token as string);
+  };
 
   useEffect(() => {
     const queryString = window.location.search;
@@ -34,15 +31,16 @@ export default function LogInLoadingPage() {
     const codeParams = urlParams.get('code');
     console.log(codeParams);
     (async () => {
-      if (codeParams && !userInfo) {
+      await getToken();
+      if (codeParams && !localStorage.getItem('accessToken')) {
         const userToken = await getAccessToken(codeParams);
         if (userToken) {
           const isCheckResponse = await getLogInCheckAxios(userToken.token as string);
           setUserInfo(userToken);
+          await postNotificationTokenAxios(userToken.token, {
+            fcmToken: fcmToken as string,
+          });
           if (isCheckResponse?.isAddInfo && isCheckResponse?.isAddInfo === true) {
-            await postNotificationTokenAxios(userToken.token, {
-              fcmToken: fcmToken as string,
-            });
             navigate('/');
           } else navigate('/signUp');
         }

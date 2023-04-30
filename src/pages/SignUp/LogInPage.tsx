@@ -9,7 +9,7 @@ const CLIENT_ID = import.meta.env.VITE_BUDS_CLIENT_ID;
 
 export default function LogIn() {
   async function loginWithGithub() {
-    localStorage.setItem('logInStatus', 'true');
+    // localStorage.setItem('logInStatus', 'true');
     const redirectUrl = 'https://github.com/login/oauth/authorize?client_id=' + CLIENT_ID;
     window.location.assign(redirectUrl);
   }
