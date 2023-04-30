@@ -100,7 +100,7 @@ export default function CommunityQADetailAnswer({ isCommentOpen, setIsCommentOpe
                         채택하기
                       </span>
                     )}
-                    {logInUserInfo?.nickName === answer.member.nickname && (
+                    {logInUserInfo?.id === answer.member.id && (
                       <BsThreeDots
                         id={String(answer.id)}
                         className="cursor-pointer text-[24px]"
@@ -167,7 +167,7 @@ export default function CommunityQADetailAnswer({ isCommentOpen, setIsCommentOpe
                       </div>
                     </div>
                   </div>
-                  {answer.member.nickname !== logInUserInfo?.nickName && (
+                  {answer.member.id !== logInUserInfo?.id && (
                     <div className="text-end font-bold">
                       <div onClick={(e) => handleClickFollow(e, answer.member.id)} className="flex h-full items-center justify-end ">
                         <div className="flex cursor-pointer gap-3">
