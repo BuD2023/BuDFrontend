@@ -16,7 +16,7 @@ export const postFeedCommentAxios = async (token: string, postId: number, commen
 export const postQnaCommentAxios = async (token: string, answerId: number, comment: string) => {
   return await customAxios({
     method: 'post',
-    url: `/posts/qna-answers/${answerId}/comments`,
+    url: `/posts/qna-answers/${answerId}/qna-comments`,
     headers: {
       Authorization: token,
       'Content-Type': 'application/json',

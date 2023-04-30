@@ -40,7 +40,7 @@ export function toFormData(obj: Partial<OnSubmitType>) {
 
 export function toFormDataOnUserInfo(userInfo: UserInfoEditInitialType) {
   const formData = new FormData();
-  if (userInfo.file) {
+  if (userInfo.file && typeof userInfo.file !== 'string') {
     let imgType;
     let type;
     let name = `BudImg(${Date.now()}${Math.random()})`;
@@ -59,8 +59,8 @@ export function toFormDataOnUserInfo(userInfo: UserInfoEditInitialType) {
     const file = new File([userInfo.file], name + type, { type: imgType });
     formData.append(`file`, file);
   }
-  if (userInfo.imagePath) {
-    formData.append('imagePath', userInfo.imagePath as string);
+  if (userInfo.file && typeof userInfo.file === 'string') {
+    formData.append('imagePath', userInfo.file as string);
   }
   formData.append('nickname', userInfo.nickname);
   formData.append('job', userInfo.job);

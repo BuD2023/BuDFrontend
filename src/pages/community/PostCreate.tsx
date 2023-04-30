@@ -54,8 +54,8 @@ export default function PostCreate() {
                 <span className="grow text-[18px] font-semibold">{postInfo.postType === 'FEED' ? '개발 피드' : 'Q & A'}</span>
                 <RxTriangleDown className="text-[40px] opacity-50" />
               </button>
-              <ul className={`w-full overflow-hidden rounded-[20px] bg-midIvory px-4 transition-all dark:bg-lightNavy ${isClick ? 'h-0' : 'h-[124px] py-2'}`}>
-                <div className="scroll max-h-[45vh] overflow-auto">
+              <div className={`w-full overflow-hidden rounded-[20px] bg-midIvory px-4 transition-all dark:bg-lightNavy ${isClick ? 'h-0' : 'h-[124px] py-2'}`}>
+                <ul className="scroll max-h-[45vh] overflow-auto">
                   {postTypes.map((job) => (
                     <li key={job} className="my-3">
                       <button
@@ -71,8 +71,8 @@ export default function PostCreate() {
                       </button>
                     </li>
                   ))}
-                </div>
-              </ul>
+                </ul>
+              </div>
             </div>
             <div className="flex w-full items-center gap-2">
               <input

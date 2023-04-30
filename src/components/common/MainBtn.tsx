@@ -11,7 +11,6 @@ import { postingInfoType } from '../community/_Community.interface';
 import { MainBtnPropsType } from './_Common.interface';
 
 export default function MainBtn({ onSubmit, content, size }: MainBtnPropsType) {
-  console.log(onSubmit);
   const navigate = useNavigate();
 
   const [postId, setPostId] = useState<number>(0);
@@ -30,18 +29,8 @@ export default function MainBtn({ onSubmit, content, size }: MainBtnPropsType) {
   const handleSubitData = async () => {
     if (onSubmit?.postTypeInfo === undefined) {
       try {
-        console.log(onSubmit);
-        if (onSubmit?.file === null) {
-          const resultData = toFormDataOnUserInfo({
-            nickname: onSubmit.nickname,
-            introduceMessage: onSubmit.introduceMessage,
-            job: onSubmit.job,
-          } as UserInfoEditInitialType);
-          await mutateUpdateUserInfo(resultData);
-        } else {
-          const resultData = toFormDataOnUserInfo(onSubmit as UserInfoEditInitialType);
-          await mutateUpdateUserInfo(resultData);
-        }
+        const resultData = toFormDataOnUserInfo(onSubmit as UserInfoEditInitialType);
+        await mutateUpdateUserInfo(resultData);
         await myProfileRefetch();
         alert('회원 프로필 정보가 변경되었습니다.');
         navigate('/myProfile/feed');
@@ -140,7 +129,7 @@ export default function MainBtn({ onSubmit, content, size }: MainBtnPropsType) {
             await mutateCreateQnaAnswer(
               toFormData({
                 postTypeInfo: onSubmit.postTypeInfo as postingInfoType,
-                postId: String(onSubmit.postId),
+                // postId: String(onSubmit.postId),
                 content: onSubmit.content as string,
               })
             );
@@ -150,7 +139,7 @@ export default function MainBtn({ onSubmit, content, size }: MainBtnPropsType) {
             await mutateCreateQnaAnswer(
               toFormData({
                 postTypeInfo: onSubmit.postTypeInfo as postingInfoType,
-                postId: String(onSubmit.postId),
+                // postId: String(onSubmit.postId),
                 content: onSubmit.content as string,
                 images: onSubmit.images,
               })

@@ -16,7 +16,7 @@ export const putFeedCommentEditAxios = async (token: string, commentId: number, 
 export const putQnaCommentEditAxios = async (token: string, commentId: number, comment: string) => {
   return await customAxios({
     method: 'put',
-    url: `/posts/qna-answers/comments/${commentId}/modify`,
+    url: `/posts/qna-answers/qna-comments/${commentId}/modify`,
     headers: {
       Authorization: token,
       'Content-Type': 'application/json',
