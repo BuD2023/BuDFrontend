@@ -53,6 +53,10 @@ function App() {
     // requestPermission();
   }, []);
 
+  useEffect(() => {
+    if (!user) navigate('logIn');
+  }, [user]);
+
   return (
     <RecoilRoot>
       <Routes>

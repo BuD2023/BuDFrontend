@@ -16,25 +16,23 @@ export default function LogInLoadingPage() {
   //리액트 쿼리
   const { refetch, isError } = useLogInCheckQuery();
 
-  //useState
-  const [fcmToken, setFcmToken] = useState<string>('');
+  let fcmToken: any;
 
-  //fcm토큰 발급
   useEffect(() => {
     const getToken = async () => {
       const token = await getFcmToken();
-      setFcmToken(token as string);
+      // setFcmToken(token as string);
+      console.log(token);
+      fcmToken = token;
     };
     getToken();
-  }, []);
 
-  useEffect(() => {
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     const codeParams = urlParams.get('code');
     console.log(codeParams);
     (async () => {
-      if (codeParams && !userInfo) {
+      if (codeParams && !localStorage.getItem('accessToken')) {
         const userToken = await getAccessToken(codeParams);
         if (userToken) {
           const isCheckResponse = await getLogInCheckAxios(userToken.token as string);
