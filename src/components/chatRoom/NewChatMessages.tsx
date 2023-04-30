@@ -17,7 +17,7 @@ export default function NewChatMessages({ newChatMessages, handleClickUserImg, s
   return (
     <>
       {newChatMessages?.map((chat: Partial<ChatMessageType>) => {
-        return chat.userName !== logInUserInfo?.userName ? (
+        return chat.userId !== logInUserInfo?.id ? (
           <div key={chat.chatId} className="mb-3 flex gap-4">
             <LazyLoadImage
               src={S3_URL + chat.userProfileUrl}

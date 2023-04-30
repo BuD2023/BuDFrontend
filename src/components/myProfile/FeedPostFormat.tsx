@@ -93,7 +93,7 @@ export default function FeedPostFormat({ resultData, userData, refetch, profileP
                       <p className="text-[17px] opacity-50">{timeForToday(data.createdAt)}</p>
                     </div>
                   </div>
-                  {userData.nickName !== logInUserInfo?.nickName && (
+                  {userData.id !== logInUserInfo?.id && (
                     <div className="text-end font-bold">
                       <div
                         onClick={(e) => {

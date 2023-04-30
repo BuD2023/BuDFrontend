@@ -17,7 +17,7 @@ export default function MessageList({ messageList, handleClickUserImg, setIsPicP
   return (
     <>
       {messageList?.map((chat) => {
-        return chat.userName !== logInUserInfo?.userName ? (
+        return chat.userId !== logInUserInfo?.id ? (
           <div key={chat.chatId} className="mb-3 flex gap-4">
             <LazyLoadImage
               src={S3_URL + chat.userProfileUrl}

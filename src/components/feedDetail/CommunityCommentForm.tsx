@@ -222,7 +222,7 @@ export default function CommunityCommentForm({ type, answerId, questionUserId, c
                     >
                       <li className="flex min-h-[60px] w-full gap-2 bg-midIvory px-4 dark:bg-midNavy">
                         <LazyLoadImage
-                          onClick={() => (content.memberName === logInUserInfo?.nickName ? navigate(`/myProfile/feed`) : navigate(`/otherProfile/${content.memberId}/feed`))}
+                          onClick={() => (content.memberId === logInUserInfo?.id ? navigate(`/myProfile/feed`) : navigate(`/otherProfile/${content.memberId}/feed`))}
                           src={S3_URL + content.memberProfileUrl}
                           alt={content.memberName}
                           className="h-[50px] w-[50px] shrink-0 cursor-pointer rounded-full object-cover"
@@ -290,7 +290,7 @@ export default function CommunityCommentForm({ type, answerId, questionUserId, c
                             <BsArrowReturnRight className="relative top-[10px] text-lightText opacity-60 dark:text-white" size={25} />
                             <li className="flex min-h-[60px] w-full list-none gap-2 bg-midIvory px-4 dark:bg-midNavy">
                               <LazyLoadImage
-                                onClick={() => (reComment.memberName === logInUserInfo?.nickName ? navigate(`/myProfile/feed`) : navigate(`/otherProfile/${content.memberId}/feed`))}
+                                onClick={() => (reComment.memberId === logInUserInfo?.id ? navigate(`/myProfile/feed`) : navigate(`/otherProfile/${content.memberId}/feed`))}
                                 src={S3_URL + (reComment.memberProfileUrl ?? 'file/2023-04-25/d85de5cdbbdd440a9874020d3b250d5d_20230425205043366.jpeg')}
                                 alt={reComment.memberName}
                                 className="h-[50px] w-[50px] shrink-0 cursor-pointer rounded-full object-cover"

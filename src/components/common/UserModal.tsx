@@ -21,7 +21,7 @@ export default function UserModal({ userModal, setUserModal, userInfo, hostInfo 
 
   const handleAuthorizeHost = (userId: number) => {
     setUserModal(false);
-    if (hostInfo.nickName === logInUserInfo?.nickName) {
+    if (hostInfo.id === logInUserInfo?.id) {
       mutate(userId);
       console.log(`사용자가 ${nickName}에게 호스트를 위임했습니다.`);
     } else {
@@ -61,7 +61,7 @@ export default function UserModal({ userModal, setUserModal, userInfo, hostInfo 
                   </div>
                 </div>
                 <div className="flex flex-col gap-3 bg-white px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-                  {hostInfo.nickName === logInUserInfo?.nickName && (
+                  {hostInfo.id === logInUserInfo?.id && (
                     <button
                       type="button"
                       className="inline-flex w-full justify-center rounded-full border border-[#d9d9d9] bg-white px-3 py-2 text-sm font-semibold text-lightText shadow-sm outline-none sm:mt-0 sm:w-auto"

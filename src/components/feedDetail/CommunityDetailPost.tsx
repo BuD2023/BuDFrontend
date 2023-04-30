@@ -33,8 +33,8 @@ export default function CommunityDetailPost({ setQuestionUserId, setCommentCount
     setCommentCount && isSuccess && setCommentCount(questionData?.commentCount);
   }, [questionData?.member.id, isRefetching]);
 
-  const handleClickFollow = (e: React.MouseEvent<HTMLElement>, memberId: number, memberNickname?: string) => {
-    if (memberNickname === logInUserInfo?.nickName) return;
+  const handleClickFollow = (e: React.MouseEvent<HTMLElement>, memberId: number) => {
+    if (memberId === logInUserInfo?.id) return;
     setUserId(memberId);
     e.stopPropagation();
     mutate();
@@ -67,7 +67,7 @@ export default function CommunityDetailPost({ setQuestionUserId, setCommentCount
                 <LazyLoadImage
                   onClick={(e) => {
                     e.stopPropagation();
-                    if (questionData?.member.nickname === logInUserInfo?.nickName) {
+                    if (questionData?.member.id === logInUserInfo?.id) {
                       navigate(`/myProfile/feed`);
                     } else {
                       navigate(`/otherProfile/${questionData?.member.id}/feed`);
@@ -81,7 +81,7 @@ export default function CommunityDetailPost({ setQuestionUserId, setCommentCount
                   <p
                     onClick={(e) => {
                       e.stopPropagation();
-                      if (questionData?.member.nickname === logInUserInfo?.nickName) {
+                      if (questionData?.member.id === logInUserInfo?.id) {
                         navigate(`/myProfile/feed`);
                       } else {
                         navigate(`/otherProfile/${questionData?.member.id}/feed`);
@@ -94,9 +94,9 @@ export default function CommunityDetailPost({ setQuestionUserId, setCommentCount
                   <p className="text-[17px] opacity-50">{timeForToday(questionData?.createdAt as string)}</p>
                 </div>
               </div>
-              {questionData?.member.nickname !== logInUserInfo?.nickName && (
+              {questionData?.member.id !== logInUserInfo?.id && (
                 <div className="text-end font-bold">
-                  <div onClick={(e) => handleClickFollow(e, Number(questionData?.member.id), questionData?.member.nickname)} className="flex h-full cursor-pointer items-center justify-end gap-3">
+                  <div onClick={(e) => handleClickFollow(e, Number(questionData?.member.id))} className="flex h-full cursor-pointer items-center justify-end gap-3">
                     {questionData?.follow ? (
                       <>
                         <FcCheckmark size={21} />

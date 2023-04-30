@@ -117,7 +117,7 @@ export default function UserListModal({ isUserList, setIsUserList, type, follows
                         <div key={user.id} className="flex w-full items-center justify-between">
                           <div
                             onClick={(e) => {
-                              if (user.nickName === logInUserInfo?.nickName) {
+                              if (user.id === logInUserInfo?.id) {
                                 navigate('/myProfile/feed');
                                 e.stopPropagation;
                                 return;
@@ -133,7 +133,7 @@ export default function UserListModal({ isUserList, setIsUserList, type, follows
                           </div>
                           <div
                             onClick={() => handleClickFollow(user.id)}
-                            className={`mr-4 flex cursor-pointer items-center gap-1 text-[14px] font-semibold ` + (user.nickName === logInUserInfo?.nickName ? 'hidden' : '')}
+                            className={`mr-4 flex cursor-pointer items-center gap-1 text-[14px] font-semibold ` + (user.id === logInUserInfo?.id ? 'hidden' : '')}
                           >
                             {user.isFollowing ? (
                               <>

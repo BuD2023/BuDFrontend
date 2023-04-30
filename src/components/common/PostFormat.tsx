@@ -94,7 +94,7 @@ export default function PostFormat({ inputValue, sortAndOrder }: PostFormatProps
                     <img
                       onClick={(e) => {
                         e.stopPropagation();
-                        if (data.member.nickname === logInUserInfo?.nickName) {
+                        if (data.member.id === logInUserInfo?.id) {
                           navigate(`/myProfile/feed`);
                         } else {
                           navigate(`/otherProfile/${data.member.id}/feed`);
@@ -109,7 +109,7 @@ export default function PostFormat({ inputValue, sortAndOrder }: PostFormatProps
                       <p className="text-[17px] opacity-50">{timeForToday(data.createdAt)}</p>
                     </div>
                   </div>
-                  {data.member.nickname !== logInUserInfo?.nickName && (
+                  {data.member.id !== logInUserInfo?.id && (
                     <div className="text-end font-bold">
                       <div
                         onClick={(e) => {
