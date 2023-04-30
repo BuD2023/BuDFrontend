@@ -35,6 +35,7 @@ export default function SetJob() {
   const { mutateAsync: createUserMutate } = useCreateUserInfoMutation();
 
   const getModalAnswer = (obj: SetNotificationType) => {
+    localStorage.setItem('notification', JSON.stringify({ all: false, follow: obj.follow, post: obj.post }));
     setNotification(obj);
   };
 

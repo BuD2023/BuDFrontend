@@ -92,7 +92,7 @@ export default function PostCreate() {
                 <AiFillPicture className="opacity-80" />
               </div>
             </div>
-            <div className={`${!isClick ? 'h-[calc(100vh-470px)]' : 'h-[calc(100vh-346px)]'} flex w-full flex-col gap-2 transition-all`}>
+            <div className={`${!isClick ? 'h-[calc(100vh-480px)]' : 'h-[calc(100vh-356px)]'} flex w-full flex-col gap-2 transition-all`}>
               <ImagePeek setIsPicPopUp={setIsPicPopUp} imgPeek={imgPeek as string[]} />
               <textarea
                 onChange={(e) =>

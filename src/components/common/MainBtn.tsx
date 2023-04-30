@@ -129,7 +129,7 @@ export default function MainBtn({ onSubmit, content, size }: MainBtnPropsType) {
             await mutateCreateQnaAnswer(
               toFormData({
                 postTypeInfo: onSubmit.postTypeInfo as postingInfoType,
-                // postId: String(onSubmit.postId),
+                postId: String(onSubmit.postId),
                 content: onSubmit.content as string,
               })
             );
@@ -139,7 +139,7 @@ export default function MainBtn({ onSubmit, content, size }: MainBtnPropsType) {
             await mutateCreateQnaAnswer(
               toFormData({
                 postTypeInfo: onSubmit.postTypeInfo as postingInfoType,
-                // postId: String(onSubmit.postId),
+                postId: String(onSubmit.postId),
                 content: onSubmit.content as string,
                 images: onSubmit.images,
               })

@@ -1,13 +1,14 @@
 import { BsChevronLeft } from 'react-icons/bs';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { AiFillPicture } from 'react-icons/ai';
 import { useParams } from 'react-router-dom';
 import { useCommunityDetailQuery } from '../../store/module/useCommunityDetailQuery';
-import { QnaAnswerType } from '../../components/community/_Community.interface';
+import { getCommunityDetailType, QnaAnswerType } from '../../components/community/_Community.interface';
 import PicModal from '../../components/common/PicModal';
 import QuestionModal from '../../components/common/QuestionModal';
 import Header from '../../components/common/Header';
 import { handleFileImage } from '../../utils/handleChangeImgFile';
+import ImagePeek from '../../components/common/ImagePeek';
 
 export default function QAAnswerCreate() {
   const { postId } = useParams();
@@ -15,7 +16,11 @@ export default function QAAnswerCreate() {
   console.log(postId);
 
   // QNA 질문 글 정보
-  const { isLoading, data } = useCommunityDetailQuery(Number(postId));
+  const { isLoading, data, refetch } = useCommunityDetailQuery(Number(postId));
+  const [qnaData, setQnaData] = useState<getCommunityDetailType>(data as getCommunityDetailType);
+  useEffect(() => {
+    refetch().then(() => setQnaData(data as getCommunityDetailType));
+  }, [isLoading]);
 
   // 보낼 게시글 전체 정보
   const [postInfo, setPostInfo] = useState<Partial<QnaAnswerType>>({
@@ -45,11 +50,10 @@ export default function QAAnswerCreate() {
     pic: '',
   });
 
-  console.log(postInfo);
   return (
     <>
       <PicModal isPicPopUp={isPicPopUp} setIsPicPopUp={setIsPicPopUp} />
-      {data !== undefined && <QuestionModal alertModal={alertModal} setAlertModal={setAlertModal} title={data?.title} des={data?.content} />}
+      {data !== undefined && <QuestionModal alertModal={alertModal} setAlertModal={setAlertModal} title={qnaData?.title} des={qnaData?.content} />}
       <section className="inset-0 flex flex-col gap-7 px-6 py-4 text-lightText dark:text-white">
         <Header type="withMainBtn" title="답변달기" icon={<BsChevronLeft />} onSubmit={postInfo} />
         <div className="mt-9 flex h-full flex-col gap-8 px-2 pt-10">
@@ -59,7 +63,7 @@ export default function QAAnswerCreate() {
               <div className="flex w-full items-center justify-between gap-2">
                 <div className="text-start flex h-[54px] w-full items-center overflow-hidden rounded-[20px] bg-midIvory p-2 px-4 text-[21px] dark:bg-lightNavy">
                   <div onClick={() => setAlertModal(!alertModal)} className="w-full grow cursor-pointer truncate text-[18px] font-semibold">
-                    {data?.title}
+                    {qnaData?.title}
                   </div>
                 </div>
                 <div onClick={() => imgRef?.current?.click()} className="flex h-[54px] w-[54px] shrink-0 cursor-pointer items-center justify-center rounded-full bg-midIvory dark:bg-lightNavy">
@@ -68,25 +72,8 @@ export default function QAAnswerCreate() {
               </div>
               <input ref={imgRef} type="file" accept="image/*" multiple onChange={handleUpload} className="hidden" />
             </div>
-            <div className={`flex h-[calc(100vh-286px)] w-full flex-col gap-2 transition-all`}>
-              {imgPeek.length > 0 && (
-                <div className="flex w-full shrink-0 items-center gap-2 overflow-auto rounded-[20px] bg-midIvory p-2">
-                  {imgPeek.map((img, idx) => (
-                    <img
-                      onClick={(e) => {
-                        setIsPicPopUp({
-                          open: true,
-                          pic: img as string,
-                        });
-                      }}
-                      key={idx}
-                      src={img as string}
-                      alt={img as string}
-                      className="pre-img h-[120px] w-[120px] cursor-pointer rounded-[20px] object-cover"
-                    />
-                  ))}
-                </div>
-              )}
+            <div className={`flex h-[calc(100vh-276px)] w-full flex-col gap-2 transition-all`}>
+              <ImagePeek setIsPicPopUp={setIsPicPopUp} imgPeek={imgPeek as string[]} />
               <textarea
                 onChange={(e) =>
                   setPostInfo({

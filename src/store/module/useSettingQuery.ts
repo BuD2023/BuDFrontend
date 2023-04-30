@@ -4,6 +4,7 @@ import gdtLogInCheckAxios from '../../apiFetcher/setting/getLogInCheck';
 import postDeleteAccountAxios from '../../apiFetcher/setting/postDeleteAccount';
 import putNotificationInfoAxios from '../../apiFetcher/setting/putNotificationInfo';
 import { loginUserInfo } from '../recoil/user';
+``;
 
 // 설정 > 알림 설정 > 알림 푸쉬 설정 변경
 export function usePutNotificationInfoMutation(userId: number, body: any) {

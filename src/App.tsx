@@ -100,14 +100,14 @@ function App() {
             <Route path="/userInfo" element={<UserInfo />} />
             <Route path="/notification" element={<Notification />} />
             <Route path="*" element={<NotFound />} />
+            <Route path="/signUp" element={<SignUp />} />
+            <Route path="/signUp/picture" element={<SetPicture />} />
+            <Route path="/signUp/job" element={<SetJob />} />
           </Routes>
         ) : (
           <Routes>
             <Route path="/logIn" element={<LogInPage />} />
             <Route path="/logInLoading" element={<LogInLoadingPage />} />
-            <Route path="/signUp" element={<SignUp />} />
-            <Route path="/signUp/picture" element={<SetPicture />} />
-            <Route path="/signUp/job" element={<SetJob />} />
             <Route path="*" element={<LogInPage />} />
           </Routes>
         )}

@@ -11,6 +11,8 @@ import { handleFileImage } from '../../utils/handleChangeImgFile';
 import { useRecoilValue } from 'recoil';
 import { answerEdit } from '../../store/recoil/answerEdit';
 import { usePreventLeave } from '../../utils/usePreventLeave';
+import ImagePeek from '../../components/common/ImagePeek';
+import { S3_URL } from '../../constant/union';
 
 export default function QAAnswerEdit() {
   const { postId, answerId } = useParams();
@@ -18,6 +20,7 @@ export default function QAAnswerEdit() {
 
   //recoil
   const answerValue = useRecoilValue(answerEdit);
+  console.log(answerValue);
 
   // QNA 질문 글 정보
   const { isLoading, data, refetch } = useCommunityDetailQuery(Number(postId));
@@ -28,6 +31,7 @@ export default function QAAnswerEdit() {
   useEffect(() => {
     refetch();
     setQuestionInfo({ title: data?.title, content: data?.content });
+    // setImgPeek((answerValue?.images as string[])?.map((i) => S3_URL + i));
   }, [isLoading]);
 
   // 보낼 게시글 전체 정보
@@ -40,7 +44,7 @@ export default function QAAnswerEdit() {
   });
 
   // 사진 미리보기
-  const [imgPeek, setImgPeek] = useState<string[] | ArrayBuffer[] | null[]>([]);
+  const [imgPeek, setImgPeek] = useState<string[]>([]);
 
   // 사진 업로드
   const imgRef = useRef<HTMLInputElement>(null);
@@ -84,25 +88,8 @@ export default function QAAnswerEdit() {
               </div>
               <input ref={imgRef} type="file" accept="image/*" multiple onChange={handleUpload} className="hidden" />
             </div>
-            <div className={`flex h-[calc(100vh-286px)] w-full flex-col gap-2 transition-all`}>
-              {imgPeek.length > 0 && (
-                <div className="flex w-full shrink-0 items-center gap-2 overflow-auto rounded-[20px] bg-midIvory p-2">
-                  {imgPeek.map((img, idx) => (
-                    <img
-                      onClick={(e) => {
-                        setIsPicPopUp({
-                          open: true,
-                          pic: img as string,
-                        });
-                      }}
-                      key={idx}
-                      alt={img as string}
-                      src={img as string}
-                      className="pre-img h-[120px] w-[120px] cursor-pointer rounded-[20px] object-cover"
-                    />
-                  ))}
-                </div>
-              )}
+            <div className={`flex h-[calc(100vh-276px)] w-full flex-col gap-2 transition-all`}>
+              <ImagePeek setIsPicPopUp={setIsPicPopUp} imgPeek={imgPeek as string[]} />
               <textarea
                 onChange={(e) =>
                   setPostInfo({
