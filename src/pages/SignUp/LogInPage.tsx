@@ -8,39 +8,10 @@ import { getFcmToken } from '../../utils/fcm';
 const CLIENT_ID = import.meta.env.VITE_BUDS_CLIENT_ID;
 
 export default function LogIn() {
-  //리액트 쿼리
-  const { mutateAsync: postFcmTokenMutation } = useNotificationTokenMutation();
-
-  //useState
-  const [fcmToken, setFcmToken] = useState<string>('');
-
-  //fcm토큰 발급
-  useEffect(() => {
-    const getToken = async () => {
-      const token = await getFcmToken();
-      setFcmToken(token as string);
-    };
-    getToken();
-  }, []);
-
   async function loginWithGithub() {
     localStorage.setItem('logInStatus', 'true');
     const redirectUrl = 'https://github.com/login/oauth/authorize?client_id=' + CLIENT_ID;
     window.location.assign(redirectUrl);
-    postFcmTokenMutation({
-      fcmToken: fcmToken as string,
-    });
-    // try {
-    //   const response = await customAxios({
-    //     method: 'get',
-    //     url: 'oauth2/authorization/github',
-    //   });
-
-    //   console.log(response);
-    //   return response;
-    // } catch (error) {
-    //   console.error(error);
-    // }
   }
 
   return (

@@ -1,44 +1,83 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { AiFillGithub } from 'react-icons/ai';
+import { useNavigate } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
 import { BASE_URL } from '../../constant/union';
+import { useNotificationTokenMutation } from '../../store/module/useNotificationQuery';
+import { useLogInCheckQuery } from '../../store/module/useSettingQuery';
+import { loginUserInfo } from '../../store/recoil/user';
+import { getFcmToken } from '../../utils/fcm';
+import { getAccessToken } from '../../utils/getAccessToken';
 
 export default function LogInLoadingPage() {
-  // const [rerender, setRerender] = useState(false);
+  const navigate = useNavigate();
+  const [rerender, setRerender] = useState(false);
+  const userInfo = useRecoilValue(loginUserInfo);
+
+  //리액트 쿼리
+  const { mutateAsync: postFcmTokenMutation } = useNotificationTokenMutation();
+  const { data, refetch, isRefetching, isFetched, isError } = useLogInCheckQuery();
+
+  //useState
+  const [fcmToken, setFcmToken] = useState<string>('');
+
+  //fcm토큰 발급
+  useEffect(() => {
+    const getToken = async () => {
+      const token = await getFcmToken();
+      setFcmToken(token as string);
+    };
+    getToken();
+  }, []);
+
+  useEffect(() => {
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const codeParams = urlParams.get('code');
+    console.log(codeParams);
+    (async () => {
+      let userToken;
+      if (codeParams && localStorage.getItem('accessToken') === null) {
+        userToken = await getAccessToken(codeParams, setRerender, rerender);
+        console.log(userToken);
+      } else {
+        const token = localStorage.getItem('accessToken');
+        console.log(JSON.parse(token as string));
+      }
+      await useLogInCheckQuery(userToken as string).refetch();
+    })();
+  }, []);
+
+  useEffect(() => {
+    (async () => {
+      if (isFetched) {
+        console.log('fetched');
+        if (data?.isAddInfo && data?.isAddInfo === true) {
+          await postFcmTokenMutation({
+            fcmToken: fcmToken as string,
+          });
+          navigate('/');
+        } else navigate('/signUp');
+      }
+    })();
+  }, [isRefetching]);
 
   // useEffect(() => {
-  //   const queryString = window.location.search;
-  //   const urlParams = new URLSearchParams(queryString);
-  //   const codeParams = urlParams.get('code');
-  //   console.log(codeParams);
-  //   if (codeParams && localStorage.getItem('accessToken') === null) {
-  //     const getAccessToken = async () => {
-  //       try {
-  //         const response = await axios.get(BASE_URL + 'token', {
-  //           params: {
-  //             code: codeParams,
-  //           },
-  //         });
-  //         const data = response.headers;
-  //         const result = {
-  //           token: data.authorization as string,
-  //           userName: data.jwt_user_information as string,
-  //         };
-  //         console.log(result);
-  //         if (data.authorization) {
-  //           localStorage.setItem('accessToken', JSON.stringify(result));
-  //           setRerender(!rerender);
-  //         }
-  //       } catch (error) {
-  //         console.error('Error:', error);
-  //       }
-  //     };
-  //     getAccessToken();
-  //   } else {
-  //     const token = localStorage.getItem('accessToken');
-  //     console.log(token);
+  //   (async () => {
+  //     if (userInfo) {
+
+  //     }
+  //   })();
+  // }, [userInfo]);
+
+  // useEffect(() => {
+  //   if (isSuccess) {
+  //     data?.isAddInfo && data.isAddInfo === true ? navigate('/') : navigate('/signUp');
   //   }
-  // }, []);
+  // }, [isRefetching]);
+
+  if (useLogInCheckQuery().isError) console.log('error');
 
   return (
     <section className="fixed inset-0 flex flex-col items-center justify-center bg-lightIvory dark:bg-darkNavy">

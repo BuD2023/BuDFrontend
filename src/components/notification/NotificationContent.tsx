@@ -68,6 +68,11 @@ export default function NotificationContent() {
         <span className="font-bold">{senderId}</span>님이 회원님의 질문에대한 답변을 남겼습니다.
       </p>
     ),
+    ANSWER_COMMENT: (senderId: string) => (
+      <p>
+        <span className="font-bold">{senderId}</span>님이 회원님의 답변에 댓글을 작성했습니다.
+      </p>
+    ),
     ADD_LIKE_POST: (senderId: string) => (
       <p>
         <span className="font-bold">{senderId}</span>님이 회원님의 게시물을 좋아요 했습니다.
@@ -150,7 +155,7 @@ export default function NotificationContent() {
                           <li
                             onClick={() => handleNotiClick(noti.pageType, noti.pageId, noti.notificationId)}
                             key={noti.notificationId}
-                            className={`flex grow cursor-pointer items-center gap-3 bg-lightIvory px-8 pb-3 pt-6 dark:bg-darkNavy`}
+                            className={`flex w-full grow cursor-pointer items-center gap-3 bg-lightIvory px-8 pb-3 pt-6 dark:bg-darkNavy`}
                           >
                             <img
                               onClick={(event) => handleImgClick(noti.senderId, event)}

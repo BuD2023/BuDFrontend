@@ -18,6 +18,7 @@ export const getAccessToken = async (codeParams: string, setRerender: (x: boolea
       localStorage.setItem('accessToken', JSON.stringify(result));
       setRerender(!rerender);
     }
+    return result.token;
   } catch (error) {
     console.error('Error:', error);
   }

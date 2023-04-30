@@ -1,5 +1,6 @@
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { useRecoilValue } from 'recoil';
+import gdtLogInCheckAxios from '../../apiFetcher/setting/getLogInCheck';
 import postDeleteAccountAxios from '../../apiFetcher/setting/postDeleteAccount';
 import putNotificationInfoAxios from '../../apiFetcher/setting/putNotificationInfo';
 import { loginUserInfo } from '../recoil/user';
@@ -27,5 +28,13 @@ export function useDeleteAccountMutation() {
     onSuccess: async () => {
       console.log('회원탈퇴가 완료되었습니다.');
     },
+  });
+}
+
+// 로그인 유저 체크
+export function useLogInCheckQuery(token?: string) {
+  const loginUser = useRecoilValue(loginUserInfo);
+  return useQuery(['checkLogInUser', token], () => gdtLogInCheckAxios((token as string) ? (token as string) : (loginUser?.token as string)), {
+    enabled: false,
   });
 }
