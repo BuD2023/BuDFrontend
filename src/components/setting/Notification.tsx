@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { BsBellFill } from 'react-icons/bs';
-import { useRecoilValueLoadable } from 'recoil';
+import { useRecoilValue } from 'recoil';
 import { usePutNotificationInfoMutation } from '../../store/module/useSettingQuery';
-import { getMyPageInfo } from '../../store/recoil/user';
+import { loginUserInfo } from '../../store/recoil/user';
 import Toggle from '../common/Toggle';
 import { NotificationType } from './_Setting.interface';
 
@@ -19,8 +19,7 @@ export default function Notification() {
   const [notification, setNotification] = useState<NotificationType>(initialNotification);
 
   // 사용자 정보
-  const getMyPageInfoLodable = useRecoilValueLoadable(getMyPageInfo);
-  const myPageInfo: any = 'hasValue' === getMyPageInfoLodable.state ? getMyPageInfoLodable.contents : {};
+  const logInUserInfo = useRecoilValue(loginUserInfo);
 
   const setNoti = (noti: keyof NotificationType) => {
     if (noti === 'all') {
@@ -50,7 +49,7 @@ export default function Notification() {
   };
 
   const body = { isPostPushAvailable: notification.post, isFollowPushAvailable: notification.follow };
-  const { mutate } = usePutNotificationInfoMutation(myPageInfo.id, body);
+  const { mutate } = usePutNotificationInfoMutation(logInUserInfo?.id as number, body);
 
   useEffect(() => {
     localStorage.setItem('notification', JSON.stringify(notification));

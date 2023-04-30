@@ -1,20 +1,23 @@
 import React from 'react';
+import { useRecoilValue } from 'recoil';
 import { S3_URL } from '../../constant/union';
+import { loginUserInfo } from '../../store/recoil/user';
 import LazyLoadImage from '../../utils/LazyLoadImage';
 import { myChatroomListContentType } from './_ChatRoom.interface';
 
 interface MessageListPropsType {
   messageList: myChatroomListContentType[];
-  myPageInfo: any;
   handleClickUserImg: (userName: string, userProfileUrl: string, userId: number) => void;
   setIsPicPopUp: (x: { open: boolean; pic: string }) => void;
 }
 
-export default function MessageList({ messageList, myPageInfo, handleClickUserImg, setIsPicPopUp }: MessageListPropsType) {
+export default function MessageList({ messageList, handleClickUserImg, setIsPicPopUp }: MessageListPropsType) {
+  const logInUserInfo = useRecoilValue(loginUserInfo);
+
   return (
     <>
       {messageList?.map((chat) => {
-        return chat.userName !== myPageInfo?.nickName ? (
+        return chat.userName !== logInUserInfo?.userName ? (
           <div key={chat.chatId} className="mb-3 flex gap-4">
             <LazyLoadImage
               src={S3_URL + chat.userProfileUrl}

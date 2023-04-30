@@ -2,7 +2,7 @@ import { SwipeableList, SwipeableListItem } from '@sandstreamdev/react-swipeable
 import { useEffect, useRef, useState } from 'react';
 import { BsArrowReturnRight, BsDot, BsFillPinAngleFill, BsFillTrashFill, BsHeartFill, BsX } from 'react-icons/bs';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useRecoilValueLoadable } from 'recoil';
+import { useRecoilValue } from 'recoil';
 import { S3_URL } from '../../constant/union';
 import {
   useFeedCommentMutation,
@@ -20,7 +20,7 @@ import {
   useQnaCommentMutation,
   useQnaCommentReplyMutation,
 } from '../../store/module/useCommunityDetailQuery';
-import { getMyPageInfo } from '../../store/recoil/user';
+import { loginUserInfo } from '../../store/recoil/user';
 import LazyLoadImage from '../../utils/LazyLoadImage';
 import { CommunityCommentType } from '../community/_Community.interface';
 import { CommunityFeedCommentFormPropsType } from './_FeedDetail.interface';
@@ -35,9 +35,8 @@ export default function CommunityCommentForm({ type, answerId, questionUserId, c
 
   const navigate = useNavigate();
 
-  // 사용자 정보
-  const getMyPageInfoLodable = useRecoilValueLoadable(getMyPageInfo);
-  const myPageInfo: any = 'hasValue' === getMyPageInfoLodable.state ? getMyPageInfoLodable.contents : {};
+  // 사용자 정보 Recoil
+  const logInUserInfo = useRecoilValue(loginUserInfo);
 
   const { data: feedData, isLoading: feedIsLoading, error: feedError, refetch: feedCommentRefetch } = useFeedCommentQuery(Number(postId));
   const { data: QnAData, isLoading: QnAIsLoading, error: QnAError, refetch: qnaCommentRefetch } = useQnACommentQuery(Number(answerId));
@@ -164,7 +163,7 @@ export default function CommunityCommentForm({ type, answerId, questionUserId, c
                   <div key={content.commentId} className="flex flex-col gap-4">
                     <SwipeableListItem
                       swipeLeft={
-                        content.memberId === myPageInfo.id
+                        content.memberId === logInUserInfo?.id
                           ? {
                               content: (
                                 <div className="flex h-full w-full items-center justify-end bg-[#ff5232] p-4 text-white dark:bg-[#a51b0b]">
@@ -189,7 +188,7 @@ export default function CommunityCommentForm({ type, answerId, questionUserId, c
                           : undefined
                       }
                       swipeRight={
-                        questionUserId === myPageInfo.id
+                        questionUserId === logInUserInfo?.id
                           ? {
                               content: (
                                 <div className="flex h-full w-full items-center justify-start bg-pointGreen p-4 text-white dark:bg-pointGreen">
@@ -223,7 +222,7 @@ export default function CommunityCommentForm({ type, answerId, questionUserId, c
                     >
                       <li className="flex min-h-[60px] w-full gap-2 bg-midIvory px-4 dark:bg-midNavy">
                         <LazyLoadImage
-                          onClick={() => (content.memberName === myPageInfo.nickName ? navigate(`/myProfile/feed`) : navigate(`/otherProfile/${content.memberId}/feed`))}
+                          onClick={() => (content.memberName === logInUserInfo?.nickName ? navigate(`/myProfile/feed`) : navigate(`/otherProfile/${content.memberId}/feed`))}
                           src={S3_URL + content.memberProfileUrl}
                           alt={content.memberName}
                           className="h-[50px] w-[50px] shrink-0 cursor-pointer rounded-full object-cover"
@@ -262,7 +261,7 @@ export default function CommunityCommentForm({ type, answerId, questionUserId, c
                         <SwipeableListItem
                           key={reComment.commentId}
                           swipeLeft={
-                            reComment.memberId === myPageInfo.id
+                            reComment.memberId === logInUserInfo?.id
                               ? {
                                   content: (
                                     <div className="flex h-full w-full items-center justify-end bg-[#ff5232] p-4 text-white dark:bg-[#a51b0b]">
@@ -291,7 +290,7 @@ export default function CommunityCommentForm({ type, answerId, questionUserId, c
                             <BsArrowReturnRight className="relative top-[10px] text-lightText opacity-60 dark:text-white" size={25} />
                             <li className="flex min-h-[60px] w-full list-none gap-2 bg-midIvory px-4 dark:bg-midNavy">
                               <LazyLoadImage
-                                onClick={() => (reComment.memberName === myPageInfo.nickName ? navigate(`/myProfile/feed`) : navigate(`/otherProfile/${content.memberId}/feed`))}
+                                onClick={() => (reComment.memberName === logInUserInfo?.nickName ? navigate(`/myProfile/feed`) : navigate(`/otherProfile/${content.memberId}/feed`))}
                                 src={S3_URL + (reComment.memberProfileUrl ?? 'file/2023-04-25/d85de5cdbbdd440a9874020d3b250d5d_20230425205043366.jpeg')}
                                 alt={reComment.memberName}
                                 className="h-[50px] w-[50px] shrink-0 cursor-pointer rounded-full object-cover"

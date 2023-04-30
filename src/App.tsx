@@ -9,6 +9,7 @@ function App() {
   const $html = document.querySelector('html');
   const navigate = useNavigate();
 
+  // 리코일
   const user = useRecoilValue(loginUserInfo);
   const logInStatus = localStorage.getItem('logInStatus');
 
@@ -48,6 +49,7 @@ function App() {
   // 토큰 설정
   useEffect(() => {
     if (!user && logInStatus === 'false' && !logInStatus) navigate('logIn');
+    // requestPermission();
   }, []);
 
   return (

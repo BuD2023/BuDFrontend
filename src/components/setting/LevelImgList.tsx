@@ -1,22 +1,14 @@
 import { useEffect, useState } from 'react';
-import { useRecoilValueLoadable } from 'recoil';
-import { S3_URL } from '../../constant/union';
 import { useGetUserLevelInfoQuery } from '../../store/module/useMyProfileQuery';
-import { getMyPageInfo } from '../../store/recoil/user';
 import LevelIconModal from '../common/LevelIconModal';
 
 export default function LevelImgList() {
-  const images = [];
   const [level, setLevel] = useState<string>();
 
   const [isPicPopUp, setIsPicPopUp] = useState({
     open: false,
     pic: '',
   });
-
-  // // 사용자 정보
-  // const getMyPageInfoLodable = useRecoilValueLoadable(getMyPageInfo);
-  // const myPageInfo: any = 'hasValue' === getMyPageInfoLodable.state ? getMyPageInfoLodable.contents : {};
 
   const { data: levelData, refetch, isFetchedAfterMount } = useGetUserLevelInfoQuery();
   useEffect(() => {

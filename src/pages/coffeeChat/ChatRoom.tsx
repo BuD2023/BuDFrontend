@@ -12,8 +12,8 @@ import AlertModal from '../../components/common/AlertModal';
 import { ChatMessageType, InfoMessageType, myChatroomListContentType, myChatroomListType } from '../../components/chatRoom/_ChatRoom.interface';
 import { toFileURLs } from '../../utils/toFileURLs';
 import { useAllChatroomQuery } from '../../store/module/useCoffeeChatQuery';
-import { useRecoilValue, useRecoilValueLoadable } from 'recoil';
-import { getMyPageInfo, loginUserInfo } from '../../store/recoil/user';
+import { useRecoilValue } from 'recoil';
+import { loginUserInfo } from '../../store/recoil/user';
 import ConfirmModal from '../../components/common/ConfirmModal';
 
 export default function ChatRoom() {
@@ -27,8 +27,7 @@ export default function ChatRoom() {
   const [hostInfo, setHostInfo] = useState<{ id: number; nickName: string }>({ id: 0, nickName: '' });
 
   // 사용자 정보
-  const getMyPageInfoLodable = useRecoilValueLoadable(getMyPageInfo);
-  const myPageInfo: any = 'hasValue' === getMyPageInfoLodable.state ? getMyPageInfoLodable.contents : {};
+  const logInUserInfo = useRecoilValue(loginUserInfo);
 
   //리액트 쿼리
   const { isLoading, data: chatroomListData, hasNextPage, isFetching, isFetchingNextPage, fetchNextPage } = useMyChatroomListQuery(ROOM_NUM, CHAT_SIZE);
@@ -106,7 +105,7 @@ export default function ChatRoom() {
       (client.current as StompJs.Client).publish({
         destination: '/chats/image',
         body: JSON.stringify({
-          senderId: myPageInfo.id,
+          senderId: logInUserInfo?.id,
           chatroomId: ROOM_NUM,
           imageByte: imgPeek.image,
         }),
@@ -115,7 +114,7 @@ export default function ChatRoom() {
       (client.current as StompJs.Client).publish({
         destination: '/chats/message',
         body: JSON.stringify({
-          senderId: myPageInfo.id,
+          senderId: logInUserInfo?.id,
           chatroomId: ROOM_NUM,
           message: message,
         }),
@@ -185,7 +184,7 @@ export default function ChatRoom() {
   // 폭파될 때 호스트에게는 confirm 모달창 띄우기
   const [confirmModal, setConfirmModal] = useState(false);
   const getModalAnswer = () => {};
-  const withdrawalText = `이 방의 호스트 ${myPageInfo?.nickName}님이 퇴장하시면\n 채팅방이 삭제되며, 모든 유저는 퇴장조치됩니다.\n퇴장하기 전에 다른 유저에게 호스트를 위임해보세요!`;
+  const withdrawalText = `이 방의 호스트 ${logInUserInfo?.nickName}님이 퇴장하시면\n 채팅방이 삭제되며, 모든 유저는 퇴장조치됩니다.\n퇴장하기 전에 다른 유저에게 호스트를 위임해보세요!`;
 
   if (isLoading) {
     <div>Loading....</div>;
@@ -205,7 +204,7 @@ export default function ChatRoom() {
       <AlertModal alertModal={alertModal} setAlertModal={setAlertModal} title="채팅방 종료" des="호스트가 채팅방을 퇴장함에 따라 채팅이 종료됩니다." action={action} />
       <section>
         <PicModal isPicPopUp={isPicPopUp} setIsPicPopUp={setIsPicPopUp} />
-        <RoomHeader newChatMessages={newChatMessages} setHostInfo={setHostInfo} setConfirmModal={setConfirmModal} userIdData={myPageInfo?.id as number} />
+        <RoomHeader newChatMessages={newChatMessages} setHostInfo={setHostInfo} setConfirmModal={setConfirmModal} userIdData={logInUserInfo?.id as number} />
         <div className="fixed left-0 top-[4.6rem] h-full w-full bg-midIvory dark:bg-midNavy"></div>
         <RoomChats
           hostInfo={hostInfo}

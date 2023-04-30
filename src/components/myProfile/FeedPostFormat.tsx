@@ -6,17 +6,16 @@ import ImagePeek from '../common/ImagePeek';
 import PicModal from '../common/PicModal';
 import { S3_URL } from '../../constant/union';
 import { timeForToday } from '../../utils/timeForToday';
-import { useRecoilValueLoadable } from 'recoil';
-import { getMyPageInfo } from '../../store/recoil/user';
+import { useRecoilValue } from 'recoil';
+import { loginUserInfo } from '../../store/recoil/user';
 import { useFollowMutation } from '../../store/module/useCommunityQuery';
 import LazyLoadImage from '../../utils/LazyLoadImage';
 
 export default function FeedPostFormat({ resultData, userData, refetch, profilePostIsLoading }: any) {
   const navigate = useNavigate();
 
-  // 사용자 정보
-  const getMyPageInfoLodable = useRecoilValueLoadable(getMyPageInfo);
-  const myPageInfo: any = 'hasValue' === getMyPageInfoLodable.state ? getMyPageInfoLodable.contents : {};
+  // 사용자 정보 Recoil
+  const logInUserInfo = useRecoilValue(loginUserInfo);
 
   //사진 팝업모달
   const [isPicPopUp, setIsPicPopUp] = useState({
@@ -63,7 +62,7 @@ export default function FeedPostFormat({ resultData, userData, refetch, profileP
                     <LazyLoadImage
                       onClick={(e) => {
                         e.stopPropagation();
-                        if (userData.id !== myPageInfo.id) {
+                        if (userData.id !== logInUserInfo?.id) {
                           navigate(`/otherProfile/${userData.id}/feed`);
                           return;
                         } else {
@@ -80,7 +79,7 @@ export default function FeedPostFormat({ resultData, userData, refetch, profileP
                         className="cursor-pointer text-xl font-bold"
                         onClick={(e) => {
                           e.stopPropagation();
-                          if (userData.id !== myPageInfo.id) {
+                          if (userData.id !== logInUserInfo?.id) {
                             navigate(`/otherProfile/${userData.id}/feed`);
                             return;
                           } else {
@@ -94,7 +93,7 @@ export default function FeedPostFormat({ resultData, userData, refetch, profileP
                       <p className="text-[17px] opacity-50">{timeForToday(data.createdAt)}</p>
                     </div>
                   </div>
-                  {userData.nickName !== myPageInfo.nickName && (
+                  {userData.nickName !== logInUserInfo?.nickName && (
                     <div className="text-end font-bold">
                       <div
                         onClick={(e) => {

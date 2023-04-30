@@ -1,6 +1,6 @@
 import customAxios from '../customAxios';
 
-const gdtLogInCheckAxios = async (token: string): Promise<{ isAddInfo: boolean }> => {
+const getLogInCheckAxios = async (token: string): Promise<{ isAddInfo: boolean }> => {
   return await customAxios({
     method: 'get',
     url: `/check`,
@@ -10,4 +10,4 @@ const gdtLogInCheckAxios = async (token: string): Promise<{ isAddInfo: boolean }
   });
 };
 
-export default gdtLogInCheckAxios;
+export default getLogInCheckAxios;

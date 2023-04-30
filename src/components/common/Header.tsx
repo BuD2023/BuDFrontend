@@ -7,12 +7,11 @@ import MainBtn from '../common/MainBtn';
 import { AiFillCopy } from 'react-icons/ai';
 import { MdOutlineRestartAlt } from 'react-icons/md';
 import EditDeleteBtn from './EditDeleteBtn';
-import { useGithubMutation } from '../../store/module/useGithubQuery';
 import ConfirmModal from './ConfirmModal';
 import { CommonHeaderType } from './_Common.interface';
 import { useUnreadNotificationCountQuery } from '../../store/module/useNotificationQuery';
-import { useRecoilValueLoadable } from 'recoil';
-import { getMyPageInfo } from '../../store/recoil/user';
+import { useRecoilValue } from 'recoil';
+import { loginUserInfo } from '../../store/recoil/user';
 
 export default function Header({ type, title, restart, isLoading, icon, onSubmit, postId, copyUrl, answerPin, questionUserId }: CommonHeaderType) {
   const [visible, setVisible] = useState(true);
@@ -20,6 +19,7 @@ export default function Header({ type, title, restart, isLoading, icon, onSubmit
   const navigate = useNavigate();
   const url = useLocation();
 
+  // 스크롤에 따른 반응형 헤더
   const handleScroll = useMemo(
     () =>
       throttle(() => {
@@ -46,6 +46,7 @@ export default function Header({ type, title, restart, isLoading, icon, onSubmit
 
   const [isMenu, setIsMenu] = useState<boolean>();
 
+  // confirm Modal
   const [confirmModal, setConfirmModal] = useState(false);
   const getModalAnswer = () => {};
   const withdrawalText = '작성한 내용이 저장되지 않습니다.\n정말 페이지를 이동하시겠습니까?';
@@ -55,15 +56,14 @@ export default function Header({ type, title, restart, isLoading, icon, onSubmit
 
   const { data } = useUnreadNotificationCountQuery();
 
-  // 사용자 정보
-  const getMyPageInfoLodable = useRecoilValueLoadable(getMyPageInfo);
-  const myPageInfo: any = 'hasValue' === getMyPageInfoLodable.state ? getMyPageInfoLodable.contents : {};
+  // 사용자 정보 Recoil
+  const logInUserInfo = useRecoilValue(loginUserInfo);
 
+  //Refresh btn click
   const [isClicked, setIsClicked] = useState<boolean>(false);
 
   const handleClickRefreshBtn = () => {
     if (restart) restart();
-
     setIsClicked(true);
     setTimeout(() => {
       setIsClicked(false);
@@ -101,7 +101,7 @@ export default function Header({ type, title, restart, isLoading, icon, onSubmit
         </div>
       )}
       {type === 'news' && <AiFillCopy size={26} className="cursor-pointer" onClick={() => navigator.clipboard.writeText((copyUrl ??= ''))} />}
-      {type === 'community' && (!answerPin ?? true) && questionUserId === myPageInfo.id && <BsThreeDots size={26} onClick={() => setIsMenu(!isMenu)} className="cursor-pointer" />}
+      {type === 'community' && (!answerPin ?? true) && questionUserId === logInUserInfo?.id && <BsThreeDots size={26} onClick={() => setIsMenu(!isMenu)} className="cursor-pointer" />}
       {isMenu && <EditDeleteBtn postId={String(postId)} setIsMenu={setIsMenu} />}
       {type === 'withMainBtn' && <MainBtn onSubmit={onSubmit} content={'완료'} size={20} />}
       {type === 'withMainBtn' && (
