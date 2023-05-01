@@ -24,7 +24,7 @@ export function useCommunityPostQuery(word?: string, sort?: SortType, order?: Or
     {
       getNextPageParam: (prevData, allPages) => {
         const lastPage = prevData.last;
-        const nextPage = (allPages.length + 1) as number;
+        const nextPage = allPages.length;
         return lastPage ? undefined : nextPage;
       },
       refetchInterval: 1000 * 60,

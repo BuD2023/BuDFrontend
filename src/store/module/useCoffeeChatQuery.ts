@@ -13,7 +13,7 @@ export function useAllChatroomQuery() {
   return useInfiniteQuery(['coffeeChatList', 'all'], ({ pageParam = 0 }) => getAllChatroomListAxios(loginUser?.token as string, pageParam), {
     getNextPageParam: (prevData, allPages) => {
       const lastPage = prevData.last;
-      const nextPage = allPages.length + 1;
+      const nextPage = allPages.length;
       return lastPage ? undefined : nextPage;
     },
     refetchOnMount: true,
@@ -31,7 +31,7 @@ export function useSearchChatroomQuery(keyword?: string, size?: number) {
   return useInfiniteQuery(['coffeeChatList', 'search', keyword, fetchNew], ({ pageParam = 0 }) => getSearchChatroomListAxios(loginUser?.token as string, keyword, pageParam, size), {
     getNextPageParam: (prevData, allPages) => {
       const lastPage = prevData.last;
-      const nextPage = allPages.length + 1;
+      const nextPage = allPages.length;
       return lastPage ? undefined : nextPage;
     },
     onSuccess: (result) => console.log(result),

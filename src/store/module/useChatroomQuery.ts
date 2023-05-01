@@ -14,7 +14,7 @@ export function useMyChatroomListQuery(chatRoomId: number, size?: number) {
   return useInfiniteQuery(['myChatroomList', 'all', chatRoomId], ({ pageParam = 0 }) => getAllMyChatroomListAxios(loginUser?.token as string, pageParam, chatRoomId, size), {
     getNextPageParam: (prevData, allPages) => {
       const lastPage = prevData.last;
-      const nextPage = allPages.length + 1;
+      const nextPage = allPages.length;
       return lastPage ? undefined : nextPage;
     },
     refetchOnMount: true,

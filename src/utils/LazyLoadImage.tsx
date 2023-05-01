@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 
 interface LazyLoadImagePropsType {
+  key?: number | string;
   src: string;
   alt: string;
   className?: string;

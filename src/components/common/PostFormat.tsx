@@ -25,7 +25,7 @@ export default function PostFormat({ inputValue, sortAndOrder }: PostFormatProps
   const POSTLIST_SIZE = 10;
 
   //리액트 쿼리
-  const { isLoading, isError, data, hasNextPage, isFetching, isFetchingNextPage, fetchNextPage, refetch } = useCommunityPostQuery(
+  const { isLoading, isError, data, hasNextPage, isFetching, isFetchingNextPage, fetchNextPage, refetch, isSuccess } = useCommunityPostQuery(
     inputValue,
     sort,
     order,
@@ -152,7 +152,7 @@ export default function PostFormat({ inputValue, sortAndOrder }: PostFormatProps
           </div>
         )}
       </ul>
-      <div ref={ref} />
+      <div ref={ref}></div>
     </>
   );
 }

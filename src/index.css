@@ -195,3 +195,12 @@ select {
 .dark .loadingTree::after {
   border-bottom: 18px solid #fff;
 }
+
+.noScrollBar {
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
+}
+
+.noScrollBar::-webkit-scrollbar {
+  display: none;
+}

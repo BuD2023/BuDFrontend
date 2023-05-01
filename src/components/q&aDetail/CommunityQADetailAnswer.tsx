@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { BsThreeDots } from 'react-icons/bs';
 import { FcApproval, FcCheckmark, FcLike, FcPortraitMode, FcSms } from 'react-icons/fc';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useCommunityAnswerQuery, useDeleteQnaAnswerMutation, usePinAnswerMutation, usePostQnaAnswerLikeMutation } from '../../store/module/useCommunityDetailQuery';
+import { useCommunityAnswerQuery, useCommunityDetailQuery, useDeleteQnaAnswerMutation, usePinAnswerMutation, usePostQnaAnswerLikeMutation } from '../../store/module/useCommunityDetailQuery';
 import { useFollowMutation } from '../../store/module/useCommunityQuery';
 import CommunityCommentForm from '../feedDetail/CommunityCommentForm';
 import { CommunityQADetailAnswerProps, QnaAnswerContentType } from './_Q&ADetail.interface';
@@ -31,11 +31,13 @@ export default function CommunityQADetailAnswer({ isCommentOpen, setIsCommentOpe
   const [answerId, setAnswerId] = useState<number>();
 
   //리액트 쿼리
-  const { data: answerData, isLoading: answerIsLoading, error: answerError, refetch } = useCommunityAnswerQuery(Number(postId));
+  const { data: answerData, refetch: answerRefetch } = useCommunityAnswerQuery(Number(postId));
+  const { refetch: detailRefetch } = useCommunityDetailQuery(Number(postId));
+
   const { mutate: followMutate } = useFollowMutation(Number(userId), Number(postId));
   const { mutate: pinAnswerMutate } = usePinAnswerMutation(Number(answerId));
   const { mutate: likeAnswerMutate } = usePostQnaAnswerLikeMutation(Number(postId));
-  const { mutate: deleteAnswerMutate } = useDeleteQnaAnswerMutation(Number(answerId), Number(postId));
+  const { mutateAsync: deleteAnswerMutate } = useDeleteQnaAnswerMutation(Number(answerId), Number(postId));
 
   //사진 팝업모달
   const [isPicPopUp, setIsPicPopUp] = useState({
@@ -54,9 +56,10 @@ export default function CommunityQADetailAnswer({ isCommentOpen, setIsCommentOpe
     pinAnswerMutate();
   };
 
-  const handleClickDeleteAnswer = (answerId: number) => {
+  const handleClickDeleteAnswer = async (answerId: number) => {
     setAnswerId(answerId);
-    deleteAnswerMutate();
+    await deleteAnswerMutate();
+    detailRefetch();
   };
 
   useEffect(() => {
@@ -68,7 +71,7 @@ export default function CommunityQADetailAnswer({ isCommentOpen, setIsCommentOpe
   }, [answerData]);
 
   useEffect(() => {
-    refetch();
+    answerRefetch();
   }, []);
 
   useEffect(() => {
@@ -126,7 +129,7 @@ export default function CommunityQADetailAnswer({ isCommentOpen, setIsCommentOpe
                       onClick={() => {
                         setAnswerEditValue({
                           content: answer.content,
-                          images: [],
+                          images: answer.imageUrls,
                         });
                         navigate(`/answerEdit/${postId}/${answer.id}`);
                       }}
@@ -226,7 +229,7 @@ export default function CommunityQADetailAnswer({ isCommentOpen, setIsCommentOpe
               </div>
               {isCommentOpen && activeComment.includes(answer.id) && (
                 <div className="mt-4 w-full">
-                  <CommunityCommentForm refetch={refetch} commentCount={answer.commentCount} type="QNA" answerId={answer.id} questionUserId={answer.member.id} />
+                  <CommunityCommentForm refetch={answerRefetch} commentCount={answer.commentCount} type="QNA" answerId={answer.id} questionUserId={answer.member.id} />
                 </div>
               )}
             </div>

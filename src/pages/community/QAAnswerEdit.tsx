@@ -31,7 +31,6 @@ export default function QAAnswerEdit() {
   useEffect(() => {
     refetch();
     setQuestionInfo({ title: data?.title, content: data?.content });
-    // setImgPeek((answerValue?.images as string[])?.map((i) => S3_URL + i));
   }, [isLoading]);
 
   // 보낼 게시글 전체 정보
@@ -39,12 +38,12 @@ export default function QAAnswerEdit() {
     postTypeInfo: 'ANSWER_UPDATE',
     postId: Number(postId),
     qnaAnswerId: Number(answerId),
-    content: answerValue.content,
-    images: answerValue.images,
+    content: answerValue?.content,
+    images: answerValue?.images,
   });
 
   // 사진 미리보기
-  const [imgPeek, setImgPeek] = useState<string[]>([]);
+  const [imgPeek, setImgPeek] = useState<string[]>((answerValue?.images as string[])?.map((i) => S3_URL + i));
 
   // 사진 업로드
   const imgRef = useRef<HTMLInputElement>(null);
