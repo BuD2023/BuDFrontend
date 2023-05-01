@@ -5,7 +5,7 @@ export default function ImagePeek({ imgPeek, setIsPicPopUp }: ImagePeekPropsType
   return (
     <>
       {imgPeek && imgPeek?.length > 0 && (
-        <div className="noScrollBar flex h-[135px] w-full shrink-0 items-center gap-2 overflow-x-auto overflow-y-hidden rounded-[20px] bg-midIvory px-2">
+        <div className="noScrollBar flex h-[135px] w-full shrink-0 items-center gap-2 overflow-x-auto overflow-y-hidden rounded-[20px] bg-midIvory px-2 dark:bg-midNavy">
           {imgPeek &&
             imgPeek?.map((img, idx) => (
               <LazyLoadImage

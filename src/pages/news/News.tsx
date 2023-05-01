@@ -14,7 +14,6 @@ import FooterMenu from '../../components/common/FooterMenu';
 export default function News() {
   // 키워드 필터
   const [filter, setFilter] = useState(false);
-  // const [filterKeywords, setFilterKeywords] = useState('');
   const [inputValue, setInputValue] = useState('');
   const [sort, setSort] = useState(false);
   const [order, setOrder] = useState(false);

@@ -199,12 +199,6 @@ export interface CommunityCommentType {
   readonly sort: PostSortType;
 }
 
-/** CommunitySort - 커뮤니티 정렬할 때 사용하는 props 타입 */
-export interface CommunitySortPropsType {
-  readonly sortAndOrder: SortAndOrderType;
-  readonly setSortAndOrder: ({}: SortAndOrderType) => void;
-}
-
 /**  */
 export interface commentPropsType {
   readonly content: string;

@@ -13,14 +13,18 @@ import { CommunityPostListContentType, postType } from '../community/_Community.
 import { timeForToday } from '../../utils/timeForToday';
 import { useRecoilValue } from 'recoil';
 import { loginUserInfo } from '../../store/recoil/user';
+import { communitySorting } from '../../store/recoil/communitySorting';
 
-export default function PostFormat({ inputValue, sortAndOrder }: PostFormatPropsType) {
+export default function PostFormat({ inputValue }: PostFormatPropsType) {
   const { filter } = useParams();
+
+  // 정렬 Recoil
+  const sortAndOrder = useRecoilValue(communitySorting);
+  const { sort, order } = sortAndOrder;
 
   // 사용자 정보 Recoil
   const logInUserInfo = useRecoilValue(loginUserInfo);
 
-  const { sort, order } = sortAndOrder;
   const navigate = useNavigate();
   const POSTLIST_SIZE = 10;
 

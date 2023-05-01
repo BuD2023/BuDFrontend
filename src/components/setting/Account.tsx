@@ -1,12 +1,17 @@
 import { useState } from 'react';
 import { MdManageAccounts } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
 import { useDeleteAccountMutation } from '../../store/module/useSettingQuery';
+import { loginUserInfo } from '../../store/recoil/user';
 import AlertModal from '../common/AlertModal';
 import ConfirmModal from '../common/ConfirmModal';
 
 export default function Account() {
   const navigate = useNavigate();
+
+  //유저 정보 리코일
+  const [userInfo, setUserInfo] = useRecoilState(loginUserInfo);
 
   //리액트 쿼리
   const { mutateAsync } = useDeleteAccountMutation();
@@ -15,6 +20,10 @@ export default function Account() {
   const [confirmModal, setConfirmModal] = useState(false);
   const getModalAnswer = async () => {
     await mutateAsync();
+    window.localStorage.removeItem('accessToken');
+    window.localStorage.removeItem('logInStatus');
+    window.localStorage.removeItem('theme');
+    window.localStorage.removeItem('notification');
     navigate('/logIn');
   };
   const withdrawalText = '회원님에 대한 모든 정보가 삭제됩니다.\n이 동작은 되돌릴 수 없습니다.\n정말 탈퇴하시겠습니까?';
@@ -22,10 +31,9 @@ export default function Account() {
   // allert 모달창
   const [alertModal, setAlertModal] = useState(false);
   const logoutAction = () => {
-    window.localStorage.removeItem('userInfo');
-    window.localStorage.removeItem('accessToken');
-    window.localStorage.setItem('logInStatus', 'false');
     navigate('/logIn');
+    window.localStorage.removeItem('accessToken');
+    window.localStorage.removeItem('logInStatus');
   };
 
   return (

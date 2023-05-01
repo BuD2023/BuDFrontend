@@ -1,3 +1,4 @@
+import React from 'react';
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import CoffeeChat from './pages/coffeeChat/CoffeeChat';
 import MyProfile from './pages/profile/MyProfile';
@@ -27,7 +28,8 @@ import UserInfo from './pages/setting/UserInfo.js';
 import { RecoilRoot, useRecoilValue } from 'recoil';
 import { loginUserInfo } from './store/recoil/user.js';
 import LogInLoadingPage from './pages/SignUp/LoginLoadingPage.js';
-import React from 'react';
+// import { CSSTransition, TransitionGroup } from 'react-transition-group';
+// import './Transition.css';
 
 function App() {
   const $html = document.querySelector('html');
@@ -49,36 +51,36 @@ function App() {
     // if (!user) navigate('logIn');
   }, []);
 
-  const Home = React.lazy(() => import('./pages/home/Home'));
-  const News = React.lazy(() => import('./pages/news/News'));
-  const NewsDetail = React.lazy(() => import('./pages/news/NewsDetail'));
-  const Community = React.lazy(() => import('./pages/community/Community'));
-  const CommunityQADetail = React.lazy(() => import('./pages/community/CommunityQADetail'));
-  const CommunityFeedDetail = React.lazy(() => import('./pages/community/CommunityFeedDetail'));
-  const PostCreate = React.lazy(() => import('./pages/community/PostCreate'));
-  const PostEdit = React.lazy(() => import('./pages/community/PostEdit'));
-  const QAAnswerEdit = React.lazy(() => import('./pages/community//QAAnswerEdit'));
-  const QAAnswerCreate = React.lazy(() => import('./pages/community//QAAnswerCreate'));
-  const CoffeeChat = React.lazy(() => import('./pages/coffeeChat/CoffeeChat'));
-  const ChatRoom = React.lazy(() => import('./pages/coffeeChat/ChatRoom'));
-  const RoomCreate = React.lazy(() => import('./pages/coffeeChat/RoomCreate'));
-  const MyProfile = React.lazy(() => import('./pages/profile/MyProfile'));
-  const OtherProfile = React.lazy(() => import('./pages/profile/OtherProfile'));
-  const MyProfileEdit = React.lazy(() => import('./pages/profile/MyProfileEdit'));
-  const Setting = React.lazy(() => import('./pages/setting/Setting'));
-  const UserInfo = React.lazy(() => import('./pages/setting/UserInfo'));
-  // const Notification = React.lazy(() => import('./pages/notification/Notification'));
-  const NotFound = React.lazy(() => import('./pages/NotFound'));
-  const LogInPage = React.lazy(() => import('./pages/SignUp/LogInPage'));
-  const LogInLoadingPage = React.lazy(() => import('./pages/SignUp/LoginLoadingPage'));
-  const SignUp = React.lazy(() => import('./pages/SignUp/SignUp'));
-  const SetPicture = React.lazy(() => import('./components/SignUp/SetPicture'));
-  const SetJob = React.lazy(() => import('./components/SignUp/SetJob'));
+  // const Home = React.lazy(() => import('./pages/home/Home'));
+  // const News = React.lazy(() => import('./pages/news/News'));
+  // const NewsDetail = React.lazy(() => import('./pages/news/NewsDetail'));
+  // const Community = React.lazy(() => import('./pages/community/Community'));
+  // const CommunityQADetail = React.lazy(() => import('./pages/community/CommunityQADetail'));
+  // const CommunityFeedDetail = React.lazy(() => import('./pages/community/CommunityFeedDetail'));
+  // const PostCreate = React.lazy(() => import('./pages/community/PostCreate'));
+  // const PostEdit = React.lazy(() => import('./pages/community/PostEdit'));
+  // const QAAnswerEdit = React.lazy(() => import('./pages/community//QAAnswerEdit'));
+  // const QAAnswerCreate = React.lazy(() => import('./pages/community//QAAnswerCreate'));
+  // const CoffeeChat = React.lazy(() => import('./pages/coffeeChat/CoffeeChat'));
+  // const ChatRoom = React.lazy(() => import('./pages/coffeeChat/ChatRoom'));
+  // const RoomCreate = React.lazy(() => import('./pages/coffeeChat/RoomCreate'));
+  // const MyProfile = React.lazy(() => import('./pages/profile/MyProfile'));
+  // const OtherProfile = React.lazy(() => import('./pages/profile/OtherProfile'));
+  // const MyProfileEdit = React.lazy(() => import('./pages/profile/MyProfileEdit'));
+  // const Setting = React.lazy(() => import('./pages/setting/Setting'));
+  // const UserInfo = React.lazy(() => import('./pages/setting/UserInfo'));
+  // // const Notification = React.lazy(() => import('./pages/notification/Notification'));
+  // const NotFound = React.lazy(() => import('./pages/NotFound'));
+  // const LogInPage = React.lazy(() => import('./pages/SignUp/LogInPage'));
+  // const LogInLoadingPage = React.lazy(() => import('./pages/SignUp/LoginLoadingPage'));
+  // const SignUp = React.lazy(() => import('./pages/SignUp/SignUp'));
+  // const SetPicture = React.lazy(() => import('./components/SignUp/SetPicture'));
+  // const SetJob = React.lazy(() => import('./components/SignUp/SetJob'));
 
   return (
     <RecoilRoot>
       <Suspense>
-        {localStorage.getItem('accessToken') ? (
+        {localStorage.getItem('accessToken') || localStorage.getItem('logInStatus') ? (
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/news" element={<News />} />
@@ -103,13 +105,19 @@ function App() {
             <Route path="/signUp" element={<SignUp />} />
             <Route path="/signUp/picture" element={<SetPicture />} />
             <Route path="/signUp/job" element={<SetJob />} />
+            <Route path="/logIn" element={<LogInPage />} />
+            <Route path="/logInLoading" element={<LogInLoadingPage />} />
           </Routes>
         ) : (
+          // <TransitionGroup className={'transition-wrapper'}>
+          //   <CSSTransition key={location.pathname} timeout={300} classNames={'navigate-push'}>
           <Routes>
             <Route path="/logIn" element={<LogInPage />} />
             <Route path="/logInLoading" element={<LogInLoadingPage />} />
             <Route path="*" element={<LogInPage />} />
           </Routes>
+          //   </CSSTransition>
+          // </TransitionGroup>
         )}
       </Suspense>
     </RecoilRoot>
