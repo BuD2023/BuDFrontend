@@ -19,7 +19,7 @@ export default function MyProfileHeader({ userId, nickName, description, profile
   return (
     <div className="text-lighText flex w-full justify-between gap-4 text-[26px] font-bold dark:text-white">
       <div className="flex w-full flex-col gap-2.5">
-        <div className=" flex h-[26px] items-center gap-2">
+        <div className=" flex min-h-[26px] items-center gap-2">
           <div className="flex items-center gap-3">
             <div className="rounded-xl bg-white p-0.5">
               <FcReadingEbook size={30} />
@@ -47,7 +47,7 @@ export default function MyProfileHeader({ userId, nickName, description, profile
         </div>
       </div>
       <div className="h-[120px] w-[120px] shrink-0">
-        <img src={profileUrl} className="h-[120px] w-[120px] rounded-full object-cover" />
+        <img src={profileUrl} alt={profileUrl} className="h-[120px] w-[120px] rounded-full object-cover" />
       </div>
     </div>
   );

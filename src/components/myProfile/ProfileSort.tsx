@@ -35,7 +35,7 @@ export default function ProfileSort({ setSortAndOrder, sortAndOrder, postView }:
           </li>
         ))}
       </ul>
-      <ul className="flex items-center gap-2">
+      <ul className="flex items-center gap-3">
         {order.map((ordering, idx) => (
           <li key={idx} onClick={() => setSortAndOrder({ ...sortAndOrder, order: ordering })} className={`cursor-pointer ${sortAndOrder.order === ordering ? '' : 'opacity-50'}`}>
             <span className="hidden xs:block ">· {handleText(ordering)}</span>

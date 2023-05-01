@@ -4,7 +4,7 @@ import { useFollowMutation } from '../../store/module/useCommunityQuery';
 import UserListModal from '../common/UserListModal';
 import { OtherProfileInfoPropsType } from './_OtherProfile.interface';
 
-export default function OtherProfileInfo({ numberOfPosts, numberOfFollowers, numberOfFollows, level, isFollowing, isLoading }: OtherProfileInfoPropsType) {
+export default function OtherProfileInfo({ numberOfPosts, numberOfFollowers, numberOfFollows, level, isFollowing, isLoading, memberStatus }: OtherProfileInfoPropsType) {
   const { id } = useParams();
   const [type, setType] = useState<string>('');
   const [isUserList, setIsUserList] = useState<boolean>(false);
@@ -25,13 +25,13 @@ export default function OtherProfileInfo({ numberOfPosts, numberOfFollowers, num
   };
 
   if (isLoading) {
-    return <div className="mt-3 h-[185px] w-full rounded-2xl bg-midIvory dark:bg-sky"></div>;
+    return <div className="mt-3 h-[177px] w-full rounded-2xl bg-midIvory dark:bg-sky"></div>;
   }
 
   return (
     <>
       <UserListModal isUserList={isUserList} setIsUserList={setIsUserList} type={type} />
-      <div className="mt-3 flex h-[185px] w-full flex-col rounded-2xl bg-midIvory text-lightText dark:bg-sky dark:text-white">
+      <div className="mt-3 flex w-full flex-col rounded-2xl bg-midIvory text-lightText dark:bg-sky dark:text-white">
         <div className="flex h-[122px] w-full items-center justify-around px-3">
           <div className="flex flex-col items-center justify-around text-[22px] font-bold">
             <div>{numberOfPosts}</div>
@@ -56,9 +56,11 @@ export default function OtherProfileInfo({ numberOfPosts, numberOfFollowers, num
             <div className="mt-2 text-[18px] font-medium">성장레벨</div>
           </div>
         </div>
-        <div onClick={handleFollowClick} className="flex h-[55px] w-full text-[18px] font-semibold">
-          <button className="h-full w-full rounded-2xl bg-greyBeige bg-opacity-50 text-lightText dark:bg-lightNavy dark:text-white">{isFollowing ? '팔로우취소' : '팔로우하기'}</button>
-        </div>
+        {memberStatus !== 'WITHDREW' && (
+          <div onClick={handleFollowClick} className="flex h-[55px] w-full text-[18px] font-semibold">
+            <button className="h-full w-full rounded-2xl bg-greyBeige bg-opacity-50 text-lightText dark:bg-lightNavy dark:text-white">{isFollowing ? '팔로우취소' : '팔로우하기'}</button>
+          </div>
+        )}
       </div>
     </>
   );

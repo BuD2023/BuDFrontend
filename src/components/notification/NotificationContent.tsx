@@ -9,22 +9,25 @@ import { NotiContent } from './_Notification.interface';
 import { useInView } from 'react-intersection-observer';
 import { timeForToday } from '../../utils/timeForToday';
 import { S3_URL } from '../../constant/union';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { deletedNotiId, selectedPageId } from '../../store/recoil/deletedNotiId';
+import { useRecoilState } from 'recoil';
+import { deletedNotiId } from '../../store/recoil/deletedNotiId';
 import { useCommunityDetailQuery } from '../../store/module/useCommunityDetailQuery';
+import axios, { AxiosError } from 'axios';
+
+type ErrorType = {
+  error: AxiosError | Error;
+};
 
 export default function NotificationContent() {
   const navigate = useNavigate();
-  const setDeletedNotiId = useSetRecoilState(deletedNotiId);
-  const pageId = useRecoilValue(selectedPageId);
-  const setPageId = useSetRecoilState(selectedPageId);
-  const pageIdRef = useRef(0);
+  const [deletedNoti, setDeletedNoti] = useRecoilState(deletedNotiId);
+  const pageIdRef = useRef(-1);
 
   //리액트 쿼리
   const { data: notificationData, refetch, hasNextPage, isFetching, isFetchingNextPage, fetchNextPage } = useNotificationListQuery();
   const { mutateAsync: deleteNotiMutateAsync } = useNotificationdeleteMutation();
   const { mutate: changeNotiStatMutation } = useNotificationStatusMutation();
-  const { refetch: communityDetailRefetch, isRefetchError, error: refetchError, isFetched, isError, error, isSuccess } = useCommunityDetailQuery(pageIdRef.current);
+  const { refetch: communityDetailRefetch, isError, data, error } = useCommunityDetailQuery(pageIdRef.current);
 
   // 인피니티 스크롤
   const { ref, inView } = useInView({ threshold: 0.5 });
@@ -33,62 +36,46 @@ export default function NotificationContent() {
     if (inView && hasNextPage && !isFetching && !isFetchingNextPage) fetchNextPage();
   }, [inView]);
 
-  const isCheckPostDelete = async () => {
-    await communityDetailRefetch();
-  };
-
-  // const handleNotiClick = async (pageType: pageType, pageId: number, notiId: string) => {
-  //   pageIdRef.current = pageId;
-  //   changeNotiStatMutation(notiId);
-  //   setPageId(pageId);
-  //   setDeletedNotiId(notiId);
-  //   if (pageType === 'OTHER_PROFILE') {
-  //     navigate(`/otherProfile/${pageId}/feed`);
-  //   } else if (pageType === 'FEED') {
-  //     // navigate(`/communityFeedDetail/${pageId}`);
-  //   } else {
-  //     await isCheckPostDelete().then(() => {
-  //       navigate(`/communityQADetail/${pageId}`);
-  //     });
-  //   }
-  // };
-
   const handleNotiClick = async (pageType: pageType, pageId: number, notiId: string) => {
     pageIdRef.current = pageId;
     changeNotiStatMutation(notiId);
-    setPageId(pageId);
-    setDeletedNotiId(notiId);
+    setDeletedNoti(notiId);
     if (pageType === 'OTHER_PROFILE') {
-      // navigate(`/otherProfile/${pageId}/feed`);
-    } else if (pageType === 'FEED') {
-      // !error && !isError && navigate(`/communityFeedDetail/${pageId}`);
-    } else {
-      await isCheckPostDelete().then(() => {
-        navigate(`/communityQADetail/${pageId}`);
-      });
+      navigate(`/otherProfile/${pageId}/feed`);
+      return;
     }
   };
 
   useEffect(() => {
     async function fetchData() {
-      if (pageIdRef.current !== 0) {
-        try {
-          await communityDetailRefetch();
-          console.log('hi');
-        } catch (error) {
-          console.error(error);
-          console.log('bye');
-        }
-      }
+      if (pageIdRef.current !== -1) await communityDetailRefetch();
     }
 
     fetchData();
   }, [pageIdRef.current]);
 
   useEffect(() => {
-    console.log(pageIdRef);
-    // error && isError && navigate('/DeletedPost');
-  }, [error]);
+    console.log(deletedNoti);
+    if (pageIdRef.current === -1) return;
+    if (isError && axios.isAxiosError(error) && error.response) {
+      if (error.response.data.message === '존재하지 않는 게시물입니다.') {
+        navigate('/DeletedPost');
+        deleteNotiMutateAsync(deletedNoti);
+        return;
+      } else {
+        navigate('/NotFound');
+        return;
+      }
+    } else if (data) {
+      if (data.postType === 'FEED') {
+        navigate(`/communityFeedDetail/${data.id}`);
+        return;
+      } else {
+        navigate(`/communityQADetail/${data.id}`);
+        return;
+      }
+    }
+  }, [error, data]);
 
   const handleImgClick = (senderId: string, event: React.MouseEvent<HTMLImageElement>) => {
     console.log(senderId);
@@ -238,7 +225,7 @@ export default function NotificationContent() {
         <>
           {notificationData && (
             <div className="relative mt-8 flex min-h-[calc(100vh-164px)] w-full flex-col items-center justify-center gap-4 p-4 text-lightText dark:text-white">
-              <img src={S3_URL + 'levels/lv' + randomPinNum + 'L.png'} alt="notiImg" className="aspect-square w-[200px] opacity-75 brightness-[2] dark:opacity-70 dark:brightness-[1]" />
+              <img src={S3_URL + 'levels/lv' + randomPinNum + 'L.png'} alt="notiImg" className="aspect-square h-[200px] w-[200px] opacity-75 brightness-[2] dark:opacity-70 dark:brightness-[1]" />
               <span className="text-xl opacity-50">새 알림이 없어요!</span>
             </div>
           )}

@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import postNotificationTokenAxios from '../../apiFetcher/notificationInfo/postNotificationToken';
 import getLogInCheckAxios from '../../apiFetcher/setting/getLogInCheck';
+import { useGithubMutation } from '../../store/module/useGithubQuery';
 import { useLogInCheckQuery } from '../../store/module/useSettingQuery';
 import { loginUserInfo } from '../../store/recoil/user';
 import { getFcmToken } from '../../utils/fcm';
@@ -15,6 +16,7 @@ export default function LogInLoadingPage() {
 
   //리액트 쿼리
   const { refetch, isError } = useLogInCheckQuery();
+  const { mutateAsync } = useGithubMutation();
 
   useEffect(() => {
     const queryString = window.location.search;
@@ -35,8 +37,9 @@ export default function LogInLoadingPage() {
             }
             setUserInfo(userToken);
             if (isCheckResponse?.isAddInfo && isCheckResponse?.isAddInfo === true) {
-              setTimeout(() => {
+              setTimeout(async () => {
                 navigate('/');
+                await mutateAsync();
               }, 1000);
             } else {
               setTimeout(() => {
@@ -47,8 +50,9 @@ export default function LogInLoadingPage() {
         } else {
           console.log(userInfo);
           await refetch();
-          setTimeout(() => {
+          setTimeout(async () => {
             navigate('/');
+            await mutateAsync();
           }, 1000);
         }
       } catch (error) {

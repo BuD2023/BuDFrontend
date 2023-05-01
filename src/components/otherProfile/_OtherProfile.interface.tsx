@@ -23,6 +23,7 @@ export interface UserProfileType {
   readonly profileUrl: string;
   readonly isFollowing: boolean;
   readonly isReader: boolean;
+  readonly memberStatus: string;
 }
 
 /** OtherProfileHeader - 타인 프로필 헤더에 사용하는 props 타입 */
@@ -33,6 +34,7 @@ export interface UserProfileHeaderPropsType {
   readonly description: string;
   readonly profileUrl: string;
   readonly isLoading: boolean;
+  readonly memberStatus: string;
 }
 
 /** OtherProfileInfo - 타인 프로필 정보에 사용하는 props 타입  */
@@ -43,6 +45,7 @@ export interface OtherProfileInfoPropsType {
   readonly level: number;
   readonly isFollowing: boolean;
   readonly isLoading: boolean;
+  readonly memberStatus: string;
 }
 
 /** OtherProfileMenu - 타인 프로필 메뉴에 사용하는 props 타입 */

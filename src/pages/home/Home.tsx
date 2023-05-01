@@ -14,7 +14,7 @@ import { loginUserInfo } from '../../store/recoil/user';
 import { getFcmToken } from '../../utils/fcm';
 
 export default function Home() {
-  const { data, isLoading } = useGithubQuery();
+  const { data, isLoading, refetch } = useGithubQuery();
 
   const { data: userProfileData, isLoading: profileIsLoading } = useMyProfileQuery();
 
@@ -43,6 +43,10 @@ export default function Home() {
       }));
     }
   }, [profileIsLoading]);
+
+  useEffect(() => {
+    refetch();
+  }, []);
 
   return (
     <section>

@@ -1,21 +1,14 @@
 import { atom } from 'recoil';
+import { pageType } from '../../components/notification/_Notification.interface';
+export interface notiPropsType {
+  pageType: pageType;
+  pageId: number;
+  notiId: string;
+}
 
-export const selectedPageId = atom<number>({
+export const selectedPageState = atom<undefined | Partial<notiPropsType>>({
   key: 'pageIdState',
-  default: 0,
-  effects: [
-    ({ setSelf, onSet }) => {
-      const savedData = sessionStorage.getItem('pageId');
-      // setSelf: atom 값을 설정 혹은 재설정
-      if (savedData) setSelf(JSON.parse(savedData));
-
-      // atom이 변화가 감지될 때 작동, Storage에 데이터 저장
-      // setSelf에 의해서는 작동하지 않음
-      onSet((newValue, _, isReset) => {
-        isReset ? sessionStorage.removeItem('pageId') : sessionStorage.setItem('pageId', JSON.stringify(newValue));
-      });
-    },
-  ],
+  default: undefined as undefined | Partial<notiPropsType>,
 });
 
 export const deletedNotiId = atom<string>({

@@ -151,7 +151,7 @@ export default function CommunityQADetailAnswer({ isCommentOpen, setIsCommentOpe
                         e.stopPropagation();
                         navigate(`/otherProfile/${answer.member.id}/feed`);
                       }}
-                      className="aspect-square w-[58px] cursor-pointer rounded-full object-cover"
+                      className="aspect-square h-[58px] w-[58px] cursor-pointer rounded-full object-cover"
                       src={S3_URL + answer.member.profileImg}
                       alt={answer.member.nickname}
                     />
@@ -170,10 +170,10 @@ export default function CommunityQADetailAnswer({ isCommentOpen, setIsCommentOpe
                       </div>
                     </div>
                   </div>
-                  {answer.member.id !== logInUserInfo?.id && (
+                  {answer.member.id !== logInUserInfo?.id && answer.member.status !== 'WITHDREW' && (
                     <div className="text-end font-bold">
                       <div onClick={(e) => handleClickFollow(e, answer.member.id)} className="flex h-full items-center justify-end ">
-                        <div className="flex cursor-pointer gap-3">
+                        <div className="flex cursor-pointer gap-3 whitespace-nowrap">
                           {answer.follow ? (
                             <>
                               <FcCheckmark size={21} />

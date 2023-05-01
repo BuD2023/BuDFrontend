@@ -69,6 +69,7 @@ export default function OtherProfile() {
           nickName={data?.nickName as string}
           profileUrl={data?.profileUrl as string}
           description={data?.description as string}
+          memberStatus={data?.memberStatus as string}
         />
         <OtherProfileInfo
           numberOfPosts={data?.numberOfPosts as number}
@@ -77,10 +78,17 @@ export default function OtherProfile() {
           level={data?.level as number}
           isFollowing={data?.isFollowing as boolean}
           isLoading={isLoading}
+          memberStatus={data?.memberStatus as string}
         />
         <OtherProfileMenu id={id} postView={postView} setPostView={setPostView} />
         <ProfileSort postView={postView} setSortAndOrder={setSortAndOrder} sortAndOrder={sortAndOrder} />
-        <FeedPostFormat profilePostIsLoading={profilePostIsLoading} refetch={profilePostRefetch} userData={data} resultData={profilePostData?.pages.flatMap((page) => page.content)} />
+        <FeedPostFormat
+          memberStatus={data?.memberStatus as string}
+          profilePostIsLoading={profilePostIsLoading}
+          refetch={profilePostRefetch}
+          userData={data}
+          resultData={profilePostData?.pages.flatMap((page) => page.content)}
+        />
       </div>
       <div ref={ref} />
       <FooterMenu />
