@@ -32,7 +32,7 @@ export default function LevelIconModal({ isPicPopUp, setIsPicPopUp, level }: any
                     <span>{testLevelName[level - 1]}</span>
                   </div>
                   <div className="flex py-3">
-                    <img src={isPicPopUp.pic as string} className="aspect-square w-[170px] object-contain" />
+                    <img src={isPicPopUp.pic as string} alt={isPicPopUp.pic as string} className="aspect-square h-[170px] w-[170px] object-contain" />
                     <div className="flex flex-col gap-6 p-4 pt-3">
                       <div className="flex flex-col gap-2">
                         <span className="font-bold">달성 조건</span>

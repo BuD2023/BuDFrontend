@@ -106,20 +106,20 @@ export default function PostFormat({ inputValue }: PostFormatPropsType) {
                       }}
                       src={S3_URL + data.member.profileImg}
                       alt={data.title}
-                      className="h-[58px] w-[58px] shrink-0 rounded-full object-cover "
+                      className="aspect-square h-[58px] w-[58px] rounded-full object-cover"
                     />
                     <div className="w-full pl-3">
                       <p className="text-xl font-bold">{data.member.nickname}</p>
                       <p className="text-[17px] opacity-50">{timeForToday(data.createdAt)}</p>
                     </div>
                   </div>
-                  {data.member.id !== logInUserInfo?.id && (
+                  {data.member.id !== logInUserInfo?.id && data.member.status !== 'WITHDREW' && (
                     <div className="text-end font-bold">
                       <div
                         onClick={(e) => {
                           handleClickFollow(e, data.member.id);
                         }}
-                        className="flex h-full w-[80px] items-center justify-end gap-3"
+                        className="flex h-full items-center justify-end gap-3 whitespace-nowrap"
                       >
                         {data.follow ? (
                           <>

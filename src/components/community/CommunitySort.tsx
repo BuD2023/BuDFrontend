@@ -22,14 +22,14 @@ export default function CommunitySort() {
       <ul className="flex items-center gap-2">
         {sort?.map((sorting, idx) => (
           <li key={idx} onClick={() => setSortAndOrder({ ...sortAndOrder, sort: sorting })} className={`cursor-pointer ${sortAndOrder.sort === sorting ? '' : 'opacity-50'}`}>
-            <span>{handleText(sorting)}</span>
+            <span>· {handleText(sorting)}</span>
           </li>
         ))}
       </ul>
       <div className="flex items-center gap-2">
         {order?.map((ordering, idx) => (
-          <li key={idx} onClick={() => setSortAndOrder({ ...sortAndOrder, order: ordering })} className={`cursor-pointer ${sortAndOrder.order === ordering ? '' : 'opacity-50'}`}>
-            <span>{handleText(ordering)}</span>
+          <li key={idx} onClick={() => setSortAndOrder({ ...sortAndOrder, order: ordering })} className={`cursor-pointer list-none ${sortAndOrder.order === ordering ? '' : 'opacity-50'}`}>
+            <span>· {handleText(ordering)}</span>
           </li>
         ))}
       </div>

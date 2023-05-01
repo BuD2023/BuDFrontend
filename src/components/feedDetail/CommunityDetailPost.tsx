@@ -78,7 +78,7 @@ export default function CommunityDetailPost({ setQuestionUserId, setCommentCount
                   }}
                   src={S3_URL + (questionData?.member.profileImg as string)}
                   alt={questionData?.member.nickname}
-                  className="h-[58px] w-[58px] cursor-pointer rounded-full object-cover"
+                  className="aspect-square h-[58px] w-[58px] cursor-pointer rounded-full object-cover"
                 />
                 <div className="flex flex-col gap-1.5 pl-3">
                   <p
@@ -97,9 +97,9 @@ export default function CommunityDetailPost({ setQuestionUserId, setCommentCount
                   <p className="text-[17px] opacity-50">{timeForToday(questionData?.createdAt as string)}</p>
                 </div>
               </div>
-              {questionData?.member.id !== logInUserInfo?.id && (
+              {questionData?.member.id !== logInUserInfo?.id && questionData.member.status !== 'WITHDREW' && (
                 <div className="text-end font-bold">
-                  <div onClick={(e) => handleClickFollow(e, Number(questionData?.member.id))} className="flex h-full w-[80px] cursor-pointer items-center justify-end gap-3">
+                  <div onClick={(e) => handleClickFollow(e, Number(questionData?.member.id))} className="flex h-full cursor-pointer items-center justify-end gap-3 whitespace-nowrap">
                     {questionData?.follow ? (
                       <>
                         <FcCheckmark size={21} />

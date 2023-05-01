@@ -16,33 +16,16 @@ import { postFeedCommentAxios, postQnaCommentAxios } from '../../apiFetcher/comm
 import { putFeedCommentEditAxios, putQnaCommentEditAxios } from '../../apiFetcher/communityInfo/putCommentEdit';
 import { loginUserInfo } from '../recoil/user';
 import { useRecoilValue } from 'recoil';
-import { useNavigate } from 'react-router-dom';
-import { useNotificationdeleteMutation, useNotificationListQuery } from './useNotificationQuery';
-import { deletedNotiId } from '../recoil/deletedNotiId';
 
 export function useCommunityDetailQuery(id: number) {
   //리코일
   const loginUser = useRecoilValue(loginUserInfo);
-  const notiId = useRecoilValue(deletedNotiId);
-  const navigate = useNavigate();
-  const { mutateAsync } = useNotificationdeleteMutation();
-
   return useQuery(['CommunityDetail', id], () => getCommunityDetailAxios(loginUser?.token as string, id), {
     enabled: false,
     refetchOnMount: true,
     refetchOnReconnect: true,
     refetchOnWindowFocus: true,
     retry: 0,
-    // onError: async (error: any) => {
-    //   if ((error.response.data.message = '존재하지 않는 게시물입니다.')) {
-    //     if (notiId) {
-    //       navigate('/DeletedPost');
-    //       // mutateAsync(notiId);
-    //     }
-    //     // (await mutateAsync(notiId).then(() => {
-    //   }
-    //   return;
-    // },
   });
 }
 

@@ -11,7 +11,7 @@ import { loginUserInfo } from '../../store/recoil/user';
 import { useFollowMutation } from '../../store/module/useCommunityQuery';
 import LazyLoadImage from '../../utils/LazyLoadImage';
 
-export default function FeedPostFormat({ resultData, userData, refetch, profilePostIsLoading }: any) {
+export default function FeedPostFormat({ resultData, userData, refetch, profilePostIsLoading, memberStatus }: any) {
   const navigate = useNavigate();
 
   // 사용자 정보 Recoil
@@ -72,7 +72,7 @@ export default function FeedPostFormat({ resultData, userData, refetch, profileP
                       }}
                       src={S3_URL + userData.profileUrl}
                       alt={userData.nickName}
-                      className="aspect-square w-[58px] rounded-full object-cover"
+                      className="aspect-square h-[58px] w-[58px] rounded-full object-cover"
                     />
                     <div className="pl-3">
                       <p
@@ -93,28 +93,30 @@ export default function FeedPostFormat({ resultData, userData, refetch, profileP
                       <p className="text-[17px] opacity-50">{timeForToday(data.createdAt)}</p>
                     </div>
                   </div>
-                  {userData.id !== logInUserInfo?.id && (
-                    <div className="text-end font-bold">
-                      <div
-                        onClick={(e) => {
-                          handleClickFollow(e, data.postRegisterMemberId);
-                        }}
-                        className="flex h-full items-center justify-end gap-3"
-                      >
-                        {data.follow ? (
-                          <>
-                            <FcCheckmark size={21} />
-                            <p>팔로잉</p>
-                          </>
-                        ) : (
-                          <>
-                            <FcPortraitMode />
-                            <p>팔로우</p>
-                          </>
-                        )}
+                  {userData.id !== logInUserInfo?.id ||
+                    userData.status !== 'WITHDREW' ||
+                    (memberStatus !== 'WITHDREW' && (
+                      <div className="text-end font-bold">
+                        <div
+                          onClick={(e) => {
+                            handleClickFollow(e, data.postRegisterMemberId);
+                          }}
+                          className="flex h-full items-center justify-end gap-3 whitespace-nowrap"
+                        >
+                          {data.follow ? (
+                            <>
+                              <FcCheckmark size={21} />
+                              <p>팔로잉</p>
+                            </>
+                          ) : (
+                            <>
+                              <FcPortraitMode />
+                              <p>팔로우</p>
+                            </>
+                          )}
+                        </div>
                       </div>
-                    </div>
-                  )}
+                    ))}
                 </div>
                 <div className="flex text-[16px] font-semibold">
                   <div className="rounded-[30px] bg-greyBeige px-3 py-2 text-[14px] dark:bg-sky">{`${data.postType === 'FEED' ? '개발 피드' : 'Q & A 피드'}`}</div>

@@ -19,13 +19,13 @@ export default function MyProfileInfo({ level, followers, follows, posts, isLoad
   };
 
   if (isLoading) {
-    return <div className="mt-3 h-[185px] w-full rounded-2xl bg-midIvory dark:bg-sky"></div>;
+    return <div className="mt-3 h-[177px] w-full rounded-2xl bg-midIvory dark:bg-sky"></div>;
   }
 
   return (
     <>
       <UserListModal follows={follows} isUserList={isUserList} setIsUserList={setIsUserList} type={type} />
-      <div className="mt-3 flex h-[185px] w-full flex-col rounded-2xl bg-midIvory text-lightText dark:bg-sky dark:text-white">
+      <div className="mt-3 flex w-full flex-col rounded-2xl bg-midIvory text-lightText dark:bg-sky dark:text-white">
         <div className="flex h-[122px] w-full items-center justify-around px-3">
           <div className="flex flex-col items-center justify-around text-[22px] font-bold">
             <div>{posts}</div>

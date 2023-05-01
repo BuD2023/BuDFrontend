@@ -77,7 +77,7 @@ export default function ScrapPostFormat({ refetch, userData, resultData, myProfi
                       }}
                       src={S3_URL + data.postRegisterMemberProfileImg}
                       alt={data.title}
-                      className="aspect-square w-[58px] rounded-full object-cover"
+                      className="aspect-square h-[58px] w-[58px] rounded-full object-cover"
                     />
                     <div className="pl-3">
                       <p
@@ -104,7 +104,7 @@ export default function ScrapPostFormat({ refetch, userData, resultData, myProfi
                         onClick={(e) => {
                           handleClickFollow(e, data.postRegisterMemberId);
                         }}
-                        className="flex h-full items-center justify-end gap-3"
+                        className="flex h-full items-center justify-end gap-3 whitespace-nowrap"
                       >
                         {data.follow ? (
                           <>

@@ -1,4 +1,4 @@
-import { getCommunityDetailType, postType } from '../../components/community/_Community.interface';
+import { getCommunityDetailType } from '../../components/community/_Community.interface';
 import customAxios from '../customAxios';
 
 export const getCommunityDetailAxios = async (token: string, id: number | string): Promise<getCommunityDetailType> => {

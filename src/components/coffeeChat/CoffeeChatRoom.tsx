@@ -96,8 +96,8 @@ export default function CoffeeChatRoom({ inputValue }: CoffeeChatRoomPropsType) 
           </div>
         ))
       ) : (
-        <div className="relative mb-5 flex min-h-[280px] w-full min-w-[100vw] flex-col">
-          <div className="absolute inset-x-4 inset-y-0 flex flex-col items-center justify-center rounded-2xl bg-midIvory p-6 dark:bg-midNavy">
+        <div className="relative mb-5 flex min-h-[250px] w-full min-w-[355px] flex-col">
+          <div className="absolute inset-y-0 flex w-full flex-col items-center justify-center rounded-2xl bg-midIvory p-6 dark:bg-midNavy">
             <div className="text-[19px] font-semibold leading-6">검색된 채팅방이 없습니다.</div>
           </div>
         </div>

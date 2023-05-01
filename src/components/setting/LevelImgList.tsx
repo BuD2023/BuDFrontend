@@ -29,7 +29,12 @@ export default function LevelImgList() {
       <div className="grid grid-cols-2 place-items-center gap-4">
         {levelData?.map((url, i) => (
           <div key={`level-${i}`} className="rounded-xl bg-white bg-opacity-50">
-            <img onClick={() => handleClickImg(String(i + 1), url)} className="dark:brightness-1 aspect-square cursor-pointer object-contain brightness-95" src={url} alt={`Level ${i}`} />
+            <img
+              onClick={() => handleClickImg(String(i + 1), url)}
+              className="dark:brightness-1 aspect-square h-[130px] w-[130px] cursor-pointer object-contain brightness-95"
+              src={url}
+              alt={`Level ${i}`}
+            />
           </div>
         ))}
       </div>

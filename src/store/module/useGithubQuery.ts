@@ -8,6 +8,7 @@ export function useGithubQuery() {
   //리코일
   const loginUser = useRecoilValue(loginUserInfo);
   return useQuery(['githubInfo'], () => getGithubInfoAxios(loginUser?.token as string), {
+    enabled: false,
     refetchOnMount: true,
     refetchOnReconnect: true,
     refetchOnWindowFocus: true,
@@ -20,12 +21,14 @@ export function useGithubQuery() {
 export function useGithubMutation() {
   //리코일
   const loginUser = useRecoilValue(loginUserInfo);
+  const { refetch } = useGithubQuery();
   return useMutation(() => postGithubInfoAxios(loginUser?.token as string), {
     onError: (err) => {
       console.log(err);
     },
-    onSuccess: () => {
+    onSuccess: async () => {
       console.log('깃헙 정보 요청이 실행되었습니다.');
+      await refetch();
     },
   });
 }
