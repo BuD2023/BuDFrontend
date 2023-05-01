@@ -47,15 +47,15 @@ function App() {
   }, []);
 
   // 토큰 설정
-  useEffect(() => {
-    setTimeout(() => {
+  window.onstorage = (e) => {
+    if (e.key === 'newAccessToken') {
       const newToken = localStorage.getItem('newAccessToken');
       if (newToken) {
         setUser(JSON.parse(newToken as string));
         localStorage.removeItem('newAccessToken');
       } else return;
-    }, 500);
-  }, []);
+    }
+  };
 
   // const Home = React.lazy(() => import('./pages/home/Home'));
   // const News = React.lazy(() => import('./pages/news/News'));

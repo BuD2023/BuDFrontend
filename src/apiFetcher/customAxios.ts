@@ -17,7 +17,6 @@ const tokenExpirationTime = () => {
 customAxios.interceptors.request.use(
   async (config) => {
     accessToken = JSON.parse(localStorage.getItem('accessToken') as string);
-    console.log(tokenExpirationTime());
     if (Date.now() >= tokenExpirationTime()) {
       // 현재시간보다 만료기한시간이 작으면 토큰 재발급
       console.log('token expired');
