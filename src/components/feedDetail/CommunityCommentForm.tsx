@@ -134,9 +134,9 @@ export default function CommunityCommentForm({ type, answerId, questionUserId, c
   //   );
   // }
 
-  if (feedError || QnAError) {
-    navigate('/NotFound');
-  }
+  // if (feedError || QnAError) {
+  //   navigate('/NotFound');
+  // }
 
   useEffect(() => {
     if (type === 'FEED') {

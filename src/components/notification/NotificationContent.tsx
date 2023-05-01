@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { SwipeableList, SwipeableListItem } from '@sandstreamdev/react-swipeable-list';
 import '@sandstreamdev/react-swipeable-list/dist/styles.css';
@@ -9,14 +9,22 @@ import { NotiContent } from './_Notification.interface';
 import { useInView } from 'react-intersection-observer';
 import { timeForToday } from '../../utils/timeForToday';
 import { S3_URL } from '../../constant/union';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { deletedNotiId, selectedPageId } from '../../store/recoil/deletedNotiId';
+import { useCommunityDetailQuery } from '../../store/module/useCommunityDetailQuery';
 
 export default function NotificationContent() {
   const navigate = useNavigate();
+  const setDeletedNotiId = useSetRecoilState(deletedNotiId);
+  const pageId = useRecoilValue(selectedPageId);
+  const setPageId = useSetRecoilState(selectedPageId);
+  const pageIdRef = useRef(0);
 
   //리액트 쿼리
   const { data: notificationData, refetch, hasNextPage, isFetching, isFetchingNextPage, fetchNextPage } = useNotificationListQuery();
   const { mutateAsync: deleteNotiMutateAsync } = useNotificationdeleteMutation();
   const { mutate: changeNotiStatMutation } = useNotificationStatusMutation();
+  const { refetch: communityDetailRefetch, isRefetchError, error: refetchError, isFetched, isError, error, isSuccess } = useCommunityDetailQuery(pageIdRef.current);
 
   // 인피니티 스크롤
   const { ref, inView } = useInView({ threshold: 0.5 });
@@ -25,16 +33,62 @@ export default function NotificationContent() {
     if (inView && hasNextPage && !isFetching && !isFetchingNextPage) fetchNextPage();
   }, [inView]);
 
-  const handleNotiClick = (pageType: pageType, pageId: number, notiId: string) => {
+  const isCheckPostDelete = async () => {
+    await communityDetailRefetch();
+  };
+
+  // const handleNotiClick = async (pageType: pageType, pageId: number, notiId: string) => {
+  //   pageIdRef.current = pageId;
+  //   changeNotiStatMutation(notiId);
+  //   setPageId(pageId);
+  //   setDeletedNotiId(notiId);
+  //   if (pageType === 'OTHER_PROFILE') {
+  //     navigate(`/otherProfile/${pageId}/feed`);
+  //   } else if (pageType === 'FEED') {
+  //     // navigate(`/communityFeedDetail/${pageId}`);
+  //   } else {
+  //     await isCheckPostDelete().then(() => {
+  //       navigate(`/communityQADetail/${pageId}`);
+  //     });
+  //   }
+  // };
+
+  const handleNotiClick = async (pageType: pageType, pageId: number, notiId: string) => {
+    pageIdRef.current = pageId;
     changeNotiStatMutation(notiId);
+    setPageId(pageId);
+    setDeletedNotiId(notiId);
     if (pageType === 'OTHER_PROFILE') {
-      navigate(`/otherProfile/${pageId}/feed`);
+      // navigate(`/otherProfile/${pageId}/feed`);
     } else if (pageType === 'FEED') {
-      navigate(`/communityFeedDetail/${pageId}`);
+      // !error && !isError && navigate(`/communityFeedDetail/${pageId}`);
     } else {
-      navigate(`/communityQADetail/${pageId}`);
+      await isCheckPostDelete().then(() => {
+        navigate(`/communityQADetail/${pageId}`);
+      });
     }
   };
+
+  useEffect(() => {
+    async function fetchData() {
+      if (pageIdRef.current !== 0) {
+        try {
+          await communityDetailRefetch();
+          console.log('hi');
+        } catch (error) {
+          console.error(error);
+          console.log('bye');
+        }
+      }
+    }
+
+    fetchData();
+  }, [pageIdRef.current]);
+
+  useEffect(() => {
+    console.log(pageIdRef);
+    // error && isError && navigate('/DeletedPost');
+  }, [error]);
 
   const handleImgClick = (senderId: string, event: React.MouseEvent<HTMLImageElement>) => {
     console.log(senderId);
@@ -121,6 +175,10 @@ export default function NotificationContent() {
 
   const randomPinNum = getRandomInt(2, 10);
 
+  useEffect(() => {
+    refetch();
+  }, []);
+
   return (
     <>
       {notificationData && notificationData?.pages[0].content.length > 0 ? (
@@ -147,7 +205,6 @@ export default function NotificationContent() {
                             ),
                             action: async () => {
                               await deleteNotiMutateAsync(noti.notificationId);
-                              refetch();
                               console.log('Deleting item:', noti.notificationId);
                             },
                           }}

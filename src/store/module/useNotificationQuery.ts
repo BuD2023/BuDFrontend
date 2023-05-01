@@ -44,13 +44,15 @@ export function useNotificationStatusMutation() {
 }
 
 export function useNotificationdeleteMutation() {
+  const { refetch } = useNotificationListQuery();
   const loginUser = useRecoilValue(loginUserInfo);
   return useMutation((notiId: string) => deleteNotificationAxios(loginUser?.token as string, notiId), {
     onError: (err) => {
       console.log(err);
     },
-    onSuccess: () => {
+    onSuccess: async () => {
       console.log('알림 삭제가 완료되었습니다.');
+      await refetch();
     },
   });
 }

@@ -46,9 +46,6 @@ export default function CommunityDetailPost({ setQuestionUserId, setCommentCount
     open: false,
     pic: '',
   });
-  if (questionError) {
-    navigate('/NotFound');
-  }
 
   useEffect(() => {
     refetch();
@@ -57,6 +54,10 @@ export default function CommunityDetailPost({ setQuestionUserId, setCommentCount
   if (questionIsLoading) {
     return <div className="mb-6 flex h-[298px] w-full cursor-pointer flex-col items-center gap-4 rounded-[20px] bg-midIvory dark:bg-midNavy"></div>;
   }
+
+  // if (questionError) {
+  //   navigate('/NotFound');
+  // }
 
   return (
     <div className="mb-6 flex w-full flex-col items-center gap-4 rounded-[20px] bg-midIvory dark:bg-midNavy">
