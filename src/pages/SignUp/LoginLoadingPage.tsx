@@ -16,45 +16,44 @@ export default function LogInLoadingPage() {
   //리액트 쿼리
   const { refetch, isError } = useLogInCheckQuery();
 
-  let fcmToken: any;
-
-  // 토큰 발급
-  const getToken = async () => {
-    const token = await getFcmToken();
-    fcmToken = token;
-  };
-
   useEffect(() => {
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     const codeParams = urlParams.get('code');
     console.log(codeParams);
     (async () => {
-      await getToken();
-      if (codeParams && !localStorage.getItem('accessToken')) {
-        const userToken = await getAccessToken(codeParams);
-        if (userToken) {
-          const isCheckResponse = await getLogInCheckAxios(userToken.token as string);
-          setUserInfo(userToken);
-          await postNotificationTokenAxios(userToken.token, {
-            fcmToken: fcmToken as string,
-          });
-          if (isCheckResponse?.isAddInfo && isCheckResponse?.isAddInfo === true) {
-            setTimeout(() => {
-              navigate('/');
-            }, 1000);
-          } else {
-            setTimeout(() => {
-              navigate('/signUp');
-            }, 1000);
+      try {
+        if (codeParams && !localStorage.getItem('accessToken')) {
+          const userToken = await getAccessToken(codeParams);
+          console.log(userToken);
+          if (userToken) {
+            const isCheckResponse = await getLogInCheckAxios(userToken.token as string);
+            if (!isCheckResponse) {
+              console.log('ERROR');
+              navigate('/logIn');
+              return;
+            }
+            setUserInfo(userToken);
+            if (isCheckResponse?.isAddInfo && isCheckResponse?.isAddInfo === true) {
+              setTimeout(() => {
+                navigate('/');
+              }, 1000);
+            } else {
+              setTimeout(() => {
+                navigate('/signUp');
+              }, 1000);
+            }
           }
+        } else {
+          console.log(userInfo);
+          await refetch();
+          setTimeout(() => {
+            navigate('/');
+          }, 1000);
         }
-      } else {
-        console.log(userInfo);
-        await refetch();
-        setTimeout(() => {
-          navigate('/');
-        }, 1000);
+      } catch (error) {
+        console.log(error);
+        navigate('/logIn');
       }
     })();
   }, []);

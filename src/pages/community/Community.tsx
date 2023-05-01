@@ -36,8 +36,8 @@ export default function Community() {
         <AddBtn url="/postCreate" text="글쓰기" />
         <SearchBar inputValue={inputValue} setInputValue={setInputValue} />
         <CommunityFilter />
-        <CommunitySort setSortAndOrder={setSortAndOrder} sortAndOrder={sortAndOrder} />
-        <PostFormat inputValue={inputValue} sortAndOrder={sortAndOrder} />
+        <CommunitySort />
+        <PostFormat inputValue={inputValue} />
       </div>
       <FooterMenu />
     </section>

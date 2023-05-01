@@ -12,7 +12,7 @@ export default function FooterMenu() {
       <div className="fixed bottom-0 z-30 flex h-[95px] w-full items-center justify-around rounded-t-[40px] bg-[#383030] pb-2 text-[14px] text-white dark:bg-[#383030]">
         <div
           onClick={(e) => {
-            e.preventDefault();
+            // e.preventDefault();
             navigate('/');
           }}
           className={'flex cursor-pointer flex-col items-center ' + (activeBar === '' ? 'font-semibold' : 'opacity-40')}
@@ -22,7 +22,7 @@ export default function FooterMenu() {
         </div>
         <div
           onClick={(e) => {
-            e.preventDefault();
+            // e.preventDefault();
             navigate('/news');
           }}
           className={'flex cursor-pointer flex-col items-center ' + (activeBar === 'news' ? 'font-semibold' : 'opacity-40')}
@@ -32,7 +32,7 @@ export default function FooterMenu() {
         </div>
         <div
           onClick={(e) => {
-            e.preventDefault();
+            // e.preventDefault();
             navigate('/community/all');
           }}
           className={'flex cursor-pointer flex-col items-center ' + (activeBar.includes('community') ? 'font-semibold' : 'opacity-40')}
@@ -42,7 +42,7 @@ export default function FooterMenu() {
         </div>
         <div
           onClick={(e) => {
-            e.preventDefault();
+            // e.preventDefault();
             navigate('/coffeeChat');
           }}
           className={'flex cursor-pointer flex-col items-center ' + (activeBar === 'coffeeChat' ? 'font-semibold' : 'opacity-40')}
@@ -52,7 +52,7 @@ export default function FooterMenu() {
         </div>
         <div
           onClick={(e) => {
-            e.preventDefault();
+            // e.preventDefault();
             navigate('/myProfile/feed');
           }}
           className={'flex cursor-pointer flex-col items-center ' + (activeBar.includes('myProfile') ? 'font-semibold' : 'opacity-40')}

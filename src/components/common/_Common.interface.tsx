@@ -122,7 +122,6 @@ export interface PictureModalPropsType {
 /** PostFormat 컴포넌트 props 타입 */
 export interface PostFormatPropsType {
   readonly inputValue: string;
-  readonly sortAndOrder: SortAndOrderType;
 }
 
 /** QuestionModal 컴포넌트 props 타입 */

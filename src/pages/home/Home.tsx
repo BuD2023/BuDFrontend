@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState, useRecoilValue } from 'recoil';
+import postNotificationTokenAxios from '../../apiFetcher/notificationInfo/postNotificationToken';
 import FooterMenu from '../../components/common/FooterMenu';
 import HomeCommitCalendar from '../../components/home/HomeCommitCalendar';
 import HomeCommitSection from '../../components/home/HomeCommitSection';
@@ -10,6 +11,7 @@ import HomeTitle from '../../components/home/HomeTitle';
 import { useGithubQuery } from '../../store/module/useGithubQuery';
 import { useMyProfileQuery } from '../../store/module/useMyProfileQuery';
 import { loginUserInfo } from '../../store/recoil/user';
+import { getFcmToken } from '../../utils/fcm';
 
 export default function Home() {
   const { data, isLoading } = useGithubQuery();
@@ -21,6 +23,17 @@ export default function Home() {
   console.log(userInfo);
 
   const token = localStorage.getItem('accessToken');
+
+  useEffect(() => {
+    (async () => {
+      const fcmToken = await getFcmToken();
+      if (userInfo) {
+        await postNotificationTokenAxios(userInfo?.token as string, {
+          fcmToken: fcmToken as string,
+        });
+      }
+    })();
+  });
 
   useEffect(() => {
     if (token) {

@@ -1,6 +1,6 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useRecoilValue } from 'recoil';
-import gdtLogInCheckAxios from '../../apiFetcher/setting/getLogInCheck';
+import getLogInCheckAxios from '../../apiFetcher/setting/getLogInCheck';
 import postDeleteAccountAxios from '../../apiFetcher/setting/postDeleteAccount';
 import putNotificationInfoAxios from '../../apiFetcher/setting/putNotificationInfo';
 import { loginUserInfo } from '../recoil/user';
@@ -40,7 +40,7 @@ export function useLogInCheckQuery(token?: string) {
     refetchNew = token;
   }
   const loginUser = useRecoilValue(loginUserInfo);
-  return useQuery(['checkLogInUser', refetchNew], () => gdtLogInCheckAxios((token as string) ? (token as string) : (loginUser?.token as string)), {
+  return useQuery(['checkLogInUser', refetchNew], () => getLogInCheckAxios((token as string) ? (token as string) : (loginUser?.token as string)), {
     enabled: false,
   });
 }

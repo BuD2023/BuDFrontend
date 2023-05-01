@@ -5,8 +5,8 @@ export default function NewsFilter({ setFilter, setSort, sort, setOrder, order }
   const orderList = ['내림차순', '오름차순'];
 
   return (
-    <ul className="dark:text- flex h-[40px] items-center justify-between gap-4 rounded-[20px] bg-pointGreen px-4 text-xs  text-white dark:bg-lightNavy">
-      <div className="flex items-center gap-2">
+    <div className="dark:text- flex h-[40px] items-center justify-between gap-4 rounded-[20px] bg-pointGreen px-4 text-xs  text-white dark:bg-lightNavy">
+      <ul className="flex items-center gap-2">
         {sortList.map((sorting) => (
           <li
             key={sorting}
@@ -29,10 +29,10 @@ export default function NewsFilter({ setFilter, setSort, sort, setOrder, order }
             · {ordering}
           </li>
         ))}
-      </div>
+      </ul>
       <button onClick={() => setFilter(true)} className="cursor-pointer">
         ✨키워드
       </button>
-    </ul>
+    </div>
   );
 }

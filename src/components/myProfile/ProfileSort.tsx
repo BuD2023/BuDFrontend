@@ -1,3 +1,4 @@
+import { BsFillArrowDownCircleFill, BsFillArrowUpCircleFill } from 'react-icons/bs';
 import { OrderType, SortType } from '../community/_Community.interface';
 
 export type ProfilePostSortType = 'SCRAP_DATE' | 'POST_HIT' | 'POST_LIKE' | 'POST_DATE';
@@ -26,22 +27,22 @@ export default function ProfileSort({ setSortAndOrder, sortAndOrder, postView }:
   };
 
   return (
-    <ul className="flex h-[40px] w-full items-center justify-between rounded-[20px] bg-pointGreen px-4 text-xs text-white dark:bg-lightNavy">
-      <div className="flex items-center gap-2">
+    <div className="flex h-[40px] w-full items-center justify-between rounded-[20px] bg-pointGreen px-4 text-xs text-white dark:bg-lightNavy">
+      <ul className="flex items-center gap-2">
         {(postView === 'scrap' ? scrapSort : postSort).map((sorting, idx) => (
           <li key={idx} onClick={() => setSortAndOrder({ ...sortAndOrder, sort: sorting })} className={`cursor-pointer ${sortAndOrder.sort === sorting ? '' : 'opacity-50'}`}>
             <span>· {handleText(sorting)}</span>
           </li>
         ))}
-      </div>
-      <div className="flex items-center gap-2">
+      </ul>
+      <ul className="flex items-center gap-2">
         {order.map((ordering, idx) => (
           <li key={idx} onClick={() => setSortAndOrder({ ...sortAndOrder, order: ordering })} className={`cursor-pointer ${sortAndOrder.order === ordering ? '' : 'opacity-50'}`}>
             <span className="hidden xs:block ">· {handleText(ordering)}</span>
-            <span className="text-base xs:hidden">{handleText(ordering) === '오름차순' ? '▴' : '▾'}</span>
+            <span className="text-base xs:hidden">{handleText(ordering) === '오름차순' ? <BsFillArrowUpCircleFill size={18} /> : <BsFillArrowDownCircleFill size={18} />}</span>
           </li>
         ))}
-      </div>
-    </ul>
+      </ul>
+    </div>
   );
 }

@@ -1,3 +1,4 @@
+import React from 'react';
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import CoffeeChat from './pages/coffeeChat/CoffeeChat';
 import MyProfile from './pages/profile/MyProfile';
@@ -27,8 +28,9 @@ import UserInfo from './pages/setting/UserInfo.js';
 import { RecoilRoot, useRecoilValue } from 'recoil';
 import { loginUserInfo } from './store/recoil/user.js';
 import LogInLoadingPage from './pages/SignUp/LoginLoadingPage.js';
-import React from 'react';
 import DeletedPost from './pages/DeletedPost';
+// import { CSSTransition, TransitionGroup } from 'react-transition-group';
+// import './Transition.css';
 
 function App() {
   const $html = document.querySelector('html');
@@ -79,7 +81,7 @@ function App() {
   return (
     <RecoilRoot>
       <Suspense>
-        {localStorage.getItem('accessToken') ? (
+        {localStorage.getItem('accessToken') || localStorage.getItem('logInStatus') ? (
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/news" element={<News />} />
@@ -105,13 +107,19 @@ function App() {
             <Route path="/signUp" element={<SignUp />} />
             <Route path="/signUp/picture" element={<SetPicture />} />
             <Route path="/signUp/job" element={<SetJob />} />
+            <Route path="/logIn" element={<LogInPage />} />
+            <Route path="/logInLoading" element={<LogInLoadingPage />} />
           </Routes>
         ) : (
+          // <TransitionGroup className={'transition-wrapper'}>
+          //   <CSSTransition key={location.pathname} timeout={300} classNames={'navigate-push'}>
           <Routes>
             <Route path="/logIn" element={<LogInPage />} />
             <Route path="/logInLoading" element={<LogInLoadingPage />} />
             <Route path="*" element={<LogInPage />} />
           </Routes>
+          //   </CSSTransition>
+          // </TransitionGroup>
         )}
       </Suspense>
     </RecoilRoot>
