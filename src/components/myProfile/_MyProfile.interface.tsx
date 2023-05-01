@@ -36,6 +36,7 @@ export interface MyProfileType {
   readonly profileUrl: string;
   readonly isFollowing: boolean;
   readonly isReader: boolean;
+  readonly memberStatus: null;
 }
 
 /** getMyScrapList - ScrapPostProps의 member 타입 */

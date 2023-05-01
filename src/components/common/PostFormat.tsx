@@ -94,7 +94,7 @@ export default function PostFormat({ inputValue }: PostFormatPropsType) {
             >
               <div className="flex w-full flex-col gap-4 p-4 text-lightText dark:text-white">
                 <div className="flex w-full justify-between">
-                  <div className="flex gap-1">
+                  <div className="flex items-center gap-1">
                     <img
                       onClick={(e) => {
                         e.stopPropagation();
@@ -106,9 +106,9 @@ export default function PostFormat({ inputValue }: PostFormatPropsType) {
                       }}
                       src={S3_URL + data.member.profileImg}
                       alt={data.title}
-                      className="aspect-square w-[58px] rounded-full object-cover"
+                      className="h-[58px] w-[58px] shrink-0 rounded-full object-cover "
                     />
-                    <div className="pl-3">
+                    <div className="w-full pl-3">
                       <p className="text-xl font-bold">{data.member.nickname}</p>
                       <p className="text-[17px] opacity-50">{timeForToday(data.createdAt)}</p>
                     </div>
@@ -119,7 +119,7 @@ export default function PostFormat({ inputValue }: PostFormatPropsType) {
                         onClick={(e) => {
                           handleClickFollow(e, data.member.id);
                         }}
-                        className="flex h-full items-center justify-end gap-3"
+                        className="flex h-full w-[80px] items-center justify-end gap-3"
                       >
                         {data.follow ? (
                           <>

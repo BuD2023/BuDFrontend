@@ -1,4 +1,5 @@
 import { atom } from 'recoil';
+import { recoilPersist } from 'recoil-persist';
 
 export interface userInfoInitialType {
   token: string;
@@ -12,7 +13,13 @@ export interface userInfoInitialType {
   numberOfPosts: number;
   profileUrl: string;
   userId: string;
+  expireTime: string;
 }
+
+const { persistAtom } = recoilPersist({
+  key: 'newAccessToken',
+  storage: localStorage,
+});
 
 export const loginUserInfo = atom({
   key: 'loginUserInfo',

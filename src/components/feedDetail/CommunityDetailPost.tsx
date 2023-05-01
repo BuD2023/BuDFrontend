@@ -66,7 +66,7 @@ export default function CommunityDetailPost({ setQuestionUserId, setCommentCount
         <>
           <div className="flex w-full flex-col gap-4 p-4 text-lightText dark:text-white">
             <div className="flex w-full justify-between">
-              <div className="flex gap-1">
+              <div className="flex items-center gap-1">
                 <LazyLoadImage
                   onClick={(e) => {
                     e.stopPropagation();
@@ -78,7 +78,7 @@ export default function CommunityDetailPost({ setQuestionUserId, setCommentCount
                   }}
                   src={S3_URL + (questionData?.member.profileImg as string)}
                   alt={questionData?.member.nickname}
-                  className="aspect-square w-[58px] cursor-pointer rounded-full object-cover"
+                  className="h-[58px] w-[58px] cursor-pointer rounded-full object-cover"
                 />
                 <div className="flex flex-col gap-1.5 pl-3">
                   <p
@@ -99,7 +99,7 @@ export default function CommunityDetailPost({ setQuestionUserId, setCommentCount
               </div>
               {questionData?.member.id !== logInUserInfo?.id && (
                 <div className="text-end font-bold">
-                  <div onClick={(e) => handleClickFollow(e, Number(questionData?.member.id))} className="flex h-full cursor-pointer items-center justify-end gap-3">
+                  <div onClick={(e) => handleClickFollow(e, Number(questionData?.member.id))} className="flex h-full w-[80px] cursor-pointer items-center justify-end gap-3">
                     {questionData?.follow ? (
                       <>
                         <FcCheckmark size={21} />

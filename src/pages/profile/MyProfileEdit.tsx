@@ -7,6 +7,8 @@ import { S3_URL } from '../../constant/union';
 import { useGetIsIdUniqueQuery, useMyProfileQuery } from '../../store/module/useMyProfileQuery';
 
 import { debounce } from 'lodash';
+import { useRecoilValue } from 'recoil';
+import { loginUserInfo } from '../../store/recoil/user';
 
 export interface UserInfoEditInitialType {
   job: string;
@@ -21,22 +23,25 @@ export default function MyProfileEdit() {
   //useRef
   const inputRef = useRef<HTMLInputElement>(null);
 
+  //Recoil 로그인 사용자 정보
+  const logInUser = useRecoilValue(loginUserInfo);
+
   //리액트 쿼리
   const [nicknameData, setNicknameData] = useState('');
   const { data, isLoading, refetch } = useMyProfileQuery(false);
   const { data: isUniqueId, refetch: isUniqueRefetch, isRefetching, isSuccess } = useGetIsIdUniqueQuery(nicknameData);
   const validation = (nickName: string) => {
-    return nickName === data?.nickName ? true : isUniqueId;
+    return nickName === logInUser?.nickName ? true : isUniqueId;
   };
 
   //useStates
   const [validate, setValidate] = useState<boolean>(false);
-  const [profileImg, setProfileImg] = useState<string | Blob | ArrayBuffer | null>(S3_URL + (data?.profileUrl as string));
+  const [profileImg, setProfileImg] = useState<string | Blob | ArrayBuffer | null>(S3_URL + (logInUser?.profileUrl as string));
   const [userInfo, setUserInfo] = useState<UserInfoEditInitialType>({
-    job: data?.job,
-    file: data?.profileUrl,
-    nickname: data?.nickName,
-    introduceMessage: data?.description,
+    job: logInUser?.job,
+    file: logInUser?.profileUrl,
+    nickname: logInUser?.nickName,
+    introduceMessage: logInUser?.description,
     isUnique: validation(nicknameData) as boolean,
   } as UserInfoEditInitialType);
 
@@ -46,21 +51,6 @@ export default function MyProfileEdit() {
       setUserInfo({ ...userInfo, isUnique: validation(nicknameData) as boolean });
     }
   }, [isSuccess, isRefetching]);
-
-  useEffect(() => {
-    (async () => {
-      await refetch();
-      data &&
-        setUserInfo({
-          job: data?.job,
-          file: data?.profileUrl,
-          nickname: data?.nickName,
-          introduceMessage: data?.description,
-          isUnique: validation(data?.nickName as string) as boolean,
-        } as UserInfoEditInitialType);
-      setProfileImg(S3_URL + (data?.profileUrl as string));
-    })();
-  }, [isLoading]);
 
   return (
     <section className="flex min-h-[calc(100vh-160px)] flex-col gap-7 px-6 py-4 text-lightText dark:text-white">
@@ -96,7 +86,7 @@ export default function MyProfileEdit() {
           <p>소개</p>
           <textarea
             onChange={(e) => setUserInfo({ ...userInfo, introduceMessage: e.target.value })}
-            value={userInfo.introduceMessage}
+            defaultValue={logInUser?.description}
             placeholder="소개를 입력하세요"
             className="h-[120px] w-full rounded-[20px] bg-midIvory p-4 text-[16px] leading-5 placeholder:font-semibold placeholder:text-[#7b6d6d] focus:outline-none dark:bg-lightNavy"
           />

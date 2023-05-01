@@ -20,7 +20,6 @@ export default function Home() {
 
   // 토큰 get
   const [userInfo, setUserInfo] = useRecoilState(loginUserInfo);
-  console.log(userInfo);
 
   const token = localStorage.getItem('accessToken');
 
@@ -33,7 +32,7 @@ export default function Home() {
         });
       }
     })();
-  });
+  }, []);
 
   useEffect(() => {
     if (token) {

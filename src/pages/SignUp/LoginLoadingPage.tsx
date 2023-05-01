@@ -2,12 +2,10 @@ import { useEffect, useState } from 'react';
 import { AiFillGithub } from 'react-icons/ai';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
-import postNotificationTokenAxios from '../../apiFetcher/notificationInfo/postNotificationToken';
 import getLogInCheckAxios from '../../apiFetcher/setting/getLogInCheck';
 import { useLogInCheckQuery } from '../../store/module/useSettingQuery';
 import { loginUserInfo } from '../../store/recoil/user';
-import { getFcmToken } from '../../utils/fcm';
-import { getAccessToken } from '../../utils/getAccessToken';
+import { getAccessToken } from '../../apiFetcher/userInfo/getAccessToken';
 
 export default function LogInLoadingPage() {
   const navigate = useNavigate();
@@ -20,7 +18,6 @@ export default function LogInLoadingPage() {
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     const codeParams = urlParams.get('code');
-    console.log(codeParams);
     (async () => {
       try {
         if (codeParams && !localStorage.getItem('accessToken')) {

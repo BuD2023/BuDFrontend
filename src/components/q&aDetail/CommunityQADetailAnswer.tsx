@@ -145,13 +145,13 @@ export default function CommunityQADetailAnswer({ isCommentOpen, setIsCommentOpe
               </div>
               <div className="flex w-full flex-col gap-4 bg-midIvory p-4 py-8 dark:bg-midNavy">
                 <div className="flex w-full justify-between">
-                  <div className="flex gap-1">
+                  <div className="flex items-center gap-1">
                     <LazyLoadImage
                       onClick={(e) => {
                         e.stopPropagation();
                         navigate(`/otherProfile/${answer.member.id}/feed`);
                       }}
-                      className="aspect-square w-[58px] cursor-pointer rounded-full object-cover"
+                      className="h-[58px] w-[58px] cursor-pointer rounded-full object-cover"
                       src={S3_URL + answer.member.profileImg}
                       alt={answer.member.nickname}
                     />
@@ -173,7 +173,7 @@ export default function CommunityQADetailAnswer({ isCommentOpen, setIsCommentOpe
                   {answer.member.id !== logInUserInfo?.id && (
                     <div className="text-end font-bold">
                       <div onClick={(e) => handleClickFollow(e, answer.member.id)} className="flex h-full items-center justify-end ">
-                        <div className="flex cursor-pointer gap-3">
+                        <div className="flex w-[80px] cursor-pointer gap-3">
                           {answer.follow ? (
                             <>
                               <FcCheckmark size={21} />

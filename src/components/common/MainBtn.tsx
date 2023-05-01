@@ -185,6 +185,7 @@ export default function MainBtn({ onSubmit, content, size }: MainBtnPropsType) {
       disabled={
         (onSubmit?.title?.trim().length === 0 ||
           onSubmit?.description?.trim().length === 0 ||
+          onSubmit?.introduceMessage?.trim().length === 0 ||
           onSubmit?.content?.trim().length === 0 ||
           onSubmit?.nickname?.trim().length === 0 ||
           onSubmit?.isUnique === false) as boolean

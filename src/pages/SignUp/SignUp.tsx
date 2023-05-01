@@ -38,8 +38,8 @@ export default function SignUp() {
       <motion.div initial={{ opacity: 0, y: '7%' }} animate={{ opacity: 1, y: '0' }} transition={{ duration: 0.5 }}>
         <div className="flex flex-col items-center gap-8 p-4 text-xl font-bold">
           <div className="flex flex-col items-center gap-2">
-            <h1 className="text-[26px]">마리포에서 사용할</h1>
-            <h1 className="text-[26px]">닉네임을 알려주세요!</h1>
+            <h1 className="text-[26px]">{'사용하실 닉네임을'}</h1>
+            <h1 className="text-[26px]">{'설정해주세요'}</h1>
           </div>
           <input
             onChange={debounce(async (e) => {
@@ -47,7 +47,6 @@ export default function SignUp() {
               await isUniqueRefetch();
             }, 300)}
             onFocus={() => setValidate(true)}
-            onBlur={() => setValidate(false)}
             type="text"
             placeholder="닉네임"
             className="h-[54px] w-full rounded-[20px] bg-midIvory p-2 px-4 focus:outline-none dark:bg-lightNavy"

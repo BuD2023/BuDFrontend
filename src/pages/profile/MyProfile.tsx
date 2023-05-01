@@ -14,11 +14,16 @@ import { useProfilePostQuery } from '../../store/module/useProfilePostQuery';
 import { MyProfileType, ScrapPostContentType } from '../../components/myProfile/_MyProfile.interface';
 import { OrderType, SortType } from '../../components/community/_Community.interface';
 import ProfileSort, { ProfilePostSortType } from '../../components/myProfile/ProfileSort';
+import { useRecoilState } from 'recoil';
+import { loginUserInfo } from '../../store/recoil/user';
 
 export default function MyProfile() {
   const initialPostView = useParams();
   const [postView, setPostView] = useState(initialPostView.filter ?? 'FEED');
   const navigate = useNavigate();
+
+  // Recoil 로그인유저 정보
+  const [logInUser, setLogInUser] = useRecoilState(loginUserInfo);
 
   // 정렬
   const [sortAndOrder, setSortAndOrder] = useState<{ sort: SortType | ProfilePostSortType; order: OrderType }>({
@@ -31,7 +36,23 @@ export default function MyProfile() {
   });
 
   // 리액트 쿼리
-  const { data: myProfileData, isLoading: myProfileIsLoading, error: myProfileError, refetch: MyProfileRefetch } = useMyProfileQuery();
+  const { data: myProfileData, isLoading: myProfileIsLoading, error: myProfileError, refetch: MyProfileRefetch, isPreviousData } = useMyProfileQuery();
+  useEffect(() => {
+    console.log(isPreviousData);
+    if (!isPreviousData) {
+      setLogInUser({
+        ...logInUser,
+        nickName: myProfileData?.nickName,
+        description: myProfileData?.description,
+        job: myProfileData?.job,
+        level: myProfileData?.level,
+        numberOfFollowers: myProfileData?.numberOfFollowers,
+        numberOfPosts: myProfileData?.numberOfPosts,
+        profileUrl: myProfileData?.profileUrl,
+      });
+    }
+  }, []);
+  console.log(logInUser);
 
   const {
     data: myScrapsData,

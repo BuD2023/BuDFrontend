@@ -1,12 +1,36 @@
 import axios, { AxiosInstance, AxiosError } from 'axios';
+import { userInfoInitialType } from '../store/recoil/user';
+import { getNewToken } from './userInfo/getNewToken';
 
 const customAxios: AxiosInstance = axios.create({
   withCredentials: true,
   baseURL: '/api',
 });
 
+let accessToken: Partial<userInfoInitialType> = { expireTime: String(10000000000000) };
+const tokenExpirationTime = () => {
+  if (accessToken !== null) {
+    return Number(accessToken.expireTime);
+  } else return 10000000000000;
+};
+
 customAxios.interceptors.request.use(
-  (config) => {
+  async (config) => {
+    accessToken = JSON.parse(localStorage.getItem('accessToken') as string);
+    console.log(tokenExpirationTime());
+    if (Date.now() >= tokenExpirationTime()) {
+      // 현재시간보다 만료기한시간이 작으면 토큰 재발급
+      console.log('token expired');
+      if (accessToken !== null) {
+        const response = await getNewToken(accessToken.token as string);
+        if (response) {
+          const newToken = response?.token;
+          console.log(newToken);
+          config.headers['Authorization'] = newToken;
+          localStorage.setItem('newAccessToken', JSON.stringify({ ...accessToken, ...response }));
+        }
+      }
+    }
     console.log(config);
     return config;
   },

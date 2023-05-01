@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { RxTriangleDown } from 'react-icons/rx';
-import { jobList } from '../../store/dummy';
+import { JOB_LIST } from '../../constant/union';
 import { ChangeJobPropsType } from './_MyProfileEdit.interface';
 
 export default function ChangeJob({ selectedJob, setSelectedJob }: ChangeJobPropsType) {
@@ -14,7 +14,7 @@ export default function ChangeJob({ selectedJob, setSelectedJob }: ChangeJobProp
       </button>
       <div className={`w-full overflow-hidden rounded-[20px] bg-midIvory px-4 transition-all dark:bg-lightNavy ${isClick ? 'h-full py-2' : 'h-0'}`}>
         <ul className="scroll max-h-[45vh] overflow-auto">
-          {jobList.map((job) => (
+          {JOB_LIST.map((job) => (
             <li key={job} className="my-3">
               <button
                 onClick={(e) => {

@@ -17,6 +17,7 @@ export default function ChangeProfilePic({ profileImg, setProfileImg, userInfo, 
     imgRef?.current?.click();
   };
 
+  console.log(randomImg);
   useEffect(() => {
     (async () => {
       if (isSuccess && randomImg) {

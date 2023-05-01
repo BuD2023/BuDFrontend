@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import CoffeeChat from './pages/coffeeChat/CoffeeChat';
 import MyProfile from './pages/profile/MyProfile';
@@ -25,7 +25,7 @@ import OtherProfile from './pages/profile/OtherProfile.js';
 import MyProfileEdit from './pages/profile/MyProfileEdit.js';
 import Setting from './pages/setting/Setting.js';
 import UserInfo from './pages/setting/UserInfo.js';
-import { RecoilRoot, useRecoilValue } from 'recoil';
+import { RecoilRoot, useRecoilState, useRecoilValue } from 'recoil';
 import { loginUserInfo } from './store/recoil/user.js';
 import LogInLoadingPage from './pages/SignUp/LoginLoadingPage.js';
 import DeletedPost from './pages/DeletedPost';
@@ -35,10 +35,9 @@ import DeletedPost from './pages/DeletedPost';
 function App() {
   const $html = document.querySelector('html');
 
-  const navigate = useNavigate();
-
   // 리코일
-  const user = useRecoilValue(loginUserInfo);
+  const [user, setUser] = useRecoilState(loginUserInfo);
+  console.log(user);
 
   //테마 변경
   useLayoutEffect(() => {
@@ -49,7 +48,13 @@ function App() {
 
   // 토큰 설정
   useEffect(() => {
-    // if (!user) navigate('logIn');
+    setTimeout(() => {
+      const newToken = localStorage.getItem('newAccessToken');
+      if (newToken) {
+        setUser(JSON.parse(newToken as string));
+        localStorage.removeItem('newAccessToken');
+      } else return;
+    }, 500);
   }, []);
 
   // const Home = React.lazy(() => import('./pages/home/Home'));
