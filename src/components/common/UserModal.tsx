@@ -3,9 +3,10 @@ import { Dialog, Transition } from '@headlessui/react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { UserModalPropsType } from './_Common.interface';
 import { S3_URL } from '../../constant/union';
-import { useNewChatroomHostMutation } from '../../store/module/useChatroomQuery';
+import { useMyChatroomListQuery, useNewChatroomHostMutation } from '../../store/module/useChatroomQuery';
 import { useRecoilValue } from 'recoil';
 import { loginUserInfo } from '../../store/recoil/user';
+import { async } from '@firebase/util';
 
 export default function UserModal({ userModal, setUserModal, userInfo, hostInfo }: UserModalPropsType) {
   const { userId, nickName, profileUrl, userIntro, job } = userInfo;
@@ -17,12 +18,14 @@ export default function UserModal({ userModal, setUserModal, userInfo, hostInfo 
   const navigate = useNavigate();
   const { id } = useParams();
 
-  const { mutate } = useNewChatroomHostMutation(Number(id));
+  const { refetch } = useMyChatroomListQuery(Number(id));
+  const { mutateAsync } = useNewChatroomHostMutation(Number(id));
 
-  const handleAuthorizeHost = (userId: number) => {
+  const handleAuthorizeHost = async (userId: number) => {
     setUserModal(false);
     if (hostInfo.id === logInUserInfo?.id) {
-      mutate(userId);
+      await mutateAsync(userId);
+      refetch();
       console.log(`사용자가 ${nickName}에게 호스트를 위임했습니다.`);
     } else {
       navigate(`/otherProfile/${userId}/feed`);
