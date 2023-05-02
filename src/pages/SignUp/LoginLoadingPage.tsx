@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { AiFillGithub } from 'react-icons/ai';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
@@ -7,6 +7,7 @@ import { useGithubMutation } from '../../store/module/useGithubQuery';
 import { useLogInCheckQuery } from '../../store/module/useSettingQuery';
 import { loginUserInfo } from '../../store/recoil/user';
 import { getAccessToken } from '../../apiFetcher/userInfo/getAccessToken';
+import loadingTree from '../../assets/loadingTree.png';
 
 export default function LogInLoadingPage() {
   const navigate = useNavigate();
@@ -64,7 +65,7 @@ export default function LogInLoadingPage() {
   return (
     <section className="fixed inset-0 flex flex-col items-center justify-center bg-lightIvory dark:bg-darkNavy">
       <div className="loadingTree animate-flip relative transform transition-transform duration-500">
-        <img src="../../public/loadingTree.png" alt="loadingTree" />
+        <img src={loadingTree} alt="loadingTree" />
       </div>
       <div className="mt-8 text-[30px] font-bold text-lightText dark:text-white">
         <span className="text-pointGreen">{`< `}</span>

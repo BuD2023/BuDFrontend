@@ -67,22 +67,23 @@ export interface memberType {
 /** getMyScrapList - ScrpListType의 content 타입 */
 export interface ScrapPostContentType {
   readonly createdAt: string;
-  readonly id: number;
-  readonly post: {
-    readonly id: number;
-    readonly commentCount: number;
-    readonly content: string;
-    readonly createdAt: string;
-    readonly member: memberType;
-    readonly title: string;
-    readonly imageUrls: null[] | string[];
-    readonly likeCount: number;
-    readonly scrapCount: number;
-    readonly hitCount: number;
-    readonly postStatus: PostStatusType;
-    readonly postType: postType;
-    readonly updatedAt: string;
-  };
+  readonly postId: number;
+  readonly commentCount: number;
+  readonly content: string;
+  readonly title: string;
+  readonly imageUrls: [] | string[];
+  readonly follow: boolean;
+  readonly like: boolean;
+  readonly likeCount: number;
+  readonly scrapCount: number;
+  readonly hitCount: number;
+  readonly postStatus: PostStatusType;
+  readonly postType: postType;
+  readonly updatedAt: string;
+  readonly postRegisterMemberId: number;
+  readonly postRegisterMemberNickname: string;
+  readonly postRegisterMemberProfileImg: string;
+  readonly postRegisterMemberStatus: string;
 }
 
 /** getMyScrapList - 나의 스크랩 리스트 가져올 때 사용하는 response 타입 */

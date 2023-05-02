@@ -48,7 +48,7 @@ export default function ScrapPostFormat({ refetch, userData, resultData, myProfi
       <PicModal isPicPopUp={isPicPopUp} setIsPicPopUp={setIsPicPopUp} />
       <ul className="w-full">
         {resultData && userData && resultData.length > 0 ? (
-          resultData.map((data: any) => (
+          resultData.map((data) => (
             <li
               onClick={(e) => {
                 e.preventDefault();
@@ -67,7 +67,7 @@ export default function ScrapPostFormat({ refetch, userData, resultData, myProfi
                     <LazyLoadImage
                       onClick={(e) => {
                         e.stopPropagation();
-                        if (data.id === userData.id) {
+                        if (data.postRegisterMemberId === userData.id) {
                           navigate(`/myProfile/feed`);
                           return;
                         } else {
@@ -84,7 +84,7 @@ export default function ScrapPostFormat({ refetch, userData, resultData, myProfi
                         className="cursor-pointer text-xl font-bold"
                         onClick={(e) => {
                           e.stopPropagation();
-                          if (data.id === userData.id) {
+                          if (data.postRegisterMemberId === userData.id) {
                             navigate(`/myProfile/feed`);
                             return;
                           } else {
@@ -98,28 +98,29 @@ export default function ScrapPostFormat({ refetch, userData, resultData, myProfi
                       <p className="text-[17px] opacity-50">{timeForToday(data.createdAt)}</p>
                     </div>
                   </div>
-                  {data.postRegisterMemberId !== userData.id && (
-                    <div className="text-end font-bold">
-                      <div
-                        onClick={(e) => {
-                          handleClickFollow(e, data.postRegisterMemberId);
-                        }}
-                        className="flex h-full items-center justify-end gap-3 whitespace-nowrap"
-                      >
-                        {data.follow ? (
-                          <>
-                            <FcCheckmark size={21} />
-                            <p>팔로잉</p>
-                          </>
-                        ) : (
-                          <>
-                            <FcPortraitMode />
-                            <p>팔로우</p>
-                          </>
-                        )}
+                  {data.postRegisterMemberId !== userData.id ||
+                    (data.postRegisterMemberStatus !== 'WITHDREW' && (
+                      <div className="text-end font-bold">
+                        <div
+                          onClick={(e) => {
+                            handleClickFollow(e, data.postRegisterMemberId);
+                          }}
+                          className="flex h-full items-center justify-end gap-3 whitespace-nowrap"
+                        >
+                          {data.follow ? (
+                            <>
+                              <FcCheckmark size={21} />
+                              <p>팔로잉</p>
+                            </>
+                          ) : (
+                            <>
+                              <FcPortraitMode />
+                              <p>팔로우</p>
+                            </>
+                          )}
+                        </div>
                       </div>
-                    </div>
-                  )}
+                    ))}
                 </div>
                 <div className="flex text-[16px] font-semibold">
                   <div className="rounded-[30px] bg-greyBeige px-3 py-2 text-[14px] dark:bg-sky">{`${data.postType === 'FEED' ? '개발 피드' : 'Q & A 피드'}`}</div>
