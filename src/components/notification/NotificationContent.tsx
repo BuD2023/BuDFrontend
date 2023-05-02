@@ -114,6 +114,11 @@ export default function NotificationContent() {
         <span className="font-bold">{senderId}</span>님이 회원님의 답변에 댓글을 작성했습니다.
       </p>
     ),
+    ANSWER_RE_COMMENT: (senderId: string) => (
+      <p>
+        <span className="font-bold">{senderId}</span>님이 회원님의 댓글에 대댓글을 작성했습니다.
+      </p>
+    ),
     ADD_LIKE_POST: (senderId: string) => (
       <p>
         <span className="font-bold">{senderId}</span>님이 회원님의 게시물을 좋아요 했습니다.
