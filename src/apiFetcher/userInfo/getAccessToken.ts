@@ -3,7 +3,7 @@ import { BASE_URL } from '../../constant/union';
 
 export const getAccessToken = async (codeParams: string) => {
   try {
-    const response = await axios.get('http://34.64.224.24:8080/' + 'token', {
+    const response = await axios.get(BASE_URL + 'token', {
       params: {
         code: codeParams,
       },

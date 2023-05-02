@@ -162,4 +162,5 @@ export interface UserModalPropsType {
   readonly userModal: boolean;
   readonly setUserModal: (x: boolean) => void;
   readonly userInfo: any;
+  readonly action: (id: number) => void;
 }
