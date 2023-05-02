@@ -1,5 +1,4 @@
-import axios from 'axios';
-import { useEffect, useState } from 'react';
+import loadingTree from '../../assets/loadingTree.png';
 import { AiFillGithub } from 'react-icons/ai';
 
 const CLIENT_ID = import.meta.env.VITE_BUDS_CLIENT_ID;
@@ -14,7 +13,7 @@ export default function LogIn() {
   return (
     <section className="fixed inset-0 flex flex-col items-center justify-center bg-lightIvory dark:bg-darkNavy">
       <div className="loadingTree relative">
-        <img src="../../public/loadingTree.png" alt="loadingTree" />
+        <img src={loadingTree} alt="loadingTree" />
       </div>
       <div className="mt-8 text-[30px] font-bold text-lightText dark:text-white">
         <span className="text-pointGreen">{`< `}</span>
