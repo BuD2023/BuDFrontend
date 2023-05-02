@@ -4,6 +4,7 @@ import { postingInfoType, postType, SortAndOrderType } from '../community/_Commu
 import { SetNotificationType } from '../SignUp/_SignUp.interface';
 import { chatroomUserListType } from '../chatRoom/_ChatRoom.interface';
 import { ScrapPostContentType } from '../myProfile/_MyProfile.interface';
+import { getIsCheckHostResponseType } from '../../apiFetcher/coffeeChatInfo/getIsCheckHost';
 
 /** AddBtn - 컴포넌트 props 타입 */
 export interface AddBtnPropsType {
@@ -163,4 +164,5 @@ export interface UserModalPropsType {
   readonly setUserModal: (x: boolean) => void;
   readonly userInfo: any;
   readonly action: (id: number) => void;
+  readonly isHost: getIsCheckHostResponseType;
 }

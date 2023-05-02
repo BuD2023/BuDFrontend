@@ -6,7 +6,7 @@ import { S3_URL } from '../../constant/union';
 import { useRecoilValue } from 'recoil';
 import { loginUserInfo } from '../../store/recoil/user';
 
-export default function UserModal({ userModal, setUserModal, userInfo, hostInfo, action }: UserModalPropsType) {
+export default function UserModal({ userModal, setUserModal, userInfo, hostInfo, action, isHost }: UserModalPropsType) {
   const { userId, nickName, profileUrl, userIntro, job } = userInfo;
 
   // 사용자 정보 Recoil
@@ -52,23 +52,26 @@ export default function UserModal({ userModal, setUserModal, userInfo, hostInfo,
                   </div>
                 </div>
                 <div className="flex flex-col gap-3 bg-white px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-                  {hostInfo.id === logInUserInfo?.id && (
+                  {isHost?.isHost ? (
+                    <>
+                      <button
+                        type="button"
+                        className="inline-flex w-full justify-center rounded-full border border-[#d9d9d9] bg-white px-3 py-2 text-sm font-semibold text-lightText shadow-sm outline-none sm:mt-0 sm:w-auto"
+                        onClick={() => handleAuthorizeHost(userId)}
+                        ref={cancelButtonRef}
+                      >
+                        호스트 위임하기
+                      </button>
+                    </>
+                  ) : (
                     <button
                       type="button"
-                      className="inline-flex w-full justify-center rounded-full border border-[#d9d9d9] bg-white px-3 py-2 text-sm font-semibold text-lightText shadow-sm outline-none sm:mt-0 sm:w-auto"
-                      onClick={() => handleAuthorizeHost(userId)}
-                      ref={cancelButtonRef}
+                      onClick={() => navigate(`/otherProfile/${userId}/feed`)}
+                      className="inline-flex w-full justify-center rounded-full border bg-pointGreen px-3 py-2 text-sm font-semibold text-white shadow-sm outline-none sm:mt-0 sm:w-auto"
                     >
-                      호스트 위임하기
+                      프로필 보러가기
                     </button>
                   )}
-                  <button
-                    type="button"
-                    onClick={() => navigate(`/otherProfile/${userId}/feed`)}
-                    className="inline-flex w-full justify-center rounded-full border bg-pointGreen px-3 py-2 text-sm font-semibold text-white shadow-sm outline-none sm:mt-0 sm:w-auto"
-                  >
-                    프로필 보러가기
-                  </button>
                 </div>
               </Dialog.Panel>
             </Transition.Child>

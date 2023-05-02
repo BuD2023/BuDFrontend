@@ -95,7 +95,7 @@ export default function CommunityQADetailAnswer({ isCommentOpen, setIsCommentOpe
       {answerData &&
         answerData?.content.map((answer: QnaAnswerContentType, idx: number) => {
           return (
-            <div key={answer.id} className={'w-full overflow-hidden rounded-[20px] bg-midIvory dark:bg-midNavy' + (answer.qnaAnswerPin ? 'border-4 border-pointGreen dark:border-sky ' : '')}>
+            <div key={answer.id} className={'w-full overflow-hidden rounded-[20px] bg-midIvory dark:bg-midNavy ' + (answer.qnaAnswerPin ? 'border-4 border-pointGreen dark:border-sky ' : '')}>
               <ConfirmModal
                 action={() => handleClickPinAnswer(answer.id)}
                 confirmModal={isPinAnswer}
@@ -212,12 +212,7 @@ export default function CommunityQADetailAnswer({ isCommentOpen, setIsCommentOpe
               {answer?.imageUrls && answer?.imageUrls.length > 0 && answer?.imageUrls[0] !== 'https://budproject.s3.ap-northeast-2.amazonaws.com/null' && (
                 <ImagePeek setIsPicPopUp={setIsPicPopUp} imgPeek={answer?.imageUrls.map((i) => S3_URL + i) as string[]} />
               )}
-              <div
-                className={
-                  'mt-4 flex h-[54px] w-full items-center gap-8 rounded-b-[20px] bg-[#a49c7c] p-4 text-base text-white dark:bg-[#383030] dark:dark:bg-[#2c2e34] ' +
-                  (answer.qnaAnswerPin ? '!rounded-none' : '')
-                }
-              >
+              <div className={'mt-4 flex h-[54px] w-full items-center gap-8 rounded-b-[20px] bg-[#a49c7c] p-4 text-base text-white  dark:bg-[#2c2e34] ' + (answer.qnaAnswerPin ? '!rounded-none' : '')}>
                 <div onClick={() => likeAnswerMutate(answer.id)} className="flex cursor-pointer items-center gap-2">
                   {answer.like ? <FcLike size="20px" /> : <FcLike className="opacity-50 brightness-[5]" size="20px" />}
                   {answer.likeCount}

@@ -1,7 +1,7 @@
 import { INewsFilterPropsType } from './_News.interface';
 
 export default function NewsFilter({ setFilter, setSort, sort, setOrder, order }: INewsFilterPropsType) {
-  const sortList = ['인기순', '최신순'];
+  const sortList = ['최신순', '인기순'];
   const orderList = ['내림차순', '오름차순'];
 
   return (

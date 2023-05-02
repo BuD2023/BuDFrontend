@@ -110,7 +110,7 @@ export default function UserListModal({ isUserList, setIsUserList, type, follows
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
               <Dialog.Panel className="relative my-8 max-h-[50vh] w-full max-w-lg transform overflow-auto rounded-lg bg-white text-left shadow-xl transition-all">
-                <div className="bg-white p-2 sm:p-6 sm:pb-4">
+                <div className="bg-white p-2 dark:text-darkNavy sm:p-6 sm:pb-4">
                   <div className="flex flex-col">
                     {data !== undefined &&
                       data.map((user: CommonUserListType | chatroomUserListType) => (

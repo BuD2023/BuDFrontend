@@ -1,9 +1,11 @@
 import { BsChevronLeft, BsFillPersonFill } from 'react-icons/bs';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { useChatroomDetailQuery, useChatUserListQuery } from '../../store/module/useChatroomQuery';
+import { useChatroomDetailQuery, useChatUserListQuery, useIsCheckHostQuery } from '../../store/module/useChatroomQuery';
 import { ChatMessageType, InfoMessageType } from './_ChatRoom.interface';
 import UserListModal from '../common/UserListModal';
+import { useRecoilValue } from 'recoil';
+import { loginUserInfo } from '../../store/recoil/user';
 
 interface RoomHeaderPropsType {
   newChatMessages: InfoMessageType[] | ChatMessageType[];
@@ -16,8 +18,12 @@ export default function RoomHeader({ newChatMessages, setHostInfo, setConfirmMod
   const navigate = useNavigate();
   const { id } = useParams();
 
+  // 사용자 정보 Recoil
+  const logInUserInfo = useRecoilValue(loginUserInfo);
+
   //리액트 쿼리
   const { data: chatRoomInfo, refetch: chatRoomInfoRefetch } = useChatroomDetailQuery(Number(id));
+  const { data: isHost, refetch: isHostRefetch, isRefetching: isHostIsRefetching, isFetched } = useIsCheckHostQuery(Number(id), logInUserInfo?.id as number);
 
   // userList popUp
   const [isUserList, setIsUserList] = useState(false);
@@ -51,14 +57,26 @@ export default function RoomHeader({ newChatMessages, setHostInfo, setConfirmMod
     chatRoomInfoRefetch();
   }, []);
 
+  // useEffect(() => {
+  //   if (isFetched) {
+  //     if (isHost) {
+  //       if (isHost.isHost) {
+  //         setConfirmModal(true);
+  //       } else {
+  //         navigate('/coffeeChat');
+  //       }
+  //     }
+  //   }
+  // }, [isHostIsRefetching]);
+
   return (
     <>
       <UserListModal isUserList={isUserList} setIsUserList={setIsUserList} type="ChatUsers" />
       <div className="fixed top-0 left-0 flex w-full items-center justify-between gap-2 px-4 py-5 font-bold">
         <div className="flex items-center gap-3 overflow-hidden">
           <BsChevronLeft
-            onClick={() => {
-              chatRoomInfo?.hostId === userIdData ? setConfirmModal(true) : navigate('/coffeeChat');
+            onClick={async () => {
+              await isHostRefetch();
             }}
             className="shrink-0 cursor-pointer text-[26px]"
           />

@@ -3,6 +3,7 @@ import { useRecoilValue } from 'recoil';
 import getChatroomInfoAxios from '../../apiFetcher/coffeeChatInfo/getChatroomInfo';
 import getChatroomStatusAxios from '../../apiFetcher/coffeeChatInfo/getChatroomStatus';
 import getChatUserListAxios from '../../apiFetcher/coffeeChatInfo/getChatUserList';
+import getIsCheckHostAxios from '../../apiFetcher/coffeeChatInfo/getIsCheckHost';
 import getAllMyChatroomListAxios from '../../apiFetcher/coffeeChatInfo/getMyChatroomList';
 import postNewChatroomHostAxios from '../../apiFetcher/coffeeChatInfo/postNewChatroomHost';
 import { loginUserInfo } from '../recoil/user';
@@ -59,6 +60,15 @@ export function useChatUserListQuery(chatroomId: number) {
     refetchOnMount: true,
     refetchOnReconnect: true,
     refetchOnWindowFocus: true,
+  });
+}
+
+// 채팅방 참여 유저 리스트
+export function useIsCheckHostQuery(chatroomId: number, userId: number) {
+  //리코일
+  const loginUser = useRecoilValue(loginUserInfo);
+  return useQuery(['isCheckHost', chatroomId, userId], () => getIsCheckHostAxios(loginUser?.token as string, chatroomId, userId), {
+    enabled: false,
   });
 }
 

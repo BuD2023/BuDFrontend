@@ -23,7 +23,9 @@ export default function MessageList({ messageList, handleClickUserImg, setIsPicP
               src={S3_URL + chat.userProfileUrl}
               alt={chat.userName}
               className="h-[50px] w-[50px] cursor-pointer rounded-full object-cover"
-              onClick={() => handleClickUserImg(chat.userName as string, chat.userProfileUrl as string, chat.userId as number)}
+              onClick={() => {
+                handleClickUserImg(chat.userName as string, chat.userProfileUrl as string, chat.userId as number);
+              }}
             />
             <div className="flex flex-col gap-2">
               <p className="mt-2 text-base font-semibold">{chat.userName}</p>

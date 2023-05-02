@@ -8,8 +8,9 @@ import NewChatMessages from './NewChatMessages';
 import MessageList from './MessageList';
 import { useRecoilValue } from 'recoil';
 import { loginUserInfo } from '../../store/recoil/user';
-import { useChatroomDetailQuery, useMyChatroomListQuery, useNewChatroomHostMutation } from '../../store/module/useChatroomQuery';
+import { useChatroomDetailQuery, useIsCheckHostQuery, useNewChatroomHostMutation } from '../../store/module/useChatroomQuery';
 import { useNavigate, useParams } from 'react-router-dom';
+import { getIsCheckHostResponseType } from '../../apiFetcher/coffeeChatInfo/getIsCheckHost';
 
 export default function RoomChats({ hostInfo, messageList, newChatMessages, hasNextPage, isFetching, isFetchingNextPage, fetchNextPage }: RoomChatsPropsType) {
   //params
@@ -22,8 +23,10 @@ export default function RoomChats({ hostInfo, messageList, newChatMessages, hasN
   const logInUserInfo = useRecoilValue(loginUserInfo);
 
   //리액트 쿼리
+  const [queryUserId, setQueryUserId] = useState(false);
   const { mutateAsync } = useNewChatroomHostMutation(Number(id));
   const { data: chatRoomInfo, refetch: chatRoomInfoRefetch } = useChatroomDetailQuery(Number(id));
+  const { data: isHost, refetch: isHostRefetch, isRefetching: isHostIsRefetching, isFetched } = useIsCheckHostQuery(Number(id), logInUserInfo?.id as number);
 
   // 인피니티 스크롤
   const { ref: observerRef, inView } = useInView();
@@ -47,14 +50,14 @@ export default function RoomChats({ hostInfo, messageList, newChatMessages, hasN
 
   //유저 모달
   const [userModal, setUserModal] = useState(false);
-  const handleClickUserImg = (userName: string, userProfileUrl: string, userId: number) => {
-    setUserModal(true);
+  const handleClickUserImg = async (userName: string, userProfileUrl: string, userId: number) => {
+    await isHostRefetch();
     setUserInfo({
       userId: userId,
       nickName: userName,
       profileUrl: userProfileUrl,
-      userIntro: '일단 예시로 둔 소개입니다 ^^.',
-      job: '프론트엔드',
+      userIntro: `안녕하세요~! ${userName}입니다!`,
+      job: '',
     });
   };
   const action = async (userId: number) => {
@@ -66,6 +69,11 @@ export default function RoomChats({ hostInfo, messageList, newChatMessages, hasN
       navigate(`/otherProfile/${userId}/feed`);
     }
   };
+  useEffect(() => {
+    if (isFetched) {
+      setUserModal(true);
+    }
+  }, [isHostIsRefetching]);
 
   // 메세지 보낼때 최신 메세지로 스크롤
   const scrollToNew = useRef<HTMLDivElement>(null);
@@ -78,7 +86,7 @@ export default function RoomChats({ hostInfo, messageList, newChatMessages, hasN
 
   return (
     <>
-      <UserModal userModal={userModal} setUserModal={setUserModal} userInfo={userInfo} hostInfo={hostInfo} action={action} />
+      <UserModal userModal={userModal} setUserModal={setUserModal} userInfo={userInfo} hostInfo={hostInfo} action={action} isHost={isHost as getIsCheckHostResponseType} />
       <PicModal isPicPopUp={isPicPopUp} setIsPicPopUp={setIsPicPopUp} />
       <div ref={scrollRef} className="fixed top-[4.6rem] left-0 z-10 flex h-[calc(100vh-145px)] w-full flex-col-reverse overflow-auto p-4">
         <ScrollToBottomBtn scrollToNew={scrollRef as RefObject<HTMLDivElement>} />

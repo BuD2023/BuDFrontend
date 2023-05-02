@@ -15,7 +15,7 @@ export default function News() {
   // 키워드 필터
   const [filter, setFilter] = useState(false);
   const [inputValue, setInputValue] = useState('');
-  const [sort, setSort] = useState(false);
+  const [sort, setSort] = useState(true);
   const [order, setOrder] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
