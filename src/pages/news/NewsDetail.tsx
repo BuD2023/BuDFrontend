@@ -56,7 +56,7 @@ export default function NewsDetail() {
   }
 
   return (
-    <section className="flex h-full min-h-screen flex-col items-start gap-4 py-4">
+    <section className="flex h-full min-h-screen flex-col items-center gap-4 py-4">
       <ScrollToTopBtn bottom="bottom-[50px]" />
       <PicModal isPicPopUp={isPicPopUp} setIsPicPopUp={setIsPicPopUp} />
       {data !== undefined && (

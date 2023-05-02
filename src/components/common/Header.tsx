@@ -18,6 +18,7 @@ export default function Header({ type, title, restart, isLoading, icon, onSubmit
   const beforeScrollY = useRef(0);
   const navigate = useNavigate();
   const url = useLocation();
+  const [isCopy, setIsCopy] = useState<boolean>(false);
 
   // 스크롤에 따른 반응형 헤더
   const handleScroll = useMemo(
@@ -70,43 +71,63 @@ export default function Header({ type, title, restart, isLoading, icon, onSubmit
     }, 500);
   };
 
+  const handleClickCopyBtn = () => {
+    navigator.clipboard.writeText((copyUrl ??= ''));
+    setIsCopy(true);
+    setTimeout(() => {
+      setIsCopy(false);
+    }, 900);
+  };
+
   return (
-    <div className={'fixed left-0 top-0 z-30 flex w-full items-center justify-between bg-lightIvory p-4 py-5 transition-all dark:bg-darkNavy ' + (visible ? '' : 'hidden')}>
-      <div className="flex items-center gap-3 text-[26px] font-bold">
-        {type === 'category' ? (
-          <div className="rounded-xl bg-white p-1">{icon}</div>
-        ) : (
-          <div
-            onClick={() => {
-              url.pathname.includes('post') || url.pathname.includes('answer') ? setConfirmModal(true) : navigate(-1);
-            }}
-            className="cursor-pointer rounded-xl p-1"
-          >
-            {icon}
-          </div>
-        )}
-        <div className="flex gap-2">
-          <h1>{title}</h1>
-          {restart && <MdOutlineRestartAlt onClick={handleClickRefreshBtn} className={`transform cursor-pointer transition-transform duration-500 ${isLoading || isClicked ? 'animate-spin' : ''}`} />}
-        </div>
+    <>
+      <div
+        className={
+          'fixed bottom-[50px] z-20 flex h-[50px] items-center justify-center gap-1 rounded-full bg-pointGreen px-4 text-base text-white opacity-0 transition-all delay-300 ease-in dark:bg-pointGreen ' +
+          (isCopy ? 'opacity-100' : '')
+        }
+      >
+        뉴스 URL이 복사되었습니다!
       </div>
-      {type === 'category' && (
-        <div onClick={() => navigate('/notification')} className="relative">
-          <NotiBtn />
-          {data && data.unreadCount > 0 && (
-            <div className="absolute top-[-11px] right-[-7px] flex min-h-[24px] min-w-[24px] cursor-pointer items-center justify-center rounded-full bg-[#f65f5a] p-1 text-xs font-medium text-white">
-              {data.unreadCount}
+      <div className={'fixed left-0 top-0 z-30 flex w-full items-center justify-between bg-lightIvory p-4 py-5 transition-all dark:bg-darkNavy ' + (visible ? '' : 'hidden')}>
+        <div className="flex items-center gap-3 text-[26px] font-bold">
+          {type === 'category' ? (
+            <div className="rounded-xl bg-white p-1">{icon}</div>
+          ) : (
+            <div
+              onClick={() => {
+                url.pathname.includes('post') || url.pathname.includes('answer') ? setConfirmModal(true) : navigate(-1);
+              }}
+              className="cursor-pointer rounded-xl p-1"
+            >
+              {icon}
             </div>
           )}
+          <div className="flex gap-2">
+            <h1>{title}</h1>
+            {restart && (
+              <MdOutlineRestartAlt onClick={handleClickRefreshBtn} className={`transform cursor-pointer transition-transform duration-500 ${isLoading || isClicked ? 'animate-spin' : ''}`} />
+            )}
+          </div>
         </div>
-      )}
-      {type === 'news' && <AiFillCopy size={26} className="cursor-pointer" onClick={() => navigator.clipboard.writeText((copyUrl ??= ''))} />}
-      {type === 'community' && (!answerPin ?? true) && questionUserId === logInUserInfo?.id && <BsThreeDots size={26} onClick={() => setIsMenu(!isMenu)} className="cursor-pointer" />}
-      {isMenu && <EditDeleteBtn postId={String(postId)} setIsMenu={setIsMenu} />}
-      {type === 'withMainBtn' && <MainBtn onSubmit={onSubmit} content={'완료'} size={20} />}
-      {type === 'withMainBtn' && (
-        <ConfirmModal action={action} confirmModal={confirmModal} setConfirmModal={setConfirmModal} getModalAnswer={getModalAnswer} title="" des={withdrawalText} confirmBtn="뒤로가기" />
-      )}
-    </div>
+        {type === 'category' && (
+          <div onClick={() => navigate('/notification')} className="relative">
+            <NotiBtn />
+            {data && data.unreadCount > 0 && (
+              <div className="absolute top-[-11px] right-[-7px] flex min-h-[24px] min-w-[24px] cursor-pointer items-center justify-center rounded-full bg-[#f65f5a] p-1 text-xs font-medium text-white">
+                {data.unreadCount}
+              </div>
+            )}
+          </div>
+        )}
+        {type === 'news' && <AiFillCopy size={26} className="cursor-pointer" onClick={handleClickCopyBtn} />}
+        {type === 'community' && (!answerPin ?? true) && questionUserId === logInUserInfo?.id && <BsThreeDots size={26} onClick={() => setIsMenu(!isMenu)} className="cursor-pointer" />}
+        {isMenu && <EditDeleteBtn postId={String(postId)} setIsMenu={setIsMenu} />}
+        {type === 'withMainBtn' && <MainBtn onSubmit={onSubmit} content={'완료'} size={20} />}
+        {type === 'withMainBtn' && (
+          <ConfirmModal action={action} confirmModal={confirmModal} setConfirmModal={setConfirmModal} getModalAnswer={getModalAnswer} title="" des={withdrawalText} confirmBtn="뒤로가기" />
+        )}
+      </div>
+    </>
   );
 }
