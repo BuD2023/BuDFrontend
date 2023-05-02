@@ -14,6 +14,7 @@ import { answerEdit } from '../../store/recoil/answerEdit';
 import ImagePeek from '../common/ImagePeek';
 import PicModal from '../common/PicModal';
 import LazyLoadImage from '../../utils/LazyLoadImage';
+import ConfirmModal from '../common/ConfirmModal';
 
 export default function CommunityQADetailAnswer({ isCommentOpen, setIsCommentOpen, answerPin, setAnswerPin, questionUserId, setIsActiveComment }: CommunityQADetailAnswerProps) {
   const { id: postId } = useParams();
@@ -21,6 +22,9 @@ export default function CommunityQADetailAnswer({ isCommentOpen, setIsCommentOpe
   const [isMenu, setIsMenu] = useState<boolean>();
   const [activeComment, setActiveComment] = useState<number[]>([]);
   const [activeAnswerMenu, setActiveAnswerMenu] = useState<number[]>([]);
+  const [isPinAnswer, setIsPinAnswer] = useState<boolean>(false);
+  const getModalAnswer = () => {};
+  const withdrawalText = '답변 채택 시 질문과 답변의 수정, 삭제 및 \n해당 질문에 대한 추가 답변 작성이 불가합니다.\n정말 답변을 채택하시겠습니까?';
 
   // recoil
   const [_, setAnswerEditValue] = useRecoilState(answerEdit);
@@ -35,7 +39,7 @@ export default function CommunityQADetailAnswer({ isCommentOpen, setIsCommentOpe
   const { refetch: detailRefetch } = useCommunityDetailQuery(Number(postId));
 
   const { mutate: followMutate } = useFollowMutation(Number(userId), Number(postId));
-  const { mutate: pinAnswerMutate } = usePinAnswerMutation(Number(answerId));
+  const { mutateAsync: pinAnswerMutateAsync } = usePinAnswerMutation(Number(answerId));
   const { mutate: likeAnswerMutate } = usePostQnaAnswerLikeMutation(Number(postId));
   const { mutateAsync: deleteAnswerMutate } = useDeleteQnaAnswerMutation(Number(answerId), Number(postId));
 
@@ -51,9 +55,10 @@ export default function CommunityQADetailAnswer({ isCommentOpen, setIsCommentOpe
     followMutate();
   };
 
-  const handleClickPinAnswer = (answerId: number) => {
+  const handleClickPinAnswer = async (answerId: number) => {
     setAnswerId(answerId);
-    pinAnswerMutate();
+    await pinAnswerMutateAsync();
+    answerRefetch();
   };
 
   const handleClickDeleteAnswer = async (answerId: number) => {
@@ -91,6 +96,16 @@ export default function CommunityQADetailAnswer({ isCommentOpen, setIsCommentOpe
         answerData?.content.map((answer: QnaAnswerContentType, idx: number) => {
           return (
             <div key={answer.id} className={'w-full overflow-hidden rounded-[20px] bg-midIvory dark:bg-midNavy' + (answer.qnaAnswerPin ? 'border-4 border-pointGreen dark:border-sky ' : '')}>
+              <ConfirmModal
+                action={() => handleClickPinAnswer(answer.id)}
+                confirmModal={isPinAnswer}
+                setConfirmModal={setIsPinAnswer}
+                getModalAnswer={getModalAnswer}
+                title="답변 채택"
+                des={withdrawalText}
+                confirmBtn="채택하기"
+              />
+
               <div className="relative flex h-[55px] w-full items-center justify-between rounded-t-[20px] border-b border-b-darkIvory border-opacity-30 bg-midIvory p-5 text-[20px] font-bold dark:border-b-lightNavy dark:border-opacity-30 dark:bg-midNavy">
                 <div className="flex items-center gap-2">
                   {answer.qnaAnswerPin && <FcApproval size={24} />}
@@ -99,7 +114,7 @@ export default function CommunityQADetailAnswer({ isCommentOpen, setIsCommentOpe
                 {!answerPin && (
                   <div className="flex items-center gap-4">
                     {logInUserInfo?.id === questionUserId && (
-                      <span onClick={() => handleClickPinAnswer(answer.id)} className="cursor-pointer rounded-lg bg-pointGreen py-2 px-2.5 text-base text-white dark:bg-sky">
+                      <span onClick={() => setIsPinAnswer(true)} className="cursor-pointer rounded-lg bg-pointGreen py-2 px-2.5 text-base text-white dark:bg-sky">
                         채택하기
                       </span>
                     )}
