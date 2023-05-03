@@ -52,6 +52,7 @@ export default function RoomChats({ hostInfo, messageList, newChatMessages, hasN
   const [userModal, setUserModal] = useState(false);
   const handleClickUserImg = async (userName: string, userProfileUrl: string, userId: number) => {
     await isHostRefetch();
+    handleModalPop();
     setUserInfo({
       userId: userId,
       nickName: userName,
@@ -69,11 +70,14 @@ export default function RoomChats({ hostInfo, messageList, newChatMessages, hasN
       navigate(`/otherProfile/${userId}/feed`);
     }
   };
-  useEffect(() => {
-    if (isFetched) {
+
+  const handleModalPop = async () => {
+    if (isFetched && isHost) {
+      await chatRoomInfoRefetch();
+
       setUserModal(true);
     }
-  }, [isHostIsRefetching]);
+  };
 
   // 메세지 보낼때 최신 메세지로 스크롤
   const scrollToNew = useRef<HTMLDivElement>(null);

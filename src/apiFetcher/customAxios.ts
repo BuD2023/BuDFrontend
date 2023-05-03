@@ -1,5 +1,6 @@
 import axios, { AxiosInstance, AxiosError } from 'axios';
-import { userInfoInitialType } from '../store/recoil/user';
+import { useRecoilState } from 'recoil';
+import { loginUserInfo, userInfoInitialType } from '../store/recoil/user';
 import { getNewToken } from './userInfo/getNewToken';
 
 const customAxios: AxiosInstance = axios.create({

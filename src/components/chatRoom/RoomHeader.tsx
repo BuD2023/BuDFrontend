@@ -22,8 +22,8 @@ export default function RoomHeader({ newChatMessages, setHostInfo, setConfirmMod
   const logInUserInfo = useRecoilValue(loginUserInfo);
 
   //리액트 쿼리
-  const { data: chatRoomInfo, refetch: chatRoomInfoRefetch } = useChatroomDetailQuery(Number(id));
-  const { data: isHost, refetch: isHostRefetch, isRefetching: isHostIsRefetching, isFetched } = useIsCheckHostQuery(Number(id), logInUserInfo?.id as number);
+  const { data: chatRoomInfo, refetch: chatRoomInfoRefetch, isFetched: isChatroomInfofetched } = useChatroomDetailQuery(Number(id));
+  const { data: isHost, refetch: isHostRefetch, isRefetching, isFetched } = useIsCheckHostQuery(Number(id), logInUserInfo?.id as number);
 
   // userList popUp
   const [isUserList, setIsUserList] = useState(false);
@@ -49,7 +49,6 @@ export default function RoomHeader({ newChatMessages, setHostInfo, setConfirmMod
   const { refetch: chatUserListRefetch } = useChatUserListQuery(Number(id));
 
   useEffect(() => {
-    console.log(chatRoomInfo?.numberOfMembers);
     chatUserListRefetch();
   }, [chatRoomInfo?.numberOfMembers]);
 
@@ -57,17 +56,17 @@ export default function RoomHeader({ newChatMessages, setHostInfo, setConfirmMod
     chatRoomInfoRefetch();
   }, []);
 
-  // useEffect(() => {
-  //   if (isFetched) {
-  //     if (isHost) {
-  //       if (isHost.isHost) {
-  //         setConfirmModal(true);
-  //       } else {
-  //         navigate('/coffeeChat');
-  //       }
-  //     }
-  //   }
-  // }, [isHostIsRefetching]);
+  const handleModalPop = async () => {
+    await chatRoomInfoRefetch();
+    console.log(isHost?.isHost);
+    if (isChatroomInfofetched && isFetched && isHost && !isRefetching) {
+      if (isHost.isHost) {
+        setConfirmModal(true);
+      } else {
+        navigate('/coffeeChat');
+      }
+    }
+  };
 
   return (
     <>
@@ -77,6 +76,8 @@ export default function RoomHeader({ newChatMessages, setHostInfo, setConfirmMod
           <BsChevronLeft
             onClick={async () => {
               await isHostRefetch();
+
+              handleModalPop();
             }}
             className="shrink-0 cursor-pointer text-[26px]"
           />

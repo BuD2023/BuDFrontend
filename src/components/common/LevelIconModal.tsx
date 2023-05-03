@@ -31,7 +31,7 @@ export default function LevelIconModal({ isPicPopUp, setIsPicPopUp, level }: any
                     <span>Lv {level} </span>
                     <span>{testLevelName[level - 1]}</span>
                   </div>
-                  <div className="flex py-3">
+                  <div className="flex py-3 dark:text-darkNavy">
                     <img src={isPicPopUp.pic as string} alt={isPicPopUp.pic as string} className="aspect-square h-[170px] w-[170px] object-contain" />
                     <div className="flex flex-col gap-6 p-4 pt-3">
                       <div className="flex flex-col gap-2">

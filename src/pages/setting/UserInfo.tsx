@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { BsChevronLeft, BsFillTrophyFill, BsFire, BsGithub, BsQuote } from 'react-icons/bs';
 import { RiLeafFill } from 'react-icons/ri';
 import Header from '../../components/common/Header';
@@ -7,7 +8,10 @@ import { useMyProfileQuery } from '../../store/module/useMyProfileQuery';
 
 export default function UserInfo() {
   const { data: userInfo } = useMyProfileQuery();
-  const { data: githubInfo } = useGithubQuery();
+  const { data: githubInfo, isLoading, refetch } = useGithubQuery();
+  useEffect(() => {
+    refetch().then(() => console.log(githubInfo));
+  }, [isLoading]);
   return (
     <section className="flex min-h-[calc(100vh-160px)] flex-col gap-7 px-6 py-4 text-lightText dark:text-white">
       <div className="fixed left-0 top-0 z-10 w-full bg-lightIvory pb-4 text-2xl dark:bg-darkNavy">
@@ -33,8 +37,8 @@ export default function UserInfo() {
             <BsFire />
             현재 총 커밋 개수
           </p>
-          {/* 수정해야 함 */}
-          <p className="py-2 text-xl">{githubInfo?.todayCommitCount}</p>
+
+          <p className="py-2 text-xl">{githubInfo?.totalCommitCount as number}</p>
         </li>
         <li className="b-4 flex flex-col gap-4 rounded-3xl bg-midIvory p-5 dark:bg-midNavy">
           <p className="flex gap-2 text-[22px] font-bold">
