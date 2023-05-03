@@ -81,14 +81,16 @@ export default function Header({ type, title, restart, isLoading, icon, onSubmit
 
   return (
     <>
-      <div
-        className={
-          'fixed bottom-[50px] z-20 flex h-[50px] items-center justify-center gap-1 rounded-full bg-pointGreen px-4 text-base text-white opacity-0 transition-all delay-300 ease-in dark:bg-pointGreen ' +
-          (isCopy ? 'opacity-100' : '')
-        }
-      >
-        뉴스 URL이 복사되었습니다!
-      </div>
+      {type === 'news' && (
+        <div
+          className={
+            'fixed bottom-[50px] z-0 flex h-[50px] items-center justify-center gap-1 rounded-full bg-pointGreen px-4 text-base text-white opacity-0 transition-all delay-300 ease-in dark:bg-pointGreen ' +
+            (isCopy ? '!z-20 opacity-100' : '')
+          }
+        >
+          뉴스 URL이 복사되었습니다!
+        </div>
+      )}
       <div className={'fixed left-0 top-0 z-30 flex w-full items-center justify-between bg-lightIvory p-4 py-5 transition-all dark:bg-darkNavy ' + (visible ? '' : 'hidden')}>
         <div className="flex items-center gap-3 text-[26px] font-bold">
           {type === 'category' ? (
