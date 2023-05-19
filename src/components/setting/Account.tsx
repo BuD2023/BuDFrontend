@@ -21,6 +21,7 @@ export default function Account() {
   const getModalAnswer = async () => {
     await mutateAsync();
     window.localStorage.removeItem('accessToken');
+    window.localStorage.removeItem('newAccessToken');
     window.localStorage.removeItem('logInStatus');
     window.localStorage.removeItem('theme');
     window.localStorage.removeItem('notification');
@@ -32,6 +33,7 @@ export default function Account() {
   const [alertModal, setAlertModal] = useState(false);
   const logoutAction = () => {
     navigate('/logIn');
+    window.localStorage.removeItem('newAccessToken');
     window.localStorage.removeItem('accessToken');
     window.localStorage.removeItem('logInStatus');
   };
