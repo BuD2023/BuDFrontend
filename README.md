@@ -2,10 +2,7 @@
 
 ## **Overview**
 
-<aside>
-🌲 **멋진 개발자를 꿈꾸는 우리가 꾸준히 성장하는 이곳,  My Little Forest  🌲**
-
-</aside>
+### 🎄 멋진 개발자를 꿈꾸는 우리가 꾸준히 성장하는 이곳,  My Little Forest 🎄 
 
 💭 깃허브를 활용해서 함께 코딩을 재밌게 할 수 있는 개발자 커뮤니티가 있다면 어떨까?
 
@@ -23,9 +20,6 @@
 
 🎄 우리들의 좌충우돌 개발 이야기, 현업 이야기를 함께 나누고 공유해보아요!
 
-## Github (Frontend)
-
-[https://github.com/BuD2023/BuDFrontend](https://github.com/BuD2023/BuDFrontend)
 
 ## 시연 영상
 
